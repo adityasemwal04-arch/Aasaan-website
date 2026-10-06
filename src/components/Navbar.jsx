@@ -31,7 +31,8 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
     { id: 'home', label: 'Home', href: '#/' },
     { id: 'global', label: 'ERP Global', href: '#/global', badge: 'Mid-Market' },
     { id: 'lite', label: 'ERP Lite', href: '#/lite', badge: 'From ₹12k' },
-    { id: 'awm', label: 'AWM', href: '#/awm', badge: 'Waste & Recycling' }
+    { id: 'awm', label: 'AWM', href: '#/awm', badge: 'Waste & Recycling' },
+    { id: 'partners', label: 'Partners', href: '#/partners' }
   ];
 
   const handleNavClick = (pageId, href, e) => {
@@ -271,7 +272,15 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
                 )}
               </a>
             ))}
-            <div style={{ marginTop: '12px' }}>
+            <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <button
+                onClick={() => { setMobileMenuOpen(false); onOpenSearch(); }}
+                className="btn btn-ghost"
+                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+              >
+                <Search size={16} color="var(--primary-blue)" />
+                <span>Search Website</span>
+              </button>
               <button
                 onClick={() => { setMobileMenuOpen(false); onOpenDemo(); }}
                 className="btn btn-primary"

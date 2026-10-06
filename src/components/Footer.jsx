@@ -111,6 +111,16 @@ export default function Footer({ onOpenDemo, onNavigate }) {
               </li>
               <li>
                 <a
+                  href="#/partners"
+                  onClick={(e) => handlePageLink('partners', '#/partners', e)}
+                  style={{ color: '#E2E8F0', textDecoration: 'none', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}
+                >
+                  <span>Partners Program</span>
+                  <span style={{ fontSize: '10px', background: '#312E81', color: '#A5B4FC', padding: '1px 6px', borderRadius: '4px' }}>Ecosystem</span>
+                </a>
+              </li>
+              <li>
+                <a
                   href="#/"
                   onClick={(e) => handlePageLink('home', '#/', e)}
                   style={{ color: '#94A3B8', textDecoration: 'none' }}

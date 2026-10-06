@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage';
 import ErpGlobalPage from './pages/ErpGlobalPage';
 import ErpLitePage from './pages/ErpLitePage';
 import AwmPage from './pages/AwmPage';
+import PartnersPage from './pages/PartnersPage';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -22,6 +23,7 @@ export default function App() {
       if (hash.includes('global')) return 'global';
       if (hash.includes('lite')) return 'lite';
       if (hash.includes('awm')) return 'awm';
+      if (hash.includes('partner')) return 'partners';
       return 'home';
     };
 
@@ -87,6 +89,12 @@ export default function App() {
             onOpenDemo={() => setIsDemoOpen(true)}
           />
         )}
+        {currentPage === 'partners' && (
+          <PartnersPage
+            onOpenDemo={() => setIsDemoOpen(true)}
+            onNavigate={handleNavigate}
+          />
+        )}
       </main>
 
       {/* Corporate Enterprise Footer */}
@@ -99,6 +107,8 @@ export default function App() {
       <GlobalSearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
+        onNavigate={handleNavigate}
+        onOpenDemo={() => setIsDemoOpen(true)}
       />
 
       {/* Interactive Schedule Demo Modal */}
