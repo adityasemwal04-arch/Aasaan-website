@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Sparkles, ArrowRight, Menu, X } from 'lucide-react';
+import AasaanLogo from './AasaanLogo';
 
 export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNavigate }) {
   const [scrolled, setScrolled] = useState(false);
@@ -91,39 +92,9 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
           <a
             href="#/"
             onClick={(e) => handleNavClick('home', '#/', e)}
-            style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}
+            style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}
           >
-            <div style={{ display: 'flex', alignItems: 'baseline' }}>
-              <span style={{
-                fontFamily: 'var(--font-display)',
-                fontWeight: 800,
-                fontSize: '28px',
-                color: 'var(--primary-blue)',
-                letterSpacing: '-0.04em'
-              }}>
-                aasaan
-              </span>
-              <span style={{
-                display: 'inline-block',
-                width: '8px',
-                height: '8px',
-                background: 'var(--accent-orange)',
-                borderRadius: '2px',
-                marginLeft: '3px'
-              }} />
-            </div>
-            <span style={{
-              background: '#EFF6FF',
-              color: 'var(--primary-blue)',
-              border: '1px solid var(--primary-blue-border)',
-              fontSize: '11px',
-              fontWeight: 700,
-              padding: '2px 7px',
-              borderRadius: '5px',
-              letterSpacing: '0.04em'
-            }}>
-              ERP
-            </span>
+            <AasaanLogo height={32} showBadge={true} isDark={false} />
           </a>
 
           {/* Desktop Nav Items */}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { MapPin, Mail, Phone, ShieldCheck } from 'lucide-react';
+import AasaanLogo from './AasaanLogo';
 
 export default function Footer({ onOpenDemo, onNavigate }) {
   const handlePageLink = (pageId, href, e) => {
@@ -31,36 +32,8 @@ export default function Footer({ onOpenDemo, onNavigate }) {
           
           {/* Column 1: Brand & Positioning */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'baseline', marginBottom: '16px' }}>
-              <span style={{
-                fontFamily: 'var(--font-display)',
-                fontWeight: 800,
-                fontSize: '28px',
-                color: '#FFFFFF',
-                letterSpacing: '-0.04em'
-              }}>
-                aasaan
-              </span>
-              <span style={{
-                display: 'inline-block',
-                width: '8px',
-                height: '8px',
-                background: 'var(--accent-orange)',
-                borderRadius: '2px',
-                marginLeft: '3px'
-              }} />
-              <span style={{
-                background: 'rgba(29, 78, 216, 0.3)',
-                color: '#93C5FD',
-                border: '1px solid rgba(29, 78, 216, 0.5)',
-                fontSize: '11px',
-                fontWeight: 700,
-                padding: '2px 7px',
-                borderRadius: '4px',
-                marginLeft: '8px'
-              }}>
-                ERP
-              </span>
+            <div style={{ marginBottom: '16px' }}>
+              <AasaanLogo height={30} showBadge={true} isDark={true} />
             </div>
 
             <p style={{ fontSize: '14.5px', lineHeight: 1.6, color: '#94A3B8', maxWidth: '340px', marginBottom: '20px' }}>
