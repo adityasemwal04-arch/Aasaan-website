@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { globalIndustries, globalModules, globalTestimonials } from '../data/globalData';
 import { Globe, ShieldCheck, ArrowRight, ExternalLink, Check, Server, Layers, Cpu, Building2, Sparkles, Star } from 'lucide-react';
 
 export default function ErpGlobalPage({ onOpenDemo }) {
   const [selectedModuleId, setSelectedModuleId] = useState('financial');
   const [industryFilter, setIndustryFilter] = useState('All');
+
+  // Listen for target module selection triggered from search
+  useEffect(() => {
+    const handleSelectModule = (e) => {
+      if (e.detail && e.detail.moduleId) {
+        setSelectedModuleId(e.detail.moduleId);
+      }
+    };
+    window.addEventListener('aasaan-select-global-module', handleSelectModule);
+    return () => window.removeEventListener('aasaan-select-global-module', handleSelectModule);
+  }, []);
 
   const activeModule = globalModules.find((m) => m.id === selectedModuleId) || globalModules[0];
 
@@ -156,7 +167,7 @@ export default function ErpGlobalPage({ onOpenDemo }) {
       </section>
 
       {/* 2. Full 20+ Industries Matrix */}
-      <section className="section-pad" style={{ background: '#FFFFFF' }}>
+      <section id="global-industries" className="section-pad" style={{ background: '#FFFFFF' }}>
         <div className="container">
           <div style={{ maxWidth: '780px', margin: '0 auto 40px', textAlign: 'center' }}>
             <span className="badge-pill badge-orange" style={{ marginBottom: '12px' }}>
@@ -195,13 +206,17 @@ export default function ErpGlobalPage({ onOpenDemo }) {
             gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
             gap: '20px'
           }}>
-            {filteredIndustries.map((ind, i) => (
+            {filteredIndustries.map((ind, i) => {
+              const cardSlug = ind.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+              return (
               <div
                 key={i}
+                id={`industry-${cardSlug}`}
                 style={{
                   background: '#FFFFFF',
                   border: '1px solid var(--border-medium)',
                   borderRadius: '16px',
+                  scrollMarginTop: '120px',
                   overflow: 'hidden',
                   display: 'flex',
                   flexDirection: 'column',
@@ -269,13 +284,14 @@ export default function ErpGlobalPage({ onOpenDemo }) {
                   </div>
                 </div>
               </div>
-            ))}
+            );
+          })}
           </div>
         </div>
       </section>
 
       {/* 3. Deep Modules Architecture */}
-      <section className="section-pad bg-grid" style={{ borderTop: '1px solid var(--border-subtle)', borderBottom: '1px solid var(--border-subtle)' }}>
+      <section id="global-modules" className="section-pad bg-grid" style={{ borderTop: '1px solid var(--border-subtle)', borderBottom: '1px solid var(--border-subtle)', scrollMarginTop: '100px' }}>
         <div className="container">
           <div style={{ maxWidth: '780px', margin: '0 auto 48px', textAlign: 'center' }}>
             <span className="badge-pill badge-blue" style={{ marginBottom: '12px' }}>
@@ -332,11 +348,14 @@ export default function ErpGlobalPage({ onOpenDemo }) {
             </div>
 
             {/* Active Module Detail */}
-            <div style={{
-              background: '#FFFFFF',
-              border: '1.5px solid var(--border-medium)',
-              borderRadius: '20px',
-              overflow: 'hidden',
+            <div
+              id="global-active-module"
+              style={{
+                background: '#FFFFFF',
+                border: '1.5px solid var(--border-medium)',
+                borderRadius: '20px',
+                overflow: 'hidden',
+                scrollMarginTop: '120px',
               boxShadow: '0 8px 30px -10px rgba(15, 23, 42, 0.08)'
             }}>
               {/* High-Resolution Module Image Banner */}

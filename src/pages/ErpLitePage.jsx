@@ -160,7 +160,7 @@ export default function ErpLitePage({ onOpenDemo }) {
       </section>
 
       {/* 2. Top Features Customers Love */}
-      <section className="section-pad" style={{ background: '#FFFFFF' }}>
+      <section id="lite-features" className="section-pad" style={{ background: '#FFFFFF', scrollMarginTop: '100px' }}>
         <div className="container">
           <div style={{ maxWidth: '780px', margin: '0 auto 48px', textAlign: 'center' }}>
             <span className="badge-pill badge-blue" style={{ marginBottom: '12px' }}>
@@ -177,13 +177,17 @@ export default function ErpLitePage({ onOpenDemo }) {
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
             gap: '24px'
           }}>
-            {liteFeatures.map((feat, i) => (
+            {liteFeatures.map((feat, i) => {
+              const featSlug = feat.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+              return (
               <div
                 key={i}
+                id={`lite-feat-${featSlug}`}
                 style={{
                   background: '#FFFFFF',
                   border: '1px solid var(--border-medium)',
                   borderRadius: '16px',
+                  scrollMarginTop: '120px',
                   overflow: 'hidden',
                   display: 'flex',
                   flexDirection: 'column',
@@ -248,13 +252,14 @@ export default function ErpLitePage({ onOpenDemo }) {
                   </p>
                 </div>
               </div>
-            ))}
+            );
+          })}
           </div>
         </div>
       </section>
 
       {/* 3. The 6-Step Onboarding Roadmap (From Live erplite.aasaan.com) */}
-      <section className="section-pad bg-grid" style={{ borderTop: '1px solid var(--border-subtle)', borderBottom: '1px solid var(--border-subtle)' }}>
+      <section id="lite-roadmap" className="section-pad bg-grid" style={{ borderTop: '1px solid var(--border-subtle)', borderBottom: '1px solid var(--border-subtle)', scrollMarginTop: '100px' }}>
         <div className="container">
           <div style={{ maxWidth: '780px', margin: '0 auto 48px', textAlign: 'center' }}>
             <span className="badge-pill badge-orange" style={{ marginBottom: '12px' }}>
@@ -304,7 +309,7 @@ export default function ErpLitePage({ onOpenDemo }) {
       </section>
 
       {/* 4. Industries Ideal for ERP Lite with Photos */}
-      <section className="section-pad" style={{ background: '#FFFFFF' }}>
+      <section id="lite-industries" className="section-pad" style={{ background: '#FFFFFF', scrollMarginTop: '100px' }}>
         <div className="container">
           <div style={{ maxWidth: '780px', margin: '0 auto 40px', textAlign: 'center' }}>
             <span className="badge-pill badge-blue" style={{ marginBottom: '12px' }}>
@@ -321,13 +326,17 @@ export default function ErpLitePage({ onOpenDemo }) {
             gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
             gap: '20px'
           }}>
-            {liteIndustries.map((ind, i) => (
+            {liteIndustries.map((ind, i) => {
+              const indSlug = ind.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+              return (
               <div
                 key={i}
+                id={`lite-ind-${indSlug}`}
                 style={{
                   background: '#FFFFFF',
                   border: '1px solid var(--border-medium)',
                   borderRadius: '16px',
+                  scrollMarginTop: '120px',
                   overflow: 'hidden',
                   display: 'flex',
                   flexDirection: 'column',
@@ -394,16 +403,18 @@ export default function ErpLitePage({ onOpenDemo }) {
                   </div>
                 </div>
               </div>
-            ))}
+            );
+          })}
           </div>
         </div>
       </section>
 
-      {/* 5. Bottom Registration CTA Bar */}
-      <section style={{
+      {/* 5. Bottom Registration CTA Bar (Pricing) */}
+      <section id="lite-pricing" style={{
         background: 'linear-gradient(135deg, #059669 0%, #0B1329 100%)',
         color: '#FFFFFF',
         padding: '64px 0',
+        scrollMarginTop: '100px',
         textAlign: 'center'
       }}>
         <div className="container" style={{ maxWidth: '780px' }}>

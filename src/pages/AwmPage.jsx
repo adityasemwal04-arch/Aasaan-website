@@ -1,9 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { awmSectors, awmModules, awmWeighbridgeSimulation } from '../data/awmData';
 import { Recycle, Scale, Navigation, Smartphone, FileCheck, Truck, ArrowRight, CheckCircle2, ShieldCheck, ExternalLink } from 'lucide-react';
 
 export default function AwmPage({ onOpenDemo }) {
   const [selectedSectorId, setSelectedSectorId] = useState('municipal');
+
+  // Listen for sector selection from search
+  useEffect(() => {
+    const handleSelectSector = (e) => {
+      if (e.detail && e.detail.sectorId) {
+        setSelectedSectorId(e.detail.sectorId);
+      }
+    };
+    window.addEventListener('aasaan-select-awm-sector', handleSelectSector);
+    return () => window.removeEventListener('aasaan-select-awm-sector', handleSelectSector);
+  }, []);
 
   const activeSector = awmSectors.find((s) => s.id === selectedSectorId) || awmSectors[0];
 
@@ -143,7 +154,7 @@ export default function AwmPage({ onOpenDemo }) {
       </section>
 
       {/* 2. Seven Specialized Waste Sectors */}
-      <section className="section-pad" style={{ background: '#FFFFFF' }}>
+      <section id="awm-sectors" className="section-pad" style={{ background: '#FFFFFF', scrollMarginTop: '100px' }}>
         <div className="container">
           <div style={{ maxWidth: '780px', margin: '0 auto 48px', textAlign: 'center' }}>
             <span className="badge-pill badge-orange" style={{ marginBottom: '12px' }}>
@@ -179,13 +190,16 @@ export default function AwmPage({ onOpenDemo }) {
           </div>
 
           {/* Active Sector Detail Card with Dynamic Image Banner */}
-          <div style={{
-            background: '#FFFFFF',
-            border: '1.5px solid var(--border-medium)',
-            borderRadius: '20px',
-            overflow: 'hidden',
-            maxWidth: '920px',
-            margin: '0 auto',
+          <div
+            id="awm-active-sector"
+            style={{
+              background: '#FFFFFF',
+              border: '1.5px solid var(--border-medium)',
+              borderRadius: '20px',
+              overflow: 'hidden',
+              maxWidth: '920px',
+              margin: '0 auto',
+              scrollMarginTop: '120px',
             boxShadow: '0 12px 35px -10px rgba(15, 23, 42, 0.08)'
           }}>
             {/* Sector Image Banner */}
@@ -263,7 +277,7 @@ export default function AwmPage({ onOpenDemo }) {
       </section>
 
       {/* 3. Core AWM Automation Modules with High-Res Photography */}
-      <section className="section-pad bg-grid" style={{ borderTop: '1px solid var(--border-subtle)', borderBottom: '1px solid var(--border-subtle)' }}>
+      <section id="awm-modules" className="section-pad bg-grid" style={{ borderTop: '1px solid var(--border-subtle)', borderBottom: '1px solid var(--border-subtle)', scrollMarginTop: '100px' }}>
         <div className="container">
           <div style={{ maxWidth: '780px', margin: '0 auto 48px', textAlign: 'center' }}>
             <span className="badge-pill badge-blue" style={{ marginBottom: '12px' }}>
@@ -280,13 +294,17 @@ export default function AwmPage({ onOpenDemo }) {
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
             gap: '24px'
           }}>
-            {awmModules.map((m, i) => (
+            {awmModules.map((m, i) => {
+              const modSlug = m.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+              return (
               <div
                 key={i}
+                id={`awm-mod-${modSlug}`}
                 style={{
                   background: '#FFFFFF',
                   border: '1px solid var(--border-medium)',
                   borderRadius: '16px',
+                  scrollMarginTop: '120px',
                   overflow: 'hidden',
                   display: 'flex',
                   flexDirection: 'column',
@@ -351,13 +369,14 @@ export default function AwmPage({ onOpenDemo }) {
                   </p>
                 </div>
               </div>
-            ))}
+            );
+          })}
           </div>
         </div>
       </section>
 
       {/* 4. Verified Client Validation (Tadweeer & Resustainability) with Facility Photos */}
-      <section className="section-pad" style={{ background: '#FFFFFF' }}>
+      <section id="awm-clients" className="section-pad" style={{ background: '#FFFFFF', scrollMarginTop: '100px' }}>
         <div className="container">
           <div style={{ maxWidth: '780px', margin: '0 auto 40px', textAlign: 'center' }}>
             <span className="badge-pill badge-blue" style={{ marginBottom: '12px' }}>
@@ -370,13 +389,17 @@ export default function AwmPage({ onOpenDemo }) {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px', maxWidth: '880px', margin: '0 auto' }}>
-            <div style={{
-              background: '#FFFFFF',
-              border: '1.5px solid var(--border-medium)',
-              borderRadius: '16px',
-              overflow: 'hidden',
-              boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)'
-            }}>
+            <div
+              id="client-tadweeer"
+              style={{
+                background: '#FFFFFF',
+                border: '1.5px solid var(--border-medium)',
+                borderRadius: '16px',
+                overflow: 'hidden',
+                scrollMarginTop: '120px',
+                boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)'
+              }}
+            >
               <div style={{ height: '150px', position: 'relative', overflow: 'hidden', background: '#0F172A' }}>
                 <img
                   src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80"
@@ -414,13 +437,17 @@ export default function AwmPage({ onOpenDemo }) {
               </div>
             </div>
 
-            <div style={{
-              background: '#FFFFFF',
-              border: '1.5px solid var(--border-medium)',
-              borderRadius: '16px',
-              overflow: 'hidden',
-              boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)'
-            }}>
+            <div
+              id="client-resustainability"
+              style={{
+                background: '#FFFFFF',
+                border: '1.5px solid var(--border-medium)',
+                borderRadius: '16px',
+                overflow: 'hidden',
+                scrollMarginTop: '120px',
+                boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)'
+              }}
+            >
               <div style={{ height: '150px', position: 'relative', overflow: 'hidden', background: '#0F172A' }}>
                 <img
                   src="https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=600&q=80"

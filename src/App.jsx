@@ -50,11 +50,30 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const handleNavigate = (pageId) => {
+  const handleNavigate = (pageId, targetElementId) => {
     setCurrentPage(pageId);
     const hashTarget = pageId === 'home' ? '#/' : `#/${pageId}`;
     window.location.hash = hashTarget;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (targetElementId) {
+      setTimeout(() => {
+        const el = document.getElementById(targetElementId);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          el.style.transition = 'outline 0.3s ease, box-shadow 0.3s ease';
+          el.style.outline = '3px solid var(--primary-blue)';
+          el.style.boxShadow = '0 0 25px rgba(29, 78, 216, 0.4)';
+          setTimeout(() => {
+            el.style.outline = 'none';
+            el.style.boxShadow = '';
+          }, 2200);
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }, 120);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (

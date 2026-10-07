@@ -20,7 +20,8 @@ export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenD
       title: 'Aasaan ERP Platform Overview',
       desc: 'Next-generation cloud ERP architecture, modules, and 40+ third-party integrations.',
       keywords: 'home overview platform features integrations tally sap oracle erp pricing',
-      pageId: 'home'
+      pageId: 'home',
+      targetElementId: 'connected-core'
     },
     {
       id: 'page-global',
@@ -30,7 +31,8 @@ export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenD
       title: 'Aasaan ERP Global Edition',
       desc: 'Full-suite ERP engineered for mid-market and multi-entity manufacturing enterprises.',
       keywords: 'global mid-market enterprise multi-plant corporate large scale 8 modules',
-      pageId: 'global'
+      pageId: 'global',
+      targetElementId: 'global-modules'
     },
     {
       id: 'page-lite',
@@ -40,7 +42,8 @@ export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenD
       title: 'Aasaan ERP Lite Edition',
       desc: 'Mobile-first cloud ERP for growing SMEs, trading, and field sales teams. Live in 7 days.',
       keywords: 'lite small business sme agile cheap affordable pricing 12000 field sales',
-      pageId: 'lite'
+      pageId: 'lite',
+      targetElementId: 'lite-features'
     },
     {
       id: 'page-awm',
@@ -50,7 +53,8 @@ export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenD
       title: 'AWM — Aasaan Waste Management OS',
       desc: 'Complete circular economy OS with IoT weighbridge indicators, RFID bin tracking, and MRF accounting.',
       keywords: 'awm waste management recycling weighbridge scale rfid dumpster mrf cpcb scrap',
-      pageId: 'awm'
+      pageId: 'awm',
+      targetElementId: 'awm-sectors'
     },
     {
       id: 'page-partners',
@@ -60,7 +64,8 @@ export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenD
       title: 'Aasaan Partner Ecosystem',
       desc: 'Reseller, implementation, and consulting partner programs across India and the Middle East.',
       keywords: 'partners reseller channel referral implementation consultant revenue share',
-      pageId: 'partners'
+      pageId: 'partners',
+      targetElementId: 'partner-tiers'
     },
     {
       id: 'action-demo',
@@ -73,7 +78,7 @@ export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenD
       action: 'demo'
     },
 
-    // 2. All 8 Global ERP Modules
+    // 2. All 8 Global ERP Modules (Direct Switch & Scroll)
     ...globalModules.map((m, idx) => ({
       id: `mod-global-${idx}`,
       category: 'Module',
@@ -82,46 +87,60 @@ export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenD
       title: m.title,
       desc: m.desc,
       keywords: `${m.title} ${m.desc} ${m.tag || ''} module global`,
-      pageId: 'global'
+      pageId: 'global',
+      targetElementId: 'global-active-module',
+      targetModuleId: m.id
     })),
 
-    // 3. All 20 Global Industries
-    ...globalIndustries.map((ind, idx) => ({
-      id: `ind-global-${idx}`,
-      category: 'Industry',
-      badge: ind.tag || 'Global Industry',
-      icon: Factory,
-      title: ind.name,
-      desc: ind.desc,
-      keywords: `${ind.name} ${ind.desc} ${ind.tag || ''} industry manufacturing`,
-      pageId: 'global'
-    })),
+    // 3. All 20 Global Industries (Direct Scroll to Card)
+    ...globalIndustries.map((ind, idx) => {
+      const cardSlug = ind.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      return {
+        id: `ind-global-${idx}`,
+        category: 'Industry',
+        badge: ind.tag || 'Global Industry',
+        icon: Factory,
+        title: ind.name,
+        desc: ind.desc,
+        keywords: `${ind.name} ${ind.desc} ${ind.tag || ''} industry manufacturing`,
+        pageId: 'global',
+        targetElementId: `industry-${cardSlug}`
+      };
+    }),
 
-    // 4. All 6 ERP Lite Features
-    ...liteFeatures.map((f, idx) => ({
-      id: `feat-lite-${idx}`,
-      category: 'Feature',
-      badge: 'ERP Lite',
-      icon: Feather,
-      title: f.title,
-      desc: f.desc,
-      keywords: `${f.title} ${f.desc} ${f.tag || ''} lite feature`,
-      pageId: 'lite'
-    })),
+    // 4. All 6 ERP Lite Features (Direct Scroll to Card)
+    ...liteFeatures.map((f, idx) => {
+      const featSlug = f.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      return {
+        id: `feat-lite-${idx}`,
+        category: 'Feature',
+        badge: 'ERP Lite',
+        icon: Feather,
+        title: f.title,
+        desc: f.desc,
+        keywords: `${f.title} ${f.desc} ${f.tag || ''} lite feature`,
+        pageId: 'lite',
+        targetElementId: `lite-feat-${featSlug}`
+      };
+    }),
 
-    // 5. All 8 ERP Lite Industries
-    ...liteIndustries.map((ind, idx) => ({
-      id: `ind-lite-${idx}`,
-      category: 'Industry',
-      badge: ind.tag || 'SME Industry',
-      icon: Factory,
-      title: ind.name,
-      desc: ind.desc,
-      keywords: `${ind.name} ${ind.desc} lite trading services`,
-      pageId: 'lite'
-    })),
+    // 5. All 8 ERP Lite Industries (Direct Scroll to Card)
+    ...liteIndustries.map((ind, idx) => {
+      const indSlug = ind.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      return {
+        id: `ind-lite-${idx}`,
+        category: 'Industry',
+        badge: ind.tag || 'SME Industry',
+        icon: Factory,
+        title: ind.name,
+        desc: ind.desc,
+        keywords: `${ind.name} ${ind.desc} lite trading services`,
+        pageId: 'lite',
+        targetElementId: `lite-ind-${indSlug}`
+      };
+    }),
 
-    // 6. All 6 AWM Waste Sectors
+    // 6. All 6 AWM Waste Sectors (Direct Switch & Scroll)
     ...awmSectors.map((s, idx) => ({
       id: `awm-sector-${idx}`,
       category: 'AWM Sector',
@@ -130,20 +149,26 @@ export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenD
       title: s.title,
       desc: s.desc,
       keywords: `${s.title} ${s.desc} ${s.tag || ''} awm municipal medical hazardous dumpster construction`,
-      pageId: 'awm'
+      pageId: 'awm',
+      targetElementId: 'awm-active-sector',
+      targetSectorId: s.id
     })),
 
-    // 7. All 6 AWM Modules
-    ...awmModules.map((m, idx) => ({
-      id: `awm-mod-${idx}`,
-      category: 'AWM Module',
-      badge: 'AWM Automation',
-      icon: Recycle,
-      title: m.title,
-      desc: m.desc,
-      keywords: `${m.title} ${m.desc} ${m.tag || ''} weighbridge route mrf telematics epr driver app`,
-      pageId: 'awm'
-    })),
+    // 7. All 6 AWM Modules (Direct Scroll to Card)
+    ...awmModules.map((m, idx) => {
+      const modSlug = m.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      return {
+        id: `awm-mod-${idx}`,
+        category: 'AWM Module',
+        badge: 'AWM Automation',
+        icon: Recycle,
+        title: m.title,
+        desc: m.desc,
+        keywords: `${m.title} ${m.desc} ${m.tag || ''} weighbridge route mrf telematics epr driver app`,
+        pageId: 'awm',
+        targetElementId: `awm-mod-${modSlug}`
+      };
+    }),
 
     // 8. Verified Client Validations
     {
@@ -154,7 +179,8 @@ export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenD
       title: 'Tadweeer Recycling Case Study',
       desc: 'Sub-45s weighbridge gross/tare logging, MRF sorting yields, and instant customer payout settlements.',
       keywords: 'tadweeer case study recycling uae metal plastic weighbridge customer',
-      pageId: 'awm'
+      pageId: 'awm',
+      targetElementId: 'client-tadweeer'
     },
     {
       id: 'client-resustainability',
@@ -164,7 +190,8 @@ export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenD
       title: 'Resustainability Environmental Services',
       desc: 'Pan-India circular economy project accounting, hazardous manifests, and municipal SLA management.',
       keywords: 'resustainability case study environmental municipal circular economy',
-      pageId: 'awm'
+      pageId: 'awm',
+      targetElementId: 'client-resustainability'
     }
   ];
 
@@ -179,14 +206,29 @@ export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenD
     }
   }, [isOpen]);
 
-  // Handle Result Click / Navigation
+  // Handle Result Click / Deep Navigation
   const handleSelect = (item) => {
     onClose();
     if (item.action === 'demo') {
       if (onOpenDemo) onOpenDemo();
-    } else if (item.pageId) {
+      return;
+    }
+
+    if (item.targetModuleId) {
+      window.dispatchEvent(new CustomEvent('aasaan-select-global-module', {
+        detail: { moduleId: item.targetModuleId }
+      }));
+    }
+
+    if (item.targetSectorId) {
+      window.dispatchEvent(new CustomEvent('aasaan-select-awm-sector', {
+        detail: { sectorId: item.targetSectorId }
+      }));
+    }
+
+    if (item.pageId) {
       if (onNavigate) {
-        onNavigate(item.pageId);
+        onNavigate(item.pageId, item.targetElementId);
       } else {
         window.location.hash = item.pageId === 'home' ? '#/' : `#/${item.pageId}`;
       }

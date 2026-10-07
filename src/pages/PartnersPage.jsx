@@ -63,6 +63,7 @@ function HeroSection({ onOpenDemo }) {
           fontFamily: 'var(--font-display)',
           fontSize: 'clamp(38px, 5.5vw, 68px)',
           fontWeight: 900,
+          color: '#FFFFFF',
           letterSpacing: '-0.03em',
           lineHeight: 1.08,
           marginBottom: '28px',
@@ -128,7 +129,7 @@ function HeroSection({ onOpenDemo }) {
             <div key={s.label} style={{ textAlign: 'center' }}>
               <div style={{ fontSize: '32px', marginBottom: '4px' }}>{s.icon}</div>
               <div style={{ fontSize: 'clamp(22px, 2.5vw, 32px)', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-0.03em' }}>{s.value}</div>
-              <div style={{ fontSize: '12px', color: '#64748B', marginTop: '4px', lineHeight: 1.4 }}>{s.label}</div>
+              <div style={{ fontSize: '13px', color: '#94A3B8', marginTop: '4px', lineHeight: 1.4 }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -145,7 +146,7 @@ function HeroSection({ onOpenDemo }) {
 
 function TiersSection({ onOpenDemo }) {
   return (
-    <section style={{ padding: '96px 0', background: '#F8FAFC' }}>
+    <section id="partner-tiers" style={{ padding: '96px 0', background: '#F8FAFC', scrollMarginTop: '100px' }}>
       <div className="container">
         <div style={{ textAlign: 'center', marginBottom: '64px' }}>
           <div style={{
@@ -386,7 +387,7 @@ function JourneySection() {
                 {s.step}
               </div>
               <h4 style={{ fontSize: '14px', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px' }}>{s.title}</h4>
-              <p style={{ fontSize: '12.5px', color: '#64748B', lineHeight: 1.5 }}>{s.description}</p>
+              <p style={{ fontSize: '12.5px', color: '#94A3B8', lineHeight: 1.5 }}>{s.description}</p>
             </div>
           ))}
         </div>
@@ -545,7 +546,9 @@ function PartnerCTA({ onOpenDemo }) {
         <h2 style={{
           fontFamily: 'var(--font-display)',
           fontSize: 'clamp(28px, 3.5vw, 48px)',
-          fontWeight: 900, letterSpacing: '-0.03em',
+          fontWeight: 900,
+          color: '#FFFFFF',
+          letterSpacing: '-0.03em',
           marginBottom: '16px',
         }}>
           Ready to build with Aasaan?

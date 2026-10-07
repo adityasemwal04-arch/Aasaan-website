@@ -187,7 +187,7 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="e.g. Aditya Sharma"
+                    placeholder="e.g. Aditya Semwal"
                     style={{
                       width: '100%',
                       padding: '10px 14px',
