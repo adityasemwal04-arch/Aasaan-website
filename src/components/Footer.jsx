@@ -221,10 +221,27 @@ export default function Footer({ onOpenDemo, onNavigate }) {
             © 2026 AASAAN SERVICES SOLUTIONS PRIVATE LIMITED. All rights reserved.
           </div>
 
-          <div style={{ display: 'flex', gap: '20px' }}>
+          <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
             <span>Cloud & On-Premises ERP</span>
             <span>Made in New Delhi, India</span>
-            <span>Version 4.2 Multi-Page Platform</span>
+            <a
+              href="#/login"
+              onClick={(e) => handlePageLink('login', '#/login', e)}
+              style={{
+                color: '#93C5FD',
+                textDecoration: 'none',
+                fontWeight: 600,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px',
+                background: 'rgba(29, 78, 216, 0.25)',
+                padding: '3px 9px',
+                borderRadius: '6px',
+                border: '1px solid rgba(59, 130, 246, 0.3)'
+              }}
+            >
+              🔒 Admin Login
+            </a>
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, CheckCircle, Sparkles, Building, Phone, Mail, Globe, Send, Check } from 'lucide-react';
 import { saveQueryToStorage, syncLeadToBackend } from '../utils/excelExport';
+import { saveLead } from '../services/dataService';
 
 export default function ScheduleDemoModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
@@ -22,8 +23,9 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
     e.preventDefault();
     setIsSyncing(true);
 
-    // 1. Save query to persistent storage (local backup)
+    // 1. Save query to persistent storage & backend API
     saveQueryToStorage(formData);
+    await saveLead(formData);
 
     // 2. Transmit to Cloud Spreadsheet Webhook / Backend Excel
     await syncLeadToBackend(formData);

@@ -6,12 +6,19 @@
   "homepage": "https://adityasemwal04-arch.github.io/Aasaan-website/",
   "scripts": {
     "dev": "vite",
+    "server": "cmd /c backend-springboot\\run-backend.bat",
+    "server:spring": "cmd /c backend-springboot\\run-backend.bat",
+    "server:node": "node server/server.js",
+    "start": "cmd /c backend-springboot\\run-backend.bat",
     "build": "vite build",
     "preview": "vite preview",
     "sync:onedrive": "node scripts/sync-demo-queries.js"
   },
   "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
     "lucide-react": "^1.16.0",
+    "puppeteer-core": "^25.12.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "xlsx": "^0.18.5"

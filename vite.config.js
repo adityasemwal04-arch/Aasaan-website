@@ -122,7 +122,7 @@ function oneDriveSyncPlugin() {
 
 export default defineConfig({
   plugins: [react(), viteSingleFile(), oneDriveSyncPlugin()],
-  base: '/Aasaan-website/',
+  base: './',
   server: {
     port: 3000,
     open: true

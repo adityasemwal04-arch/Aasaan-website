@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { globalIndustries, globalModules, globalTestimonials } from '../data/globalData';
 import { Globe, ShieldCheck, ArrowRight, ExternalLink, Check, Server, Layers, Cpu, Building2, Sparkles, Star } from 'lucide-react';
 
-export default function ErpGlobalPage({ onOpenDemo }) {
+export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
   const [selectedModuleId, setSelectedModuleId] = useState('financial');
   const [industryFilter, setIndustryFilter] = useState('All');
 
@@ -207,11 +207,34 @@ export default function ErpGlobalPage({ onOpenDemo }) {
             gap: '20px'
           }}>
             {filteredIndustries.map((ind, i) => {
-              const cardSlug = ind.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+              const slugMap = {
+                'Manufacturing & Engineering': 'manufacturing-engineering',
+                'Dairy Industry': 'dairy-industry',
+                'Car Rental & Fleet Industry': 'car-rental-fleet',
+                'Chemical & Process Industry': 'chemical-process',
+                'Construction & EPC Building': 'construction-epc',
+                'Gems & Jewelry Manufacturing': 'gems-jewelry',
+                'Food & Beverage Processing': 'food-beverage',
+                'High-Tech & Electronics': 'high-tech-electronics',
+                'Malls & Commercial Facilities': 'malls-commercial',
+                'Packaging & Corrugation': 'packaging-corrugation'
+              };
+              const cardSlug = slugMap[ind.name] || ind.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+              const handleCardClick = () => {
+                if (onNavigate) {
+                  onNavigate(`blog/${cardSlug}`);
+                } else {
+                  window.location.hash = `#/blog/${cardSlug}`;
+                }
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              };
+
               return (
               <div
                 key={i}
                 id={`industry-${cardSlug}`}
+                onClick={handleCardClick}
                 style={{
                   background: '#FFFFFF',
                   border: '1px solid var(--border-medium)',
@@ -221,17 +244,20 @@ export default function ErpGlobalPage({ onOpenDemo }) {
                   display: 'flex',
                   flexDirection: 'column',
                   boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)',
-                  transition: 'transform 0.25s ease, box-shadow 0.25s ease'
+                  transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
+                  cursor: 'pointer'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-4px)';
-                  e.currentTarget.style.boxShadow = '0 16px 32px -8px rgba(15, 23, 42, 0.12)';
+                  e.currentTarget.style.transform = 'translateY(-5px)';
+                  e.currentTarget.style.boxShadow = '0 18px 36px -8px rgba(15, 23, 42, 0.14)';
+                  e.currentTarget.style.borderColor = 'var(--primary-blue)';
                   const img = e.currentTarget.querySelector('img');
-                  if (img) img.style.transform = 'scale(1.06)';
+                  if (img) img.style.transform = 'scale(1.08)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
                   e.currentTarget.style.boxShadow = '0 2px 8px rgba(15, 23, 42, 0.04)';
+                  e.currentTarget.style.borderColor = 'var(--border-medium)';
                   const img = e.currentTarget.querySelector('img');
                   if (img) img.style.transform = 'scale(1)';
                 }}
@@ -281,6 +307,19 @@ export default function ErpGlobalPage({ onOpenDemo }) {
                     <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', lineHeight: 1.5, margin: 0 }}>
                       {ind.desc}
                     </p>
+                  </div>
+                  <div style={{
+                    marginTop: '14px',
+                    paddingTop: '10px',
+                    borderTop: '1px solid #F1F5F9',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    color: 'var(--primary-blue)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}>
+                    Read Industry Guide & BOM <ArrowRight size={13} />
                   </div>
                 </div>
               </div>

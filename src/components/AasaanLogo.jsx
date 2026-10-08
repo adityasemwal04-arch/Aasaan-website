@@ -42,20 +42,7 @@ export default function AasaanLogo({
         />
       )}
 
-      {showBadge && (
-        <span style={{
-          background: isDark ? 'rgba(29, 78, 216, 0.4)' : '#EFF6FF',
-          color: isDark ? '#93C5FD' : 'var(--primary-blue)',
-          border: isDark ? '1px solid rgba(59, 130, 246, 0.4)' : '1px solid var(--primary-blue-border)',
-          fontSize: '11px',
-          fontWeight: 800,
-          padding: '2px 7px',
-          borderRadius: '5px',
-          letterSpacing: '0.04em'
-        }}>
-          ERP
-        </span>
-      )}
+
     </div>
   );
 }

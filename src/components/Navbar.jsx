@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Sparkles, ArrowRight, Menu, X } from 'lucide-react';
+import { Search, Sparkles, ArrowRight, Menu, X, Lock } from 'lucide-react';
 import AasaanLogo from './AasaanLogo';
+import { getActiveAnnouncements } from '../services/dataService';
 
 export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNavigate }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [topBannerIndex, setTopBannerIndex] = useState(0);
+  const [announcements, setAnnouncements] = useState([
+    { id: 'default', text: 'Your ERP, Your Rules — Custom Fields & Intelligent Workflows Made Easy.', badge: 'ENTERPRISE RELEASE' }
+  ]);
 
-  const announcements = [
-    'Your ERP, Your Rules — Custom Fields & Intelligent Workflows Made Easy.',
-    'Aasaan Global Search: One Search Box. Every Answer Across Sales, Stock & Finance.',
-    'AWM Flagship: Purpose-built ERP for Waste Management, Fleet & Weighbridges.'
-  ];
+  // Load live announcements from backend/localStorage
+  useEffect(() => {
+    getActiveAnnouncements().then((data) => {
+      if (data && data.length > 0) setAnnouncements(data);
+    });
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,16 +27,20 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
   }, []);
 
   useEffect(() => {
+    if (announcements.length <= 1) return;
     const interval = setInterval(() => {
       setTopBannerIndex((prev) => (prev + 1) % announcements.length);
     }, 4500);
     return () => clearInterval(interval);
-  }, []);
+  }, [announcements.length]);
+
+  const currentAnn = announcements[topBannerIndex] || announcements[0];
+
 
   const navItems = [
     { id: 'home', label: 'Home', href: '#/' },
-    { id: 'global', label: 'ERP Global', href: '#/global', badge: 'Mid-Market' },
-    { id: 'lite', label: 'ERP Lite', href: '#/lite', badge: 'From ₹12k' },
+    { id: 'global', label: 'Aasaan Enterprises', href: '#/global', badge: 'Mid-Large Market' },
+    { id: 'lite', label: 'ERP Lite', href: '#/lite', badge: 'Small Businesses' },
     { id: 'awm', label: 'AWM', href: '#/awm', badge: 'Waste & Recycling' },
     { id: 'partners', label: 'Partners', href: '#/partners' }
   ];
@@ -71,10 +80,10 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
           letterSpacing: '0.05em',
           fontSize: '11px'
         }}>
-          <Sparkles size={12} /> Enterprise Release
+          <Sparkles size={12} /> {currentAnn?.badge || 'ENTERPRISE RELEASE'}
         </span>
         <span style={{ color: '#E2E8F0', fontWeight: 500 }} className="transition-all duration-300">
-          {announcements[topBannerIndex]}
+          {currentAnn?.text || ''}
         </span>
       </div>
 
@@ -86,7 +95,7 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
         boxShadow: scrolled ? '0 4px 20px -4px rgba(15, 23, 42, 0.08)' : 'none',
         transition: 'all 0.25s ease'
       }}>
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '72px' }}>
+        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '80px' }}>
           
           {/* Logo */}
           <a
@@ -94,7 +103,7 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
             onClick={(e) => handleNavClick('home', '#/', e)}
             style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}
           >
-            <AasaanLogo height={32} showBadge={true} isDark={false} />
+            <AasaanLogo height={56} showBadge={false} isDark={false} />
           </a>
 
           {/* Desktop Nav Items */}
@@ -140,7 +149,31 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
           </div>
 
           {/* Action CTAs */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            {/* Admin Portal Button */}
+            <a
+              href="#/login"
+              onClick={(e) => handleNavClick('login', '#/login', e)}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px',
+                background: currentPage === 'login' ? 'var(--primary-blue)' : 'rgba(29, 78, 216, 0.08)',
+                color: currentPage === 'login' ? '#FFFFFF' : 'var(--primary-blue)',
+                border: '1px solid rgba(29, 78, 216, 0.2)',
+                borderRadius: '8px',
+                padding: '6px 11px',
+                fontSize: '12.5px',
+                fontWeight: 700,
+                textDecoration: 'none',
+                cursor: 'pointer'
+              }}
+              title="Admin Portal (ID & Password)"
+            >
+              <Lock size={13} />
+              <span className="hidden-mobile">Admin</span>
+            </a>
+
             {/* Global Search Button */}
             <button
               onClick={onOpenSearch}
@@ -244,6 +277,15 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
               </a>
             ))}
             <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <a
+                href="#/login"
+                onClick={(e) => { setMobileMenuOpen(false); handleNavClick('login', '#/login', e); }}
+                className="btn btn-ghost"
+                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: 'var(--primary-blue)', fontWeight: 700 }}
+              >
+                <Lock size={15} />
+                <span>Admin Portal Login</span>
+              </a>
               <button
                 onClick={() => { setMobileMenuOpen(false); onOpenSearch(); }}
                 className="btn btn-ghost"

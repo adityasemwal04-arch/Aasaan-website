@@ -1,5 +1,19 @@
 node_modules/
-dist/
 .env
 .env.*
 !.env.example
+
+# Backend — deploy separately, never push to GitHub Pages repo
+backend-springboot/
+
+# Data folder contains admin credentials — NEVER commit
+data/
+
+# Temp / scratch files
+chrome-dom.html
+edge-dom.html
+server/
+.idea/
+
+# Keep dist/ — GitHub Pages needs it
+# dist/

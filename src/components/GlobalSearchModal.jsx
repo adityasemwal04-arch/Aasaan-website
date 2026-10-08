@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, X, ArrowRight, CornerDownLeft, Sparkles, Layers, Factory, Recycle, Feather, Users, Calendar, ArrowUpRight } from 'lucide-react';
+import { Search, X, ArrowRight, CornerDownLeft, Sparkles, Layers, Factory, Recycle, Feather, Users, Calendar, ArrowUpRight, ShieldCheck } from 'lucide-react';
 import { globalModules, globalIndustries } from '../data/globalData';
 import { liteFeatures, liteIndustries } from '../data/liteData';
 import { awmSectors, awmModules } from '../data/awmData';
@@ -76,6 +76,16 @@ export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenD
       desc: 'Book a 15-minute tailored walkthrough with our solution engineering team.',
       keywords: 'demo book schedule contact inquiry sales call consultation presentation',
       action: 'demo'
+    },
+    {
+      id: 'page-admin-login',
+      category: 'Admin',
+      badge: 'Portal',
+      icon: ShieldCheck,
+      title: 'Admin Portal & Inquiries Dashboard',
+      desc: 'View customer inquiries, edit industry blogs (Dairy, Manufacturing, etc.), and administer website.',
+      keywords: 'admin login dashboard portal queries inquiries leads blog cms manage password',
+      pageId: 'login'
     },
 
     // 2. All 8 Global ERP Modules (Direct Switch & Scroll)
