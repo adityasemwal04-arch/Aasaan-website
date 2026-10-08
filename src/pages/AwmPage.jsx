@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { awmSectors, awmModules, awmWeighbridgeSimulation } from '../data/awmData';
+import { awmSectors, awmModules as defaultModules, awmClients as defaultClients, awmWeighbridgeSimulation } from '../data/awmData';
+import { getAwmModules, getAwmClients } from '../services/dataService';
 import { Recycle, Scale, Navigation, Smartphone, FileCheck, Truck, ArrowRight, CheckCircle2, ShieldCheck, ExternalLink } from 'lucide-react';
 
 export default function AwmPage({ onOpenDemo }) {
   const [selectedSectorId, setSelectedSectorId] = useState('municipal');
+  const [modules, setModules] = useState(defaultModules);
+  const [clients, setClients] = useState(defaultClients);
+
+  useEffect(() => {
+    getAwmModules().then(data => { if (data && data.length) setModules(data); });
+    getAwmClients().then(data => { if (data && data.length) setClients(data); });
+  }, []);
 
   // Listen for sector selection from search
   useEffect(() => {
@@ -294,7 +302,7 @@ export default function AwmPage({ onOpenDemo }) {
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
             gap: '24px'
           }}>
-            {awmModules.map((m, i) => {
+            {modules.map((m, i) => {
               const modSlug = m.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
               return (
               <div
@@ -389,101 +397,65 @@ export default function AwmPage({ onOpenDemo }) {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px', maxWidth: '880px', margin: '0 auto' }}>
-            <div
-              id="client-tadweeer"
-              style={{
-                background: '#FFFFFF',
-                border: '1.5px solid var(--border-medium)',
-                borderRadius: '16px',
-                overflow: 'hidden',
-                scrollMarginTop: '120px',
-                boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)'
-              }}
-            >
-              <div style={{ height: '150px', position: 'relative', overflow: 'hidden', background: '#0F172A' }}>
-                <img
-                  src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80"
-                  alt="Tadweeer Waste Recovery"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  loading="lazy"
-                />
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(to top, rgba(11, 19, 41, 0.7) 0%, transparent 60%)'
-                }} />
-                <span style={{
-                  position: 'absolute',
-                  bottom: '10px',
-                  left: '14px',
-                  fontSize: '11px',
-                  fontWeight: 700,
-                  color: '#FFFFFF',
-                  background: '#EA580C',
-                  padding: '3px 8px',
-                  borderRadius: '6px'
-                }}>
-                  Recycling Operations
-                </span>
-              </div>
-              <div style={{ padding: '24px' }}>
-                <h3 style={{ fontSize: '22px', fontWeight: 800, margin: 0 }}>Tadweeer</h3>
-                <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginTop: '10px', lineHeight: 1.5 }}>
-                  Manages multi-yard metal and polymer recycling intake with automated weighbridge gross/tare logging, MRF sorting yields, and instant customer payout settlements.
-                </p>
-                <div className="mono" style={{ fontSize: '12px', color: 'var(--primary-blue)', fontWeight: 700, marginTop: '14px' }}>
-                  ✓ Weighbridge Ticket Time: &lt;45s • 100% Audit Compliance
+            {clients.map((c, i) => {
+              const clientSlug = (c.name || `client-${i}`).toLowerCase().replace(/[^a-z0-9]+/g, '-');
+              return (
+                <div
+                  key={c.id || i}
+                  id={`client-${clientSlug}`}
+                  style={{
+                    background: '#FFFFFF',
+                    border: '1.5px solid var(--border-medium)',
+                    borderRadius: '16px',
+                    overflow: 'hidden',
+                    scrollMarginTop: '120px',
+                    boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)'
+                  }}
+                >
+                  {c.img && (
+                    <div style={{ height: '150px', position: 'relative', overflow: 'hidden', background: '#0F172A' }}>
+                      <img
+                        src={c.img}
+                        alt={c.name}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        loading="lazy"
+                      />
+                      <div style={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: 'linear-gradient(to top, rgba(11, 19, 41, 0.7) 0%, transparent 60%)'
+                      }} />
+                      {c.type && (
+                        <span style={{
+                          position: 'absolute',
+                          bottom: '10px',
+                          left: '14px',
+                          fontSize: '11px',
+                          fontWeight: 700,
+                          color: '#FFFFFF',
+                          background: i % 2 === 0 ? '#EA580C' : 'var(--primary-blue)',
+                          padding: '3px 8px',
+                          borderRadius: '6px'
+                        }}>
+                          {c.type}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                  <div style={{ padding: '24px' }}>
+                    <h3 style={{ fontSize: '22px', fontWeight: 800, margin: 0 }}>{c.name}</h3>
+                    <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginTop: '10px', lineHeight: 1.5 }}>
+                      {c.desc}
+                    </p>
+                    {c.metric && (
+                      <div className="mono" style={{ fontSize: '12px', color: 'var(--primary-blue)', fontWeight: 700, marginTop: '14px' }}>
+                        ✓ {c.metric}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </div>
-
-            <div
-              id="client-resustainability"
-              style={{
-                background: '#FFFFFF',
-                border: '1.5px solid var(--border-medium)',
-                borderRadius: '16px',
-                overflow: 'hidden',
-                scrollMarginTop: '120px',
-                boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)'
-              }}
-            >
-              <div style={{ height: '150px', position: 'relative', overflow: 'hidden', background: '#0F172A' }}>
-                <img
-                  src="https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=600&q=80"
-                  alt="Resustainability Environmental Services"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  loading="lazy"
-                />
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(to top, rgba(11, 19, 41, 0.7) 0%, transparent 60%)'
-                }} />
-                <span style={{
-                  position: 'absolute',
-                  bottom: '10px',
-                  left: '14px',
-                  fontSize: '11px',
-                  fontWeight: 700,
-                  color: '#FFFFFF',
-                  background: 'var(--primary-blue)',
-                  padding: '3px 8px',
-                  borderRadius: '6px'
-                }}>
-                  Environmental Services
-                </span>
-              </div>
-              <div style={{ padding: '24px' }}>
-                <h3 style={{ fontSize: '22px', fontWeight: 800, margin: 0 }}>Resustainability</h3>
-                <p style={{ fontSize: '14px', color: 'var(--text-muted)', marginTop: '10px', lineHeight: 1.5 }}>
-                  Runs pan-India circular economy project accounting, tracking field equipment, hazardous waste manifests, and municipal service level agreements seamlessly.
-                </p>
-                <div className="mono" style={{ fontSize: '12px', color: 'var(--primary-blue)', fontWeight: 700, marginTop: '14px' }}>
-                  ✓ Multi-Project Visibility: Live • 2.4x Faster Milestone Turnaround
-                </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
         </div>
       </section>

@@ -1,6 +1,9 @@
 // Hybrid Data Service for Aasaan ERP
-// Communicates with the Express Backend API (http://localhost:5000) when online,
+// Communicates with the Java Spring Boot REST API when online,
 // and provides instant local persistence (localStorage) when running on GitHub Pages.
+
+import { liteFeatures as DEFAULT_LITE_FEATURES, liteIndustries as DEFAULT_LITE_INDUSTRIES } from '../data/liteData';
+import { awmModules as DEFAULT_AWM_MODULES, awmClients as DEFAULT_AWM_CLIENTS } from '../data/awmData';
 
 let BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080/api';
 let serverBackendType = 'Java Spring Boot (Port 8080)';
@@ -664,4 +667,147 @@ export async function deleteAnnouncement(id) {
   localStorage.setItem('aasaan_announcements', JSON.stringify(updated));
   return updated;
 }
+
+// -------------------------------------------------------------
+// DYNAMIC EDITABLE CONTENT (Lite Features, Lite Industries, AWM Modules, AWM Clients)
+// -------------------------------------------------------------
+
+export const INITIAL_LITE_FEATURES = DEFAULT_LITE_FEATURES.map((f, i) => ({
+  id: `lf-${i + 1}`,
+  title: f.title,
+  desc: f.desc,
+  tag: f.tag || 'Feature',
+  icon: f.icon || 'Sparkles',
+  img: f.img || ''
+}));
+
+export const INITIAL_LITE_INDUSTRIES = DEFAULT_LITE_INDUSTRIES.map((ind, i) => ({
+  id: `li-${i + 1}`,
+  name: ind.name,
+  tag: ind.tag || 'Industry',
+  desc: ind.desc,
+  img: ind.img || ''
+}));
+
+export const INITIAL_AWM_MODULES = DEFAULT_AWM_MODULES.map((m, i) => ({
+  id: `am-${i + 1}`,
+  title: m.title,
+  tag: m.tag || 'AWM Module',
+  desc: m.desc,
+  icon: m.icon || 'Layers',
+  img: m.img || ''
+}));
+
+export const INITIAL_AWM_CLIENTS = DEFAULT_AWM_CLIENTS.map((c, i) => ({
+  id: `ac-${i + 1}`,
+  name: c.name,
+  type: c.type || 'Environmental Operations',
+  desc: c.desc,
+  metric: c.metric || '',
+  img: c.img || ''
+}));
+
+async function getSectionItems(section, storageKey, defaultItems) {
+  try {
+    const res = await fetch(`${BACKEND_URL}/content/${section}`, { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        localStorage.setItem(storageKey, JSON.stringify(data));
+        return data;
+      } else if (Array.isArray(data) && data.length === 0) {
+        // Seed default to backend if empty
+        try {
+          await fetch(`${BACKEND_URL}/content/${section}/bulk`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(defaultItems)
+          });
+        } catch (e) {}
+      }
+    }
+  } catch (e) {}
+
+  try {
+    const raw = localStorage.getItem(storageKey);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+    localStorage.setItem(storageKey, JSON.stringify(defaultItems));
+    return defaultItems;
+  } catch (e) {
+    return defaultItems;
+  }
+}
+
+async function saveSectionItem(section, storageKey, item, defaultItems) {
+  const isNew = !item.id;
+  const id = item.id || `${section}_${Date.now()}`;
+  const itemToSave = { ...item, id };
+
+  try {
+    if (isNew) {
+      await fetch(`${BACKEND_URL}/content/${section}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(itemToSave)
+      });
+    } else {
+      await fetch(`${BACKEND_URL}/content/${section}/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(itemToSave)
+      });
+    }
+  } catch (e) {}
+
+  const all = await getSectionItems(section, storageKey, defaultItems);
+  let updated;
+  if (isNew) {
+    updated = [itemToSave, ...all];
+  } else {
+    const idx = all.findIndex(x => String(x.id) === String(id));
+    if (idx !== -1) {
+      updated = [...all];
+      updated[idx] = itemToSave;
+    } else {
+      updated = [itemToSave, ...all];
+    }
+  }
+  localStorage.setItem(storageKey, JSON.stringify(updated));
+  return itemToSave;
+}
+
+async function deleteSectionItem(section, storageKey, id, defaultItems) {
+  try {
+    await fetch(`${BACKEND_URL}/content/${section}/${id}`, { method: 'DELETE' });
+  } catch (e) {}
+
+  const all = await getSectionItems(section, storageKey, defaultItems);
+  const updated = all.filter(x => String(x.id) !== String(id));
+  localStorage.setItem(storageKey, JSON.stringify(updated));
+  return updated;
+}
+
+// 1. Lite Features
+export const getLiteFeatures = () => getSectionItems('lite-features', 'aasaan_lite_features', INITIAL_LITE_FEATURES);
+export const saveLiteFeature = (item) => saveSectionItem('lite-features', 'aasaan_lite_features', item, INITIAL_LITE_FEATURES);
+export const deleteLiteFeature = (id) => deleteSectionItem('lite-features', 'aasaan_lite_features', id, INITIAL_LITE_FEATURES);
+
+// 2. Lite Industries
+export const getLiteIndustries = () => getSectionItems('lite-industries', 'aasaan_lite_industries', INITIAL_LITE_INDUSTRIES);
+export const saveLiteIndustry = (item) => saveSectionItem('lite-industries', 'aasaan_lite_industries', item, INITIAL_LITE_INDUSTRIES);
+export const deleteLiteIndustry = (id) => deleteSectionItem('lite-industries', 'aasaan_lite_industries', id, INITIAL_LITE_INDUSTRIES);
+
+// 3. AWM Core Modules
+export const getAwmModules = () => getSectionItems('awm-modules', 'aasaan_awm_modules', INITIAL_AWM_MODULES);
+export const saveAwmModule = (item) => saveSectionItem('awm-modules', 'aasaan_awm_modules', item, INITIAL_AWM_MODULES);
+export const deleteAwmModule = (id) => deleteSectionItem('awm-modules', 'aasaan_awm_modules', id, INITIAL_AWM_MODULES);
+
+// 4. AWM Leaders & Case Studies
+export const getAwmClients = () => getSectionItems('awm-clients', 'aasaan_awm_clients', INITIAL_AWM_CLIENTS);
+export const saveAwmClient = (item) => saveSectionItem('awm-clients', 'aasaan_awm_clients', item, INITIAL_AWM_CLIENTS);
+export const deleteAwmClient = (id) => deleteSectionItem('awm-clients', 'aasaan_awm_clients', id, INITIAL_AWM_CLIENTS);
+
 

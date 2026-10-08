@@ -26,7 +26,12 @@ import {
   AlertCircle,
   Megaphone,
   ToggleLeft,
-  ToggleRight
+  ToggleRight,
+  Feather,
+  Recycle,
+  Layers,
+  Award,
+  Image as ImageIcon
 } from 'lucide-react';
 import {
   getLeads,
@@ -42,12 +47,24 @@ import {
   updateAdminCredentials,
   getAnnouncements,
   saveAnnouncement,
-  deleteAnnouncement
+  deleteAnnouncement,
+  getLiteFeatures,
+  saveLiteFeature,
+  deleteLiteFeature,
+  getLiteIndustries,
+  saveLiteIndustry,
+  deleteLiteIndustry,
+  getAwmModules,
+  saveAwmModule,
+  deleteAwmModule,
+  getAwmClients,
+  saveAwmClient,
+  deleteAwmClient
 } from '../services/dataService';
 import AasaanLogo from '../components/AasaanLogo';
 
 export default function AdminDashboardPage({ onNavigate }) {
-  const [activeTab, setActiveTab] = useState('queries'); // 'queries' | 'blogs' | 'announcements' | 'settings'
+  const [activeTab, setActiveTab] = useState('queries'); // 'queries' | 'blogs' | 'lite-cms' | 'awm-cms' | 'announcements' | 'settings'
   const [adminUser, setAdminUser] = useState(null);
 
   // Queries state
@@ -61,6 +78,24 @@ export default function AdminDashboardPage({ onNavigate }) {
   const [editingBlog, setEditingBlog] = useState(null); // null or blog object
   const [isNewBlogModal, setIsNewBlogModal] = useState(false);
   const [blogSuccessMsg, setBlogSuccessMsg] = useState('');
+
+  // ERP Lite CMS state
+  const [liteFeaturesList, setLiteFeaturesList] = useState([]);
+  const [liteIndustriesList, setLiteIndustriesList] = useState([]);
+  const [liteSubTab, setLiteSubTab] = useState('features'); // 'features' | 'industries'
+  const [editingLiteItem, setEditingLiteItem] = useState(null);
+  const [isLiteModalOpen, setIsLiteModalOpen] = useState(false);
+  const [liteModalType, setLiteModalType] = useState('feature'); // 'feature' | 'industry'
+
+  // AWM CMS state
+  const [awmModulesList, setAwmModulesList] = useState([]);
+  const [awmClientsList, setAwmClientsList] = useState([]);
+  const [awmSubTab, setAwmSubTab] = useState('modules'); // 'modules' | 'clients'
+  const [editingAwmItem, setEditingAwmItem] = useState(null);
+  const [isAwmModalOpen, setIsAwmModalOpen] = useState(false);
+  const [awmModalType, setAwmModalType] = useState('module'); // 'module' | 'client'
+
+  const [cmsSuccessMsg, setCmsSuccessMsg] = useState('');
 
   // Announcements state
   const [announcements, setAnnouncements] = useState([]);
@@ -96,10 +131,22 @@ export default function AdminDashboardPage({ onNavigate }) {
 
   const loadData = async () => {
     setLoadingLeads(true);
-    const [fetchedLeads, fetchedBlogs, fetchedAnns] = await Promise.all([getLeads(), getBlogs(), getAnnouncements()]);
+    const [fetchedLeads, fetchedBlogs, fetchedAnns, fetchedLF, fetchedLI, fetchedAM, fetchedAC] = await Promise.all([
+      getLeads(),
+      getBlogs(),
+      getAnnouncements(),
+      getLiteFeatures(),
+      getLiteIndustries(),
+      getAwmModules(),
+      getAwmClients()
+    ]);
     setLeads(fetchedLeads);
     setBlogs(fetchedBlogs);
     setAnnouncements(fetchedAnns);
+    setLiteFeaturesList(fetchedLF);
+    setLiteIndustriesList(fetchedLI);
+    setAwmModulesList(fetchedAM);
+    setAwmClientsList(fetchedAC);
     setLoadingLeads(false);
   };
 
@@ -206,6 +253,112 @@ export default function AdminDashboardPage({ onNavigate }) {
     if (window.confirm(`Are you sure you want to delete the blog for "${slug}"?`)) {
       await deleteBlog(slug);
       await loadData();
+    }
+  };
+
+  // ERP Lite CMS Handlers
+  const handleOpenEditLite = (item, type) => {
+    setEditingLiteItem({ ...item });
+    setLiteModalType(type);
+    setIsLiteModalOpen(true);
+  };
+
+  const handleOpenNewLite = (type) => {
+    setEditingLiteItem({
+      title: '',
+      name: '',
+      tag: '',
+      desc: '',
+      icon: 'Sparkles',
+      img: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=80'
+    });
+    setLiteModalType(type);
+    setIsLiteModalOpen(true);
+  };
+
+  const handleSaveLiteItem = async (e) => {
+    e.preventDefault();
+    if (liteModalType === 'feature') {
+      await saveLiteFeature(editingLiteItem);
+      setCmsSuccessMsg('ERP Lite Feature updated successfully!');
+      const fresh = await getLiteFeatures();
+      setLiteFeaturesList(fresh);
+    } else {
+      await saveLiteIndustry(editingLiteItem);
+      setCmsSuccessMsg('ERP Lite Industry updated successfully!');
+      const fresh = await getLiteIndustries();
+      setLiteIndustriesList(fresh);
+    }
+    setIsLiteModalOpen(false);
+    setEditingLiteItem(null);
+    setTimeout(() => setCmsSuccessMsg(''), 3500);
+  };
+
+  const handleDeleteLiteItem = async (id, type) => {
+    if (window.confirm('Are you sure you want to delete this item?')) {
+      if (type === 'feature') {
+        await deleteLiteFeature(id);
+        const fresh = await getLiteFeatures();
+        setLiteFeaturesList(fresh);
+      } else {
+        await deleteLiteIndustry(id);
+        const fresh = await getLiteIndustries();
+        setLiteIndustriesList(fresh);
+      }
+    }
+  };
+
+  // AWM CMS Handlers
+  const handleOpenEditAwm = (item, type) => {
+    setEditingAwmItem({ ...item });
+    setAwmModalType(type);
+    setIsAwmModalOpen(true);
+  };
+
+  const handleOpenNewAwm = (type) => {
+    setEditingAwmItem({
+      title: '',
+      name: '',
+      tag: '',
+      type: '',
+      desc: '',
+      metric: '',
+      icon: 'Layers',
+      img: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80'
+    });
+    setAwmModalType(type);
+    setIsAwmModalOpen(true);
+  };
+
+  const handleSaveAwmItem = async (e) => {
+    e.preventDefault();
+    if (awmModalType === 'module') {
+      await saveAwmModule(editingAwmItem);
+      setCmsSuccessMsg('AWM Module updated successfully!');
+      const fresh = await getAwmModules();
+      setAwmModulesList(fresh);
+    } else {
+      await saveAwmClient(editingAwmItem);
+      setCmsSuccessMsg('Industry Leader / Case Study updated successfully!');
+      const fresh = await getAwmClients();
+      setAwmClientsList(fresh);
+    }
+    setIsAwmModalOpen(false);
+    setEditingAwmItem(null);
+    setTimeout(() => setCmsSuccessMsg(''), 3500);
+  };
+
+  const handleDeleteAwmItem = async (id, type) => {
+    if (window.confirm('Are you sure you want to delete this item?')) {
+      if (type === 'module') {
+        await deleteAwmModule(id);
+        const fresh = await getAwmModules();
+        setAwmModulesList(fresh);
+      } else {
+        await deleteAwmClient(id);
+        const fresh = await getAwmClients();
+        setAwmClientsList(fresh);
+      }
     }
   };
 
@@ -472,6 +625,68 @@ export default function AdminDashboardPage({ onNavigate }) {
           </button>
 
           <button
+            onClick={() => setActiveTab('lite-cms')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 18px',
+              borderRadius: '10px',
+              fontWeight: 700,
+              fontSize: '14px',
+              cursor: 'pointer',
+              border: 'none',
+              background: activeTab === 'lite-cms' ? 'var(--primary-blue)' : 'transparent',
+              color: activeTab === 'lite-cms' ? '#FFFFFF' : '#64748B',
+              transition: 'all 0.2s'
+            }}
+          >
+            <Feather size={16} /> ERP Lite CMS
+            <span style={{
+              background: activeTab === 'lite-cms' ? 'rgba(255,255,255,0.2)' : '#E2E8F0',
+              color: activeTab === 'lite-cms' ? '#FFFFFF' : '#475569',
+              fontSize: '11px',
+              fontWeight: 800,
+              padding: '1px 6px',
+              borderRadius: '10px',
+              marginLeft: '4px'
+            }}>
+              {liteFeaturesList.length + liteIndustriesList.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('awm-cms')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 18px',
+              borderRadius: '10px',
+              fontWeight: 700,
+              fontSize: '14px',
+              cursor: 'pointer',
+              border: 'none',
+              background: activeTab === 'awm-cms' ? 'var(--primary-blue)' : 'transparent',
+              color: activeTab === 'awm-cms' ? '#FFFFFF' : '#64748B',
+              transition: 'all 0.2s'
+            }}
+          >
+            <Recycle size={16} /> AWM Modules & Leaders
+            <span style={{
+              background: activeTab === 'awm-cms' ? 'rgba(255,255,255,0.2)' : '#E2E8F0',
+              color: activeTab === 'awm-cms' ? '#FFFFFF' : '#475569',
+              fontSize: '11px',
+              fontWeight: 800,
+              padding: '1px 6px',
+              borderRadius: '10px',
+              marginLeft: '4px'
+            }}>
+              {awmModulesList.length + awmClientsList.length}
+            </span>
+          </button>
+
+          <button
             onClick={() => setActiveTab('settings')}
             style={{
               display: 'flex',
@@ -508,6 +723,25 @@ export default function AdminDashboardPage({ onNavigate }) {
           }}>
             <CheckCircle size={18} color="#059669" />
             <span>{blogSuccessMsg}</span>
+          </div>
+        )}
+
+        {cmsSuccessMsg && (
+          <div style={{
+            background: '#ECFDF5',
+            border: '1px solid #A7F3D0',
+            color: '#065F46',
+            padding: '14px 18px',
+            borderRadius: '12px',
+            marginBottom: '24px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            fontSize: '14px',
+            fontWeight: 600
+          }}>
+            <CheckCircle size={18} color="#059669" />
+            <span>{cmsSuccessMsg}</span>
           </div>
         )}
 
@@ -1141,6 +1375,510 @@ export default function AdminDashboardPage({ onNavigate }) {
         )}
 
         {/* ------------------------------------------------------------- */}
+        {/* TAB: ERP LITE CONTENT CMS                                      */}
+        {/* ------------------------------------------------------------- */}
+        {activeTab === 'lite-cms' && (
+          <div>
+            {/* Sub-nav toggle */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
+              <div style={{ display: 'flex', gap: '8px', background: '#FFFFFF', padding: '6px', borderRadius: '12px', border: '1px solid var(--border-medium)' }}>
+                <button
+                  type="button"
+                  onClick={() => setLiteSubTab('features')}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '8px 16px',
+                    borderRadius: '8px',
+                    border: 'none',
+                    fontWeight: 700,
+                    fontSize: '13px',
+                    cursor: 'pointer',
+                    background: liteSubTab === 'features' ? 'var(--primary-blue)' : 'transparent',
+                    color: liteSubTab === 'features' ? '#FFFFFF' : '#64748B'
+                  }}
+                >
+                  <Sparkles size={14} /> Top Features Customers Love ({liteFeaturesList.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setLiteSubTab('industries')}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '8px 16px',
+                    borderRadius: '8px',
+                    border: 'none',
+                    fontWeight: 700,
+                    fontSize: '13px',
+                    cursor: 'pointer',
+                    background: liteSubTab === 'industries' ? 'var(--primary-blue)' : 'transparent',
+                    color: liteSubTab === 'industries' ? '#FFFFFF' : '#64748B'
+                  }}
+                >
+                  <Layers size={14} /> Industries Thriving on ERP Lite ({liteIndustriesList.length})
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => handleOpenNewLite(liteSubTab === 'features' ? 'feature' : 'industry')}
+                style={{
+                  background: 'var(--primary-blue)',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: '10px',
+                  padding: '10px 18px',
+                  fontSize: '13.5px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  boxShadow: '0 4px 12px rgba(29, 78, 216, 0.25)'
+                }}
+              >
+                <Plus size={16} /> Add New {liteSubTab === 'features' ? 'Feature' : 'Industry'}
+              </button>
+            </div>
+
+            {/* Content List */}
+            {liteSubTab === 'features' && (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '20px' }}>
+                {liteFeaturesList.map((feat) => (
+                  <div
+                    key={feat.id}
+                    style={{
+                      background: '#FFFFFF',
+                      borderRadius: '16px',
+                      border: '1px solid var(--border-medium)',
+                      overflow: 'hidden',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)'
+                    }}
+                  >
+                    {feat.img && (
+                      <div style={{ height: '140px', position: 'relative', overflow: 'hidden', background: '#0F172A' }}>
+                        <img src={feat.img} alt={feat.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <span style={{
+                          position: 'absolute',
+                          bottom: '10px',
+                          left: '12px',
+                          fontSize: '10.5px',
+                          fontWeight: 700,
+                          color: '#FFFFFF',
+                          background: 'rgba(15, 23, 42, 0.85)',
+                          padding: '2px 8px',
+                          borderRadius: '5px'
+                        }}>
+                          {feat.tag}
+                        </span>
+                      </div>
+                    )}
+                    <div style={{ padding: '18px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                      <h4 style={{ fontSize: '16px', fontWeight: 800, margin: '0 0 8px', color: 'var(--text-main)' }}>
+                        {feat.title}
+                      </h4>
+                      <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.5, margin: 0, flex: 1 }}>
+                        {feat.desc}
+                      </p>
+                      <div style={{ display: 'flex', gap: '8px', marginTop: '16px', paddingTop: '12px', borderTop: '1px solid #F1F5F9' }}>
+                        <button
+                          type="button"
+                          onClick={() => handleOpenEditLite(feat, 'feature')}
+                          style={{
+                            background: '#EFF6FF',
+                            color: 'var(--primary-blue)',
+                            border: '1px solid var(--primary-blue-border)',
+                            borderRadius: '8px',
+                            padding: '6px 14px',
+                            fontSize: '12.5px',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            flex: 1,
+                            justifyContent: 'center'
+                          }}
+                        >
+                          <Edit size={13} /> Edit Feature
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteLiteItem(feat.id, 'feature')}
+                          style={{
+                            background: '#FEF2F2',
+                            color: '#DC2626',
+                            border: '1px solid #FECACA',
+                            borderRadius: '8px',
+                            padding: '6px 12px',
+                            fontSize: '12.5px',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {liteSubTab === 'industries' && (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
+                {liteIndustriesList.map((ind) => (
+                  <div
+                    key={ind.id}
+                    style={{
+                      background: '#FFFFFF',
+                      borderRadius: '16px',
+                      border: '1px solid var(--border-medium)',
+                      overflow: 'hidden',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)'
+                    }}
+                  >
+                    {ind.img && (
+                      <div style={{ height: '130px', position: 'relative', overflow: 'hidden', background: '#0F172A' }}>
+                        <img src={ind.img} alt={ind.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <span style={{
+                          position: 'absolute',
+                          bottom: '10px',
+                          left: '12px',
+                          fontSize: '10.5px',
+                          fontWeight: 700,
+                          color: '#FFFFFF',
+                          background: 'rgba(15, 23, 42, 0.85)',
+                          padding: '2px 8px',
+                          borderRadius: '5px'
+                        }}>
+                          {ind.tag}
+                        </span>
+                      </div>
+                    )}
+                    <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                      <h4 style={{ fontSize: '15.5px', fontWeight: 800, margin: '0 0 6px', color: 'var(--text-main)' }}>
+                        {ind.name}
+                      </h4>
+                      <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', lineHeight: 1.45, margin: 0, flex: 1 }}>
+                        {ind.desc}
+                      </p>
+                      <div style={{ display: 'flex', gap: '8px', marginTop: '14px', paddingTop: '10px', borderTop: '1px solid #F1F5F9' }}>
+                        <button
+                          type="button"
+                          onClick={() => handleOpenEditLite(ind, 'industry')}
+                          style={{
+                            background: '#EFF6FF',
+                            color: 'var(--primary-blue)',
+                            border: '1px solid var(--primary-blue-border)',
+                            borderRadius: '8px',
+                            padding: '6px 12px',
+                            fontSize: '12px',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            flex: 1,
+                            justifyContent: 'center'
+                          }}
+                        >
+                          <Edit size={13} /> Edit Industry
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteLiteItem(ind.id, 'industry')}
+                          style={{
+                            background: '#FEF2F2',
+                            color: '#DC2626',
+                            border: '1px solid #FECACA',
+                            borderRadius: '8px',
+                            padding: '6px 12px',
+                            fontSize: '12px',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ------------------------------------------------------------- */}
+        {/* TAB: AWM MODULES & LEADERS CMS                                 */}
+        {/* ------------------------------------------------------------- */}
+        {activeTab === 'awm-cms' && (
+          <div>
+            {/* Sub-nav toggle */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
+              <div style={{ display: 'flex', gap: '8px', background: '#FFFFFF', padding: '6px', borderRadius: '12px', border: '1px solid var(--border-medium)' }}>
+                <button
+                  type="button"
+                  onClick={() => setAwmSubTab('modules')}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '8px 16px',
+                    borderRadius: '8px',
+                    border: 'none',
+                    fontWeight: 700,
+                    fontSize: '13px',
+                    cursor: 'pointer',
+                    background: awmSubTab === 'modules' ? 'var(--primary-blue)' : 'transparent',
+                    color: awmSubTab === 'modules' ? '#FFFFFF' : '#64748B'
+                  }}
+                >
+                  <Layers size={14} /> Core Modules Built in AWM ({awmModulesList.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAwmSubTab('clients')}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '8px 16px',
+                    borderRadius: '8px',
+                    border: 'none',
+                    fontWeight: 700,
+                    fontSize: '13px',
+                    cursor: 'pointer',
+                    background: awmSubTab === 'clients' ? 'var(--primary-blue)' : 'transparent',
+                    color: awmSubTab === 'clients' ? '#FFFFFF' : '#64748B'
+                  }}
+                >
+                  <Award size={14} /> Trusted by World Leaders / Case Studies ({awmClientsList.length})
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => handleOpenNewAwm(awmSubTab === 'modules' ? 'module' : 'client')}
+                style={{
+                  background: 'var(--primary-blue)',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: '10px',
+                  padding: '10px 18px',
+                  fontSize: '13.5px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  boxShadow: '0 4px 12px rgba(29, 78, 216, 0.25)'
+                }}
+              >
+                <Plus size={16} /> Add New {awmSubTab === 'modules' ? 'Module' : 'Leader Profile'}
+              </button>
+            </div>
+
+            {/* Modules List */}
+            {awmSubTab === 'modules' && (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '20px' }}>
+                {awmModulesList.map((mod) => (
+                  <div
+                    key={mod.id}
+                    style={{
+                      background: '#FFFFFF',
+                      borderRadius: '16px',
+                      border: '1px solid var(--border-medium)',
+                      overflow: 'hidden',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)'
+                    }}
+                  >
+                    {mod.img && (
+                      <div style={{ height: '140px', position: 'relative', overflow: 'hidden', background: '#0F172A' }}>
+                        <img src={mod.img} alt={mod.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <span style={{
+                          position: 'absolute',
+                          bottom: '10px',
+                          left: '12px',
+                          fontSize: '10.5px',
+                          fontWeight: 700,
+                          color: '#FFFFFF',
+                          background: 'rgba(15, 23, 42, 0.85)',
+                          padding: '2px 8px',
+                          borderRadius: '5px'
+                        }}>
+                          {mod.tag}
+                        </span>
+                      </div>
+                    )}
+                    <div style={{ padding: '18px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                      <h4 style={{ fontSize: '16px', fontWeight: 800, margin: '0 0 8px', color: 'var(--text-main)' }}>
+                        {mod.title}
+                      </h4>
+                      <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.5, margin: 0, flex: 1 }}>
+                        {mod.desc}
+                      </p>
+                      <div style={{ display: 'flex', gap: '8px', marginTop: '16px', paddingTop: '12px', borderTop: '1px solid #F1F5F9' }}>
+                        <button
+                          type="button"
+                          onClick={() => handleOpenEditAwm(mod, 'module')}
+                          style={{
+                            background: '#EFF6FF',
+                            color: 'var(--primary-blue)',
+                            border: '1px solid var(--primary-blue-border)',
+                            borderRadius: '8px',
+                            padding: '6px 14px',
+                            fontSize: '12.5px',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            flex: 1,
+                            justifyContent: 'center'
+                          }}
+                        >
+                          <Edit size={13} /> Edit Module
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteAwmItem(mod.id, 'module')}
+                          style={{
+                            background: '#FEF2F2',
+                            color: '#DC2626',
+                            border: '1px solid #FECACA',
+                            borderRadius: '8px',
+                            padding: '6px 12px',
+                            fontSize: '12.5px',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Clients List */}
+            {awmSubTab === 'clients' && (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '20px' }}>
+                {awmClientsList.map((cli) => (
+                  <div
+                    key={cli.id}
+                    style={{
+                      background: '#FFFFFF',
+                      borderRadius: '16px',
+                      border: '1.5px solid var(--border-medium)',
+                      overflow: 'hidden',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      boxShadow: '0 4px 14px rgba(15, 23, 42, 0.05)'
+                    }}
+                  >
+                    {cli.img && (
+                      <div style={{ height: '140px', position: 'relative', overflow: 'hidden', background: '#0F172A' }}>
+                        <img src={cli.img} alt={cli.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <span style={{
+                          position: 'absolute',
+                          bottom: '10px',
+                          left: '12px',
+                          fontSize: '11px',
+                          fontWeight: 700,
+                          color: '#FFFFFF',
+                          background: 'var(--primary-blue)',
+                          padding: '3px 8px',
+                          borderRadius: '6px'
+                        }}>
+                          {cli.type}
+                        </span>
+                      </div>
+                    )}
+                    <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                      <h4 style={{ fontSize: '18px', fontWeight: 800, margin: '0 0 8px', color: 'var(--text-main)' }}>
+                        {cli.name}
+                      </h4>
+                      <p style={{ fontSize: '13.5px', color: 'var(--text-muted)', lineHeight: 1.5, margin: 0, flex: 1 }}>
+                        {cli.desc}
+                      </p>
+                      {cli.metric && (
+                        <div className="mono" style={{ fontSize: '12px', color: 'var(--primary-blue)', fontWeight: 700, marginTop: '12px', background: '#EFF6FF', padding: '6px 10px', borderRadius: '6px' }}>
+                          ✓ {cli.metric}
+                        </div>
+                      )}
+                      <div style={{ display: 'flex', gap: '8px', marginTop: '16px', paddingTop: '12px', borderTop: '1px solid #F1F5F9' }}>
+                        <button
+                          type="button"
+                          onClick={() => handleOpenEditAwm(cli, 'client')}
+                          style={{
+                            background: '#EFF6FF',
+                            color: 'var(--primary-blue)',
+                            border: '1px solid var(--primary-blue-border)',
+                            borderRadius: '8px',
+                            padding: '6px 14px',
+                            fontSize: '12.5px',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            flex: 1,
+                            justifyContent: 'center'
+                          }}
+                        >
+                          <Edit size={13} /> Edit Leader Profile
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteAwmItem(cli.id, 'client')}
+                          style={{
+                            background: '#FEF2F2',
+                            color: '#DC2626',
+                            border: '1px solid #FECACA',
+                            borderRadius: '8px',
+                            padding: '6px 12px',
+                            fontSize: '12.5px',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ------------------------------------------------------------- */}
         {/* TAB 4: PORTAL SETTINGS & CREDENTIALS                          */}
         {/* ------------------------------------------------------------- */}
         {activeTab === 'settings' && (
@@ -1455,6 +2193,434 @@ export default function AdminDashboardPage({ onNavigate }) {
                   }}
                 >
                   <Save size={15} /> Save & Publish
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ------------------------------------------------------------- */}
+      {/* ERP LITE EDIT / CREATE MODAL                                  */}
+      {/* ------------------------------------------------------------- */}
+      {isLiteModalOpen && editingLiteItem && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(15, 23, 42, 0.75)',
+          backdropFilter: 'blur(6px)',
+          zIndex: 100,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px'
+        }}>
+          <div style={{
+            background: '#FFFFFF',
+            width: '100%',
+            maxWidth: '620px',
+            maxHeight: '90vh',
+            borderRadius: '20px',
+            border: '1px solid var(--border-medium)',
+            boxShadow: '0 25px 60px rgba(0,0,0,0.3)',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden'
+          }}>
+            <div style={{
+              background: '#0B1329',
+              color: '#FFFFFF',
+              padding: '20px 24px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}>
+              <div>
+                <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 800 }}>
+                  {editingLiteItem.id ? 'Edit' : 'Add New'} {liteModalType === 'feature' ? 'ERP Lite Feature' : 'ERP Lite Industry'}
+                </h3>
+                <span style={{ fontSize: '12px', color: '#93C5FD' }}>
+                  Changes reflect instantly on the live website
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => { setIsLiteModalOpen(false); setEditingLiteItem(null); }}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  border: 'none',
+                  color: '#FFFFFF',
+                  borderRadius: '50%',
+                  width: '32px',
+                  height: '32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer'
+                }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveLiteItem} style={{ padding: '24px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, marginBottom: '6px' }}>
+                  {liteModalType === 'feature' ? 'Feature Title *' : 'Industry Name *'}
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={liteModalType === 'feature' ? (editingLiteItem.title || '') : (editingLiteItem.name || '')}
+                  onChange={(e) => {
+                    if (liteModalType === 'feature') {
+                      setEditingLiteItem({ ...editingLiteItem, title: e.target.value });
+                    } else {
+                      setEditingLiteItem({ ...editingLiteItem, name: e.target.value });
+                    }
+                  }}
+                  placeholder={liteModalType === 'feature' ? 'e.g. Instant Quotes & GST Invoices' : 'e.g. Small-Scale Manufacturing'}
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid var(--border-medium)',
+                    fontSize: '14px',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, marginBottom: '6px' }}>
+                  Tag / Badge (shown on image)
+                </label>
+                <input
+                  type="text"
+                  value={editingLiteItem.tag || ''}
+                  onChange={(e) => setEditingLiteItem({ ...editingLiteItem, tag: e.target.value })}
+                  placeholder={liteModalType === 'feature' ? 'e.g. 1-Click E-Invoicing' : 'e.g. BOM & Job Cards'}
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid var(--border-medium)',
+                    fontSize: '13.5px',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, marginBottom: '6px' }}>
+                  Image URL (Unsplash or direct image link)
+                </label>
+                <input
+                  type="url"
+                  value={editingLiteItem.img || ''}
+                  onChange={(e) => setEditingLiteItem({ ...editingLiteItem, img: e.target.value })}
+                  placeholder="https://images.unsplash.com/..."
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid var(--border-medium)',
+                    fontSize: '13.5px',
+                    boxSizing: 'border-box'
+                  }}
+                />
+                {editingLiteItem.img && (
+                  <div style={{ marginTop: '10px', height: '110px', borderRadius: '8px', overflow: 'hidden', border: '1px solid #E2E8F0' }}>
+                    <img src={editingLiteItem.img} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, marginBottom: '6px' }}>
+                  Description *
+                </label>
+                <textarea
+                  required
+                  rows={3}
+                  value={editingLiteItem.desc || ''}
+                  onChange={(e) => setEditingLiteItem({ ...editingLiteItem, desc: e.target.value })}
+                  placeholder="Detailed description for this item..."
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid var(--border-medium)',
+                    fontSize: '13.5px',
+                    boxSizing: 'border-box',
+                    fontFamily: 'inherit',
+                    resize: 'vertical'
+                  }}
+                />
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
+                <button
+                  type="button"
+                  onClick={() => { setIsLiteModalOpen(false); setEditingLiteItem(null); }}
+                  style={{
+                    background: '#F1F5F9',
+                    border: '1px solid #CBD5E1',
+                    color: '#475569',
+                    padding: '10px 18px',
+                    borderRadius: '8px',
+                    fontSize: '13.5px',
+                    fontWeight: 600,
+                    cursor: 'pointer'
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  style={{
+                    background: 'var(--primary-blue)',
+                    border: 'none',
+                    color: '#FFFFFF',
+                    padding: '10px 22px',
+                    borderRadius: '8px',
+                    fontSize: '13.5px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}
+                >
+                  <Save size={15} /> Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ------------------------------------------------------------- */}
+      {/* AWM MODULE / CLIENT EDIT / CREATE MODAL                       */}
+      {/* ------------------------------------------------------------- */}
+      {isAwmModalOpen && editingAwmItem && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(15, 23, 42, 0.75)',
+          backdropFilter: 'blur(6px)',
+          zIndex: 100,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px'
+        }}>
+          <div style={{
+            background: '#FFFFFF',
+            width: '100%',
+            maxWidth: '620px',
+            maxHeight: '90vh',
+            borderRadius: '20px',
+            border: '1px solid var(--border-medium)',
+            boxShadow: '0 25px 60px rgba(0,0,0,0.3)',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden'
+          }}>
+            <div style={{
+              background: '#0B1329',
+              color: '#FFFFFF',
+              padding: '20px 24px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}>
+              <div>
+                <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 800 }}>
+                  {editingAwmItem.id ? 'Edit' : 'Add New'} {awmModalType === 'module' ? 'AWM Core Module' : 'Waste Leader Profile'}
+                </h3>
+                <span style={{ fontSize: '12px', color: '#93C5FD' }}>
+                  Live updates applied automatically
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => { setIsAwmModalOpen(false); setEditingAwmItem(null); }}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  border: 'none',
+                  color: '#FFFFFF',
+                  borderRadius: '50%',
+                  width: '32px',
+                  height: '32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer'
+                }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveAwmItem} style={{ padding: '24px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, marginBottom: '6px' }}>
+                  {awmModalType === 'module' ? 'Module Title *' : 'Client / Leader Name *'}
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={awmModalType === 'module' ? (editingAwmItem.title || '') : (editingAwmItem.name || '')}
+                  onChange={(e) => {
+                    if (awmModalType === 'module') {
+                      setEditingAwmItem({ ...editingAwmItem, title: e.target.value });
+                    } else {
+                      setEditingAwmItem({ ...editingAwmItem, name: e.target.value });
+                    }
+                  }}
+                  placeholder={awmModalType === 'module' ? 'e.g. Weighbridge & Scale Automation' : 'e.g. Tadweeer'}
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid var(--border-medium)',
+                    fontSize: '14px',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, marginBottom: '6px' }}>
+                  {awmModalType === 'module' ? 'Module Tag / Protocol' : 'Operational Category / Badge'}
+                </label>
+                <input
+                  type="text"
+                  value={awmModalType === 'module' ? (editingAwmItem.tag || '') : (editingAwmItem.type || '')}
+                  onChange={(e) => {
+                    if (awmModalType === 'module') {
+                      setEditingAwmItem({ ...editingAwmItem, tag: e.target.value });
+                    } else {
+                      setEditingAwmItem({ ...editingAwmItem, type: e.target.value });
+                    }
+                  }}
+                  placeholder={awmModalType === 'module' ? 'e.g. Zero-Tamper RS232 / TCP-IP' : 'e.g. Recycling Operations'}
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid var(--border-medium)',
+                    fontSize: '13.5px',
+                    boxSizing: 'border-box'
+                  }}
+                />
+              </div>
+
+              {awmModalType === 'client' && (
+                <div>
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, marginBottom: '6px' }}>
+                    Key Metric / Achievement Highlight
+                  </label>
+                  <input
+                    type="text"
+                    value={editingAwmItem.metric || ''}
+                    onChange={(e) => setEditingAwmItem({ ...editingAwmItem, metric: e.target.value })}
+                    placeholder="e.g. Weighbridge Ticket Time: <45s • 100% Audit Compliance"
+                    style={{
+                      width: '100%',
+                      padding: '10px 14px',
+                      borderRadius: '8px',
+                      border: '1px solid var(--border-medium)',
+                      fontSize: '13.5px',
+                      boxSizing: 'border-box'
+                    }}
+                  />
+                </div>
+              )}
+
+              <div>
+                <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, marginBottom: '6px' }}>
+                  Image URL (Unsplash or direct image link)
+                </label>
+                <input
+                  type="url"
+                  value={editingAwmItem.img || ''}
+                  onChange={(e) => setEditingAwmItem({ ...editingAwmItem, img: e.target.value })}
+                  placeholder="https://images.unsplash.com/..."
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid var(--border-medium)',
+                    fontSize: '13.5px',
+                    boxSizing: 'border-box'
+                  }}
+                />
+                {editingAwmItem.img && (
+                  <div style={{ marginTop: '10px', height: '110px', borderRadius: '8px', overflow: 'hidden', border: '1px solid #E2E8F0' }}>
+                    <img src={editingAwmItem.img} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, marginBottom: '6px' }}>
+                  Description *
+                </label>
+                <textarea
+                  required
+                  rows={3}
+                  value={editingAwmItem.desc || ''}
+                  onChange={(e) => setEditingAwmItem({ ...editingAwmItem, desc: e.target.value })}
+                  placeholder="Detailed operational breakdown..."
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid var(--border-medium)',
+                    fontSize: '13.5px',
+                    boxSizing: 'border-box',
+                    fontFamily: 'inherit',
+                    resize: 'vertical'
+                  }}
+                />
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '10px' }}>
+                <button
+                  type="button"
+                  onClick={() => { setIsAwmModalOpen(false); setEditingAwmItem(null); }}
+                  style={{
+                    background: '#F1F5F9',
+                    border: '1px solid #CBD5E1',
+                    color: '#475569',
+                    padding: '10px 18px',
+                    borderRadius: '8px',
+                    fontSize: '13.5px',
+                    fontWeight: 600,
+                    cursor: 'pointer'
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  style={{
+                    background: 'var(--primary-blue)',
+                    border: 'none',
+                    color: '#FFFFFF',
+                    padding: '10px 22px',
+                    borderRadius: '8px',
+                    fontSize: '13.5px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}
+                >
+                  <Save size={15} /> Save Changes
                 </button>
               </div>
             </form>

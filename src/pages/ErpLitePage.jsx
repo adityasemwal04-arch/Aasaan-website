@@ -1,8 +1,16 @@
-import React from 'react';
-import { liteSteps, liteFeatures, liteIndustries } from '../data/liteData';
+import React, { useState, useEffect } from 'react';
+import { liteSteps, liteFeatures as defaultFeatures, liteIndustries as defaultIndustries } from '../data/liteData';
+import { getLiteFeatures, getLiteIndustries } from '../services/dataService';
 import { Feather, Smartphone, ArrowRight, ExternalLink, CheckCircle2, Zap, Shield, Sparkles, DollarSign } from 'lucide-react';
 
 export default function ErpLitePage({ onOpenDemo }) {
+  const [features, setFeatures] = useState(defaultFeatures);
+  const [industries, setIndustries] = useState(defaultIndustries);
+
+  useEffect(() => {
+    getLiteFeatures().then(data => { if (data && data.length) setFeatures(data); });
+    getLiteIndustries().then(data => { if (data && data.length) setIndustries(data); });
+  }, []);
   return (
     <div style={{ paddingTop: '100px' }}>
       
@@ -177,7 +185,7 @@ export default function ErpLitePage({ onOpenDemo }) {
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
             gap: '24px'
           }}>
-            {liteFeatures.map((feat, i) => {
+            {features.map((feat, i) => {
               const featSlug = feat.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
               return (
               <div
@@ -326,7 +334,7 @@ export default function ErpLitePage({ onOpenDemo }) {
             gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
             gap: '20px'
           }}>
-            {liteIndustries.map((ind, i) => {
+            {industries.map((ind, i) => {
               const indSlug = ind.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
               return (
               <div
