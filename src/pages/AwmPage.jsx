@@ -3,7 +3,7 @@ import { awmSectors, awmModules as defaultModules, awmClients as defaultClients,
 import { getAwmModules, getAwmClients } from '../services/dataService';
 import { Recycle, Scale, Navigation, Smartphone, FileCheck, Truck, ArrowRight, CheckCircle2, ShieldCheck, ExternalLink } from 'lucide-react';
 
-export default function AwmPage({ onOpenDemo }) {
+export default function AwmPage({ onOpenDemo, onNavigate }) {
   const [selectedSectorId, setSelectedSectorId] = useState('municipal');
   const [modules, setModules] = useState(defaultModules);
   const [clients, setClients] = useState(defaultClients);
@@ -12,6 +12,15 @@ export default function AwmPage({ onOpenDemo }) {
     getAwmModules().then(data => { if (data && data.length) setModules(data); });
     getAwmClients().then(data => { if (data && data.length) setClients(data); });
   }, []);
+
+  const handleCardClick = (slug) => {
+    if (onNavigate) {
+      onNavigate(`blog/${slug}`);
+    } else {
+      window.location.hash = `#/blog/${slug}`;
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Listen for sector selection from search
   useEffect(() => {
@@ -308,6 +317,7 @@ export default function AwmPage({ onOpenDemo }) {
               <div
                 key={i}
                 id={`awm-mod-${modSlug}`}
+                onClick={() => handleCardClick(modSlug)}
                 style={{
                   background: '#FFFFFF',
                   border: '1px solid var(--border-medium)',
@@ -317,7 +327,8 @@ export default function AwmPage({ onOpenDemo }) {
                   display: 'flex',
                   flexDirection: 'column',
                   boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
-                  transition: 'transform 0.25s ease, box-shadow 0.25s ease'
+                  transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+                  cursor: 'pointer'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-4px)';
@@ -372,9 +383,12 @@ export default function AwmPage({ onOpenDemo }) {
                   <h4 style={{ fontSize: '17px', fontWeight: 800, color: 'var(--text-main)', margin: 0 }}>
                     {m.title}
                   </h4>
-                  <p style={{ fontSize: '13.5px', color: 'var(--text-muted)', lineHeight: 1.5, margin: 0 }}>
+                  <p style={{ fontSize: '13.5px', color: 'var(--text-muted)', lineHeight: 1.5, margin: 0, flex: 1 }}>
                     {m.desc}
                   </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--primary-blue)', fontSize: '12.5px', fontWeight: 700, marginTop: '8px' }}>
+                    Explore Module Deep-Dive <ArrowRight size={13} />
+                  </div>
                 </div>
               </div>
             );
@@ -403,13 +417,24 @@ export default function AwmPage({ onOpenDemo }) {
                 <div
                   key={c.id || i}
                   id={`client-${clientSlug}`}
+                  onClick={() => handleCardClick(clientSlug)}
                   style={{
                     background: '#FFFFFF',
                     border: '1.5px solid var(--border-medium)',
                     borderRadius: '16px',
                     overflow: 'hidden',
                     scrollMarginTop: '120px',
-                    boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)'
+                    boxShadow: '0 4px 16px rgba(15, 23, 42, 0.05)',
+                    cursor: 'pointer',
+                    transition: 'transform 0.25s ease, box-shadow 0.25s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    e.currentTarget.style.boxShadow = '0 16px 32px -8px rgba(15, 23, 42, 0.12)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(15, 23, 42, 0.05)';
                   }}
                 >
                   {c.img && (
@@ -452,6 +477,9 @@ export default function AwmPage({ onOpenDemo }) {
                         ✓ {c.metric}
                       </div>
                     )}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--primary-blue)', fontSize: '12.5px', fontWeight: 700, marginTop: '14px', paddingTop: '10px', borderTop: '1px solid #F1F5F9' }}>
+                      Read Complete Case Study <ArrowRight size={13} />
+                    </div>
                   </div>
                 </div>
               );

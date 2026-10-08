@@ -126,11 +126,13 @@ export default function App() {
         {currentPage === 'lite' && (
           <ErpLitePage
             onOpenDemo={() => setIsDemoOpen(true)}
+            onNavigate={handleNavigate}
           />
         )}
         {currentPage === 'awm' && (
           <AwmPage
             onOpenDemo={() => setIsDemoOpen(true)}
+            onNavigate={handleNavigate}
           />
         )}
         {currentPage === 'partners' && (

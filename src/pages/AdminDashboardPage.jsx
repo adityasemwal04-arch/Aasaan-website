@@ -2338,14 +2338,14 @@ export default function AdminDashboardPage({ onNavigate }) {
 
               <div>
                 <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, marginBottom: '6px' }}>
-                  Description *
+                  Short Card Summary *
                 </label>
                 <textarea
                   required
-                  rows={3}
+                  rows={2}
                   value={editingLiteItem.desc || ''}
                   onChange={(e) => setEditingLiteItem({ ...editingLiteItem, desc: e.target.value })}
-                  placeholder="Detailed description for this item..."
+                  placeholder="Brief summary displayed on card preview..."
                   style={{
                     width: '100%',
                     padding: '10px 14px',
@@ -2354,6 +2354,56 @@ export default function AdminDashboardPage({ onNavigate }) {
                     fontSize: '13.5px',
                     boxSizing: 'border-box',
                     fontFamily: 'inherit',
+                    resize: 'vertical'
+                  }}
+                />
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, marginBottom: '6px' }}>
+                    Author Name
+                  </label>
+                  <input
+                    type="text"
+                    value={editingLiteItem.author || ''}
+                    onChange={(e) => setEditingLiteItem({ ...editingLiteItem, author: e.target.value })}
+                    placeholder="e.g. Aasaan Product Architecture"
+                    style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--border-medium)', fontSize: '13.5px', boxSizing: 'border-box' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, marginBottom: '6px' }}>
+                    Read Time
+                  </label>
+                  <input
+                    type="text"
+                    value={editingLiteItem.readTime || ''}
+                    onChange={(e) => setEditingLiteItem({ ...editingLiteItem, readTime: e.target.value })}
+                    placeholder="e.g. 5 min read"
+                    style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--border-medium)', fontSize: '13.5px', boxSizing: 'border-box' }}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, marginBottom: '6px' }}>
+                  Full Blog / Article Content (Markdown — opened when user clicks this card)
+                </label>
+                <textarea
+                  rows={8}
+                  value={editingLiteItem.content || ''}
+                  onChange={(e) => setEditingLiteItem({ ...editingLiteItem, content: e.target.value })}
+                  placeholder={`## Heading\n\nDeep dive explanation...\n\n### Core Advantages\n- Bullet 1\n- Bullet 2`}
+                  style={{
+                    width: '100%',
+                    padding: '12px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid var(--border-medium)',
+                    fontSize: '13px',
+                    boxSizing: 'border-box',
+                    fontFamily: 'monospace',
+                    lineHeight: 1.5,
                     resize: 'vertical'
                   }}
                 />
@@ -2566,14 +2616,14 @@ export default function AdminDashboardPage({ onNavigate }) {
 
               <div>
                 <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, marginBottom: '6px' }}>
-                  Description *
+                  Short Card Summary *
                 </label>
                 <textarea
                   required
-                  rows={3}
+                  rows={2}
                   value={editingAwmItem.desc || ''}
                   onChange={(e) => setEditingAwmItem({ ...editingAwmItem, desc: e.target.value })}
-                  placeholder="Detailed operational breakdown..."
+                  placeholder="Brief summary displayed on card preview..."
                   style={{
                     width: '100%',
                     padding: '10px 14px',
@@ -2582,6 +2632,56 @@ export default function AdminDashboardPage({ onNavigate }) {
                     fontSize: '13.5px',
                     boxSizing: 'border-box',
                     fontFamily: 'inherit',
+                    resize: 'vertical'
+                  }}
+                />
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, marginBottom: '6px' }}>
+                    Author Name
+                  </label>
+                  <input
+                    type="text"
+                    value={editingAwmItem.author || ''}
+                    onChange={(e) => setEditingAwmItem({ ...editingAwmItem, author: e.target.value })}
+                    placeholder="e.g. AWM Engineering Group"
+                    style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--border-medium)', fontSize: '13.5px', boxSizing: 'border-box' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, marginBottom: '6px' }}>
+                    Read Time
+                  </label>
+                  <input
+                    type="text"
+                    value={editingAwmItem.readTime || ''}
+                    onChange={(e) => setEditingAwmItem({ ...editingAwmItem, readTime: e.target.value })}
+                    placeholder="e.g. 6 min read"
+                    style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid var(--border-medium)', fontSize: '13.5px', boxSizing: 'border-box' }}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, marginBottom: '6px' }}>
+                  Full Blog / Article Content (Markdown — opened when user clicks this card)
+                </label>
+                <textarea
+                  rows={8}
+                  value={editingAwmItem.content || ''}
+                  onChange={(e) => setEditingAwmItem({ ...editingAwmItem, content: e.target.value })}
+                  placeholder={`## Heading\n\nDeep dive breakdown of this module/enterprise study...\n\n### Operational Highlights\n- Point 1\n- Point 2`}
+                  style={{
+                    width: '100%',
+                    padding: '12px 14px',
+                    borderRadius: '8px',
+                    border: '1px solid var(--border-medium)',
+                    fontSize: '13px',
+                    boxSizing: 'border-box',
+                    fontFamily: 'monospace',
+                    lineHeight: 1.5,
                     resize: 'vertical'
                   }}
                 />

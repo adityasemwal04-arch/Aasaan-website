@@ -3,7 +3,7 @@ import { liteSteps, liteFeatures as defaultFeatures, liteIndustries as defaultIn
 import { getLiteFeatures, getLiteIndustries } from '../services/dataService';
 import { Feather, Smartphone, ArrowRight, ExternalLink, CheckCircle2, Zap, Shield, Sparkles, DollarSign } from 'lucide-react';
 
-export default function ErpLitePage({ onOpenDemo }) {
+export default function ErpLitePage({ onOpenDemo, onNavigate }) {
   const [features, setFeatures] = useState(defaultFeatures);
   const [industries, setIndustries] = useState(defaultIndustries);
 
@@ -11,6 +11,15 @@ export default function ErpLitePage({ onOpenDemo }) {
     getLiteFeatures().then(data => { if (data && data.length) setFeatures(data); });
     getLiteIndustries().then(data => { if (data && data.length) setIndustries(data); });
   }, []);
+
+  const handleCardClick = (slug) => {
+    if (onNavigate) {
+      onNavigate(`blog/${slug}`);
+    } else {
+      window.location.hash = `#/blog/${slug}`;
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   return (
     <div style={{ paddingTop: '100px' }}>
       
@@ -191,6 +200,7 @@ export default function ErpLitePage({ onOpenDemo }) {
               <div
                 key={i}
                 id={`lite-feat-${featSlug}`}
+                onClick={() => handleCardClick(featSlug)}
                 style={{
                   background: '#FFFFFF',
                   border: '1px solid var(--border-medium)',
@@ -200,7 +210,8 @@ export default function ErpLitePage({ onOpenDemo }) {
                   display: 'flex',
                   flexDirection: 'column',
                   boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)',
-                  transition: 'transform 0.25s ease, box-shadow 0.25s ease'
+                  transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+                  cursor: 'pointer'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-4px)';
@@ -255,9 +266,12 @@ export default function ErpLitePage({ onOpenDemo }) {
                   <h4 style={{ fontSize: '17px', fontWeight: 800, color: 'var(--text-main)', margin: 0 }}>
                     {feat.title}
                   </h4>
-                  <p style={{ fontSize: '13.5px', color: 'var(--text-muted)', lineHeight: 1.5, margin: 0 }}>
+                  <p style={{ fontSize: '13.5px', color: 'var(--text-muted)', lineHeight: 1.5, margin: 0, flex: 1 }}>
                     {feat.desc}
                   </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--primary-blue)', fontSize: '12.5px', fontWeight: 700, marginTop: '8px' }}>
+                    Read Architecture Article <ArrowRight size={13} />
+                  </div>
                 </div>
               </div>
             );
@@ -340,6 +354,7 @@ export default function ErpLitePage({ onOpenDemo }) {
               <div
                 key={i}
                 id={`lite-ind-${indSlug}`}
+                onClick={() => handleCardClick(indSlug)}
                 style={{
                   background: '#FFFFFF',
                   border: '1px solid var(--border-medium)',
@@ -349,7 +364,8 @@ export default function ErpLitePage({ onOpenDemo }) {
                   display: 'flex',
                   flexDirection: 'column',
                   boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)',
-                  transition: 'transform 0.25s ease, box-shadow 0.25s ease'
+                  transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+                  cursor: 'pointer'
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-4px)';
@@ -408,6 +424,9 @@ export default function ErpLitePage({ onOpenDemo }) {
                     <p style={{ fontSize: '12.5px', color: 'var(--text-muted)', lineHeight: 1.45, margin: 0 }}>
                       {ind.desc}
                     </p>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px', color: 'var(--primary-blue)', fontSize: '12px', fontWeight: 700, marginTop: '12px' }}>
+                    Read Solution Blog <ArrowRight size={12} />
                   </div>
                 </div>
               </div>

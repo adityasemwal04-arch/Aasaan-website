@@ -433,15 +433,157 @@ export async function getBlogs() {
 }
 
 export async function getBlogBySlug(slug) {
+  const normSlug = (slug || '').toLowerCase().trim();
   const blogs = await getBlogs();
-  const found = blogs.find(b => b.slug === slug || b.slug === slug.toLowerCase());
-  if (found) return found;
+  const foundBlog = blogs.find(b => b.slug === normSlug || b.slug.toLowerCase() === normSlug);
+  if (foundBlog) return foundBlog;
 
-  // Try matching by fuzzy slug or industry name
+  // 1. Check Lite Features
+  const features = await getLiteFeatures();
+  const foundFeature = features.find(f => {
+    const fSlug = (f.slug || f.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'));
+    return fSlug === normSlug || normSlug.includes(fSlug) || fSlug.includes(normSlug);
+  });
+  if (foundFeature) {
+    return {
+      slug: normSlug,
+      title: foundFeature.title,
+      tag: foundFeature.tag || 'ERP Lite Feature',
+      industry: 'Aasaan ERP Lite — Core Capabilities',
+      img: foundFeature.img,
+      readTime: foundFeature.readTime || '5 min read',
+      author: foundFeature.author || 'Aasaan Product Architecture Team',
+      date: foundFeature.date || 'October 2026',
+      excerpt: foundFeature.desc,
+      content: foundFeature.content || `## ${foundFeature.title}
+
+${foundFeature.desc}
+
+### Why Growing Businesses Rely on This Feature
+
+In high-velocity commerce and SME operations, every minute spent on manual coordination slows down cash flow and delivery. **${foundFeature.title}** eliminates friction between sales reps, warehouse dispatch, and accounting.
+
+### Critical Operational Advantages
+- **Instant Synchronization**: No double-entry required; transactions flow directly into inventory registers and tax ledgers.
+- **Mobile-First Visibility**: Operators and field agents access real-time status anywhere, anytime.
+- **Automated Audit Compliance**: Zero manual tampering, verified timestamps, and instant customer receipts.
+
+### Live Architecture Workflow
+1. **Trigger & Capture**: Inbound inquiries, orders, or stock alerts are indexed instantaneously.
+2. **Automated Validation**: Rule engines check credit thresholds, stock reserves, and tax slabs.
+3. **Dispatch & Settlement**: One-click generation of delivery documents and digital payment tracking.`
+    };
+  }
+
+  // 2. Check Lite Industries
+  const industries = await getLiteIndustries();
+  const foundIndustry = industries.find(ind => {
+    const iSlug = (ind.slug || ind.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'));
+    return iSlug === normSlug || normSlug.includes(iSlug) || iSlug.includes(normSlug);
+  });
+  if (foundIndustry) {
+    return {
+      slug: normSlug,
+      title: `${foundIndustry.name} ERP Architecture`,
+      tag: foundIndustry.tag || 'SME Industry Solution',
+      industry: `ERP Lite — ${foundIndustry.name}`,
+      img: foundIndustry.img,
+      readTime: foundIndustry.readTime || '6 min read',
+      author: foundIndustry.author || 'Aasaan SME Solutions Practice',
+      date: foundIndustry.date || 'October 2026',
+      excerpt: foundIndustry.desc,
+      content: foundIndustry.content || `## Accelerating Growth in ${foundIndustry.name}
+
+${foundIndustry.desc}
+
+### Industry Operational Complexities Solved
+
+Businesses operating in **${foundIndustry.name}** face tight turnaround margins, distributed vendor networks, and rapid replenishment cycles. 
+
+Aasaan ERP Lite delivers a purpose-built system tuned to ${foundIndustry.name} without the expense and delays of legacy enterprise software.
+
+### Core Capabilities Tuned for ${foundIndustry.name}
+- **Sector-Specific Master Templates**: Pre-configured charts of accounts, tax structures, and item masters.
+- **Rapid 7-Day Implementation**: Deploy with your core team in under a week with pre-formatted Excel imports.
+- **Automated Daily Reconciliations**: Live cash-in-hand, outstanding receivables, and bank statement tracking.`
+    };
+  }
+
+  // 3. Check AWM Core Modules
+  const modules = await getAwmModules();
+  const foundModule = modules.find(m => {
+    const mSlug = (m.slug || m.title.toLowerCase().replace(/[^a-z0-9]+/g, '-'));
+    return mSlug === normSlug || normSlug.includes(mSlug) || mSlug.includes(normSlug);
+  });
+  if (foundModule) {
+    return {
+      slug: normSlug,
+      title: `${foundModule.title} — Industrial Automation Architecture`,
+      tag: foundModule.tag || 'AWM Automation Module',
+      industry: 'Aasaan Waste Management (AWM)',
+      img: foundModule.img,
+      readTime: foundModule.readTime || '6 min read',
+      author: foundModule.author || 'AWM Systems Engineering Group',
+      date: foundModule.date || 'October 2026',
+      excerpt: foundModule.desc,
+      content: foundModule.content || `## Industrial Automation: ${foundModule.title}
+
+${foundModule.desc}
+
+### Why Industrial Facilities & Municipalities Require Automated Hardware Integration
+
+Manual ticketing and disconnected spreadsheets at waste intake facilities lead to weighing tampering, inaccurate tipping fees, and severe pollution compliance penalties. 
+
+**${foundModule.title}** provides end-to-end digital control, connecting field sensors, weighbridge indicators, and cloud financial ledgers into one unified loop.
+
+### Key Engineering Standards
+- **Zero-Tamper Hardware Bridging**: Direct RS-232 / TCP-IP indicator hookups with zero operator override capability.
+- **State Pollution Control Board & CPCB Manifests**: Automated digital filing of Form 6 manifests and hazardous stream tracking.
+- **Real-Time Fleet & Yard Telemetry**: Instant sync with driver GPS, bin RFID scans, and dispatch centers.`
+    };
+  }
+
+  // 4. Check AWM Leaders & Case Studies
+  const clients = await getAwmClients();
+  const foundClient = clients.find(c => {
+    const cSlug = (c.slug || c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'));
+    return cSlug === normSlug || normSlug.includes(cSlug) || cSlug.includes(normSlug);
+  });
+  if (foundClient) {
+    return {
+      slug: normSlug,
+      title: `How ${foundClient.name} Transformed Multi-Yard Operations with AWM`,
+      tag: foundClient.type || 'Enterprise Case Study',
+      industry: `Circular Economy — ${foundClient.name}`,
+      img: foundClient.img,
+      readTime: foundClient.readTime || '5 min read',
+      author: foundClient.author || 'Aasaan Enterprise Solutions Advisory',
+      date: foundClient.date || 'October 2026',
+      excerpt: foundClient.desc,
+      content: foundClient.content || `## Enterprise Case Study: ${foundClient.name}
+
+${foundClient.desc}
+
+### Proven On-Ground Performance Metrics
+- **Verified Benchmark**: ${foundClient.metric || 'Sub-45s Weighbridge Turnaround • 100% Audit Compliance'}
+
+### The Operational Challenge
+
+Prior to adopting AWM, scaling operations across multiple sorting depots created huge reconciliation bottlenecks. Weighment slips, vehicle trip sheets, and scrap segregation logs were recorded manually, resulting in billing delays and revenue leakage.
+
+### The AWM Solution & Impact
+By deploying Aasaan Waste Management (AWM):
+1. **Automated Gate Intake**: Trucks are weighed, gross/tare calculated, and digital tickets generated in seconds.
+2. **Mass-Balance Audit Trails**: Scrap yields from incoming loads to baled commodities are audited in real time.
+3. **Instant Financial Settlements**: Payouts and recycling credits are automatically computed and synchronized with corporate ledgers.`
+    };
+  }
+
+  // Fallback fuzzy search on standard blogs
   return blogs.find(b => 
-    b.slug.includes(slug) || 
-    slug.includes(b.slug) ||
-    b.title.toLowerCase().includes(slug.replace(/-/g, ' ').toLowerCase())
+    b.slug.includes(normSlug) || 
+    normSlug.includes(b.slug) ||
+    b.title.toLowerCase().includes(normSlug.replace(/-/g, ' ').toLowerCase())
   ) || null;
 }
 
