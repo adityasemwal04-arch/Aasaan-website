@@ -86,6 +86,31 @@ function doPost(e) {
         htmlBody: htmlEmailBody,
         name: "Aasaan ERP Team"
       });
+
+      // 3. Also notify Admin inbox immediately
+      var adminEmail = "adityasemwal04@gmail.com";
+      var adminSubject = "🚨 New Aasaan ERP Demo Request: " + clientName + " (" + clientCompany + ")";
+      var adminBody = "New Demo Lead Submitted from Website!\n\n" +
+        "• Name: " + clientName + "\n" +
+        "• Company: " + clientCompany + "\n" +
+        "• Email: " + (data.email || "N/A") + "\n" +
+        "• Phone / WhatsApp: " + (data.phone || "N/A") + "\n" +
+        "• Solution: " + clientSolution + "\n" +
+        "• Country: " + (data.country || "India") + "\n" +
+        "• Message: " + (data.message || "N/A") + "\n" +
+        "• Timestamp: " + timestamp + "\n\n" +
+        "Access Admin Dashboard: https://adityasemwal04-arch.github.io/Aasaan-website/#/admin";
+
+      try {
+        MailApp.sendEmail({
+          to: adminEmail,
+          subject: adminSubject,
+          body: adminBody,
+          name: "Aasaan Lead Alert"
+        });
+      } catch (adminMailErr) {
+        Logger.log("Admin email send error: " + adminMailErr);
+      }
     }
 
     return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
@@ -97,7 +122,36 @@ function doPost(e) {
 }
 
 function doGet(e) {
-  return ContentService.createTextOutput("Aasaan ERP Webhook with Auto-Responder is ACTIVE.");
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var values = sheet.getDataRange().getValues();
+    var leads = [];
+
+    // Skip header row at index 0
+    for (var i = 1; i < values.length; i++) {
+      var row = values[i];
+      if (row[0] || row[1] || row[3]) {
+        leads.push({
+          id: i + 1000,
+          timestamp: row[0] ? row[0].toString() : "",
+          name: row[1] ? row[1].toString() : "",
+          company: row[2] ? row[2].toString() : "",
+          email: row[3] ? row[3].toString() : "",
+          phone: row[4] ? row[4].toString() : "",
+          solution: row[5] ? row[5].toString() : "ERP Global",
+          country: row[6] ? row[6].toString() : "India",
+          message: row[7] ? row[7].toString() : "",
+          status: row[8] ? row[8].toString() : "New Demo Lead"
+        });
+      }
+    }
+
+    return ContentService.createTextOutput(JSON.stringify(leads))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify([]))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
 }
 
 // RUN THIS FUNCTION ONCE IN THE APPS SCRIPT EDITOR TO GRANT EMAIL PERMISSION

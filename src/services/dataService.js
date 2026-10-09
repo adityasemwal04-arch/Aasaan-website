@@ -4,6 +4,7 @@
 
 import { liteFeatures as DEFAULT_LITE_FEATURES, liteIndustries as DEFAULT_LITE_INDUSTRIES } from '../data/liteData';
 import { awmModules as DEFAULT_AWM_MODULES, awmClients as DEFAULT_AWM_CLIENTS } from '../data/awmData';
+import { CLOUD_WEBHOOK_URL } from '../utils/excelExport';
 
 let BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080/api';
 let serverBackendType = 'Java Spring Boot (Port 8080)';
@@ -328,32 +329,71 @@ export function setCustomBackendUrl(url) {
 // -------------------------------------------------------------
 
 export async function getLeads() {
-  // Check backend first
+  let combinedLeads = [];
+  let fetchedBackend = false;
+
+  // 1. Check local or cloud backend server
   try {
     const res = await fetch(`${BACKEND_URL}/leads`, { cache: 'no-store' });
     if (res.ok) {
       const data = await res.json();
-      localStorage.setItem('aasaan_demo_queries', JSON.stringify(data));
+      if (Array.isArray(data)) {
+        combinedLeads = [...data];
+        fetchedBackend = true;
+      }
       isServerOnline = true;
-      return data;
     }
   } catch (e) {
-    // server unreachable
     isServerOnline = false;
   }
 
-  // Fallback to localStorage
-  try {
-    const raw = localStorage.getItem('aasaan_demo_queries');
-    if (raw) {
-      return JSON.parse(raw);
-    }
-    // Seed initial leads if empty
-    localStorage.setItem('aasaan_demo_queries', JSON.stringify(DEFAULT_LEADS));
-    return DEFAULT_LEADS;
-  } catch (e) {
-    return DEFAULT_LEADS;
+  // 2. Fetch from Cloud Webhook (Google Sheets) if configured
+  if (CLOUD_WEBHOOK_URL) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3500);
+      const cloudRes = await fetch(CLOUD_WEBHOOK_URL, { cache: 'no-store', signal: controller.signal });
+      clearTimeout(timeoutId);
+      if (cloudRes.ok) {
+        const text = await cloudRes.text();
+        try {
+          const parsed = JSON.parse(text);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            const existingKeys = new Set(combinedLeads.map(l => `${(l.email || '').toLowerCase()}|${(l.phone || '')}`));
+            for (const item of parsed) {
+              const key = `${(item.email || '').toLowerCase()}|${(item.phone || '')}`;
+              if (!existingKeys.has(key)) {
+                combinedLeads.unshift(item);
+                existingKeys.add(key);
+              }
+            }
+          }
+        } catch (jsonErr) {
+          // Response was not JSON yet (e.g. plain text status)
+        }
+      }
+    } catch (cloudErr) {}
   }
+
+  // 3. Fallback to localStorage if still empty
+  if (combinedLeads.length === 0) {
+    try {
+      const raw = localStorage.getItem('aasaan_demo_queries');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          combinedLeads = parsed;
+        }
+      }
+    } catch (e) {}
+  }
+
+  if (combinedLeads.length === 0) {
+    combinedLeads = DEFAULT_LEADS;
+  }
+
+  localStorage.setItem('aasaan_demo_queries', JSON.stringify(combinedLeads));
+  return combinedLeads;
 }
 
 export async function saveLead(leadData) {
