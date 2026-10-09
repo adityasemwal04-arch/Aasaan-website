@@ -101,7 +101,7 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
           <a
             href="#/"
             onClick={(e) => handleNavClick('home', '#/', e)}
-            style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}
+            style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', marginRight: '28px' }}
           >
             <AasaanLogo height={56} showBadge={false} isDark={false} />
           </a>
@@ -147,6 +147,9 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
               );
             })}
           </div>
+
+          {/* Divider between nav and CTAs */}
+          <div className="hidden-mobile" style={{ width: '1px', height: '24px', background: '#CBD5E1', margin: '0 12px', flexShrink: 0 }} />
 
           {/* Action CTAs */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
