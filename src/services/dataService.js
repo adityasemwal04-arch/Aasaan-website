@@ -611,17 +611,28 @@ export function setCustomBackendUrl(url) {
 // -------------------------------------------------------------
 
 export async function getLeads() {
-  let combinedLeads = [];
-  let fetchedBackend = false;
+  let backendLeads = [];
+  let cloudLeads = [];
+  let localLeads = [];
 
-  // 1. Check local or cloud backend server
+  // 1. Read existing leads submitted in this browser (localStorage)
+  try {
+    const raw = localStorage.getItem('aasaan_demo_queries');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        localLeads = parsed;
+      }
+    }
+  } catch (e) {}
+
+  // 2. Fetch from backend (Render cloud or local Spring Boot)
   try {
     const res = await fetch(`${BACKEND_URL}/leads`, { cache: 'no-store' });
     if (res.ok) {
       const data = await res.json();
       if (Array.isArray(data)) {
-        combinedLeads = [...data];
-        fetchedBackend = true;
+        backendLeads = data;
       }
       isServerOnline = true;
     }
@@ -629,7 +640,7 @@ export async function getLeads() {
     isServerOnline = false;
   }
 
-  // 2. Fetch from Cloud Webhook (Google Sheets) if configured
+  // 3. Fetch from Google Sheets webhook if configured
   if (CLOUD_WEBHOOK_URL) {
     try {
       const controller = new AbortController();
@@ -640,42 +651,42 @@ export async function getLeads() {
         const text = await cloudRes.text();
         try {
           const parsed = JSON.parse(text);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            const existingKeys = new Set(combinedLeads.map(l => `${(l.email || '').toLowerCase()}|${(l.phone || '')}`));
-            for (const item of parsed) {
-              const key = `${(item.email || '').toLowerCase()}|${(item.phone || '')}`;
-              if (!existingKeys.has(key)) {
-                combinedLeads.unshift(item);
-                existingKeys.add(key);
-              }
-            }
+          if (Array.isArray(parsed)) {
+            cloudLeads = parsed;
           }
-        } catch (jsonErr) {
-          // Response was not JSON yet (e.g. plain text status)
-        }
+        } catch (jsonErr) {}
       }
     } catch (cloudErr) {}
   }
 
-  // 3. Fallback to localStorage if still empty
-  if (combinedLeads.length === 0) {
-    try {
-      const raw = localStorage.getItem('aasaan_demo_queries');
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          combinedLeads = parsed;
-        }
-      }
-    } catch (e) {}
+  // 4. Combine all sources with user-submitted local leads taking priority
+  // We prioritize locally submitted leads first, then cloud leads, then backend leads
+  const combined = [...localLeads, ...cloudLeads, ...backendLeads];
+
+  // De-duplicate by unique key (email + phone or ID)
+  const seenKeys = new Set();
+  const mergedLeads = [];
+
+  for (const item of combined) {
+    if (!item) continue;
+    const emailKey = (item.email || '').trim().toLowerCase();
+    const phoneKey = (item.phone || '').trim();
+    const key = (emailKey || phoneKey) ? `${emailKey}|${phoneKey}` : `id-${item.id}`;
+
+    if (!seenKeys.has(key)) {
+      seenKeys.add(key);
+      mergedLeads.push(item);
+    }
   }
 
-  if (combinedLeads.length === 0) {
-    combinedLeads = DEFAULT_LEADS;
-  }
+  // If literally no leads exist anywhere, fall back to DEFAULT_LEADS
+  const finalLeads = mergedLeads.length > 0 ? mergedLeads : DEFAULT_LEADS;
 
-  localStorage.setItem('aasaan_demo_queries', JSON.stringify(combinedLeads));
-  return combinedLeads;
+  try {
+    localStorage.setItem('aasaan_demo_queries', JSON.stringify(finalLeads));
+  } catch (e) {}
+
+  return finalLeads;
 }
 
 export async function saveLead(leadData) {

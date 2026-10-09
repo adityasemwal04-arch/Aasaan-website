@@ -494,7 +494,9 @@ export default function AdminDashboardPage({ onNavigate }) {
                 borderRadius: '50%',
                 background: isServerLive ? '#10B981' : '#64748B'
               }} />
-              {isServerLive ? 'Spring Boot Active (8080)' : 'Browser Storage Mode'}
+              {isServerLive
+                ? (serverInfo?.url?.includes('render') ? 'Cloud API Active (Render)' : 'Spring Boot Active')
+                : 'Browser Storage Mode'}
             </span>
 
             <button
