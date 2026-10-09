@@ -3,8 +3,10 @@ node_modules/
 .env.*
 !.env.example
 
-# Backend — deploy separately, never push to GitHub Pages repo
-backend-springboot/
+# Backend build output and local tools (exclude from git)
+backend-springboot/target/
+backend-springboot/tools/
+backend-springboot/.idea/
 
 # Data folder contains admin credentials — NEVER commit
 data/

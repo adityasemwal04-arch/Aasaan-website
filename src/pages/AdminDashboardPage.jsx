@@ -59,7 +59,9 @@ import {
   deleteAwmModule,
   getAwmClients,
   saveAwmClient,
-  deleteAwmClient
+  deleteAwmClient,
+  getCustomBackendUrl,
+  setCustomBackendUrl
 } from '../services/dataService';
 import AasaanLogo from '../components/AasaanLogo';
 
@@ -112,6 +114,10 @@ export default function AdminDashboardPage({ onNavigate }) {
   // Password update
   const [newPassword, setNewPassword] = useState('');
   const [pwdMsg, setPwdMsg] = useState('');
+
+  // Cloud Backend URL
+  const [cloudUrl, setCloudUrl] = useState(getCustomBackendUrl());
+  const [cloudUrlMsg, setCloudUrlMsg] = useState('');
 
   useEffect(() => {
     const auth = getAdminAuth();
@@ -373,6 +379,22 @@ export default function AdminDashboardPage({ onNavigate }) {
     setPwdMsg('Admin password updated successfully!');
     setNewPassword('');
     setTimeout(() => setPwdMsg(''), 4000);
+  };
+
+  const handleSaveCloudUrl = async (e) => {
+    e.preventDefault();
+    setCustomBackendUrl(cloudUrl);
+    setCloudUrlMsg('Testing connection to backend API...');
+    const health = await checkBackendHealth();
+    setIsServerLive(health && health.isOnline);
+    if (health) setServerInfo(health);
+    if (health && health.isOnline) {
+      setCloudUrlMsg('Connected successfully to backend: ' + health.url);
+      loadData();
+    } else {
+      setCloudUrlMsg(cloudUrl ? 'Saved, but could not connect yet. Check URL or wait for cloud server to boot.' : 'Reset to default backend.');
+    }
+    setTimeout(() => setCloudUrlMsg(''), 6000);
   };
 
   // Announcement handlers
@@ -1959,6 +1981,101 @@ export default function AdminDashboardPage({ onNavigate }) {
                   </code>
                 </div>
               </div>
+            </div>
+
+            <div style={{ background: '#FFFFFF', padding: '28px', borderRadius: '16px', border: '1px solid var(--border-medium)', marginTop: '24px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+                <Server size={20} color="var(--primary-blue)" />
+                <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 800 }}>Cloud Backend API Connection</h3>
+              </div>
+              <p style={{ margin: '0 0 16px', fontSize: '13.5px', color: '#64748B', lineHeight: 1.5 }}>
+                Connect your live GitHub Pages frontend to your free cloud-hosted Spring Boot backend (e.g. Render, Railway, Koyeb).
+                When connected, inquiries submitted by real clients from anywhere in the world will save directly into this dashboard!
+              </p>
+
+              {cloudUrlMsg && (
+                <div style={{
+                  background: cloudUrlMsg.includes('Connected successfully') ? '#ECFDF5' : '#EFF6FF',
+                  color: cloudUrlMsg.includes('Connected successfully') ? '#065F46' : '#1E40AF',
+                  border: `1px solid ${cloudUrlMsg.includes('Connected successfully') ? '#A7F3D0' : '#BFDBFE'}`,
+                  padding: '10px 14px',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  marginBottom: '16px'
+                }}>
+                  {cloudUrlMsg}
+                </div>
+              )}
+
+              <form onSubmit={handleSaveCloudUrl}>
+                <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, marginBottom: '6px' }}>
+                  Cloud REST API Endpoint URL
+                </label>
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                  <input
+                    type="url"
+                    value={cloudUrl}
+                    onChange={(e) => setCloudUrl(e.target.value)}
+                    placeholder="https://aasaan-erp-backend.onrender.com/api"
+                    style={{
+                      flex: 1,
+                      padding: '10px 14px',
+                      borderRadius: '8px',
+                      border: '1px solid var(--border-medium)',
+                      fontSize: '13.5px',
+                      outline: 'none',
+                      boxSizing: 'border-box'
+                    }}
+                  />
+                  <button
+                    type="submit"
+                    style={{
+                      background: 'var(--primary-blue)',
+                      color: '#FFFFFF',
+                      border: 'none',
+                      padding: '10px 18px',
+                      borderRadius: '8px',
+                      fontSize: '13.5px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    Save & Connect
+                  </button>
+                  {cloudUrl && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCloudUrl('');
+                        setCustomBackendUrl('');
+                        checkBackendHealth().then((h) => {
+                          setIsServerLive(h && h.isOnline);
+                          if (h) setServerInfo(h);
+                        });
+                        setCloudUrlMsg('Reset to default local backend.');
+                        setTimeout(() => setCloudUrlMsg(''), 4000);
+                      }}
+                      style={{
+                        background: '#F1F5F9',
+                        color: '#64748B',
+                        border: '1px solid #CBD5E1',
+                        padding: '10px 14px',
+                        borderRadius: '8px',
+                        fontSize: '13px',
+                        fontWeight: 600,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Reset
+                    </button>
+                  )}
+                </div>
+                <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '8px' }}>
+                  Leave blank to use default <code>http://localhost:8080/api</code> when testing locally.
+                </div>
+              </form>
             </div>
           </div>
         )}

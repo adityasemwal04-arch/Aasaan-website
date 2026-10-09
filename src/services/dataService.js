@@ -278,7 +278,9 @@ let serverStatusChecked = false;
 let isServerOnline = false;
 
 export async function checkBackendHealth() {
+  const customUrl = typeof localStorage !== 'undefined' ? localStorage.getItem('aasaan_custom_backend_url') : null;
   const candidateUrls = [
+    customUrl,
     import.meta.env.VITE_BACKEND_URL,
     'http://localhost:8080/api',
     'http://localhost:5000/api'
@@ -304,6 +306,21 @@ export async function checkBackendHealth() {
   isServerOnline = false;
   serverStatusChecked = true;
   return { isOnline: false, url: null, type: 'Standalone Browser Storage' };
+}
+
+export function getCustomBackendUrl() {
+  return (typeof localStorage !== 'undefined' ? localStorage.getItem('aasaan_custom_backend_url') : '') || '';
+}
+
+export function setCustomBackendUrl(url) {
+  if (url && url.trim()) {
+    const clean = url.trim().replace(/\/+$/, '');
+    localStorage.setItem('aasaan_custom_backend_url', clean);
+    BACKEND_URL = clean;
+  } else {
+    localStorage.removeItem('aasaan_custom_backend_url');
+    BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080/api';
+  }
 }
 
 // -------------------------------------------------------------

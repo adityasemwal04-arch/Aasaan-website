@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: aasaan-erp-backend
+    env: docker
+    dockerfilePath: backend-springboot/Dockerfile
+    dockerContext: backend-springboot
+    plan: free
+    region: oregon
+    healthCheckPath: /api/health
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: AASAAN_DATA_DIR
+        value: ./data
