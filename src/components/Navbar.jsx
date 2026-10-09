@@ -95,30 +95,19 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
         boxShadow: scrolled ? '0 4px 20px -4px rgba(15, 23, 42, 0.08)' : 'none',
         transition: 'all 0.25s ease'
       }}>
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '80px' }}>
-          
-          {/* Left group: Logo + Schedule Demo CTA */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0 }}>
-            <a
-              href="#/"
-              onClick={(e) => handleNavClick('home', '#/', e)}
-              style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}
-            >
-              <AasaanLogo height={56} showBadge={false} isDark={false} />
-            </a>
-            {/* Schedule Demo — always visible on left */}
-            <button
-              onClick={onOpenDemo}
-              className="btn btn-primary btn-sm hidden-mobile"
-              style={{ padding: '9px 18px', flexShrink: 0 }}
-            >
-              <span>Schedule a Demo</span>
-              <ArrowRight size={14} />
-            </button>
-          </div>
+        <div className="container" style={{ display: 'flex', alignItems: 'center', height: '80px', gap: '0' }}>
 
-          {/* Desktop Nav Items */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }} className="hidden-mobile">
+          {/* Logo — far left */}
+          <a
+            href="#/"
+            onClick={(e) => handleNavClick('home', '#/', e)}
+            style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0, marginRight: '20px' }}
+          >
+            <AasaanLogo height={56} showBadge={false} isDark={false} />
+          </a>
+
+          {/* Desktop Nav Items — flex:1 so they fill available space */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '2px', flex: 1 }} className="hidden-mobile">
             {navItems.map((item) => {
               const isActive = currentPage === item.id;
               return (
@@ -132,23 +121,24 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
                     background: isActive ? '#EFF6FF' : 'transparent',
                     border: isActive ? '1px solid var(--primary-blue-border)' : '1px solid transparent',
                     borderRadius: '8px',
-                    padding: '8px 14px',
-                    fontSize: '14.5px',
+                    padding: '6px 10px',
+                    fontSize: '13.5px',
                     fontWeight: isActive ? 700 : 500,
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '6px',
-                    transition: 'all 0.15s ease'
+                    gap: '5px',
+                    transition: 'all 0.15s ease',
+                    whiteSpace: 'nowrap'
                   }}
                 >
                   <span>{item.label}</span>
                   {item.badge && (
                     <span style={{
-                      fontSize: '10px',
+                      fontSize: '9px',
                       fontWeight: 700,
                       background: item.id === 'awm' ? 'var(--accent-orange)' : isActive ? 'var(--primary-blue)' : '#E2E8F0',
                       color: item.id === 'awm' || isActive ? '#FFFFFF' : '#475569',
-                      padding: '1px 5px',
+                      padding: '1px 4px',
                       borderRadius: '4px'
                     }}>
                       {item.badge}
@@ -159,11 +149,12 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
             })}
           </div>
 
-          {/* Divider between nav and CTAs */}
-          <div className="hidden-mobile" style={{ width: '1px', height: '24px', background: '#CBD5E1', margin: '0 12px', flexShrink: 0 }} />
+          {/* Divider */}
+          <div className="hidden-mobile" style={{ width: '1px', height: '24px', background: '#CBD5E1', margin: '0 10px', flexShrink: 0 }} />
 
-          {/* Action CTAs */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {/* Right CTAs — Admin + Search + Schedule Demo */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+
             {/* Admin Portal Button */}
             <a
               href="#/login"
@@ -194,11 +185,11 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
+                gap: '6px',
                 background: 'var(--surface-subtle)',
                 border: '1px solid var(--border-medium)',
                 borderRadius: '8px',
-                padding: '6px 12px',
+                padding: '6px 10px',
                 fontSize: '13px',
                 color: 'var(--text-muted)',
                 cursor: 'pointer'
@@ -207,16 +198,16 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
             >
               <Search size={14} color="var(--primary-blue)" />
               <span className="hidden-mobile">Search</span>
-              <kbd style={{
-                background: '#FFFFFF',
-                border: '1px solid var(--border-medium)',
-                borderRadius: '4px',
-                padding: '1px 5px',
-                fontSize: '10px',
-                fontFamily: 'var(--font-mono)'
-              }}>
-                Ctrl+K
-              </kbd>
+            </button>
+
+            {/* Schedule Demo CTA — far right, always visible */}
+            <button
+              onClick={onOpenDemo}
+              className="btn btn-primary btn-sm hidden-mobile"
+              style={{ padding: '8px 16px', flexShrink: 0, whiteSpace: 'nowrap' }}
+            >
+              <span>Schedule a Demo</span>
+              <ArrowRight size={14} />
             </button>
 
             {/* Mobile Menu Toggle */}
