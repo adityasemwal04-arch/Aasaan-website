@@ -747,28 +747,43 @@ export async function deleteLead(id) {
 // -------------------------------------------------------------
 
 export async function getBlogs() {
+  let storedBlogs = [];
+
+  // Try backend first
   try {
     const res = await fetch(`${BACKEND_URL}/blogs`, { cache: 'no-store' });
     if (res.ok) {
       const data = await res.json();
-      localStorage.setItem('aasaan_industry_blogs', JSON.stringify(data));
-      return data;
+      if (Array.isArray(data) && data.length > 0) {
+        storedBlogs = data;
+      }
     }
   } catch (e) {}
 
-  // Fallback to localStorage
-  try {
-    const raw = localStorage.getItem('aasaan_industry_blogs');
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-    }
-    // Seed default blogs
-    localStorage.setItem('aasaan_industry_blogs', JSON.stringify(INITIAL_INDUSTRY_BLOGS));
-    return INITIAL_INDUSTRY_BLOGS;
-  } catch (e) {
-    return INITIAL_INDUSTRY_BLOGS;
+  // If backend failed, try localStorage
+  if (storedBlogs.length === 0) {
+    try {
+      const raw = localStorage.getItem('aasaan_industry_blogs');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) storedBlogs = parsed;
+      }
+    } catch (e) {}
   }
+
+  // Always merge INITIAL_INDUSTRY_BLOGS — any slug not already in storedBlogs gets added
+  const storedSlugs = new Set(storedBlogs.map(b => b.slug));
+  const merged = [
+    ...storedBlogs,
+    ...INITIAL_INDUSTRY_BLOGS.filter(b => !storedSlugs.has(b.slug))
+  ];
+
+  // Persist merged list back to localStorage
+  try {
+    localStorage.setItem('aasaan_industry_blogs', JSON.stringify(merged));
+  } catch (e) {}
+
+  return merged.length > 0 ? merged : INITIAL_INDUSTRY_BLOGS;
 }
 
 export async function getBlogBySlug(slug) {

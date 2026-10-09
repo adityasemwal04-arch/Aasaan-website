@@ -217,7 +217,17 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
                 'Food & Beverage Processing': 'food-beverage',
                 'High-Tech & Electronics': 'high-tech-electronics',
                 'Malls & Commercial Facilities': 'malls-commercial',
-                'Packaging & Corrugation': 'packaging-corrugation'
+                'Packaging & Corrugation': 'packaging-corrugation',
+                'Smart Factory & Production': 'smart-factory-production',
+                'Pharma & Life Sciences': 'pharma-life-sciences',
+                'Publication & Media Print': 'publication-media-print',
+                'Omnichannel Retail Chains': 'omnichannel-retail-chains',
+                'Trading & Regional Distribution': 'trading-regional-distribution',
+                'Education & Academic Institutes': 'education-academic-institutes',
+                'Sports & Arena Management': 'sports-arena-management',
+                'Oil, Gas & Energy Fields': 'oil-gas-energy',
+                'Warehouse & 3PL Logistics': 'warehouse-3pl-logistics',
+                'Waste Management & Recycling': 'waste-management-recycling'
               };
               const cardSlug = slugMap[ind.name] || ind.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
