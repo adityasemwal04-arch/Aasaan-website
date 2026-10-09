@@ -97,14 +97,25 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
       }}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '80px' }}>
           
-          {/* Logo */}
-          <a
-            href="#/"
-            onClick={(e) => handleNavClick('home', '#/', e)}
-            style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', marginRight: '28px' }}
-          >
-            <AasaanLogo height={56} showBadge={false} isDark={false} />
-          </a>
+          {/* Left group: Logo + Schedule Demo CTA */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0 }}>
+            <a
+              href="#/"
+              onClick={(e) => handleNavClick('home', '#/', e)}
+              style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}
+            >
+              <AasaanLogo height={56} showBadge={false} isDark={false} />
+            </a>
+            {/* Schedule Demo — always visible on left */}
+            <button
+              onClick={onOpenDemo}
+              className="btn btn-primary btn-sm hidden-mobile"
+              style={{ padding: '9px 18px', flexShrink: 0 }}
+            >
+              <span>Schedule a Demo</span>
+              <ArrowRight size={14} />
+            </button>
+          </div>
 
           {/* Desktop Nav Items */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }} className="hidden-mobile">
@@ -206,16 +217,6 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
               }}>
                 Ctrl+K
               </kbd>
-            </button>
-
-            {/* Schedule Demo CTA */}
-            <button
-              onClick={onOpenDemo}
-              className="btn btn-primary btn-sm"
-              style={{ padding: '9px 18px' }}
-            >
-              <span>Schedule a Demo</span>
-              <ArrowRight size={14} />
             </button>
 
             {/* Mobile Menu Toggle */}
