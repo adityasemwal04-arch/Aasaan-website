@@ -103,7 +103,7 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
             onClick={(e) => handleNavClick('home', '#/', e)}
             style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0, marginRight: '20px' }}
           >
-            <AasaanLogo height={56} showBadge={false} isDark={false} />
+            <AasaanLogo height={44} showBadge={false} isDark={false} />
           </a>
 
           {/* Desktop Nav Items — flex:1 so they fill available space */}
@@ -197,7 +197,6 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
               title="Global Search"
             >
               <Search size={14} color="var(--primary-blue)" />
-              <span className="hidden-mobile">Search</span>
             </button>
 
             {/* Schedule Demo CTA — far right, always visible */}
