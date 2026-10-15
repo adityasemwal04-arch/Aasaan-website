@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { Lock, Search } from 'lucide-react';
 import { getActiveAnnouncements } from '../services/dataService';
 import { getAssetUrl, handleImageError } from '../utils/assetHelper';
