@@ -57,7 +57,7 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
     const flushList = (key) => {
       if (listBuffer.length > 0) {
         elements.push(
-          <ul key={`ul-${key}`} style={{ paddingLeft: '24px', margin: '14px 0 20px', lineHeight: 1.7, color: '#334155' }}>
+          <ul key={`ul-${key}`} style={{ paddingLeft: '24px', margin: '14px 0 20px', lineHeight: 1.8, color: '#334155' }}>
             {listBuffer.map((item, idx) => (
               <li key={idx} style={{ marginBottom: '8px' }}>
                 {renderInlineFormatting(item)}
@@ -70,11 +70,10 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
     };
 
     const renderInlineFormatting = (text) => {
-      // replace **bold**
       const parts = text.split(/(\*\*.*?\*\*)/g);
       return parts.map((part, i) => {
         if (part.startsWith('**') && part.endsWith('**')) {
-          return <strong key={i} style={{ color: 'var(--text-main)' }}>{part.slice(2, -2)}</strong>;
+          return <strong key={i} style={{ color: '#212121' }}>{part.slice(2, -2)}</strong>;
         }
         return part;
       });
@@ -86,14 +85,14 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
       if (trimmed.startsWith('### ')) {
         flushList(index);
         elements.push(
-          <h3 key={index} style={{ fontSize: '20px', fontWeight: 800, color: 'var(--text-main)', marginTop: '28px', marginBottom: '12px' }}>
+          <h3 key={index} style={{ fontSize: '20px', fontWeight: 800, color: '#212121', marginTop: '28px', marginBottom: '12px' }}>
             {trimmed.slice(4)}
           </h3>
         );
       } else if (trimmed.startsWith('## ')) {
         flushList(index);
         elements.push(
-          <h2 key={index} style={{ fontSize: '24px', fontWeight: 800, color: 'var(--text-main)', marginTop: '36px', marginBottom: '16px', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '8px' }}>
+          <h2 key={index} style={{ fontSize: '24px', fontWeight: 800, color: '#212121', marginTop: '36px', marginBottom: '16px', borderBottom: '2px solid #eaf6fd', paddingBottom: '8px' }}>
             {trimmed.slice(3)}
           </h2>
         );
@@ -104,7 +103,7 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
       } else if (trimmed.length > 0) {
         flushList(index);
         elements.push(
-          <p key={index} style={{ fontSize: '15.5px', lineHeight: 1.8, color: '#334155', margin: '14px 0' }}>
+          <p key={index} style={{ fontSize: '15.5px', lineHeight: 1.85, color: '#475569', margin: '14px 0' }}>
             {renderInlineFormatting(trimmed)}
           </p>
         );
@@ -117,7 +116,7 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ marginTop: '106px', minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ fontSize: '16px', color: '#64748B' }}>Loading industry insights...</div>
       </div>
     );
@@ -125,18 +124,18 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
 
   if (!blog) {
     return (
-      <div className="container" style={{ padding: '80px 20px', textAlign: 'center' }}>
+      <div style={{ marginTop: '106px', padding: '80px 20px', textAlign: 'center' }}>
         <h2>Industry Article Not Found</h2>
         <p style={{ color: '#64748B', marginTop: '8px' }}>The requested industry topic does not exist or has been moved.</p>
         <button
           onClick={() => onNavigate ? onNavigate('global') : window.location.hash = '#/global'}
           style={{
             marginTop: '20px',
-            background: 'var(--primary-blue)',
+            background: 'var(--colorAccent)',
             color: '#FFFFFF',
             border: 'none',
-            padding: '10px 20px',
-            borderRadius: '8px',
+            padding: '10px 22px',
+            borderRadius: '6px',
             fontWeight: 700,
             cursor: 'pointer'
           }}
@@ -151,21 +150,21 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
   const otherBlogs = allBlogs.filter(b => b.slug !== blog.slug).slice(0, 3);
 
   return (
-    <article style={{ background: '#FFFFFF', minHeight: '100vh', paddingBottom: '90px' }}>
+    <div style={{ marginTop: '106px', background: '#FFFFFF', minHeight: '100vh', paddingBottom: '90px' }}>
       {/* Breadcrumb Bar */}
-      <div style={{ background: '#F8FAFC', borderBottom: '1px solid var(--border-subtle)', padding: '14px 0' }}>
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+      <div style={{ background: '#f8f9fa', borderBottom: '1px solid #edf2f7', padding: '14px 0' }}>
+        <div className="container" style={{ maxWidth: '880px', margin: '0 auto', padding: '0 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: '#64748B' }}>
             <button
               onClick={() => onNavigate ? onNavigate('global') : window.location.hash = '#/global'}
-              style={{ background: 'none', border: 'none', color: '#2563EB', fontWeight: 600, cursor: 'pointer', padding: 0 }}
+              style={{ background: 'none', border: 'none', color: '#1e95d3', fontWeight: 600, cursor: 'pointer', padding: 0 }}
             >
               ERP Global
             </button>
             <ChevronRight size={13} />
             <span>Industries</span>
             <ChevronRight size={13} />
-            <span style={{ color: 'var(--text-main)', fontWeight: 600 }}>{blog.industry || blog.title}</span>
+            <span style={{ color: '#212121', fontWeight: 600 }}>{blog.industry || blog.title}</span>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -173,9 +172,9 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
               <button
                 onClick={() => onNavigate ? onNavigate('admin') : window.location.hash = '#/admin'}
                 style={{
-                  background: '#EFF6FF',
-                  border: '1px solid #BFDBFE',
-                  color: '#1D4ED8',
+                  background: '#eaf6fd',
+                  border: '1px solid rgba(30,149,211,0.3)',
+                  color: '#1e95d3',
                   padding: '5px 12px',
                   borderRadius: '6px',
                   fontSize: '12px',
@@ -194,7 +193,7 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
               onClick={handleShare}
               style={{
                 background: '#FFFFFF',
-                border: '1px solid var(--border-medium)',
+                border: '1px solid #e2e8f0',
                 color: '#475569',
                 padding: '5px 12px',
                 borderRadius: '6px',
@@ -214,21 +213,22 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
 
       {/* Hero Header */}
       <header style={{
-        background: 'linear-gradient(135deg, #0B1329 0%, #172554 100%)',
-        color: '#FFFFFF',
-        padding: '60px 0 50px'
+        background: 'linear-gradient(180deg, #f6fbfe 0%, #ffffff 100%)',
+        color: '#212121',
+        padding: '50px 0 40px',
+        borderBottom: '1px solid #edf2f7'
       }}>
-        <div className="container" style={{ maxWidth: '880px' }}>
+        <div className="container" style={{ maxWidth: '880px', margin: '0 auto', padding: '0 20px' }}>
           <span style={{
-            background: 'rgba(59, 130, 246, 0.25)',
-            border: '1px solid rgba(59, 130, 246, 0.5)',
-            color: '#93C5FD',
-            fontSize: '11.5px',
+            background: '#eaf6fd',
+            border: '1px solid rgba(30, 149, 211, 0.3)',
+            color: '#1e95d3',
+            fontSize: '12px',
             fontWeight: 700,
-            padding: '4px 10px',
-            borderRadius: '6px',
+            padding: '4px 12px',
+            borderRadius: '99px',
             textTransform: 'uppercase',
-            letterSpacing: '0.04em',
+            letterSpacing: '0.05em',
             display: 'inline-block',
             marginBottom: '16px'
           }}>
@@ -236,11 +236,11 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
           </span>
 
           <h1 style={{
-            fontSize: 'clamp(28px, 4vw, 38px)',
+            fontSize: 'clamp(28px, 4vw, 40px)',
             fontWeight: 800,
             lineHeight: 1.25,
-            color: '#FFFFFF',
-            margin: '0 0 18px',
+            color: '#212121',
+            margin: '0 0 16px',
             letterSpacing: '-0.02em'
           }}>
             {blog.title}
@@ -249,8 +249,8 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
           <p style={{
             fontSize: '17px',
             lineHeight: 1.6,
-            color: '#CBD5E1',
-            margin: '0 0 28px',
+            color: '#5f5f5f',
+            margin: '0 0 24px',
             fontWeight: 400
           }}>
             {blog.excerpt}
@@ -261,21 +261,21 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
             alignItems: 'center',
             gap: '24px',
             fontSize: '13px',
-            color: '#94A3B8',
+            color: '#64748b',
             flexWrap: 'wrap',
-            borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-            paddingTop: '20px'
+            borderTop: '1px solid #edf2f7',
+            paddingTop: '18px'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-              <User size={15} color="#60A5FA" />
+              <User size={15} color="#1e95d3" />
               <span>{blog.author || 'Aasaan Solutions Practice'}</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-              <Calendar size={15} color="#60A5FA" />
+              <Calendar size={15} color="#1e95d3" />
               <span>{blog.date || 'October 2026'}</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
-              <Clock size={15} color="#60A5FA" />
+              <Clock size={15} color="#1e95d3" />
               <span>{blog.readTime || '6 min read'}</span>
             </div>
           </div>
@@ -284,13 +284,13 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
 
       {/* Hero Banner Image */}
       {blog.img && (
-        <div className="container" style={{ maxWidth: '880px', marginTop: '-30px', position: 'relative', zIndex: 2 }}>
+        <div className="container" style={{ maxWidth: '880px', margin: '32px auto 0', padding: '0 20px', position: 'relative', zIndex: 2 }}>
           <div style={{
-            borderRadius: '18px',
+            borderRadius: '16px',
             overflow: 'hidden',
-            boxShadow: '0 20px 40px -10px rgba(15, 23, 42, 0.2)',
+            boxShadow: '0 12px 30px rgba(0, 0, 0, 0.08)',
             maxHeight: '440px',
-            border: '1px solid var(--border-medium)'
+            border: '1px solid #e2e8f0'
           }}>
             <img
               src={blog.img}
@@ -302,32 +302,32 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
       )}
 
       {/* Main Content Area */}
-      <div className="container" style={{ maxWidth: '880px', padding: '48px 20px 0' }}>
+      <div className="container" style={{ maxWidth: '880px', margin: '0 auto', padding: '40px 20px 0' }}>
         <div style={{ fontSize: '16px', lineHeight: 1.8 }}>
           {renderFormattedContent(blog.content)}
         </div>
 
         {/* CTA Box inside article */}
         <div style={{
-          margin: '50px 0',
-          background: 'linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%)',
-          border: '1px solid #BFDBFE',
-          borderRadius: '20px',
-          padding: '36px 32px',
+          margin: '48px 0',
+          background: 'linear-gradient(135deg, #f6fbfe 0%, #eaf6fd 100%)',
+          border: '1px solid rgba(30,149,211,0.25)',
+          borderRadius: '16px',
+          padding: '32px 28px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          gap: '24px'
+          gap: '20px'
         }}>
           <div style={{ maxWidth: '520px' }}>
-            <span style={{ fontSize: '11.5px', fontWeight: 800, color: 'var(--primary-blue)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#1e95d3', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               Live Architecture Consultation
             </span>
-            <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#1E3A8A', margin: '6px 0 8px' }}>
+            <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#212121', margin: '6px 0 8px' }}>
               Deploy Aasaan ERP for {blog.industry || 'Your Business'}
             </h3>
-            <p style={{ fontSize: '14px', color: '#3B82F6', margin: 0, lineHeight: 1.5 }}>
+            <p style={{ fontSize: '14px', color: '#5f5f5f', margin: 0, lineHeight: 1.5 }}>
               Talk with our senior enterprise architects. Get a tailored walk-through featuring real industry workflows, BOMs, and compliance modules.
             </p>
           </div>
@@ -335,20 +335,23 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
           <button
             onClick={() => onOpenDemo ? onOpenDemo() : null}
             style={{
-              background: 'var(--primary-blue)',
+              background: 'var(--colorAccent)',
               color: '#FFFFFF',
               border: 'none',
-              padding: '14px 26px',
-              borderRadius: '12px',
+              padding: '13px 26px',
+              borderRadius: '6px',
               fontSize: '14.5px',
               fontWeight: 700,
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              boxShadow: '0 4px 16px rgba(29, 78, 216, 0.3)',
-              whiteSpace: 'nowrap'
+              boxShadow: '0 4px 14px rgba(30, 149, 211, 0.3)',
+              whiteSpace: 'nowrap',
+              transition: 'background 0.2s ease'
             }}
+            onMouseEnter={e => e.currentTarget.style.background = '#157bb3'}
+            onMouseLeave={e => e.currentTarget.style.background = 'var(--colorAccent)'}
           >
             <Sparkles size={16} /> Schedule Industry Demo
           </button>
@@ -356,8 +359,8 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
 
         {/* Related Industry Articles */}
         {otherBlogs.length > 0 && (
-          <div style={{ borderTop: '1px solid var(--border-medium)', paddingTop: '48px', marginTop: '48px' }}>
-            <h3 style={{ fontSize: '20px', fontWeight: 800, marginBottom: '24px', color: 'var(--text-main)' }}>
+          <div style={{ borderTop: '1px solid #edf2f7', paddingTop: '40px', marginTop: '40px' }}>
+            <h3 style={{ fontSize: '20px', fontWeight: 800, marginBottom: '20px', color: '#212121' }}>
               Explore Other Industry Guides
             </h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
@@ -375,34 +378,36 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                   style={{
-                    background: '#F8FAFC',
-                    border: '1px solid var(--border-subtle)',
-                    borderRadius: '14px',
+                    background: '#f8f9fa',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '12px',
                     padding: '18px',
                     textDecoration: 'none',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    transition: 'all 0.2s'
+                    transition: 'all 0.2s ease'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = 'var(--primary-blue)';
+                    e.currentTarget.style.borderColor = '#1e95d3';
                     e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(30,149,211,0.08)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                    e.currentTarget.style.borderColor = '#e2e8f0';
                     e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'none';
                   }}
                 >
                   <div>
-                    <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--primary-blue)', textTransform: 'uppercase' }}>
+                    <span style={{ fontSize: '11px', fontWeight: 700, color: '#1e95d3', textTransform: 'uppercase' }}>
                       {ob.tag}
                     </span>
-                    <h4 style={{ fontSize: '14.5px', fontWeight: 800, color: 'var(--text-main)', margin: '6px 0 8px', lineHeight: 1.35 }}>
+                    <h4 style={{ fontSize: '14.5px', fontWeight: 800, color: '#212121', margin: '6px 0 8px', lineHeight: 1.35 }}>
                       {ob.title}
                     </h4>
                   </div>
-                  <div style={{ fontSize: '12px', color: '#2563EB', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px', marginTop: '12px' }}>
+                  <div style={{ fontSize: '12px', color: '#1e95d3', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px', marginTop: '12px' }}>
                     Read Guide <ArrowRight size={12} />
                   </div>
                 </a>
@@ -411,6 +416,41 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
           </div>
         )}
       </div>
-    </article>
+
+      {/* Floating CTA buttons matching HomePage */}
+      <div style={{ position: 'fixed', bottom: '24px', right: '20px', display: 'flex', flexDirection: 'column', gap: '10px', zIndex: 9000, alignItems: 'flex-end' }}>
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          title="Back to top"
+          style={{ width: '42px', height: '42px', borderRadius: '50%', background: '#ffffff', border: '2px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 10px rgba(0,0,0,0.12)', cursor: 'pointer', color: '#1e95d3', transition: 'all 0.2s ease' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = '#1e95d3'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.border = '2px solid #1e95d3'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = '#ffffff'; e.currentTarget.style.color = '#1e95d3'; e.currentTarget.style.border = '2px solid #e2e8f0'; }}
+        >
+          <i className="fas fa-chevron-up" style={{ fontSize: '14px' }}></i>
+        </button>
+
+        <a
+          href="https://wa.me/917428267616?text=Hi%2C%20I%20would%20like%20to%20know%20more%20about%20Aasaan%20ERP"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px 10px 12px', borderRadius: '28px', background: '#25D366', boxShadow: '0 4px 16px rgba(37,211,102,0.45)', textDecoration: 'none', transition: 'transform 0.2s ease, box-shadow 0.2s ease', color: '#fff', fontWeight: 600, fontSize: '13.5px' }}
+          onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(37,211,102,0.6)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(37,211,102,0.45)'; }}
+        >
+          <i className="fab fa-whatsapp" style={{ fontSize: '22px' }}></i>
+          <span>WhatsApp Us</span>
+        </a>
+
+        <button
+          onClick={onOpenDemo}
+          style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px 10px 12px', borderRadius: '28px', background: 'var(--colorAccent)', border: 'none', boxShadow: '0 4px 16px rgba(30,149,211,0.4)', cursor: 'pointer', transition: 'transform 0.2s ease, box-shadow 0.2s ease', color: '#fff', fontWeight: 600, fontSize: '13.5px' }}
+          onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(30,149,211,0.6)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(30,149,211,0.4)'; }}
+        >
+          <i className="fas fa-calendar-check" style={{ fontSize: '18px' }}></i>
+          <span>Book a Demo</span>
+        </button>
+      </div>
+    </div>
   );
 }

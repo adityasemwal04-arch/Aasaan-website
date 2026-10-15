@@ -14,87 +14,75 @@ import {
 function HeroSection({ onOpenDemo }) {
   return (
     <section style={{
-      background: 'linear-gradient(135deg, #0B1329 0%, #0F1E42 60%, #1E1B4B 100%)',
-      color: '#FFFFFF',
-      padding: '120px 0 80px',
+      background: 'linear-gradient(180deg, #f6fbfe 0%, #ffffff 100%)',
+      color: '#212121',
+      padding: '70px 0 60px',
       position: 'relative',
       overflow: 'hidden',
+      borderBottom: '1px solid #edf2f7'
     }}>
-      {/* Background grid pattern */}
-      <div style={{
-        position: 'absolute', inset: 0, opacity: 0.04,
-        backgroundImage: 'linear-gradient(#94A3B8 1px, transparent 1px), linear-gradient(90deg, #94A3B8 1px, transparent 1px)',
-        backgroundSize: '40px 40px',
-      }} />
-
-      {/* Accent blobs */}
-      <div style={{
-        position: 'absolute', top: '-60px', right: '-60px',
-        width: '400px', height: '400px',
-        background: 'radial-gradient(circle, rgba(234,88,12,0.15) 0%, transparent 70%)',
-        borderRadius: '50%',
-      }} />
-      <div style={{
-        position: 'absolute', bottom: '-80px', left: '10%',
-        width: '300px', height: '300px',
-        background: 'radial-gradient(circle, rgba(29,78,216,0.12) 0%, transparent 70%)',
-        borderRadius: '50%',
-      }} />
-
-      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+      <div className="container" style={{ position: 'relative', zIndex: 1, maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
+        
         {/* Eyebrow label */}
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: '8px',
-          background: 'rgba(234,88,12,0.15)',
-          border: '1px solid rgba(234,88,12,0.4)',
+          background: '#eaf6fd',
+          border: '1px solid rgba(30,149,211,0.25)',
           borderRadius: '99px',
-          padding: '6px 16px',
-          fontSize: '12px', fontWeight: 700,
-          color: '#FDBA74',
-          letterSpacing: '0.08em',
+          padding: '6px 18px',
+          fontSize: '12.5px', fontWeight: 700,
+          color: '#1e95d3',
+          letterSpacing: '0.05em',
           textTransform: 'uppercase',
-          marginBottom: '28px',
+          marginBottom: '24px',
         }}>
-          <span style={{ width: '6px', height: '6px', background: '#FB923C', borderRadius: '50%', display: 'inline-block' }} />
-          Aasaan Partner Program
+          <span style={{ width: '7px', height: '7px', background: '#1e95d3', borderRadius: '50%', display: 'inline-block' }} />
+          Aasaan Global Partner Ecosystem
         </div>
 
         <h1 style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(38px, 5.5vw, 68px)',
-          fontWeight: 900,
-          color: '#FFFFFF',
-          letterSpacing: '-0.03em',
-          lineHeight: 1.08,
-          marginBottom: '28px',
-          maxWidth: '820px',
+          fontSize: 'clamp(32px, 4.5vw, 54px)',
+          fontWeight: 800,
+          color: '#212121',
+          letterSpacing: '-0.02em',
+          lineHeight: 1.15,
+          marginBottom: '22px',
+          maxWidth: '840px',
         }}>
           Grow your business by{' '}
-          <span style={{ color: '#FB923C' }}>selling</span>{' '}
+          <span style={{ color: '#1e95d3' }}>selling</span>{' '}
           and{' '}
-          <span style={{
-            background: 'linear-gradient(135deg, #60A5FA, #A78BFA)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-          }}>
-            implementing
-          </span>{' '}
+          <span style={{ color: '#ff5b0b' }}>implementing</span>{' '}
           Aasaan ERP.
         </h1>
 
         <p style={{
-          fontSize: '19px', color: '#CBD5E1', lineHeight: 1.65,
-          maxWidth: '620px', marginBottom: '44px',
+          fontSize: '17px', color: '#5f5f5f', lineHeight: 1.65,
+          maxWidth: '680px', marginBottom: '36px',
         }}>
           Join 20+ organisations across 10+ countries building their practice around Aasaan ERP.
-          Earn competitive commissions, access world-class training, and win deals with our co-selling support.
+          Earn competitive recurring margins, access world-class training, and win enterprise deals with our direct co-selling support.
         </p>
 
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
           <a
             href="mailto:contactus@aasaanservices.in?subject=Partner Program Inquiry"
-            className="btn btn-orange"
-            style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '15px', padding: '14px 28px' }}
+            style={{
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              fontSize: '14.5px',
+              fontWeight: 700,
+              padding: '13px 26px',
+              background: 'var(--colorAccent)',
+              color: '#ffffff',
+              borderRadius: '6px',
+              boxShadow: '0 4px 14px rgba(30,149,211,0.28)',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = '#157bb3'}
+            onMouseLeave={e => e.currentTarget.style.background = 'var(--colorAccent)'}
           >
             Apply to Partner Program
             <ArrowRight size={16} />
@@ -103,13 +91,22 @@ function HeroSection({ onOpenDemo }) {
             onClick={onOpenDemo}
             style={{
               background: 'transparent',
-              border: '1px solid rgba(255,255,255,0.25)',
-              borderRadius: '8px',
-              color: '#E2E8F0',
-              padding: '14px 28px',
-              fontSize: '15px',
+              border: '2px solid #1e95d3',
+              borderRadius: '6px',
+              color: '#1e95d3',
+              padding: '12px 24px',
+              fontSize: '14.5px',
               cursor: 'pointer',
-              fontWeight: 500,
+              fontWeight: 700,
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = '#1e95d3';
+              e.currentTarget.style.color = '#ffffff';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.color = '#1e95d3';
             }}
           >
             Talk to Partnership Team
@@ -120,16 +117,23 @@ function HeroSection({ onOpenDemo }) {
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '24px',
-          marginTop: '72px',
-          paddingTop: '40px',
-          borderTop: '1px solid rgba(255,255,255,0.1)',
+          gap: '20px',
+          marginTop: '56px',
+          paddingTop: '36px',
+          borderTop: '1px solid #edf2f7',
         }} className="partner-stats-grid">
           {partnerStats.map((s) => (
-            <div key={s.label} style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '32px', marginBottom: '4px' }}>{s.icon}</div>
-              <div style={{ fontSize: 'clamp(22px, 2.5vw, 32px)', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-0.03em' }}>{s.value}</div>
-              <div style={{ fontSize: '13px', color: '#94A3B8', marginTop: '4px', lineHeight: 1.4 }}>{s.label}</div>
+            <div key={s.label} style={{
+              textAlign: 'center',
+              background: '#ffffff',
+              padding: '20px 16px',
+              borderRadius: '10px',
+              border: '1px solid #e2e8f0',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.03)'
+            }}>
+              <div style={{ fontSize: '28px', marginBottom: '6px' }}>{s.icon}</div>
+              <div style={{ fontSize: 'clamp(22px, 2.2vw, 30px)', fontWeight: 800, color: '#1e95d3', letterSpacing: '-0.02em' }}>{s.value}</div>
+              <div style={{ fontSize: '13px', color: '#64748b', marginTop: '4px', lineHeight: 1.4, fontWeight: 500 }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -146,98 +150,95 @@ function HeroSection({ onOpenDemo }) {
 
 function TiersSection({ onOpenDemo }) {
   return (
-    <section id="partner-tiers" style={{ padding: '96px 0', background: '#F8FAFC', scrollMarginTop: '100px' }}>
-      <div className="container">
-        <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+    <section id="partner-tiers" style={{ padding: '80px 0', background: '#f8f9fa', scrollMarginTop: '110px' }}>
+      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '52px' }}>
           <div style={{
             display: 'inline-block',
-            background: '#EFF6FF', color: 'var(--primary-blue)',
-            border: '1px solid var(--primary-blue-border)',
+            background: '#eaf6fd', color: '#1e95d3',
+            border: '1px solid rgba(30,149,211,0.25)',
             borderRadius: '99px', padding: '4px 14px',
-            fontSize: '12px', fontWeight: 700, letterSpacing: '0.06em',
-            textTransform: 'uppercase', marginBottom: '16px',
+            fontSize: '12px', fontWeight: 700, letterSpacing: '0.05em',
+            textTransform: 'uppercase', marginBottom: '14px',
           }}>Partnership Tiers</div>
-          <h2 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(28px, 3.5vw, 44px)',
-            fontWeight: 800, letterSpacing: '-0.03em',
-            color: 'var(--text-main)', marginBottom: '16px',
-          }}>
-            Choose your level of partnership
+          <h2 className="page_heading" style={{ margin: '0 auto 14px' }}>
+            Choose Your Level of Partnership
           </h2>
-          <p style={{ color: 'var(--text-body)', fontSize: '17px', maxWidth: '560px', margin: '0 auto', lineHeight: 1.6 }}>
-            Whether you're starting out as a reseller or building a full ERP practice, there's a tier designed for your ambition.
+          <p style={{ color: '#5f5f5f', fontSize: '16px', maxWidth: '580px', margin: '0 auto', lineHeight: 1.6 }}>
+            Whether you're starting out as a local referral partner or building a full enterprise ERP practice, there's a tier designed for your growth.
           </p>
         </div>
 
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '28px',
+          gap: '24px',
         }} className="tiers-grid">
           {partnerTiers.map((tier) => (
             <div key={tier.id} style={{
               background: '#FFFFFF',
-              border: `2px solid ${tier.colorBorder}`,
-              borderRadius: '16px',
-              padding: '36px 28px',
+              border: '1px solid #e2e8f0',
+              borderRadius: '14px',
+              padding: '32px 24px',
               display: 'flex',
               flexDirection: 'column',
-              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
+              transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.04)',
             }}
               onMouseEnter={e => {
-                e.currentTarget.style.transform = 'translateY(-6px)';
-                e.currentTarget.style.boxShadow = `0 20px 40px -12px ${tier.color}22`;
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.boxShadow = '0 16px 32px rgba(30,149,211,0.12)';
+                e.currentTarget.style.borderColor = '#1e95d3';
               }}
               onMouseLeave={e => {
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.04)';
+                e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.04)';
+                e.currentTarget.style.borderColor = '#e2e8f0';
               }}
             >
               {/* Header */}
-              <div style={{ marginBottom: '20px' }}>
-                <span style={{ fontSize: '36px' }}>{tier.icon}</span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '12px' }}>
-                  <h3 style={{ fontSize: '20px', fontWeight: 800, color: 'var(--text-main)', margin: 0 }}>{tier.name}</h3>
+              <div style={{ marginBottom: '18px' }}>
+                <span style={{ fontSize: '32px' }}>{tier.icon}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '10px' }}>
+                  <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#212121', margin: 0 }}>{tier.name}</h3>
                   <span style={{
-                    background: tier.colorLight,
-                    color: tier.color,
-                    border: `1px solid ${tier.colorBorder}`,
-                    fontSize: '10px', fontWeight: 700,
+                    background: '#eaf6fd',
+                    color: '#1e95d3',
+                    border: '1px solid rgba(30,149,211,0.25)',
+                    fontSize: '11px', fontWeight: 700,
                     padding: '2px 8px', borderRadius: '4px',
-                    textTransform: 'uppercase', letterSpacing: '0.06em',
+                    textTransform: 'uppercase', letterSpacing: '0.05em',
                   }}>{tier.badge}</span>
                 </div>
-                <p style={{ fontSize: '14px', color: 'var(--text-body)', lineHeight: 1.6, marginTop: '10px', marginBottom: 0 }}>
+                <p style={{ fontSize: '14px', color: '#5f5f5f', lineHeight: 1.6, marginTop: '10px', marginBottom: 0 }}>
                   {tier.description}
                 </p>
               </div>
 
               {/* Divider */}
-              <div style={{ height: '1px', background: tier.colorBorder, marginBottom: '20px' }} />
+              <div style={{ height: '1px', background: '#edf2f7', marginBottom: '20px' }} />
 
               {/* Benefits */}
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '12px' }}>
+                <div style={{ fontSize: '11.5px', fontWeight: 700, color: '#1e95d3', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '12px' }}>
                   What you get
                 </div>
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
                   {tier.benefits.map((b) => (
-                    <li key={b} style={{ display: 'flex', gap: '10px', fontSize: '13.5px', color: 'var(--text-body)', lineHeight: 1.4 }}>
-                      <CheckCircle size={15} color={tier.color} style={{ flexShrink: 0, marginTop: '2px' }} />
+                    <li key={b} style={{ display: 'flex', gap: '10px', fontSize: '13.5px', color: '#475569', lineHeight: 1.45 }}>
+                      <CheckCircle size={15} color="#1e95d3" style={{ flexShrink: 0, marginTop: '2px' }} />
                       {b}
                     </li>
                   ))}
                 </ul>
 
-                <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '10px' }}>
+                <div style={{ fontSize: '11.5px', fontWeight: 700, color: '#64748b', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: '10px' }}>
                   Requirements
                 </div>
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {tier.requirements.map((r) => (
-                    <li key={r} style={{ display: 'flex', gap: '8px', fontSize: '12.5px', color: 'var(--text-muted)' }}>
-                      <span style={{ color: tier.color, fontWeight: 700, flexShrink: 0 }}>→</span>
+                    <li key={r} style={{ display: 'flex', gap: '8px', fontSize: '12.5px', color: '#64748b' }}>
+                      <span style={{ color: '#1e95d3', fontWeight: 700, flexShrink: 0 }}>→</span>
                       {r}
                     </li>
                   ))}
@@ -249,17 +250,17 @@ function TiersSection({ onOpenDemo }) {
                 href="mailto:contactus@aasaanservices.in?subject=Partner Application"
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                  background: tier.color,
+                  background: 'var(--colorAccent)',
                   color: '#FFFFFF',
-                  borderRadius: '8px',
-                  padding: '13px 20px',
+                  borderRadius: '6px',
+                  padding: '12px 20px',
                   fontSize: '14px', fontWeight: 700,
                   textDecoration: 'none',
-                  marginTop: '28px',
-                  transition: 'opacity 0.15s ease',
+                  marginTop: '26px',
+                  transition: 'background 0.2s ease',
                 }}
-                onMouseEnter={e => e.currentTarget.style.opacity = '0.88'}
-                onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+                onMouseEnter={e => e.currentTarget.style.background = '#157bb3'}
+                onMouseLeave={e => e.currentTarget.style.background = 'var(--colorAccent)'}
               >
                 {tier.cta}
                 <ArrowRight size={14} />
@@ -280,42 +281,50 @@ function TiersSection({ onOpenDemo }) {
 
 function BenefitsSection() {
   return (
-    <section style={{ padding: '96px 0', background: '#FFFFFF' }}>
-      <div className="container">
-        <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+    <section style={{ padding: '80px 0', background: '#FFFFFF' }}>
+      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '52px' }}>
           <div style={{
             display: 'inline-block',
-            background: '#FFF7ED', color: '#EA580C',
-            border: '1px solid #FED7AA',
+            background: '#eaf6fd', color: '#1e95d3',
+            border: '1px solid rgba(30,149,211,0.25)',
             borderRadius: '99px', padding: '4px 14px',
-            fontSize: '12px', fontWeight: 700, letterSpacing: '0.06em',
-            textTransform: 'uppercase', marginBottom: '16px',
+            fontSize: '12px', fontWeight: 700, letterSpacing: '0.05em',
+            textTransform: 'uppercase', marginBottom: '14px',
           }}>Why Partner with Aasaan</div>
-          <h2 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(26px, 3vw, 40px)',
-            fontWeight: 800, letterSpacing: '-0.03em',
-            color: 'var(--text-main)', marginBottom: '14px',
-          }}>
-            Everything you need to build a successful ERP practice
+          <h2 className="page_heading" style={{ margin: '0 auto 14px' }}>
+            Everything You Need to Build a Profitable Practice
           </h2>
+          <p style={{ color: '#5f5f5f', fontSize: '16px', maxWidth: '600px', margin: '0 auto' }}>
+            We provide deep product enablement, dedicated partner managers, and aggressive margin structures.
+          </p>
         </div>
 
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '28px',
+          gap: '24px',
         }} className="benefits-grid">
           {partnerBenefitPillars.map((p) => (
             <div key={p.title} style={{
-              background: '#F8FAFC',
-              border: '1px solid var(--border-subtle)',
+              background: '#f8f9fa',
+              border: '1px solid #e2e8f0',
               borderRadius: '12px',
               padding: '28px',
-            }}>
-              <div style={{ fontSize: '32px', marginBottom: '14px' }}>{p.icon}</div>
-              <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--text-main)', marginBottom: '10px' }}>{p.title}</h3>
-              <p style={{ fontSize: '14px', color: 'var(--text-body)', lineHeight: 1.6, margin: 0 }}>{p.description}</p>
+              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+            }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'translateY(-3px)';
+                e.currentTarget.style.boxShadow = '0 10px 24px rgba(0,0,0,0.06)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            >
+              <div style={{ fontSize: '30px', marginBottom: '14px' }}>{p.icon}</div>
+              <h3 style={{ fontSize: '16.5px', fontWeight: 700, color: '#212121', marginBottom: '10px' }}>{p.title}</h3>
+              <p style={{ fontSize: '14px', color: '#5f5f5f', lineHeight: 1.6, margin: 0 }}>{p.description}</p>
             </div>
           ))}
         </div>
@@ -331,63 +340,58 @@ function BenefitsSection() {
 
 function JourneySection() {
   return (
-    <section style={{ padding: '96px 0', background: 'linear-gradient(135deg, #0B1329 0%, #0F1E42 100%)' }}>
-      <div className="container">
-        <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+    <section style={{ padding: '80px 0', background: 'linear-gradient(180deg, #f6fbfe 0%, #ffffff 100%)', borderTop: '1px solid #edf2f7', borderBottom: '1px solid #edf2f7' }}>
+      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '56px' }}>
           <div style={{
             display: 'inline-block',
-            background: 'rgba(234,88,12,0.15)', color: '#FDBA74',
-            border: '1px solid rgba(234,88,12,0.4)',
+            background: '#eaf6fd', color: '#1e95d3',
+            border: '1px solid rgba(30,149,211,0.25)',
             borderRadius: '99px', padding: '4px 14px',
-            fontSize: '12px', fontWeight: 700, letterSpacing: '0.06em',
-            textTransform: 'uppercase', marginBottom: '16px',
+            fontSize: '12px', fontWeight: 700, letterSpacing: '0.05em',
+            textTransform: 'uppercase', marginBottom: '14px',
           }}>Partner Onboarding</div>
-          <h2 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(26px, 3vw, 42px)',
-            fontWeight: 800, letterSpacing: '-0.03em',
-            color: '#FFFFFF', marginBottom: '14px',
-          }}>
-            From application to first commission in 30 days
+          <h2 className="page_heading" style={{ margin: '0 auto 14px' }}>
+            From Application to First Revenue in 30 Days
           </h2>
-          <p style={{ color: '#94A3B8', fontSize: '16px', maxWidth: '500px', margin: '0 auto' }}>
-            Our structured onboarding removes friction so you can focus on building client relationships.
+          <p style={{ color: '#5f5f5f', fontSize: '16px', maxWidth: '520px', margin: '0 auto' }}>
+            Our structured onboarding removes friction so you can focus on building client trust and closing deals.
           </p>
         </div>
 
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(5, 1fr)',
-          gap: '0',
+          gap: '16px',
           position: 'relative',
         }} className="journey-grid">
           {/* Connector line */}
           <div style={{
             position: 'absolute',
-            top: '36px',
-            left: 'calc(10% + 18px)',
-            right: 'calc(10% + 18px)',
+            top: '32px',
+            left: 'calc(10% + 20px)',
+            right: 'calc(10% + 20px)',
             height: '2px',
-            background: 'linear-gradient(90deg, rgba(234,88,12,0.5), rgba(147,112,219,0.5))',
+            background: '#bfdbfe',
             zIndex: 0,
           }} className="journey-line" />
 
           {partnerJourneySteps.map((s, i) => (
-            <div key={s.step} style={{ textAlign: 'center', padding: '0 12px', position: 'relative', zIndex: 1 }}>
+            <div key={s.step} style={{ textAlign: 'center', padding: '0 8px', position: 'relative', zIndex: 1 }}>
               {/* Step number circle */}
               <div style={{
-                width: '72px', height: '72px',
+                width: '64px', height: '64px',
                 borderRadius: '50%',
-                background: 'linear-gradient(135deg, #1D4ED8, #7C3AED)',
+                background: '#1e95d3',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                margin: '0 auto 20px',
-                fontSize: '22px', fontWeight: 900, color: '#FFFFFF',
-                boxShadow: '0 0 0 4px rgba(29,78,216,0.2)',
+                margin: '0 auto 16px',
+                fontSize: '20px', fontWeight: 800, color: '#FFFFFF',
+                boxShadow: '0 4px 14px rgba(30,149,211,0.3)',
               }}>
                 {s.step}
               </div>
-              <h4 style={{ fontSize: '14px', fontWeight: 700, color: '#FFFFFF', marginBottom: '8px' }}>{s.title}</h4>
-              <p style={{ fontSize: '12.5px', color: '#94A3B8', lineHeight: 1.5 }}>{s.description}</p>
+              <h4 style={{ fontSize: '15px', fontWeight: 700, color: '#212121', marginBottom: '8px' }}>{s.title}</h4>
+              <p style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.5 }}>{s.description}</p>
             </div>
           ))}
         </div>
@@ -408,25 +412,23 @@ function JourneySection() {
 
 function PartnersShowcase() {
   return (
-    <section style={{ padding: '96px 0', background: '#F8FAFC' }}>
-      <div className="container">
-        <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+    <section style={{ padding: '80px 0', background: '#f8f9fa' }}>
+      <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '52px' }}>
           <div style={{
             display: 'inline-block',
-            background: '#EFF6FF', color: 'var(--primary-blue)',
-            border: '1px solid var(--primary-blue-border)',
+            background: '#eaf6fd', color: '#1e95d3',
+            border: '1px solid rgba(30,149,211,0.25)',
             borderRadius: '99px', padding: '4px 14px',
-            fontSize: '12px', fontWeight: 700, letterSpacing: '0.06em',
-            textTransform: 'uppercase', marginBottom: '16px',
+            fontSize: '12px', fontWeight: 700, letterSpacing: '0.05em',
+            textTransform: 'uppercase', marginBottom: '14px',
           }}>Partner Network</div>
-          <h2 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(26px, 3vw, 40px)',
-            fontWeight: 800, letterSpacing: '-0.03em',
-            color: 'var(--text-main)',
-          }}>
-            Organisations already in our network
+          <h2 className="page_heading" style={{ margin: '0 auto 14px' }}>
+            Organisations Already Thriving in Our Network
           </h2>
+          <p style={{ color: '#5f5f5f', fontSize: '16px', maxWidth: '580px', margin: '0 auto' }}>
+            From IT consulting agencies to regional industrial distributors delivering Aasaan solutions.
+          </p>
         </div>
 
         <div style={{
@@ -437,34 +439,43 @@ function PartnersShowcase() {
           {currentPartners.map((p) => (
             <div key={p.name} style={{
               background: '#FFFFFF',
-              border: '1px solid var(--border-subtle)',
+              border: '1px solid #e2e8f0',
               borderRadius: '12px',
               padding: '24px',
-              transition: 'box-shadow 0.2s ease',
+              transition: 'all 0.2s ease',
+              boxShadow: '0 2px 6px rgba(0,0,0,0.03)'
             }}
-              onMouseEnter={e => e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.08)'}
-              onMouseLeave={e => e.currentTarget.style.boxShadow = 'none'}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'translateY(-3px)';
+                e.currentTarget.style.boxShadow = '0 10px 24px rgba(30,149,211,0.1)';
+                e.currentTarget.style.borderColor = '#1e95d3';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 2px 6px rgba(0,0,0,0.03)';
+                e.currentTarget.style.borderColor = '#e2e8f0';
+              }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
                 <div>
-                  <div style={{ fontSize: '17px', fontWeight: 800, color: 'var(--text-main)' }}>{p.name}</div>
-                  <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '2px' }}>{p.country}</div>
+                  <div style={{ fontSize: '17px', fontWeight: 800, color: '#212121' }}>{p.name}</div>
+                  <div style={{ fontSize: '13px', color: '#64748b', marginTop: '2px' }}>{p.country}</div>
                 </div>
                 <span style={{
-                  background: '#EFF6FF', color: 'var(--primary-blue)',
-                  border: '1px solid var(--primary-blue-border)',
-                  fontSize: '10px', fontWeight: 700,
+                  background: '#eaf6fd', color: '#1e95d3',
+                  border: '1px solid rgba(30,149,211,0.25)',
+                  fontSize: '11px', fontWeight: 700,
                   padding: '3px 8px', borderRadius: '4px',
                   whiteSpace: 'nowrap',
                 }}>{p.type}</span>
               </div>
               <div style={{
-                fontSize: '11px', fontWeight: 700,
-                color: 'var(--accent-orange)',
-                textTransform: 'uppercase', letterSpacing: '0.06em',
+                fontSize: '11.5px', fontWeight: 700,
+                color: '#ff5b0b',
+                textTransform: 'uppercase', letterSpacing: '0.05em',
                 marginBottom: '10px',
               }}>{p.industry}</div>
-              <p style={{ fontSize: '13.5px', color: 'var(--text-body)', lineHeight: 1.6, margin: 0 }}>{p.description}</p>
+              <p style={{ fontSize: '13.5px', color: '#5f5f5f', lineHeight: 1.6, margin: 0 }}>{p.description}</p>
             </div>
           ))}
         </div>
@@ -482,17 +493,14 @@ function FAQSection() {
   const [openIdx, setOpenIdx] = useState(null);
 
   return (
-    <section style={{ padding: '96px 0', background: '#FFFFFF' }}>
-      <div className="container" style={{ maxWidth: '760px' }}>
-        <div style={{ textAlign: 'center', marginBottom: '56px' }}>
-          <h2 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(26px, 3vw, 40px)',
-            fontWeight: 800, letterSpacing: '-0.03em',
-            color: 'var(--text-main)', marginBottom: '12px',
-          }}>Frequently asked questions</h2>
-          <p style={{ color: 'var(--text-body)', fontSize: '16px' }}>
-            Everything you need to know before applying.
+    <section style={{ padding: '80px 0', background: '#FFFFFF' }}>
+      <div className="container" style={{ maxWidth: '780px', margin: '0 auto', padding: '0 20px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '52px' }}>
+          <h2 className="page_heading" style={{ margin: '0 auto 12px' }}>
+            Frequently Asked Questions
+          </h2>
+          <p style={{ color: '#5f5f5f', fontSize: '16px' }}>
+            Everything you need to know about joining the Aasaan Partner Program.
           </p>
         </div>
 
@@ -501,26 +509,26 @@ function FAQSection() {
             const isOpen = openIdx === i;
             return (
               <div key={i} style={{
-                border: `1px solid ${isOpen ? 'var(--primary-blue-border)' : 'var(--border-subtle)'}`,
+                border: `1px solid ${isOpen ? '#1e95d3' : '#e2e8f0'}`,
                 borderRadius: '10px',
                 overflow: 'hidden',
-                background: isOpen ? '#EFF6FF' : '#FFFFFF',
+                background: isOpen ? '#f6fbfe' : '#FFFFFF',
                 transition: 'background 0.2s ease, border-color 0.2s ease',
               }}>
                 <button
                   onClick={() => setOpenIdx(isOpen ? null : i)}
                   style={{
                     width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                    padding: '20px 24px',
+                    padding: '18px 22px',
                     background: 'transparent', border: 'none', cursor: 'pointer',
                     textAlign: 'left', gap: '16px',
                   }}
                 >
-                  <span style={{ fontSize: '15px', fontWeight: 700, color: 'var(--text-main)', lineHeight: 1.4 }}>{faq.q}</span>
-                  {isOpen ? <ChevronUp size={18} color="var(--primary-blue)" style={{ flexShrink: 0 }} /> : <ChevronDown size={18} color="var(--text-muted)" style={{ flexShrink: 0 }} />}
+                  <span style={{ fontSize: '15px', fontWeight: 700, color: '#212121', lineHeight: 1.4 }}>{faq.q}</span>
+                  {isOpen ? <ChevronUp size={18} color="#1e95d3" style={{ flexShrink: 0 }} /> : <ChevronDown size={18} color="#94a3b8" style={{ flexShrink: 0 }} />}
                 </button>
                 {isOpen && (
-                  <div style={{ padding: '0 24px 20px', fontSize: '14.5px', color: 'var(--text-body)', lineHeight: 1.7 }}>
+                  <div style={{ padding: '0 22px 20px', fontSize: '14.5px', color: '#475569', lineHeight: 1.7 }}>
                     {faq.a}
                   </div>
                 )}
@@ -536,36 +544,39 @@ function FAQSection() {
 function PartnerCTA({ onOpenDemo }) {
   return (
     <section style={{
-      padding: '96px 0',
-      background: 'linear-gradient(135deg, #1D4ED8 0%, #7C3AED 100%)',
+      padding: '80px 0',
+      background: 'linear-gradient(135deg, #1e95d3 0%, #0d6ea0 100%)',
       color: '#FFFFFF',
       textAlign: 'center',
     }}>
-      <div className="container" style={{ maxWidth: '640px' }}>
-        <div style={{ fontSize: '48px', marginBottom: '24px' }}>🤝</div>
+      <div className="container" style={{ maxWidth: '680px', margin: '0 auto', padding: '0 20px' }}>
+        <div style={{ fontSize: '44px', marginBottom: '18px' }}>🤝</div>
         <h2 style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(28px, 3.5vw, 48px)',
-          fontWeight: 900,
+          fontSize: 'clamp(28px, 3.5vw, 42px)',
+          fontWeight: 800,
           color: '#FFFFFF',
-          letterSpacing: '-0.03em',
+          letterSpacing: '-0.02em',
           marginBottom: '16px',
         }}>
-          Ready to build with Aasaan?
+          Ready to Grow Your Business with Aasaan?
         </h2>
-        <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.8)', lineHeight: 1.6, marginBottom: '40px' }}>
-          Join our partner network today. It's free to apply, free to train, and your first commission could arrive within 30 days.
+        <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.9)', lineHeight: 1.6, marginBottom: '36px' }}>
+          Join our partner ecosystem today. It's free to apply, complete with partner training, lead sharing, and lucrative recurring margins.
         </p>
         <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <a
             href="mailto:contactus@aasaanservices.in?subject=Partner Program Application"
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px',
-              background: '#FFFFFF', color: '#1D4ED8',
-              borderRadius: '8px', padding: '14px 32px',
+              background: '#FFFFFF', color: '#1e95d3',
+              borderRadius: '6px', padding: '13px 28px',
               fontSize: '15px', fontWeight: 800,
               textDecoration: 'none',
+              boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
+              transition: 'all 0.2s ease'
             }}
+            onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
+            onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
           >
             Apply Now — It's Free
             <ArrowRight size={16} />
@@ -574,11 +585,14 @@ function PartnerCTA({ onOpenDemo }) {
             onClick={onOpenDemo}
             style={{
               background: 'rgba(255,255,255,0.12)',
-              border: '1px solid rgba(255,255,255,0.3)',
-              borderRadius: '8px', color: '#FFFFFF',
-              padding: '14px 28px',
-              fontSize: '15px', fontWeight: 500, cursor: 'pointer',
+              border: '2px solid rgba(255,255,255,0.7)',
+              borderRadius: '6px', color: '#FFFFFF',
+              padding: '12px 26px',
+              fontSize: '15px', fontWeight: 700, cursor: 'pointer',
+              transition: 'all 0.2s ease'
             }}
+            onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.22)'}
+            onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.12)'}
           >
             Schedule a Partnership Call
           </button>
@@ -590,9 +604,9 @@ function PartnerCTA({ onOpenDemo }) {
 
 // ─── Page Assembly ─────────────────────────────────────────────────────────────
 
-export default function PartnersPage({ onOpenDemo }) {
+export default function PartnersPage({ onOpenDemo, onNavigate }) {
   return (
-    <div>
+    <div style={{ marginTop: '106px', minHeight: '100vh', background: '#FFFFFF' }}>
       <HeroSection onOpenDemo={onOpenDemo} />
       <TiersSection onOpenDemo={onOpenDemo} />
       <BenefitsSection />
@@ -600,6 +614,41 @@ export default function PartnersPage({ onOpenDemo }) {
       <PartnersShowcase />
       <FAQSection />
       <PartnerCTA onOpenDemo={onOpenDemo} />
+
+      {/* Floating CTA buttons */}
+      <div style={{ position: 'fixed', bottom: '24px', right: '20px', display: 'flex', flexDirection: 'column', gap: '10px', zIndex: 9000, alignItems: 'flex-end' }}>
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          title="Back to top"
+          style={{ width: '42px', height: '42px', borderRadius: '50%', background: '#ffffff', border: '2px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 10px rgba(0,0,0,0.12)', cursor: 'pointer', color: '#1e95d3', transition: 'all 0.2s ease' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = '#1e95d3'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.border = '2px solid #1e95d3'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = '#ffffff'; e.currentTarget.style.color = '#1e95d3'; e.currentTarget.style.border = '2px solid #e2e8f0'; }}
+        >
+          <i className="fas fa-chevron-up" style={{ fontSize: '14px' }}></i>
+        </button>
+
+        <a
+          href="https://wa.me/917428267616?text=Hi%2C%20I%20would%20like%20to%20know%20more%20about%20the%20Aasaan%20Partner%20Program"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px 10px 12px', borderRadius: '28px', background: '#25D366', boxShadow: '0 4px 16px rgba(37,211,102,0.45)', textDecoration: 'none', transition: 'transform 0.2s ease, box-shadow 0.2s ease', color: '#fff', fontWeight: 600, fontSize: '13.5px' }}
+          onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(37,211,102,0.6)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(37,211,102,0.45)'; }}
+        >
+          <i className="fab fa-whatsapp" style={{ fontSize: '22px' }}></i>
+          <span>WhatsApp Us</span>
+        </a>
+
+        <button
+          onClick={onOpenDemo}
+          style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px 10px 12px', borderRadius: '28px', background: 'var(--colorAccent)', border: 'none', boxShadow: '0 4px 16px rgba(30,149,211,0.4)', cursor: 'pointer', transition: 'transform 0.2s ease, box-shadow 0.2s ease', color: '#fff', fontWeight: 600, fontSize: '13.5px' }}
+          onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(30,149,211,0.6)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(30,149,211,0.4)'; }}
+        >
+          <i className="fas fa-calendar-check" style={{ fontSize: '18px' }}></i>
+          <span>Book a Demo</span>
+        </button>
+      </div>
     </div>
   );
 }
