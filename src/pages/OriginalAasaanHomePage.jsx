@@ -134,9 +134,9 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginTop: '8px' }}>
               <button
                 onClick={onOpenDemo}
-                style={{ background: '#ff5b0b', color: '#fff', border: 'none', borderRadius: '8px', padding: '14px 32px', fontSize: '15px', fontWeight: 800, cursor: 'pointer', boxShadow: '0 6px 20px rgba(255,91,11,0.45)', transition: 'all 0.2s ease' }}
-                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 10px 28px rgba(255,91,11,0.55)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(255,91,11,0.45)'; }}
+                style={{ background: 'var(--colorAccent)', color: '#fff', border: 'none', borderRadius: '8px', padding: '14px 32px', fontSize: '15px', fontWeight: 800, cursor: 'pointer', boxShadow: '0 6px 20px rgba(30,149,211,0.4)', transition: 'all 0.2s ease' }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 10px 28px rgba(30,149,211,0.55)'; e.currentTarget.style.background = '#157bb3'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(30,149,211,0.4)'; e.currentTarget.style.background = 'var(--colorAccent)'; }}
               >
                 Book a Free Demo →
               </button>
@@ -151,6 +151,13 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                 <i className="fab fa-whatsapp" style={{ fontSize: '18px', color: '#25D366' }}></i>
                 Talk to Us
               </a>
+            </div>
+
+            {/* Quick Micro Guarantees */}
+            <div style={{ display: 'flex', gap: '18px', flexWrap: 'wrap', fontSize: '12.5px', color: 'rgba(255,255,255,0.7)', alignItems: 'center', marginTop: '-4px' }}>
+              <span><i className="fas fa-shield-alt" style={{ color: '#75d0f7', marginRight: '6px' }}></i>ISO & AWS Certified</span>
+              <span><i className="fas fa-bolt" style={{ color: '#ffb38a', marginRight: '6px' }}></i>Free 30-Min Walkthrough</span>
+              <span><i className="fas fa-credit-card" style={{ color: '#75d0f7', marginRight: '6px' }}></i>No Credit Card Required</span>
             </div>
 
             {/* Social proof numbers */}
@@ -205,10 +212,10 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
           justifyContent: 'center'
         }}>
           {[
-            { icon: 'fas fa-rocket', title: 'Go Live in Days', desc: 'Not months. Fastest ERP implementation guaranteed — or we help you for free.', color: '#ff5b0b' },
-            { icon: 'fas fa-cloud', title: 'Cloud + On-Premise', desc: 'Hosted on AWS or your own servers. Your data, your control, your choice.', color: '#1e95d3' },
-            { icon: 'fas fa-headset', title: '24/7 Expert Support', desc: 'Real humans, not bots. Our team is always one call away whenever you need help.', color: '#1e95d3' },
-            { icon: 'fas fa-puzzle-piece', title: '9 Integrated Modules', desc: 'Finance, CRM, Sales, Inventory, HR and more — all talking to each other seamlessly.', color: '#ff5b0b' },
+            { icon: 'fas fa-rocket', title: 'Go Live in Days', desc: 'Not months. Fastest ERP implementation guaranteed — or we help you for free.', color: '#1e95d3' },
+            { icon: 'fas fa-cloud', title: 'Cloud + On-Premise', desc: 'Hosted on AWS or your own servers. Your data, your control, your choice.', color: '#0094DA' },
+            { icon: 'fas fa-headset', title: '24/7 Expert Support', desc: 'Real humans, not bots. Our team is always one call away whenever you need help.', color: '#1565c0' },
+            { icon: 'fas fa-puzzle-piece', title: '9 Integrated Modules', desc: 'Finance, CRM, Sales, Inventory, HR and more — all talking to each other seamlessly.', color: '#23779a' },
           ].map((f, i) => (
             <div key={i} style={{
               flex: '1 1 220px',
@@ -223,7 +230,7 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                 width: '42px',
                 height: '42px',
                 borderRadius: '10px',
-                background: f.color === '#ff5b0b' ? 'rgba(255,91,11,0.1)' : 'rgba(30,149,211,0.1)',
+                background: 'rgba(30,149,211,0.1)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -484,9 +491,9 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
         <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', justifyContent: 'center', marginTop: '8px' }}>
           <button
             onClick={onOpenDemo}
-            style={{ background: '#ff5b0b', color: '#fff', border: 'none', borderRadius: '8px', padding: '14px 32px', fontSize: '16px', fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 16px rgba(255,91,11,0.4)', transition: 'all 0.2s ease' }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = '#e04a00'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = '#ff5b0b'; e.currentTarget.style.transform = 'translateY(0)'; }}
+            style={{ background: '#ffffff', color: 'var(--colorAccent)', border: 'none', borderRadius: '8px', padding: '14px 32px', fontSize: '16px', fontWeight: 800, cursor: 'pointer', boxShadow: '0 4px 16px rgba(0,0,0,0.15)', transition: 'all 0.2s ease' }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = '#f0f9ff'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = '#ffffff'; e.currentTarget.style.transform = 'translateY(0)'; }}
           >
             Book a Free Demo →
           </button>
@@ -609,9 +616,9 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
         {/* Book Demo */}
         <button
           onClick={onOpenDemo}
-          style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px 10px 12px', borderRadius: '28px', background: 'var(--colorAccent2)', border: 'none', boxShadow: '0 4px 16px rgba(255,91,11,0.4)', cursor: 'pointer', transition: 'transform 0.2s ease, box-shadow 0.2s ease', color: '#fff', fontWeight: 600, fontSize: '13.5px' }}
-          onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(255,91,11,0.6)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(255,91,11,0.4)'; }}
+          style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px 10px 12px', borderRadius: '28px', background: 'var(--colorAccent)', border: 'none', boxShadow: '0 4px 16px rgba(30,149,211,0.4)', cursor: 'pointer', transition: 'transform 0.2s ease, box-shadow 0.2s ease', color: '#fff', fontWeight: 600, fontSize: '13.5px' }}
+          onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(30,149,211,0.6)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(30,149,211,0.4)'; }}
         >
           <i className="fas fa-calendar-check" style={{ fontSize: '18px' }}></i>
           <span>Book a Demo</span>

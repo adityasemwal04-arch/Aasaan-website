@@ -211,8 +211,8 @@ h1, h2, h3, h4, h5, span, ul, li, p, td, a {
 }
 
 .accent_button:hover {
-    background-color: var(--colorAccent2);
-    box-shadow: 0 4px 14px rgba(255, 91, 11, 0.3);
+    background-color: #157bb3;
+    box-shadow: 0 4px 14px rgba(30, 149, 211, 0.35);
 }
 
 .accent_button.orange {
