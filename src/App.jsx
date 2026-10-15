@@ -5,7 +5,7 @@ import GlobalSearchModal from './components/GlobalSearchModal';
 import ScheduleDemoModal from './components/ScheduleDemoModal';
 
 // Pages
-import HomePage from './pages/HomePage';
+import HomePage from './pages/OriginalAasaanHomePage';
 import ErpGlobalPage from './pages/ErpGlobalPage';
 import ErpLitePage from './pages/ErpLitePage';
 import AwmPage from './pages/AwmPage';
