@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
 import { Lock, Search } from 'lucide-react';
 import { getActiveAnnouncements } from '../services/dataService';
+import { getAssetUrl, handleImageError } from '../utils/assetHelper';
 
 export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNavigate }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -88,7 +88,12 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-          <img src="/aasaan-logo.png" alt="Aasaan ERP" style={{ height: '32px' }} />
+          <img
+            src={getAssetUrl('aasaan-logo.png')}
+            onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/aasaan-logo.png')}
+            alt="Aasaan ERP"
+            style={{ height: '32px' }}
+          />
           <button
             onClick={() => setMobileMenuOpen(false)}
             style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '20px', color: '#212121' }}
@@ -225,7 +230,8 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
           >
             <img
               id="main_logo"
-              src="/aasaan-logo.png"
+              src={getAssetUrl('aasaan-logo.png')}
+              onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/aasaan-logo.png')}
               alt="Aasaan ERP"
               style={{ height: '38px', objectFit: 'contain' }}
             />

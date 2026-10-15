@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { integrationCategories } from '../data/integrationsData';
+import { getAssetUrl, handleImageError } from '../utils/assetHelper';
 
 export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
   // Why Aasaan Tabs (0: Effortless to Use, 1: Your Business Anywhere, 2: Proven. Powerful. Trusted.)
@@ -17,35 +17,40 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       name: 'Tadweeer',
       industry: 'Recycling & Waste Management',
       work: 'Recycling operations management.',
-      img: '/media/Taqdweer_11.png'
+      img: 'media/Taqdweer_11.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Taqdweer_11.png'
     },
     {
       id: 1,
       name: 'Resustainability',
       industry: 'Environmental Services & Sustainability Solutions',
       work: 'Sustainability project tracking',
-      img: '/media/Resustainability_11.png'
+      img: 'media/Resustainability_11.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Resustainability_11.png'
     },
     {
       id: 2,
       name: 'Galaxy Tools',
       industry: 'Industrial Tools & Equipment Manufacturing',
       work: 'Production and inventory',
-      img: '/media/Galaxy_Tools1_MYqjHU9.png'
+      img: 'media/Galaxy_Tools1_MYqjHU9.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Galaxy_Tools1_MYqjHU9.png'
     },
     {
       id: 3,
       name: 'Shofu Dental',
       industry: 'Dental Products & Medical Equipment',
       work: 'Stock and order management',
-      img: '/media/Shofu_Dental_1.png'
+      img: 'media/Shofu_Dental_1.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Shofu_Dental_1.png'
     },
     {
       id: 4,
       name: 'Miranay Trading and Investment',
       industry: 'Trading & Investment Services',
       work: 'Financial operations management',
-      img: '/media/Miranay_Trading_and_Investment_11.png'
+      img: 'media/Miranay_Trading_and_Investment_11.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Miranay_Trading_and_Investment_11.png'
     }
   ];
 
@@ -53,47 +58,56 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
     {
       name: 'Financial Management',
       desc: 'A full suite of accounting functions and reporting tools, to meet the needs of growing companies.',
-      img: '/media/Group_1281.png'
+      img: 'media/Group_1281.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Group_1281.png'
     },
     {
       name: 'Stock Control',
       desc: 'Effortlessly manage inventory with AASAAN ERP’s smart Stock Control module.',
-      img: '/media/Group_1282.png'
+      img: 'media/Group_1282.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Group_1282.png'
     },
     {
       name: 'CRM',
       desc: 'Seamlessly manage leads, track customer interactions, and boost sales conversions.',
-      img: '/media/Group_1283.png'
+      img: 'media/Group_1283.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Group_1283.png'
     },
     {
       name: 'Purchasing',
       desc: "Streamline vendor management and optimize procurement with Aasaan ERP's smart Purchasing module.",
-      img: '/media/Group_1287.png'
+      img: 'media/Group_1287.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Group_1287.png'
     },
     {
       name: 'Sales',
       desc: 'Effortlessly manage your entire sales cycle with AASAAN ERP – from lead to deal!',
-      img: '/media/Group_1284.png'
+      img: 'media/Group_1284.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Group_1284.png'
     },
     {
       name: 'Service',
       desc: "Streamline your operations and elevate customer satisfaction with AASAAN ERP's smart Service module.",
-      img: '/media/Group_1285.png'
+      img: 'media/Group_1285.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Group_1285.png'
     },
     {
       name: 'Reporting',
       desc: 'Comprehensive, real-time insights at your fingertips with AASAAN ERP Reporting.',
-      img: '/media/Group_1286.png'
+      img: 'media/Group_1286.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Group_1286.png'
     },
     {
       name: 'Manufacturing',
       desc: "Streamline your production process with AASAAN ERP's intelligent Manufacturing module.",
-      img: '/media/Group_1288.png'
+      img: 'media/Group_1288.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Group_1288.png'
     },
     {
       name: 'Waste Management',
       desc: 'AWM is tailored for businesses in the waste management sector, offering comprehensive tools for inventory tracking, bin management, and order fulfillment.',
-      img: '/media/Waste_Management_pic.png'
+      img: 'media/Waste_Management_pic.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Waste_Management_pic.png'
     }
   ];
 
@@ -111,6 +125,7 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
   ];
 
   const currentToolCategory = toolCategories[toolTab] || toolCategories[0];
+  const activeClient = clients[clientTab] || clients[0];
 
   return (
     <div className="column_alignment base_margin" style={{ marginTop: '98px' }}>
@@ -121,7 +136,7 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       <div className="column_alignment" style={{ background: '#f8f9fa' }}>
         
         {/* Video / Banner Container */}
-        <div className="column_alignment" style={{ position: 'relative', width: '100%', overflow: 'hidden', minHeight: '380px', background: '#000' }}>
+        <div className="column_alignment" style={{ position: 'relative', width: '100%', overflow: 'hidden', minHeight: '380px', background: '#f8f9fa' }}>
           <div
             onClick={onOpenDemo}
             style={{ position: 'relative', zIndex: 2, cursor: 'pointer', width: '100%' }}
@@ -132,11 +147,17 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
               playsInline
               loop
               muted
-              poster="/images/aasaan_erp_header_desktop.png"
+              poster={getAssetUrl('images/aasaan_erp_header_desktop.png')}
               style={{ width: '100%', maxHeight: '550px', objectFit: 'cover', display: 'block' }}
             >
-              <source src="/images/aasaan_header_video.mp4" type="video/mp4" />
-              <img src="/images/aasaan_erp_header_desktop.png" alt="Aasaan ERP Header" style={{ width: '100%' }} />
+              <source src={getAssetUrl('images/aasaan_header_video.mp4')} type="video/mp4" />
+              <source src="https://www.aasaanerp.com/static/main/images/aasaan_header_video.mp4" type="video/mp4" />
+              <img
+                src={getAssetUrl('images/aasaan_erp_header_desktop.png')}
+                onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/aasaan_erp_header_desktop.png')}
+                alt="Aasaan ERP Header"
+                style={{ width: '100%' }}
+              />
             </video>
           </div>
         </div>
@@ -148,7 +169,8 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
             style={{ width: '90%', maxWidth: '850px', padding: '36px 0', gap: '20px' }}
           >
             <img
-              src="/images/best_software_tag.png"
+              src={getAssetUrl('images/best_software_tag.png')}
+              onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/best_software_tag.png')}
               alt="Best Software Tag"
               style={{ width: '150px', objectFit: 'contain', flexShrink: 0 }}
             />
@@ -167,7 +189,8 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
             <div className="row_column_alignment two home_trusted_section" style={{ alignItems: 'center', gap: '30px' }}>
               <div className="column_alignment" style={{ flex: 1 }}>
                 <img
-                  src="/images/AI Driven Image.jpg"
+                  src={getAssetUrl('images/AI Driven Image.jpg')}
+                  onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/AI%20Driven%20Image.jpg')}
                   alt="AI Driven ERP"
                   style={{ width: '100%', borderRadius: '12px 60px 12px 12px', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
                 />
@@ -251,7 +274,8 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                   <div className="column_alignment align_self_center" style={{ flex: 1, textAlign: 'center' }}>
                     <img
                       style={{ width: '90%', maxWidth: '450px', alignSelf: 'center', borderRadius: '12px', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
-                      src="/images/Why Aasaan Image 1 Effortless Use.jpg"
+                      src={getAssetUrl('images/Why Aasaan Image 1 Effortless Use.jpg')}
+                      onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/Why%20Aasaan%20Image%201%20Effortless%20Use.jpg')}
                       alt="Effortless to Use"
                     />
                   </div>
@@ -278,7 +302,8 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                   <div className="column_alignment align_self_center" style={{ flex: 1, textAlign: 'center' }}>
                     <img
                       style={{ width: '90%', maxWidth: '450px', alignSelf: 'center', borderRadius: '12px', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
-                      src="/images/Why Aasaan Image 2 Business Anywhere.jpg"
+                      src={getAssetUrl('images/Why Aasaan Image 2 Business Anywhere.jpg')}
+                      onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/Why%20Aasaan%20Image%202%20Business%20Anywhere.jpg')}
                       alt="Your Business Anywhere"
                     />
                   </div>
@@ -305,7 +330,8 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                   <div className="column_alignment align_self_center" style={{ flex: 1, textAlign: 'center' }}>
                     <img
                       style={{ width: '90%', maxWidth: '450px', alignSelf: 'center', borderRadius: '12px', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
-                      src="/images/Why Aasaan Image 3 Proven trusted.jpg"
+                      src={getAssetUrl('images/Why Aasaan Image 3 Proven trusted.jpg')}
+                      onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/Why%20Aasaan%20Image%203%20Proven%20trusted.jpg')}
                       alt="Proven Powerful Trusted"
                     />
                   </div>
@@ -333,7 +359,11 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                   className="modules_section_item column_alignment"
                   onClick={onOpenDemo}
                 >
-                  <img src={m.img} alt={m.name} />
+                  <img
+                    src={getAssetUrl(m.img)}
+                    onError={(e) => handleImageError(e, m.fallback)}
+                    alt={m.name}
+                  />
                   <div className="content column_alignment align_center">
                     <span>{m.name}</span>
                     <p>{m.desc}</p>
@@ -397,8 +427,9 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
               <div className="column_alignment" style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <img
                   className="client_section_img"
-                  src={clients[clientTab]?.img || clients[0].img}
-                  alt={clients[clientTab]?.name || 'Client Showcase'}
+                  src={getAssetUrl(activeClient.img)}
+                  onError={(e) => handleImageError(e, activeClient.fallback)}
+                  alt={activeClient.name}
                   style={{ display: 'block' }}
                 />
               </div>
@@ -424,7 +455,8 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
             <div className="row_column_alignment two" style={{ margin: '16px 0', gap: '24px', justifyContent: 'center' }}>
               <div className="column_alignment" style={{ flex: 1, alignItems: 'center' }}>
                 <img
-                  src="/images/implementation_img.jpg"
+                  src={getAssetUrl('images/implementation_img.jpg')}
+                  onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/implementation_img.jpg')}
                   alt="Implementation and Architecture"
                   style={{ width: '95%', maxWidth: '540px', boxShadow: '0 4px 16px rgba(0,0,0,0.1)', borderRadius: '8px' }}
                 />
@@ -432,7 +464,8 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
 
               <div className="column_alignment" style={{ flex: 1, alignItems: 'center' }}>
                 <img
-                  src="/images/instant_go_live_img.jpg"
+                  src={getAssetUrl('images/instant_go_live_img.jpg')}
+                  onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/instant_go_live_img.jpg')}
                   alt="Instant Go Live"
                   style={{ width: '95%', maxWidth: '540px', boxShadow: '0 4px 16px rgba(0,0,0,0.1)', borderRadius: '8px' }}
                 />
@@ -486,11 +519,11 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                   {Array.from({ length: currentToolCategory.count }, (_, i) => i + 1).map((num) => (
                     <img
                       key={num}
-                      src={`/tools/${currentToolCategory.dir}/logo_${num}.png`}
-                      alt={`${currentToolCategory.name} Logo ${num}`}
+                      src={getAssetUrl(`tools/${currentToolCategory.dir}/logo_${num}.png`)}
                       onError={(e) => {
-                        e.target.style.display = 'none';
+                        e.currentTarget.src = `https://www.aasaanerp.com/static/main/images/tools/${currentToolCategory.dir}/logo_${num}.png`;
                       }}
+                      alt={`${currentToolCategory.name} Logo ${num}`}
                     />
                   ))}
                 </div>
