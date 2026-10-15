@@ -1,5 +1,6 @@
 import React from 'react';
 import { getAssetUrl, handleImageError } from '../utils/assetHelper';
+import aasaanLogoSrc from '../assets/aasaan-logo.png';
 
 export default function Footer({ onOpenDemo, onNavigate }) {
   const handlePageLink = (pageId, href, e) => {
@@ -21,10 +22,9 @@ export default function Footer({ onOpenDemo, onNavigate }) {
           <div className="footer_container column_alignment" style={{ flex: '1.2', minWidth: '280px' }}>
             <img
               className="footer_logo"
-              src={getAssetUrl('aasaan-logo.png')}
-              onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/aasaan-logo.png')}
+              src={aasaanLogoSrc}
               alt="Aasaan ERP"
-              style={{ filter: 'brightness(0) invert(1)', width: '170px' }}
+              style={{ width: '170px', objectFit: 'contain' }}
             />
             <p>
               Aasaan ERP is a powerful business management software that can perfectly integrate with any type of business. The most
