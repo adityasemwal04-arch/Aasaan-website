@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { getAssetUrl, handleImageError } from '../utils/assetHelper';
 import heroImg from '../assets/aasaan_erp_header_desktop.png';
 import aasaanLogoSrc from '../assets/aasaan-logo.png';
@@ -17,15 +18,87 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
   ];
 
   const modules = [
-    { slug: 'financial-management', name: 'Financial Management', desc: 'A full suite of accounting functions and reporting tools, to meet the needs of growing companies.', img: 'media/Group_1281.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1281.png' },
-    { slug: 'stock-control', name: 'Stock Control', desc: 'Effortlessly manage inventory with AASAAN ERP\'s smart Stock Control module.', img: 'media/Group_1282.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1282.png' },
-    { slug: 'crm', name: 'CRM', desc: 'Seamlessly manage leads, track customer interactions, and boost sales conversions.', img: 'media/Group_1283.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1283.png' },
-    { slug: 'purchasing', name: 'Purchasing', desc: "Streamline vendor management and optimize procurement with Aasaan ERP's smart Purchasing module.", img: 'media/Group_1287.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1287.png' },
-    { slug: 'sales', name: 'Sales', desc: 'Effortlessly manage your entire sales cycle with AASAAN ERP – from lead to deal!', img: 'media/Group_1284.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1284.png' },
-    { slug: 'service', name: 'Service', desc: "Streamline your operations and elevate customer satisfaction with AASAAN ERP's smart Service module.", img: 'media/Group_1285.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1285.png' },
-    { slug: 'reporting', name: 'Reporting', desc: 'Comprehensive, real-time insights at your fingertips with AASAAN ERP Reporting.', img: 'media/Group_1286.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1286.png' },
-    { slug: 'manufacturing', name: 'Manufacturing', desc: "Streamline your production process with AASAAN ERP's intelligent Manufacturing module.", img: 'media/Group_1288.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1288.png' },
-    { slug: 'waste-management', name: 'Waste Management', desc: 'AWM is tailored for businesses in the waste management sector, offering comprehensive tools for inventory tracking, bin management, and order fulfillment.', img: 'media/Waste_Management_pic.png', fallback: 'https://www.aasaanerp.com/media/solutions/Waste_Management_pic.png' }
+    {
+      slug: 'financial-management',
+      name: 'Financial Management',
+      tag: 'Accounting & GST',
+      desc: 'A full suite of accounting functions, automated GST, multi-currency ledgers, and real-time financial reporting.',
+      img: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Group_1281.png',
+      features: ['Multi-Currency Ledgers', 'Auto GST & e-Way']
+    },
+    {
+      slug: 'stock-control',
+      name: 'Stock Control',
+      tag: 'Inventory & Depots',
+      desc: 'Effortlessly manage multi-warehouse inventory, bin locations, batch/serial tracking, and automated reorder alerts.',
+      img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Group_1282.png',
+      features: ['Bin-Level Locations', 'FEFO / FIFO Batching']
+    },
+    {
+      slug: 'crm',
+      name: 'CRM',
+      tag: 'Lead & Pipeline',
+      desc: 'Seamlessly capture omni-channel leads, track customer interactions on visual Kanban pipelines, and boost conversions.',
+      img: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Group_1283.png',
+      features: ['Visual Deal Pipeline', 'Instant Quote Builder']
+    },
+    {
+      slug: 'purchasing',
+      name: 'Purchasing',
+      tag: 'Vendor Procurement',
+      desc: 'Streamline vendor management, automate RFQ comparisons, and ensure 3-way matching of PO, GRN, and invoices.',
+      img: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Group_1287.png',
+      features: ['RFQ Rate Matrices', '3-Way PO Matching']
+    },
+    {
+      slug: 'sales',
+      name: 'Sales',
+      tag: 'Order Fulfillment',
+      desc: 'Effortlessly manage your entire sales cycle with tier-based pricing, credit limit approvals, and 1-click e-invoicing.',
+      img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Group_1284.png',
+      features: ['Tier-Based Pricing', 'Direct e-Invoicing']
+    },
+    {
+      slug: 'service',
+      name: 'Service',
+      tag: 'Field Operations',
+      desc: 'Streamline customer ticketing, mobile technician dispatch, warranty tracking, and Annual Maintenance Contracts (AMC).',
+      img: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=80',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Group_1285.png',
+      features: ['Technician Dispatch', 'AMC & Warranty SLA']
+    },
+    {
+      slug: 'reporting',
+      name: 'Reporting',
+      tag: 'BI & Analytics',
+      desc: 'Comprehensive, real-time insights at your fingertips with 300+ pre-built reports, executive KPIs, and drill-downs.',
+      img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Group_1286.png',
+      features: ['300+ Standard Reports', 'Live Executive KPIs']
+    },
+    {
+      slug: 'manufacturing',
+      name: 'Manufacturing',
+      tag: 'Production & Shop Floor',
+      desc: 'Streamline your production with multi-level Bill of Materials (BOM), work center routings, digital job cards, and MRP.',
+      img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Group_1288.png',
+      features: ['Multi-Level BOMs', 'MRP & Shop Routing']
+    },
+    {
+      slug: 'waste-management',
+      name: 'Waste Management',
+      tag: 'AWM Specialized Solution',
+      desc: 'Dedicated enterprise tools for weighbridge hardware automation, RFID skip bin tracking, and environmental EPR compliance.',
+      img: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Waste_Management_pic.png',
+      features: ['Weighbridge Sync', 'Bin RFID Logistics']
+    }
   ];
 
   const toolCategories = [
@@ -413,16 +486,44 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       {/* ============================================================ */}
       {/* 3. MODULES OF AASAAN ERP                                     */}
       {/* ============================================================ */}
-      <div id="modules" className="column_alignment section_wrapper" style={{ background: '#f6fbfe' }}>
-        <div className="column_alignment main_content align_self_center">
-          <h2 className="page_heading align_self_center" style={{ maxWidth: '700px' }}>
-            MODULES OF <b>AASAAN ERP</b>
-          </h2>
-          <div className="row_alignment wrap align_center" style={{ justifyContent: 'center' }}>
+      <div id="modules" className="column_alignment section_wrapper" style={{ background: '#f8fafc', padding: '80px 20px' }}>
+        <div className="column_alignment main_content align_self_center" style={{ maxWidth: '1200px' }}>
+          
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              background: '#eaf6fd',
+              color: '#1e95d3',
+              border: '1px solid rgba(30,149,211,0.25)',
+              borderRadius: '99px',
+              padding: '4px 14px',
+              fontSize: '12px',
+              fontWeight: 700,
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+              marginBottom: '14px'
+            }}>
+              <Sparkles size={12} color="#1e95d3" /> Integrated Enterprise Suite
+            </div>
+            <h2 className="page_heading align_self_center" style={{ maxWidth: '750px', margin: '0 auto 12px' }}>
+              MODULES OF <b>AASAAN ERP</b>
+            </h2>
+            <p style={{ color: '#5f5f5f', fontSize: '16px', maxWidth: '640px', margin: '0 auto', lineHeight: 1.6 }}>
+              Enterprise-grade depth across every department. Built to operate in real time, with seamless cross-module workflows.
+            </p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(330px, 1fr))',
+            gap: '24px',
+            width: '100%'
+          }}>
             {modules.map((m, idx) => (
               <div
                 key={idx}
-                className="modules_section_item column_alignment"
                 onClick={() => {
                   if (onNavigate) {
                     onNavigate(`blog/${m.slug}`);
@@ -431,13 +532,132 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                   }
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                style={{ cursor: 'pointer' }}
-                title={`Explore ${m.name} Architecture`}
+                style={{
+                  background: '#FFFFFF',
+                  borderRadius: '16px',
+                  border: '1px solid #e2e8f0',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 14px rgba(0,0,0,0.04)',
+                  transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
+                  position: 'relative'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-6px)';
+                  e.currentTarget.style.boxShadow = '0 18px 36px rgba(30, 149, 211, 0.16)';
+                  e.currentTarget.style.borderColor = '#1e95d3';
+                  const img = e.currentTarget.querySelector('.module-card-img');
+                  if (img) img.style.transform = 'scale(1.06)';
+                  const arrow = e.currentTarget.querySelector('.module-arrow');
+                  if (arrow) arrow.style.transform = 'translateX(4px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 14px rgba(0,0,0,0.04)';
+                  e.currentTarget.style.borderColor = '#e2e8f0';
+                  const img = e.currentTarget.querySelector('.module-card-img');
+                  if (img) img.style.transform = 'scale(1)';
+                  const arrow = e.currentTarget.querySelector('.module-arrow');
+                  if (arrow) arrow.style.transform = 'translateX(0)';
+                }}
+                title={`Explore ${m.name} Architecture & Features`}
               >
-                <img src={getAssetUrl(m.img)} onError={(e) => handleImageError(e, m.fallback)} alt={m.name} />
-                <div className="content column_alignment align_center">
-                  <span>{m.name}</span>
-                  <p>{m.desc}</p>
+                {/* Photo Banner with Tag */}
+                <div style={{ height: '190px', position: 'relative', overflow: 'hidden', background: '#0f172a' }}>
+                  <img
+                    className="module-card-img"
+                    src={m.img}
+                    onError={(e) => handleImageError(e, m.fallback)}
+                    alt={m.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block',
+                      transition: 'transform 0.4s ease'
+                    }}
+                    loading="lazy"
+                  />
+                  <div style={{
+                    position: 'absolute',
+                    top: '12px',
+                    left: '12px',
+                    background: 'rgba(255, 255, 255, 0.94)',
+                    backdropFilter: 'blur(6px)',
+                    color: '#1e95d3',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    padding: '3px 10px',
+                    borderRadius: '99px',
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.12)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em'
+                  }}>
+                    {m.tag}
+                  </div>
+                </div>
+
+                {/* Body Content */}
+                <div style={{ padding: '22px 20px 18px', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
+                  <div>
+                    <h3 style={{
+                      fontSize: '19px',
+                      fontWeight: 800,
+                      color: '#212121',
+                      margin: '0 0 8px',
+                      letterSpacing: '-0.01em'
+                    }}>
+                      {m.name}
+                    </h3>
+                    <p style={{
+                      fontSize: '13.5px',
+                      color: '#5f5f5f',
+                      lineHeight: 1.55,
+                      margin: '0 0 14px',
+                      minHeight: '42px'
+                    }}>
+                      {m.desc}
+                    </p>
+
+                    {/* Feature Chips */}
+                    {m.features && (
+                      <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '14px' }}>
+                        {m.features.map((feat, fIdx) => (
+                          <span
+                            key={fIdx}
+                            style={{
+                              background: '#f6fbfe',
+                              color: '#1e95d3',
+                              border: '1px solid rgba(30,149,211,0.2)',
+                              fontSize: '11px',
+                              fontWeight: 600,
+                              borderRadius: '6px',
+                              padding: '2px 8px'
+                            }}
+                          >
+                            {feat}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Card Footer Link */}
+                  <div style={{
+                    borderTop: '1px solid #f1f5f9',
+                    paddingTop: '12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    fontSize: '13.5px',
+                    fontWeight: 700,
+                    color: '#1e95d3'
+                  }}>
+                    <span>Explore Architecture</span>
+                    <ArrowRight className="module-arrow" size={15} style={{ transition: 'transform 0.2s ease' }} />
+                  </div>
                 </div>
               </div>
             ))}
