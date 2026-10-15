@@ -129,7 +129,36 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
 
   return (
     <div className="column_alignment base_margin" style={{ marginTop: '98px' }}>
-      
+
+      {/* ----------------------------------------------------------- */}
+      {/* TRUST / STATS BAR                                           */}
+      {/* ----------------------------------------------------------- */}
+      <div style={{
+        background: 'var(--colorAccent)',
+        color: '#ffffff',
+        padding: '12px 20px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+        gap: '32px',
+        fontSize: '14px',
+        fontWeight: 600
+      }}>
+        {[
+          { value: '100+', label: 'Businesses Served' },
+          { value: '9', label: 'ERP Modules' },
+          { value: '10+', label: 'Years of Innovation' },
+          { value: '24/7', label: 'Expert Support' },
+        ].map((stat, i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span style={{ fontSize: '20px', fontWeight: 800, color: '#fff' }}>{stat.value}</span>
+            <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 500 }}>{stat.label}</span>
+            {i < 3 && <span style={{ color: 'rgba(255,255,255,0.4)', marginLeft: '16px' }}>|</span>}
+          </div>
+        ))}
+      </div>
+
       {/* ------------------------------------------------------------- */}
       {/* 1. HERO HEADER VIDEO / BANNER                                 */}
       {/* ------------------------------------------------------------- */}
@@ -534,6 +563,66 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
           </div>
         </div>
 
+      </div>
+
+      {/* ----------------------------------------------------------- */}
+      {/* FLOATING BUTTONS: WhatsApp + Demo CTA                       */}
+      {/* ----------------------------------------------------------- */}
+      <div style={{
+        position: 'fixed',
+        bottom: '24px',
+        right: '24px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '12px',
+        zIndex: 9000
+      }}>
+        {/* WhatsApp Button */}
+        <a
+          href="https://wa.me/917428267616?text=Hi%2C%20I%20would%20like%20to%20know%20more%20about%20Aasaan%20ERP"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Chat on WhatsApp"
+          style={{
+            width: '52px',
+            height: '52px',
+            borderRadius: '50%',
+            background: '#25D366',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 4px 16px rgba(37, 211, 102, 0.5)',
+            textDecoration: 'none',
+            transition: 'transform 0.2s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          <i className="fab fa-whatsapp" style={{ fontSize: '26px', color: '#fff' }}></i>
+        </a>
+
+        {/* Schedule Demo Button */}
+        <button
+          onClick={onOpenDemo}
+          title="Schedule a Demo"
+          style={{
+            width: '52px',
+            height: '52px',
+            borderRadius: '50%',
+            background: 'var(--colorAccent2)',
+            border: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 4px 16px rgba(255, 91, 11, 0.45)',
+            cursor: 'pointer',
+            transition: 'transform 0.2s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          <i className="fas fa-calendar-check" style={{ fontSize: '20px', color: '#fff' }}></i>
+        </button>
       </div>
 
     </div>

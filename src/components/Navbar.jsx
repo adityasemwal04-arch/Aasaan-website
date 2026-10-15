@@ -234,7 +234,7 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
               src={getAssetUrl('aasaan-logo.png')}
               onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/aasaan-logo.png')}
               alt="Aasaan ERP"
-              style={{ height: '38px', objectFit: 'contain' }}
+              style={{ height: '44px', objectFit: 'contain' }}
             />
           </a>
 
