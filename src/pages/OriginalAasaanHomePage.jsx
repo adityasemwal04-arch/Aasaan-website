@@ -190,6 +190,57 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       </div>
 
       {/* ============================================================ */}
+      {/* FEATURE STRIP — 3 Quick Trust Cards                         */}
+      {/* ============================================================ */}
+      <div style={{
+        background: '#ffffff',
+        borderBottom: '1px solid #e2e8f0',
+        padding: '0 24px'
+      }}>
+        <div style={{
+          maxWidth: '1200px',
+          margin: '0 auto',
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center'
+        }}>
+          {[
+            { icon: 'fas fa-rocket', title: 'Go Live in Days', desc: 'Not months. Fastest ERP implementation guaranteed — or we help you for free.', color: '#ff5b0b' },
+            { icon: 'fas fa-cloud', title: 'Cloud + On-Premise', desc: 'Hosted on AWS or your own servers. Your data, your control, your choice.', color: '#1e95d3' },
+            { icon: 'fas fa-headset', title: '24/7 Expert Support', desc: 'Real humans, not bots. Our team is always one call away whenever you need help.', color: '#1e95d3' },
+            { icon: 'fas fa-puzzle-piece', title: '9 Integrated Modules', desc: 'Finance, CRM, Sales, Inventory, HR and more — all talking to each other seamlessly.', color: '#ff5b0b' },
+          ].map((f, i) => (
+            <div key={i} style={{
+              flex: '1 1 220px',
+              padding: '28px 20px',
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '14px',
+              borderRight: i < 3 ? '1px solid #e2e8f0' : 'none',
+              minWidth: '200px'
+            }}>
+              <div style={{
+                width: '42px',
+                height: '42px',
+                borderRadius: '10px',
+                background: f.color === '#ff5b0b' ? 'rgba(255,91,11,0.1)' : 'rgba(30,149,211,0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0
+              }}>
+                <i className={f.icon} style={{ fontSize: '18px', color: f.color }}></i>
+              </div>
+              <div>
+                <div style={{ fontWeight: 700, fontSize: '14.5px', color: '#212121', marginBottom: '4px' }}>{f.title}</div>
+                <div style={{ fontSize: '13px', color: '#6b7280', lineHeight: 1.5 }}>{f.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ============================================================ */}
       {/* COMMUNITY & TAGLINE                                          */}
       {/* ============================================================ */}
       <div className="column_alignment" style={{ background: '#fff' }}>
@@ -263,9 +314,9 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
           </h2>
 
           <div className="why_aasaan_tabs_wrapper">
-            <span onClick={() => setWhyTab(0)} className={whyTab === 0 ? 'active' : ''}>Effortless to Use</span>
-            <span onClick={() => setWhyTab(1)} className={whyTab === 1 ? 'active' : ''}>Your Business, Anywhere</span>
-            <span onClick={() => setWhyTab(2)} className={whyTab === 2 ? 'active' : ''}>Proven. Powerful. Trusted.</span>
+            <span onClick={() => setWhyTab(0)} className={whyTab === 0 ? 'active' : ''}>⚡ Effortless to Use</span>
+            <span onClick={() => setWhyTab(1)} className={whyTab === 1 ? 'active' : ''}>🌐 Your Business, Anywhere</span>
+            <span onClick={() => setWhyTab(2)} className={whyTab === 2 ? 'active' : ''}>🏆 Proven. Powerful. Trusted.</span>
           </div>
 
           {whyTab === 0 && (
