@@ -1,31 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Sparkles, ArrowRight, Menu, X, Lock } from 'lucide-react';
-import AasaanLogo from './AasaanLogo';
+import { Lock, Search } from 'lucide-react';
 import { getActiveAnnouncements } from '../services/dataService';
 
 export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNavigate }) {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
   const [topBannerIndex, setTopBannerIndex] = useState(0);
   const [announcements, setAnnouncements] = useState([
-    { id: 'default', text: 'Your ERP, Your Rules — Custom Fields & Intelligent Workflows Made Easy.', badge: 'ENTERPRISE RELEASE' }
+    { id: '1', text: 'Your ERP, Your Rules — Custom Fields Made Easy.' },
+    { id: '2', text: 'Aasaan Global Search: One Search Box. Every Answer.' },
+    { id: '3', text: 'Run Your Business Smarter, Not Harder – Meet Aasaan ERP.' }
   ]);
 
-  // Load live announcements from backend/localStorage
+  // Load announcements from backend / localStorage
   useEffect(() => {
     getActiveAnnouncements().then((data) => {
-      if (data && data.length > 0) setAnnouncements(data);
+      if (data && data.length > 0) {
+        setAnnouncements(data.map(d => ({ id: d.id, text: d.text })));
+      }
     });
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
+  // Autoplay top announcement carousel
   useEffect(() => {
     if (announcements.length <= 1) return;
     const interval = setInterval(() => {
@@ -34,20 +30,20 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
     return () => clearInterval(interval);
   }, [announcements.length]);
 
-  const currentAnn = announcements[topBannerIndex] || announcements[0];
+  const handlePrevBanner = (e) => {
+    e.preventDefault();
+    setTopBannerIndex((prev) => (prev - 1 + announcements.length) % announcements.length);
+  };
 
-
-  const navItems = [
-    { id: 'home', label: 'Home', href: '#/' },
-    { id: 'global', label: 'Aasaan Enterprises', href: '#/global', badge: 'Mid-Large Market' },
-    { id: 'lite', label: 'ERP Lite', href: '#/lite', badge: 'Small Businesses' },
-    { id: 'awm', label: 'AWM', href: '#/awm', badge: 'Waste & Recycling' },
-    { id: 'partners', label: 'Partners', href: '#/partners' }
-  ];
+  const handleNextBanner = (e) => {
+    e.preventDefault();
+    setTopBannerIndex((prev) => (prev + 1) % announcements.length);
+  };
 
   const handleNavClick = (pageId, href, e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     setMobileMenuOpen(false);
+    setProductsDropdownOpen(false);
     if (onNavigate) {
       onNavigate(pageId);
     } else {
@@ -56,256 +52,384 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const currentAnnouncement = announcements[topBannerIndex] || announcements[0];
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50">
-      {/* Top micro-announcement bar */}
-      <div style={{
-        background: '#0B1329',
-        color: '#94A3B8',
-        fontSize: '12px',
-        padding: '6px 16px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '12px',
-        borderBottom: '1px solid rgba(255,255,255,0.08)'
-      }}>
-        <span style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '6px',
-          color: '#FB923C',
-          fontWeight: 600,
-          textTransform: 'uppercase',
-          letterSpacing: '0.05em',
-          fontSize: '11px'
-        }}>
-          <Sparkles size={12} /> {currentAnn?.badge || 'ENTERPRISE RELEASE'}
-        </span>
-        <span style={{ color: '#E2E8F0', fontWeight: 500 }} className="transition-all duration-300">
-          {currentAnn?.text || ''}
-        </span>
-      </div>
+    <>
+      {/* Mobile Side Navigation Drawer */}
+      {mobileMenuOpen && (
+        <div
+          id="drawer_background"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0,0,0,0.5)',
+            zIndex: 9998,
+            backdropFilter: 'blur(2px)'
+          }}
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
 
-      {/* Main Navigation Bar */}
-      <nav style={{
-        background: scrolled ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.92)',
-        backdropFilter: 'blur(12px)',
-        borderBottom: '1px solid var(--border-subtle)',
-        boxShadow: scrolled ? '0 4px 20px -4px rgba(15, 23, 42, 0.08)' : 'none',
-        transition: 'all 0.25s ease'
-      }}>
-        <div className="container" style={{ display: 'flex', alignItems: 'center', height: '80px', gap: '0' }}>
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          right: mobileMenuOpen ? 0 : '-320px',
+          width: '280px',
+          height: '100vh',
+          background: '#FFFFFF',
+          zIndex: 9999,
+          boxShadow: '-4px 0 20px rgba(0,0,0,0.15)',
+          transition: 'right 0.35s ease',
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '24px 20px'
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+          <img src="/aasaan-logo.png" alt="Aasaan ERP" style={{ height: '32px' }} />
+          <button
+            onClick={() => setMobileMenuOpen(false)}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '20px', color: '#212121' }}
+          >
+            <i className="fas fa-times"></i>
+          </button>
+        </div>
 
-          {/* Logo — far left */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <a
             href="#/"
             onClick={(e) => handleNavClick('home', '#/', e)}
-            style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', flexShrink: 0, marginRight: '20px' }}
+            style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#212121', textDecoration: 'none' }}
           >
-            <AasaanLogo height={44} showBadge={false} isDark={false} />
+            Home
+          </a>
+          <a
+            href="#/global"
+            onClick={(e) => handleNavClick('global', '#/global', e)}
+            style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#212121', textDecoration: 'none' }}
+          >
+            Aasaan Enterprises
+          </a>
+          <a
+            href="#/lite"
+            onClick={(e) => handleNavClick('lite', '#/lite', e)}
+            style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#212121', textDecoration: 'none' }}
+          >
+            ERP Lite
+          </a>
+          <a
+            href="#/awm"
+            onClick={(e) => handleNavClick('awm', '#/awm', e)}
+            style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#212121', textDecoration: 'none' }}
+          >
+            AWM Waste Management
+          </a>
+          <a
+            href="#/partners"
+            onClick={(e) => handleNavClick('partners', '#/partners', e)}
+            style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#212121', textDecoration: 'none' }}
+          >
+            Partners
+          </a>
+          <a
+            href="#/blog/manufacturing-engineering"
+            onClick={(e) => handleNavClick('blog/manufacturing-engineering', '#/blog/manufacturing-engineering', e)}
+            style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#212121', textDecoration: 'none' }}
+          >
+            Blogs
+          </a>
+          <a
+            href="#/login"
+            onClick={(e) => handleNavClick('login', '#/login', e)}
+            style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#1e95d3', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}
+          >
+            <Lock size={16} /> Admin Portal
+          </a>
+          <div style={{ marginTop: '20px' }}>
+            <button
+              onClick={() => { setMobileMenuOpen(false); onOpenDemo(); }}
+              className="accent_button"
+              style={{ width: '100%', borderRadius: '6px' }}
+            >
+              Schedule A Demo
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Top Navigation Header */}
+      <div id="toolbar_root" className="toolbar_root column_alignment">
+        
+        {/* Top Micro-Announcement Strip */}
+        <div className="column_alignment align_center toolbar_strip" style={{ position: 'relative', overflow: 'hidden' }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            maxWidth: '1200px',
+            position: 'relative'
+          }}>
+            <button
+              onClick={handlePrevBanner}
+              style={{
+                position: 'absolute',
+                left: '10px',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                opacity: 0.6,
+                color: '#212121',
+                padding: '4px 8px'
+              }}
+              title="Previous announcement"
+            >
+              <i className="fas fa-angle-left"></i>
+            </button>
+
+            <div style={{ textAlign: 'center', padding: '0 40px' }}>
+              <span style={{ fontSize: '13.5px', fontWeight: 500, color: '#212121' }}>
+                {currentAnnouncement?.text}
+              </span>
+            </div>
+
+            <button
+              onClick={handleNextBanner}
+              style={{
+                position: 'absolute',
+                right: '10px',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                opacity: 0.6,
+                color: '#212121',
+                padding: '4px 8px'
+              }}
+              title="Next announcement"
+            >
+              <i className="fas fa-angle-right"></i>
+            </button>
+          </div>
+        </div>
+
+        {/* Sticky Toolbar Bar */}
+        <div id="toolbar" className="main_content row_alignment align_self_center" style={{ padding: '0 16px', height: '64px', alignItems: 'center', justifyContent: 'space-between' }}>
+          
+          {/* Logo */}
+          <a
+            href="#/"
+            onClick={(e) => handleNavClick('home', '#/', e)}
+            style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
+          >
+            <img
+              id="main_logo"
+              src="/aasaan-logo.png"
+              alt="Aasaan ERP"
+              style={{ height: '38px', objectFit: 'contain' }}
+            />
           </a>
 
-          {/* Desktop Nav Items — flex:1 so they fill available space */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '2px', flex: 1 }} className="hidden-mobile">
-            {navItems.map((item) => {
-              const isActive = currentPage === item.id;
-              return (
-                <a
-                  key={item.id}
-                  href={item.href}
-                  onClick={(e) => handleNavClick(item.id, item.href, e)}
+          {/* Desktop Navigation Items */}
+          <div className="row_alignment" style={{ alignItems: 'center', gap: '4px' }}>
+            
+            {/* Products Dropdown */}
+            <div
+              style={{ position: 'relative' }}
+              onMouseEnter={() => setProductsDropdownOpen(true)}
+              onMouseLeave={() => setProductsDropdownOpen(false)}
+            >
+              <div className="menu_item" style={{ padding: '0 8px' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  Products <i className="fas fa-chevron-down" style={{ fontSize: '11px', opacity: 0.7 }}></i>
+                </span>
+              </div>
+
+              {productsDropdownOpen && (
+                <div
                   style={{
-                    textDecoration: 'none',
-                    color: isActive ? 'var(--primary-blue)' : 'var(--text-body)',
-                    background: isActive ? '#EFF6FF' : 'transparent',
-                    border: isActive ? '1px solid var(--primary-blue-border)' : '1px solid transparent',
+                    position: 'absolute',
+                    top: '100%',
+                    left: 0,
+                    width: '240px',
+                    background: '#FFFFFF',
                     borderRadius: '8px',
-                    padding: '6px 10px',
-                    fontSize: '13.5px',
-                    fontWeight: isActive ? 700 : 500,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                    transition: 'all 0.15s ease',
-                    whiteSpace: 'nowrap'
+                    boxShadow: '0 10px 25px rgba(0,0,0,0.12)',
+                    border: '1px solid #E2E8F0',
+                    padding: '8px',
+                    zIndex: 1000
                   }}
                 >
-                  <span>{item.label}</span>
-                  {item.badge && (
-                    <span style={{
-                      fontSize: '9px',
-                      fontWeight: 700,
-                      background: item.id === 'awm' ? 'var(--accent-orange)' : isActive ? 'var(--primary-blue)' : '#E2E8F0',
-                      color: item.id === 'awm' || isActive ? '#FFFFFF' : '#475569',
-                      padding: '1px 4px',
-                      borderRadius: '4px'
-                    }}>
-                      {item.badge}
-                    </span>
-                  )}
-                </a>
-              );
-            })}
-          </div>
+                  <a
+                    href="#/global"
+                    onClick={(e) => handleNavClick('global', '#/global', e)}
+                    style={{
+                      display: 'block',
+                      padding: '10px 14px',
+                      borderRadius: '6px',
+                      textDecoration: 'none',
+                      color: '#212121',
+                      fontSize: '13.5px',
+                      fontWeight: 500,
+                      transition: 'background 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = '#f6fbfe'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                  >
+                    <div style={{ fontWeight: 600, color: '#1e95d3' }}>Aasaan Enterprises</div>
+                    <div style={{ fontSize: '11.5px', color: '#64748b' }}>Mid & Large Market Scale</div>
+                  </a>
 
-          {/* Divider */}
-          <div className="hidden-mobile" style={{ width: '1px', height: '24px', background: '#CBD5E1', margin: '0 10px', flexShrink: 0 }} />
+                  <a
+                    href="#/lite"
+                    onClick={(e) => handleNavClick('lite', '#/lite', e)}
+                    style={{
+                      display: 'block',
+                      padding: '10px 14px',
+                      borderRadius: '6px',
+                      textDecoration: 'none',
+                      color: '#212121',
+                      fontSize: '13.5px',
+                      fontWeight: 500,
+                      transition: 'background 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = '#f6fbfe'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                  >
+                    <div style={{ fontWeight: 600, color: '#1e95d3' }}>Aasaan ERP Lite</div>
+                    <div style={{ fontSize: '11.5px', color: '#64748b' }}>Fast Setup for Growing Teams</div>
+                  </a>
 
-          {/* Right CTAs — Admin + Search + Schedule Demo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+                  <a
+                    href="#/awm"
+                    onClick={(e) => handleNavClick('awm', '#/awm', e)}
+                    style={{
+                      display: 'block',
+                      padding: '10px 14px',
+                      borderRadius: '6px',
+                      textDecoration: 'none',
+                      color: '#212121',
+                      fontSize: '13.5px',
+                      fontWeight: 500,
+                      transition: 'background 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = '#f6fbfe'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                  >
+                    <div style={{ fontWeight: 600, color: '#ff5b0b' }}>AWM Waste Management</div>
+                    <div style={{ fontSize: '11.5px', color: '#64748b' }}>Industry-Specific Solution</div>
+                  </a>
+                </div>
+              )}
+            </div>
 
-            {/* Admin Portal Button */}
             <a
-              href="#/login"
-              onClick={(e) => handleNavClick('login', '#/login', e)}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '5px',
-                background: currentPage === 'login' ? 'var(--primary-blue)' : 'rgba(29, 78, 216, 0.08)',
-                color: currentPage === 'login' ? '#FFFFFF' : 'var(--primary-blue)',
-                border: '1px solid rgba(29, 78, 216, 0.2)',
-                borderRadius: '8px',
-                padding: '6px 11px',
-                fontSize: '12.5px',
-                fontWeight: 700,
-                textDecoration: 'none',
-                cursor: 'pointer'
+              className="menu_item"
+              href="#/services"
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById('modules');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
-              title="Admin Portal (ID & Password)"
             >
-              <Lock size={13} />
-              <span className="hidden-mobile">Admin</span>
+              <span>Services</span>
             </a>
 
-            {/* Global Search Button */}
+            <a
+              className="menu_item"
+              href="#/partners"
+              onClick={(e) => handleNavClick('partners', '#/partners', e)}
+            >
+              <span>Partners</span>
+            </a>
+
+            <a
+              className="menu_item"
+              href="#/blog/manufacturing-engineering"
+              onClick={(e) => handleNavClick('blog/manufacturing-engineering', '#/blog/manufacturing-engineering', e)}
+            >
+              <span>Blogs</span>
+            </a>
+
+            <a
+              className="menu_item"
+              href="#about"
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById('about');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              <span>About Us</span>
+            </a>
+
+            {/* Quick Search Shortcut */}
             <button
               onClick={onOpenSearch}
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                background: 'var(--surface-subtle)',
-                border: '1px solid var(--border-medium)',
-                borderRadius: '8px',
-                padding: '6px 10px',
-                fontSize: '13px',
-                color: 'var(--text-muted)',
-                cursor: 'pointer'
-              }}
-              title="Global Search"
-            >
-              <Search size={14} color="var(--primary-blue)" />
-            </button>
-
-            {/* Schedule Demo CTA — far right, always visible */}
-            <button
-              onClick={onOpenDemo}
-              className="btn btn-primary btn-sm hidden-mobile"
-              style={{ padding: '8px 16px', flexShrink: 0, whiteSpace: 'nowrap' }}
-            >
-              <span>Schedule a Demo</span>
-              <ArrowRight size={14} />
-            </button>
-
-            {/* Mobile Menu Toggle */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              style={{
-                display: 'none',
                 background: 'transparent',
                 border: 'none',
-                padding: '6px',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                padding: '8px 10px',
+                color: '#5f5f5f',
+                display: 'flex',
+                alignItems: 'center'
               }}
-              className="mobile-toggle"
-              aria-label="Toggle Navigation"
+              title="Global Search (Ctrl+K)"
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              <Search size={16} />
             </button>
+
+            {/* Admin Portal subtle access */}
+            <a
+              className="menu_item"
+              href="#/login"
+              onClick={(e) => handleNavClick('login', '#/login', e)}
+              title="Admin Portal"
+              style={{ padding: '0 8px' }}
+            >
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#1e95d3' }}>
+                <Lock size={13} /> Admin
+              </span>
+            </a>
+
+            {/* Highlighted Schedule Demo CTA */}
+            <div
+              className="menu_item"
+              onClick={onOpenDemo}
+            >
+              <span className="highlight">
+                Schedule A Demo
+              </span>
+            </div>
+
+            {/* Mobile Menu Bars Icon */}
+            <div
+              className="menu_item"
+              onClick={() => setMobileMenuOpen(true)}
+              style={{ display: 'none' }}
+              id="mobile_bars_btn"
+            >
+              <span><i className="fas fa-bars" style={{ fontSize: '18px' }}></i></span>
+            </div>
+
           </div>
 
         </div>
 
-        {/* Mobile Dropdown */}
-        {mobileMenuOpen && (
-          <div style={{
-            background: '#FFFFFF',
-            borderTop: '1px solid var(--border-subtle)',
-            padding: '16px 24px 24px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '10px'
-          }}>
-            {navItems.map((item) => (
-              <a
-                key={item.id}
-                href={item.href}
-                onClick={(e) => handleNavClick(item.id, item.href, e)}
-                style={{
-                  textDecoration: 'none',
-                  color: currentPage === item.id ? 'var(--primary-blue)' : 'var(--text-main)',
-                  fontSize: '16px',
-                  fontWeight: 600,
-                  padding: '10px 0',
-                  borderBottom: '1px solid var(--border-subtle)',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center'
-                }}
-              >
-                <span>{item.label}</span>
-                {item.badge && (
-                  <span style={{
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    background: item.id === 'awm' ? 'var(--accent-orange)' : '#EFF6FF',
-                    color: item.id === 'awm' ? '#FFFFFF' : 'var(--primary-blue)',
-                    padding: '2px 8px',
-                    borderRadius: '4px'
-                  }}>
-                    {item.badge}
-                  </span>
-                )}
-              </a>
-            ))}
-            <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <a
-                href="#/login"
-                onClick={(e) => { setMobileMenuOpen(false); handleNavClick('login', '#/login', e); }}
-                className="btn btn-ghost"
-                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: 'var(--primary-blue)', fontWeight: 700 }}
-              >
-                <Lock size={15} />
-                <span>Admin Portal Login</span>
-              </a>
-              <button
-                onClick={() => { setMobileMenuOpen(false); onOpenSearch(); }}
-                className="btn btn-ghost"
-                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
-              >
-                <Search size={16} color="var(--primary-blue)" />
-                <span>Search Website</span>
-              </button>
-              <button
-                onClick={() => { setMobileMenuOpen(false); onOpenDemo(); }}
-                className="btn btn-primary"
-                style={{ width: '100%' }}
-              >
-                Schedule a Demo
-              </button>
-            </div>
-          </div>
-        )}
-      </nav>
+      </div>
 
       <style>{`
-        @media (max-width: 992px) {
-          .hidden-mobile { display: none !important; }
-          .mobile-toggle { display: block !important; }
+        @media (max-width: 900px) {
+          .menu_item:not(:last-child):not(#mobile_bars_btn) {
+            display: none !important;
+          }
+          #mobile_bars_btn {
+            display: flex !important;
+          }
         }
       `}</style>
-    </header>
+    </>
   );
 }

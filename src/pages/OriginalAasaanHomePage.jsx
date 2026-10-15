@@ -1,775 +1,507 @@
 import React, { useState } from 'react';
-import { Sparkles, CheckCircle2, ArrowRight, Shield, Zap, Cloud, Smartphone, Lock, RefreshCw, Layers, Award } from 'lucide-react';
-import { verifiedClients } from '../data/clientsData';
 import { integrationCategories } from '../data/integrationsData';
-import { globalModules } from '../data/globalData';
 
 export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
-  // Why Aasaan tabs: 0 = Effortless to Use, 1 = Your Business Anywhere, 2 = Proven. Powerful. Trusted.
+  // Why Aasaan Tabs (0: Effortless to Use, 1: Your Business Anywhere, 2: Proven. Powerful. Trusted.)
   const [whyTab, setWhyTab] = useState(0);
 
-  // Client tabs: 0 = Tadweeer, 1 = Resustainability, 2 = Galaxy Tools, etc.
+  // Client Tabs (0 to 4)
   const [clientTab, setClientTab] = useState(0);
 
-  // Integration tool tabs
+  // Integration Tool Tabs (0 to 9)
   const [toolTab, setToolTab] = useState(0);
 
-  const currentClient = verifiedClients[clientTab] || verifiedClients[0];
-  const currentCategory = integrationCategories[toolTab] || integrationCategories[0];
-
-  const handlePageLink = (pageId, href, e) => {
-    e.preventDefault();
-    if (onNavigate) {
-      onNavigate(pageId);
-    } else {
-      window.location.hash = href;
+  const clients = [
+    {
+      id: 0,
+      name: 'Tadweeer',
+      industry: 'Recycling & Waste Management',
+      work: 'Recycling operations management.',
+      img: '/media/Taqdweer_11.png'
+    },
+    {
+      id: 1,
+      name: 'Resustainability',
+      industry: 'Environmental Services & Sustainability Solutions',
+      work: 'Sustainability project tracking',
+      img: '/media/Resustainability_11.png'
+    },
+    {
+      id: 2,
+      name: 'Galaxy Tools',
+      industry: 'Industrial Tools & Equipment Manufacturing',
+      work: 'Production and inventory',
+      img: '/media/Galaxy_Tools1_MYqjHU9.png'
+    },
+    {
+      id: 3,
+      name: 'Shofu Dental',
+      industry: 'Dental Products & Medical Equipment',
+      work: 'Stock and order management',
+      img: '/media/Shofu_Dental_1.png'
+    },
+    {
+      id: 4,
+      name: 'Miranay Trading and Investment',
+      industry: 'Trading & Investment Services',
+      work: 'Financial operations management',
+      img: '/media/Miranay_Trading_and_Investment_11.png'
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  ];
+
+  const modules = [
+    {
+      name: 'Financial Management',
+      desc: 'A full suite of accounting functions and reporting tools, to meet the needs of growing companies.',
+      img: '/media/Group_1281.png'
+    },
+    {
+      name: 'Stock Control',
+      desc: 'Effortlessly manage inventory with AASAAN ERP’s smart Stock Control module.',
+      img: '/media/Group_1282.png'
+    },
+    {
+      name: 'CRM',
+      desc: 'Seamlessly manage leads, track customer interactions, and boost sales conversions.',
+      img: '/media/Group_1283.png'
+    },
+    {
+      name: 'Purchasing',
+      desc: "Streamline vendor management and optimize procurement with Aasaan ERP's smart Purchasing module.",
+      img: '/media/Group_1287.png'
+    },
+    {
+      name: 'Sales',
+      desc: 'Effortlessly manage your entire sales cycle with AASAAN ERP – from lead to deal!',
+      img: '/media/Group_1284.png'
+    },
+    {
+      name: 'Service',
+      desc: "Streamline your operations and elevate customer satisfaction with AASAAN ERP's smart Service module.",
+      img: '/media/Group_1285.png'
+    },
+    {
+      name: 'Reporting',
+      desc: 'Comprehensive, real-time insights at your fingertips with AASAAN ERP Reporting.',
+      img: '/media/Group_1286.png'
+    },
+    {
+      name: 'Manufacturing',
+      desc: "Streamline your production process with AASAAN ERP's intelligent Manufacturing module.",
+      img: '/media/Group_1288.png'
+    },
+    {
+      name: 'Waste Management',
+      desc: 'AWM is tailored for businesses in the waste management sector, offering comprehensive tools for inventory tracking, bin management, and order fulfillment.',
+      img: '/media/Waste_Management_pic.png'
+    }
+  ];
+
+  const toolCategories = [
+    { name: 'Accounting & Finance', dir: 'accounting_and_finance', count: 9 },
+    { name: 'Communication & Messaging', dir: 'communication_and_messaging', count: 6 },
+    { name: 'E-Commerce Platforms', dir: 'ecommerce_platforms', count: 5 },
+    { name: 'Manufacturing & Supply Chain', dir: 'manufacturing_and_supply', count: 3 },
+    { name: 'CRM & Marketing', dir: 'crm_and_marketing', count: 5 },
+    { name: 'Logistics & Shipping', dir: 'logistics_and_shipping', count: 5 },
+    { name: 'HR & Payroll', dir: 'hr_and_payroll', count: 5 },
+    { name: 'Analytics & Reporting', dir: 'analytics_and_reporting', count: 5 },
+    { name: 'Document & Cloud Storage', dir: 'document_and_cloud_storage', count: 4 },
+    { name: 'Dev Tools & APIs', dir: 'dev_tools_and_api', count: 4 }
+  ];
+
+  const currentToolCategory = toolCategories[toolTab] || toolCategories[0];
 
   return (
-    <div style={{ background: '#FFFFFF', paddingTop: '100px' }}>
+    <div className="column_alignment base_margin" style={{ marginTop: '98px' }}>
       
       {/* ------------------------------------------------------------- */}
-      {/* 1. HERO BANNER: Clean, Trust-Focused, Matches Original Aasaan */}
+      {/* 1. HERO HEADER VIDEO / BANNER                                 */}
       {/* ------------------------------------------------------------- */}
-      <section style={{
-        background: 'linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 100%)',
-        borderBottom: '1px solid #E2E8F0',
-        padding: '50px 0 70px',
-        position: 'relative'
-      }}>
-        <div className="container" style={{ textAlign: 'center', maxWidth: '960px', margin: '0 auto' }}>
-          
-          {/* Badge */}
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            background: '#EFF6FF',
-            border: '1px solid #BFDBFE',
-            color: '#1D4ED8',
-            fontSize: '13px',
-            fontWeight: 700,
-            padding: '6px 16px',
-            borderRadius: '24px',
-            marginBottom: '20px'
-          }}>
-            <Sparkles size={14} color="#F97316" />
-            <span>AI-Driven Enterprise Resource Planning (ERP)</span>
-          </div>
-
-          <h1 style={{
-            fontSize: 'clamp(32px, 5vw, 54px)',
-            fontWeight: 800,
-            color: '#0F172A',
-            lineHeight: 1.2,
-            marginBottom: '20px'
-          }}>
-            Shaping the Future of Business, <span style={{ color: '#F97316' }}>Together</span>
-          </h1>
-
-          <p style={{
-            fontSize: 'clamp(16px, 2.2vw, 19px)',
-            color: '#475569',
-            lineHeight: 1.6,
-            maxWidth: '780px',
-            margin: '0 auto 36px'
-          }}>
-            Aasaan ERP is a powerful, flexible enterprise software that seamlessly connects sales, inventory, finance, and shop floor operations. Powered by AWS Cloud, built for speed and effortless scalability.
-          </p>
-
-          {/* CTAs */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '16px',
-            flexWrap: 'wrap',
-            marginBottom: '40px'
-          }}>
-            <button
-              onClick={onOpenDemo}
-              style={{
-                background: '#F97316',
-                color: '#FFFFFF',
-                border: 'none',
-                padding: '14px 28px',
-                borderRadius: '8px',
-                fontSize: '15px',
-                fontWeight: 700,
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                boxShadow: '0 4px 14px rgba(249, 115, 22, 0.35)',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.background = '#EA580C'}
-              onMouseLeave={(e) => e.currentTarget.style.background = '#F97316'}
+      <div className="column_alignment" style={{ background: '#f8f9fa' }}>
+        
+        {/* Video / Banner Container */}
+        <div className="column_alignment" style={{ position: 'relative', width: '100%', overflow: 'hidden', minHeight: '380px', background: '#000' }}>
+          <div
+            onClick={onOpenDemo}
+            style={{ position: 'relative', zIndex: 2, cursor: 'pointer', width: '100%' }}
+          >
+            <video
+              className="header_video"
+              autoPlay
+              playsInline
+              loop
+              muted
+              poster="/images/aasaan_erp_header_desktop.png"
+              style={{ width: '100%', maxHeight: '550px', objectFit: 'cover', display: 'block' }}
             >
-              <span>Schedule A Demo</span>
-              <ArrowRight size={16} />
-            </button>
-
-            <a
-              href="#/global"
-              onClick={(e) => handlePageLink('global', '#/global', e)}
-              style={{
-                background: '#FFFFFF',
-                color: '#1D4ED8',
-                border: '1.5px solid #1D4ED8',
-                padding: '13px 26px',
-                borderRadius: '8px',
-                fontSize: '15px',
-                fontWeight: 700,
-                textDecoration: 'none',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = '#EFF6FF';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = '#FFFFFF';
-              }}
-            >
-              <span>Explore Products</span>
-            </a>
+              <source src="/images/aasaan_header_video.mp4" type="video/mp4" />
+              <img src="/images/aasaan_erp_header_desktop.png" alt="Aasaan ERP Header" style={{ width: '100%' }} />
+            </video>
           </div>
-
-          {/* Trust Highlights */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '32px',
-            flexWrap: 'wrap',
-            color: '#64748B',
-            fontSize: '13.5px',
-            borderTop: '1px solid #E2E8F0',
-            paddingTop: '28px'
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <CheckCircle2 size={16} color="#10B981" />
-              <span>100% Cloud Native & On-Premises</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <CheckCircle2 size={16} color="#10B981" />
-              <span>AWS Powered Security & Scalability</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <CheckCircle2 size={16} color="#10B981" />
-              <span>Trusted by 100+ Mid-Market Leaders</span>
-            </div>
-          </div>
-
         </div>
-      </section>
 
-
-      {/* ------------------------------------------------------------- */}
-      {/* 2. SECTION: SHAPING THE FUTURE WITH AI-DRIVEN ERP             */}
-      {/* ------------------------------------------------------------- */}
-      <section style={{ padding: '80px 0', background: '#FFFFFF' }}>
-        <div className="container">
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '50px',
-            alignItems: 'center'
-          }}>
-            
-            {/* Visual Box */}
-            <div style={{
-              background: '#F8FAFC',
-              borderRadius: '20px',
-              border: '1px solid #E2E8F0',
-              padding: '36px',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.04)',
-              textAlign: 'center'
-            }}>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '64px',
-                height: '64px',
-                borderRadius: '16px',
-                background: '#EFF6FF',
-                color: '#1D4ED8',
-                marginBottom: '20px'
-              }}>
-                <Zap size={32} />
-              </div>
-
-              <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#0F172A', marginBottom: '12px' }}>
-                Intelligent Business Co-Pilot
-              </h3>
-              <p style={{ fontSize: '14.5px', color: '#64748B', lineHeight: 1.6, marginBottom: '24px' }}>
-                With Aasaan ERP, AI isn’t a buzzword — it is baked into the DNA of your day-to-day operations.
-              </p>
-
-              <div style={{
-                background: '#FFFFFF',
-                borderRadius: '12px',
-                border: '1px solid #E2E8F0',
-                padding: '16px',
-                textAlign: 'left',
-                fontSize: '13px',
-                color: '#334155',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '10px'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#10B981', fontWeight: 700 }}>
-                  <CheckCircle2 size={15} /> <span>Live Telemetry & Demand Forecasting</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#10B981', fontWeight: 700 }}>
-                  <CheckCircle2 size={15} /> <span>Automatic Reorder Recommendations</span>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#10B981', fontWeight: 700 }}>
-                  <CheckCircle2 size={15} /> <span>Self-Optimizing Inventory Routing</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Content List */}
-            <div>
-              <span style={{
-                color: '#1D4ED8',
-                fontSize: '12.5px',
-                fontWeight: 800,
-                textTransform: 'uppercase',
-                letterSpacing: '0.06em',
-                display: 'block',
-                marginBottom: '10px'
-              }}>
-                AI & Machine Intelligence
+        {/* Community & Tagline Section */}
+        <div className="column_alignment">
+          <div
+            className="row_column_alignment align_self_center align_center"
+            style={{ width: '90%', maxWidth: '850px', padding: '36px 0', gap: '20px' }}
+          >
+            <img
+              src="/images/best_software_tag.png"
+              alt="Best Software Tag"
+              style={{ width: '150px', objectFit: 'contain', flexShrink: 0 }}
+            />
+            <div className="column_alignment" style={{ padding: '8px 16px' }}>
+              <span style={{ fontWeight: 600, fontSize: '26px', color: '#212121', lineHeight: 1.3 }}>
+                Shaping the Future of Business, <b style={{ color: 'var(--colorAccent2)', fontWeight: 700 }}>Together</b>
               </span>
+              <span style={{ marginTop: '16px', lineHeight: 1.6, color: '#5f5f5f', fontSize: '15.5px' }}>
+                Community is our foundation. It drives innovation, empowers individuals, and enables growth. Our customers, our partners, our people – it takes all of us.
+              </span>
+            </div>
+          </div>
 
-              <h2 style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 800, color: '#0F172A', marginBottom: '16px', lineHeight: 1.25 }}>
-                Shaping the Future with AI-Driven ERP
-              </h2>
-
-              <p style={{ fontSize: '15.5px', color: '#475569', lineHeight: 1.6, marginBottom: '24px' }}>
-                Aasaan ERP is more than software — it is your intelligent business co-pilot. Powered by machine intelligence, driven by your real data, and always learning.
-              </p>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                  <div style={{ background: '#FFF7ED', padding: '6px', borderRadius: '8px', color: '#F97316', marginTop: '2px' }}>
-                    <Zap size={16} />
-                  </div>
-                  <div>
-                    <strong style={{ color: '#0F172A', fontSize: '15px' }}>Smart Recommendations – </strong>
-                    <span style={{ color: '#475569', fontSize: '14px' }}>Get actionable insights for pricing, minimum stock levels, and follow-ups.</span>
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                  <div style={{ background: '#FFF7ED', padding: '6px', borderRadius: '8px', color: '#F97316', marginTop: '2px' }}>
-                    <RefreshCw size={16} />
-                  </div>
-                  <div>
-                    <strong style={{ color: '#0F172A', fontSize: '15px' }}>Predictive Automation – </strong>
-                    <span style={{ color: '#475569', fontSize: '14px' }}>Forecast customer demand, auto-suggest purchase orders, and detect anomalies early.</span>
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                  <div style={{ background: '#FFF7ED', padding: '6px', borderRadius: '8px', color: '#F97316', marginTop: '2px' }}>
-                    <Shield size={16} />
-                  </div>
-                  <div>
-                    <strong style={{ color: '#0F172A', fontSize: '15px' }}>Real-Time Decision Support – </strong>
-                    <span style={{ color: '#475569', fontSize: '14px' }}>Make faster, data-backed decisions across finance, supply chain, and sales registers.</span>
+          {/* AI-Driven ERP Banner */}
+          <div className="main_content align_self_center" style={{ padding: '0 16px', marginBottom: '40px' }}>
+            <div className="row_column_alignment two home_trusted_section" style={{ alignItems: 'center', gap: '30px' }}>
+              <div className="column_alignment" style={{ flex: 1 }}>
+                <img
+                  src="/images/AI Driven Image.jpg"
+                  alt="AI Driven ERP"
+                  style={{ width: '100%', borderRadius: '12px 60px 12px 12px', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
+                />
+              </div>
+              <div className="column_alignment" style={{ flex: 1, padding: '10px 16px', justifyContent: 'center' }}>
+                <div className="column_alignment">
+                  <span style={{ fontWeight: 700, fontSize: '24px', color: '#212121', lineHeight: 1.3 }}>
+                    Shaping the Future with AI-Driven ERP
+                  </span>
+                  <span style={{ marginTop: '10px', marginBottom: '14px', lineHeight: 1.6, color: '#5f5f5f', fontSize: '14.5px' }}>
+                    Aasaan ERP is more than software — it’s your intelligent business co-pilot. Powered by AI, driven by your data, and always learning.
+                  </span>
+                  <ul>
+                    <li><b>Smart Recommendations –</b> Get AI-powered insights for pricing, inventory, customer follow-ups & more</li>
+                    <li><b>Predictive Automation –</b> Forecast demand, auto-suggest purchase orders, detect anomalies before they happen</li>
+                    <li><b>Conversational UI –</b> Use voice or chat to pull reports, assign tasks, or create records — just like messaging a teammate</li>
+                    <li><b>Real-Time Decision Support –</b> AI helps you make faster, data-backed decisions across finance, ops, and sales</li>
+                    <li><b>Self-optimizing Workflows –</b> The system learns from how your team works and suggests better ways</li>
+                    <li style={{ borderBottom: 'none' }}><b>With Aasaan ERP, AI isn’t a buzzword —</b> it’s baked into the DNA of your business operations.</li>
+                  </ul>
+                  <div style={{ marginTop: '16px' }}>
+                    <button onClick={onOpenDemo} className="accent_button" style={{ borderRadius: '6px' }}>
+                      Experience AI ERP
+                    </button>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
 
+        </div>
+
+        {/* ------------------------------------------------------------- */}
+        {/* 2. WHY AASAAN ERP SECTION WITH INTERACTIVE TABS               */}
+        {/* ------------------------------------------------------------- */}
+        <div className="column_alignment section_wrapper" style={{ background: '#FFFFFF' }}>
+          <div className="column_alignment main_content align_self_center">
+            
+            <h2 className="page_heading">
+              Why <b>AASAAN</b><br />ENTERPRISE Resource Planning (ERP)?
+            </h2>
+
+            {/* Desktop Tabs */}
+            <div className="why_aasaan_tabs_wrapper">
+              <span
+                onClick={() => setWhyTab(0)}
+                className={whyTab === 0 ? 'active' : ''}
+              >
+                Effortless to Use
+              </span>
+              <span
+                onClick={() => setWhyTab(1)}
+                className={whyTab === 1 ? 'active' : ''}
+              >
+                Your Business, Anywhere
+              </span>
+              <span
+                onClick={() => setWhyTab(2)}
+                className={whyTab === 2 ? 'active' : ''}
+              >
+                Proven. Powerful. Trusted.
+              </span>
             </div>
 
-          </div>
-        </div>
-      </section>
-
-
-      {/* ------------------------------------------------------------- */}
-      {/* 3. SECTION: WHY AASAAN ERP (3 Tabbed Features with Details)    */}
-      {/* ------------------------------------------------------------- */}
-      <section style={{ padding: '80px 0', background: '#F8FAFC', borderTop: '1px solid #E2E8F0', borderBottom: '1px solid #E2E8F0' }}>
-        <div className="container">
-          
-          <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 40px' }}>
-            <h2 style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 800, color: '#0F172A' }}>
-              Why <b>AASAAN</b> Enterprise Resource Planning?
-            </h2>
-            <p style={{ fontSize: '16px', color: '#64748B', marginTop: '10px' }}>
-              Built for people who want results, without babysitting complex software.
-            </p>
-          </div>
-
-          {/* Tabs bar */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '12px',
-            flexWrap: 'wrap',
-            marginBottom: '40px'
-          }}>
-            {[
-              { id: 0, label: 'Effortless to Use' },
-              { id: 1, label: 'Your Business, Anywhere' },
-              { id: 2, label: 'Proven. Powerful. Trusted.' }
-            ].map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setWhyTab(tab.id)}
-                style={{
-                  padding: '12px 24px',
-                  borderRadius: '8px',
-                  fontWeight: 700,
-                  fontSize: '14.5px',
-                  cursor: 'pointer',
-                  border: 'none',
-                  background: whyTab === tab.id ? '#1D4ED8' : '#FFFFFF',
-                  color: whyTab === tab.id ? '#FFFFFF' : '#475569',
-                  boxShadow: whyTab === tab.id ? '0 4px 14px rgba(29, 78, 216, 0.25)' : '0 1px 3px rgba(0,0,0,0.06)',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Tab Content Box */}
-          <div style={{
-            background: '#FFFFFF',
-            borderRadius: '16px',
-            border: '1px solid #CBD5E1',
-            padding: '40px',
-            maxWidth: '1000px',
-            margin: '0 auto',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.04)'
-          }}>
+            {/* Tab 0 Content */}
             {whyTab === 0 && (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '36px', alignItems: 'center' }}>
-                <div>
-                  <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#0F172A', marginBottom: '14px' }}>
-                    Zero learning curve – Start using it like a pro from Day 1
-                  </h3>
-                  <p style={{ fontSize: '15px', color: '#475569', lineHeight: 1.6, marginBottom: '20px' }}>
-                    Aasaan ERP is designed for business operators who get things done. Everything is exactly where you expect it.
-                  </p>
-                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '14.5px', color: '#334155' }}>
-                    <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <CheckCircle2 size={16} color="#1D4ED8" /> <strong>Intuitive interface:</strong> Clean screens designed for fast navigation
-                    </li>
-                    <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <CheckCircle2 size={16} color="#1D4ED8" /> <strong>Smart workflows:</strong> Automate repetitive billing and inventory entries
-                    </li>
-                    <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <CheckCircle2 size={16} color="#1D4ED8" /> <strong>Easily customizable:</strong> Tailor screens and fields without tech support
-                    </li>
-                  </ul>
-                </div>
-                <div style={{
-                  background: 'linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%)',
-                  borderRadius: '12px',
-                  padding: '32px',
-                  textAlign: 'center',
-                  border: '1px solid #BFDBFE'
-                }}>
-                  <div style={{ fontSize: '48px', fontWeight: 800, color: '#1D4ED8' }}>&lt; 3 Days</div>
-                  <div style={{ fontSize: '16px', fontWeight: 700, color: '#0F172A', marginTop: '6px' }}>Onboarding & Team Adoption</div>
-                  <div style={{ fontSize: '13px', color: '#64748B', marginTop: '4px' }}>Pre-configured masters & intuitive entry screens</div>
+              <div className="column_alignment why_aasaan_tab_content active">
+                <div className="row_column_alignment two" style={{ alignItems: 'center', gap: '30px' }}>
+                  <div className="column_alignment align_self_center" style={{ flex: 1, padding: '0 16px' }}>
+                    <span style={{ fontSize: '18px', fontWeight: 600, color: '#212121', marginBottom: '16px' }}>
+                      Aasaan ERP is designed for people who get things done — not for those who want to babysit software.
+                    </span>
+                    <div style={{ color: '#495057', fontSize: '15px', lineHeight: 1.7 }}>
+                      <p>🎯 <b>Zero learning curve</b> – Start using it like a pro from Day 1</p>
+                      <p>🖥️ <b>Intuitive interface</b> – Everything where you expect it</p>
+                      <p>🔄 <b>Smart workflows</b> – Automate repetitive tasks, skip the grunt work</p>
+                      <p>🧠 <b>Easily customizable</b> – Tailor screens, fields, and flows without tech support</p>
+                      <p>🕹️ <b>One-click navigation</b> – Jump between modules in a snap</p>
+                    </div>
+                  </div>
+                  <div className="column_alignment align_self_center" style={{ flex: 1, textAlign: 'center' }}>
+                    <img
+                      style={{ width: '90%', maxWidth: '450px', alignSelf: 'center', borderRadius: '12px', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
+                      src="/images/Why Aasaan Image 1 Effortless Use.jpg"
+                      alt="Effortless to Use"
+                    />
+                  </div>
                 </div>
               </div>
             )}
 
+            {/* Tab 1 Content */}
             {whyTab === 1 && (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '36px', alignItems: 'center' }}>
-                <div>
-                  <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#0F172A', marginBottom: '14px' }}>
-                    Whether you are in the office or on-site — your ERP moves with you
-                  </h3>
-                  <p style={{ fontSize: '15px', color: '#475569', lineHeight: 1.6, marginBottom: '20px' }}>
-                    Access full operational data from laptop, tablet, or smartphone without installing bulky software or VPNs.
-                  </p>
-                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '14.5px', color: '#334155' }}>
-                    <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Cloud size={16} color="#1D4ED8" /> <strong>100% Cloud-native:</strong> Zero server maintenance headaches
-                    </li>
-                    <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Smartphone size={16} color="#1D4ED8" /> <strong>Mobile-first:</strong> Works seamlessly across mobile browsers
-                    </li>
-                    <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Lock size={16} color="#1D4ED8" /> <strong>Secure & scalable:</strong> Enterprise-grade security powered by AWS
-                    </li>
-                  </ul>
-                </div>
-                <div style={{
-                  background: 'linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%)',
-                  borderRadius: '12px',
-                  padding: '32px',
-                  textAlign: 'center',
-                  border: '1px solid #BFDBFE'
-                }}>
-                  <div style={{ fontSize: '48px', fontWeight: 800, color: '#1D4ED8' }}>99.9%</div>
-                  <div style={{ fontSize: '16px', fontWeight: 700, color: '#0F172A', marginTop: '6px' }}>Cloud Uptime Guaranteed</div>
-                  <div style={{ fontSize: '13px', color: '#64748B', marginTop: '4px' }}>Real-time multi-location synchronization</div>
+              <div className="column_alignment why_aasaan_tab_content active">
+                <div className="row_column_alignment two" style={{ alignItems: 'center', gap: '30px' }}>
+                  <div className="column_alignment align_self_center" style={{ flex: 1, padding: '0 16px' }}>
+                    <span style={{ fontSize: '18px', fontWeight: 600, color: '#212121', marginBottom: '16px' }}>
+                      Whether you’re in the office, on-site, or halfway across the world — your ERP moves with you.
+                    </span>
+                    <div style={{ color: '#495057', fontSize: '15px', lineHeight: 1.7 }}>
+                      <p>🌐 <b>100% cloud-native</b> – No setup, no server hassles</p>
+                      <p>📱 <b>Mobile-first</b> – Works beautifully across devices</p>
+                      <p>🔐 <b>Secure & scalable</b> – Enterprise-grade protection, startup-friendly speed</p>
+                      <p>🔄 <b>Real-time sync</b> – Everyone stays updated, always</p>
+                      <p>🔌 <b>Connect your stack</b> – Plug into WhatsApp, Razorpay, Tally & more</p>
+                    </div>
+                  </div>
+                  <div className="column_alignment align_self_center" style={{ flex: 1, textAlign: 'center' }}>
+                    <img
+                      style={{ width: '90%', maxWidth: '450px', alignSelf: 'center', borderRadius: '12px', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
+                      src="/images/Why Aasaan Image 2 Business Anywhere.jpg"
+                      alt="Your Business Anywhere"
+                    />
+                  </div>
                 </div>
               </div>
             )}
 
+            {/* Tab 2 Content */}
             {whyTab === 2 && (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '36px', alignItems: 'center' }}>
-                <div>
-                  <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#0F172A', marginBottom: '14px' }}>
-                    The reliable operational backbone for 100+ businesses
-                  </h3>
-                  <p style={{ fontSize: '15px', color: '#475569', lineHeight: 1.6, marginBottom: '20px' }}>
-                    Proven track record across manufacturing, waste recycling, retail distribution, and services.
-                  </p>
-                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '14.5px', color: '#334155' }}>
-                    <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Award size={16} color="#1D4ED8" /> <strong>Built to grow:</strong> Easily handle 10 or 10,000 transactions daily
-                    </li>
-                    <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Layers size={16} color="#1D4ED8" /> <strong>Flexible architecture:</strong> Add new modules without breaking your workflow
-                    </li>
-                    <li style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Shield size={16} color="#1D4ED8" /> <strong>Dedicated support:</strong> Direct assistance from real ERP specialists
-                    </li>
-                  </ul>
-                </div>
-                <div style={{
-                  background: 'linear-gradient(135deg, #FFF7ED 0%, #FED7AA 100%)',
-                  borderRadius: '12px',
-                  padding: '32px',
-                  textAlign: 'center',
-                  border: '1px solid #FDBA74'
-                }}>
-                  <div style={{ fontSize: '48px', fontWeight: 800, color: '#F97316' }}>10+ Yrs</div>
-                  <div style={{ fontSize: '16px', fontWeight: 700, color: '#0F172A', marginTop: '6px' }}>Enterprise ERP Excellence</div>
-                  <div style={{ fontSize: '13px', color: '#64748B', marginTop: '4px' }}>Proven, tested, and constantly improving</div>
+              <div className="column_alignment why_aasaan_tab_content active">
+                <div className="row_column_alignment two" style={{ alignItems: 'center', gap: '30px' }}>
+                  <div className="column_alignment align_self_center" style={{ flex: 1, padding: '0 16px' }}>
+                    <span style={{ fontSize: '18px', fontWeight: 600, color: '#212121', marginBottom: '16px' }}>
+                      Aasaan ERP isn’t just another tool — it’s the backbone of 100+ businesses and counting.
+                    </span>
+                    <div style={{ color: '#495057', fontSize: '15px', lineHeight: 1.7 }}>
+                      <p>🏢 <b>Trusted by real businesses</b> – Across retail, waste mgmt, manufacturing & more</p>
+                      <p>🚀 <b>Built to grow</b> – Easily handle 10 or 10,000 users</p>
+                      <p>⚙️ <b>Flexible architecture</b> – Add new modules or workflows without breaking anything</p>
+                      <p>🤝 <b>Support that shows up</b> – Direct help from experts, not bots</p>
+                      <p>🔁 <b>Always improving</b> – New features drop regularly, with no disruption</p>
+                    </div>
+                  </div>
+                  <div className="column_alignment align_self_center" style={{ flex: 1, textAlign: 'center' }}>
+                    <img
+                      style={{ width: '90%', maxWidth: '450px', alignSelf: 'center', borderRadius: '12px', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
+                      src="/images/Why Aasaan Image 3 Proven trusted.jpg"
+                      alt="Proven Powerful Trusted"
+                    />
+                  </div>
                 </div>
               </div>
             )}
+
           </div>
-
         </div>
-      </section>
 
-
-      {/* ------------------------------------------------------------- */}
-      {/* 4. SECTION: MODULES OF AASAAN ERP                             */}
-      {/* ------------------------------------------------------------- */}
-      <section style={{ padding: '80px 0', background: '#FFFFFF' }}>
-        <div className="container">
-          
-          <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 48px' }}>
-            <h2 style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 800, color: '#0F172A' }}>
+        {/* ------------------------------------------------------------- */}
+        {/* 3. MODULES OF AASAAN ERP SECTION                              */}
+        {/* ------------------------------------------------------------- */}
+        <div id="modules" className="column_alignment section_wrapper" style={{ background: '#f6fbfe' }}>
+          <div className="column_alignment main_content align_self_center">
+            
+            <h2 className="page_heading align_self_center" style={{ maxWidth: '700px' }}>
               MODULES OF <b>AASAAN ERP</b>
             </h2>
-            <p style={{ fontSize: '16px', color: '#64748B', marginTop: '10px' }}>
-              Comprehensive operational suite designed to cover every touchpoint of your business.
-            </p>
-          </div>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '24px'
-          }}>
-            {globalModules.slice(0, 9).map((mod) => (
-              <div
-                key={mod.id}
-                style={{
-                  background: '#F8FAFC',
-                  borderRadius: '14px',
-                  border: '1px solid #E2E8F0',
-                  padding: '24px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  transition: 'transform 0.2s, box-shadow 0.2s',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.03)'
-                }}
-              >
-                <div>
-                  <span style={{
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    color: '#1D4ED8',
-                    background: '#EFF6FF',
-                    padding: '3px 8px',
-                    borderRadius: '4px',
-                    display: 'inline-block',
-                    marginBottom: '12px'
-                  }}>
-                    {mod.tag}
-                  </span>
-                  <h4 style={{ fontSize: '17px', fontWeight: 800, color: '#0F172A', marginBottom: '8px' }}>
-                    {mod.title}
-                  </h4>
-                  <p style={{ fontSize: '13.5px', color: '#64748B', lineHeight: 1.5 }}>
-                    {mod.desc}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-
-      {/* ------------------------------------------------------------- */}
-      {/* 5. SECTION: OUR VERIFIED CLIENTS (Tadweeer, Resustainability) */}
-      {/* ------------------------------------------------------------- */}
-      <section style={{ padding: '80px 0', background: 'rgba(211, 234, 245, 0.25)', borderTop: '1px solid #E2E8F0', borderBottom: '1px solid #E2E8F0' }}>
-        <div className="container">
-          
-          <div style={{ maxWidth: '780px', marginBottom: '40px' }}>
-            <h2 style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 800, color: '#0F172A' }}>
-              OUR CLIENTS
-            </h2>
-            <p style={{ fontSize: '16px', color: '#475569', marginTop: '8px', lineHeight: 1.5 }}>
-              The reason Aasaan has been trusted by growing businesses across India and the Middle East — we put our customers first.
-            </p>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
-            {/* Client selector tabs */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {verifiedClients.map((c, idx) => (
+            <div className="row_alignment wrap align_center" style={{ justifyContent: 'center' }}>
+              {modules.map((m, idx) => (
                 <div
-                  key={c.id}
-                  onClick={() => setClientTab(idx)}
-                  style={{
-                    background: clientTab === idx ? '#FFFFFF' : 'rgba(255, 255, 255, 0.6)',
-                    border: clientTab === idx ? '2px solid #1D4ED8' : '1px solid #CBD5E1',
-                    borderRadius: '12px',
-                    padding: '16px 20px',
-                    cursor: 'pointer',
-                    boxShadow: clientTab === idx ? '0 4px 12px rgba(29, 78, 216, 0.12)' : 'none',
-                    transition: 'all 0.2s ease'
-                  }}
+                  key={idx}
+                  className="modules_section_item column_alignment"
+                  onClick={onOpenDemo}
                 >
-                  <div style={{ fontWeight: 800, fontSize: '16px', color: '#0F172A' }}>{c.name}</div>
-                  <div style={{ fontSize: '13px', color: '#64748B', marginTop: '4px' }}>{c.category}</div>
+                  <img src={m.img} alt={m.name} />
+                  <div className="content column_alignment align_center">
+                    <span>{m.name}</span>
+                    <p>{m.desc}</p>
+                  </div>
                 </div>
               ))}
             </div>
 
-            {/* Client active showcase details */}
-            <div style={{
-              background: '#FFFFFF',
-              borderRadius: '16px',
-              border: '1px solid #CBD5E1',
-              padding: '36px',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between'
-            }}>
-              <div>
-                <span style={{ fontSize: '12px', fontWeight: 700, color: '#F97316', textTransform: 'uppercase' }}>
-                  Client Case Study
-                </span>
-                <h3 style={{ fontSize: '24px', fontWeight: 800, color: '#0F172A', marginTop: '6px' }}>
-                  {currentClient.name}
-                </h3>
-                <p style={{ fontSize: '14px', color: '#1D4ED8', fontWeight: 600, marginTop: '2px' }}>
-                  {currentClient.scope}
-                </p>
-                <p style={{ fontSize: '15px', color: '#475569', lineHeight: 1.6, marginTop: '16px' }}>
-                  {currentClient.highlight}
-                </p>
+          </div>
+        </div>
 
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
-                  gap: '16px',
-                  marginTop: '24px',
-                  paddingTop: '20px',
-                  borderTop: '1px solid #F1F5F9'
-                }}>
-                  {currentClient.metrics.map((m, i) => (
-                    <div key={i}>
-                      <div style={{ fontSize: '20px', fontWeight: 800, color: '#1D4ED8' }}>{m.value}</div>
-                      <div style={{ fontSize: '12px', color: '#64748B', marginTop: '2px' }}>{m.label}</div>
+        {/* ------------------------------------------------------------- */}
+        {/* 4. OUR CLIENTS SECTION                                        */}
+        {/* ------------------------------------------------------------- */}
+        <div className="column_alignment section_wrapper" style={{ background: 'rgba(211,234,245,0.3)' }}>
+          <div className="column_alignment main_content align_self_center">
+            
+            <span className="page_heading" style={{ alignSelf: 'flex-start', textAlign: 'left', marginBottom: '8px' }}>
+              <b>OUR CLIENTS</b>
+            </span>
+            <span
+              style={{
+                alignSelf: 'flex-start',
+                textAlign: 'left',
+                fontSize: '16px',
+                color: '#5f5f5f',
+                maxWidth: '750px',
+                marginBottom: '30px',
+                lineHeight: 1.5
+              }}
+            >
+              The reason Aasaan has been the world’s fastest-growing Cloud ERP company for 10 years and counting – we put our customers first.
+            </span>
+
+            <div className="row_column_alignment two" style={{ gap: '30px', alignItems: 'center' }}>
+              
+              {/* Left Column: Client Selector List */}
+              <div className="column_alignment" style={{ flex: 1 }}>
+                {clients.map((c, idx) => (
+                  <div
+                    key={c.id}
+                    className={`column_alignment client_section_item_wrapper ${clientTab === idx ? 'active' : ''}`}
+                    onClick={() => setClientTab(idx)}
+                  >
+                    <span className="client_name">{c.name}</span>
+                    <div className="row_column_alignment two content" style={{ display: clientTab === idx ? 'flex' : 'none', gap: '16px' }}>
+                      <div className="column_alignment" style={{ flex: 1 }}>
+                        <span className="client_label">Industry</span>
+                        <span className="client_label_value">{c.industry}</span>
+                      </div>
+                      <div className="column_alignment" style={{ flex: 1 }}>
+                        <span className="client_label">Aasaan ERP Work</span>
+                        <span className="client_label_value">{c.work}</span>
+                      </div>
                     </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Right Column: Active Client Showcase Image */}
+              <div className="column_alignment" style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  className="client_section_img"
+                  src={clients[clientTab]?.img || clients[0].img}
+                  alt={clients[clientTab]?.name || 'Client Showcase'}
+                  style={{ display: 'block' }}
+                />
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        {/* ------------------------------------------------------------- */}
+        {/* 5. ALL-IN-ONE CLOUD ERP / INSTANT GO LIVE SECTION            */}
+        {/* ------------------------------------------------------------- */}
+        <div className="column_alignment section_wrapper instant_go_live_section" style={{ background: '#FFFFFF' }}>
+          <div className="column_alignment main_content align_self_center" style={{ textAlign: 'center' }}>
+            
+            <h2 className="page_heading" style={{ maxWidth: '750px', alignSelf: 'center', marginBottom: '12px' }}>
+              <b>All-in-One Cloud</b> ERP Software for Seamless Business Growth
+            </h2>
+            <span style={{ maxWidth: '700px', textAlign: 'center', alignSelf: 'center', fontSize: '15px', color: '#5f5f5f', lineHeight: 1.6, marginBottom: '24px' }}>
+              Unlock best-in-class, industry-specific solutions designed to adapt and scale with your business—customizable, powerful, and built for success.
+            </span>
+
+            <div className="row_column_alignment two" style={{ margin: '16px 0', gap: '24px', justifyContent: 'center' }}>
+              <div className="column_alignment" style={{ flex: 1, alignItems: 'center' }}>
+                <img
+                  src="/images/implementation_img.jpg"
+                  alt="Implementation and Architecture"
+                  style={{ width: '95%', maxWidth: '540px', boxShadow: '0 4px 16px rgba(0,0,0,0.1)', borderRadius: '8px' }}
+                />
+              </div>
+
+              <div className="column_alignment" style={{ flex: 1, alignItems: 'center' }}>
+                <img
+                  src="/images/instant_go_live_img.jpg"
+                  alt="Instant Go Live"
+                  style={{ width: '95%', maxWidth: '540px', boxShadow: '0 4px 16px rgba(0,0,0,0.1)', borderRadius: '8px' }}
+                />
+              </div>
+            </div>
+
+            <div style={{ marginTop: '24px' }}>
+              <button
+                onClick={onOpenDemo}
+                className="accent_button align_self_center"
+                style={{ padding: '14px 32px', fontSize: '16px' }}
+              >
+                Schedule Demo
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        {/* ------------------------------------------------------------- */}
+        {/* 6. SEAMLESS INTEGRATION WITH YOUR EXISTING TOOLS              */}
+        {/* ------------------------------------------------------------- */}
+        <div className="column_alignment section_wrapper" style={{ background: '#f8f9fa' }}>
+          <div className="column_alignment main_content align_self_center">
+            
+            <h2 className="page_heading" style={{ maxWidth: '700px', alignSelf: 'center', marginBottom: '8px' }}>
+              <b style={{ fontWeight: 600 }}>Seamless Integration with Your</b><br />Existing Tools
+            </h2>
+            <span style={{ maxWidth: '540px', textAlign: 'center', alignSelf: 'center', fontSize: '15px', color: '#5f5f5f', lineHeight: 1.5, marginBottom: '32px' }}>
+              Connects effortlessly with the software you already use — so your data flows freely, and your team works smarter.
+            </span>
+
+            <div className="row_alignment" style={{ gap: '24px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+              
+              {/* Category Tabs on Left */}
+              <div className="integration_tools_tabs_wrapper">
+                {toolCategories.map((t, idx) => (
+                  <span
+                    key={idx}
+                    onClick={() => setToolTab(idx)}
+                    className={toolTab === idx ? 'active' : ''}
+                  >
+                    {t.name}
+                  </span>
+                ))}
+              </div>
+
+              {/* Logo Grid on Right */}
+              <div className="column_alignment fill">
+                <div className="integration_tools_logo_wrapper">
+                  {Array.from({ length: currentToolCategory.count }, (_, i) => i + 1).map((num) => (
+                    <img
+                      key={num}
+                      src={`/tools/${currentToolCategory.dir}/logo_${num}.png`}
+                      alt={`${currentToolCategory.name} Logo ${num}`}
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                    />
                   ))}
                 </div>
               </div>
 
-              <div style={{ marginTop: '28px' }}>
-                <button
-                  onClick={onOpenDemo}
-                  style={{
-                    background: '#1D4ED8',
-                    color: '#FFFFFF',
-                    border: 'none',
-                    padding: '10px 20px',
-                    borderRadius: '8px',
-                    fontSize: '13.5px',
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px'
-                  }}
-                >
-                  <span>Request Custom Demo</span>
-                  <ArrowRight size={14} />
-                </button>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      {/* ------------------------------------------------------------- */}
-      {/* 6. SECTION: INTEGRATION TOOLS TABS                           */}
-      {/* ------------------------------------------------------------- */}
-      <section style={{ padding: '80px 0', background: '#FFFFFF' }}>
-        <div className="container">
-          
-          <div style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto 48px' }}>
-            <h2 style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 800, color: '#0F172A' }}>
-              Seamless Integration with Your Existing Tools
-            </h2>
-            <p style={{ fontSize: '16px', color: '#64748B', marginTop: '10px' }}>
-              Connect effortlessly with Tally, Razorpay, WhatsApp, barcode readers, and banking systems.
-            </p>
-          </div>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: '30px'
-          }}>
-            {/* Category tabs list */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              {integrationCategories.map((cat, idx) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setToolTab(idx)}
-                  style={{
-                    textAlign: 'left',
-                    padding: '12px 18px',
-                    borderRadius: '8px',
-                    border: 'none',
-                    background: toolTab === idx ? '#EFF6FF' : 'transparent',
-                    color: toolTab === idx ? '#1D4ED8' : '#475569',
-                    fontWeight: toolTab === idx ? 700 : 500,
-                    fontSize: '14px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    transition: 'all 0.15s ease'
-                  }}
-                >
-                  <span>{cat.name}</span>
-                  {toolTab === idx && <ArrowRight size={14} color="#1D4ED8" />}
-                </button>
-              ))}
             </div>
 
-            {/* Active category tools grid */}
-            <div style={{
-              background: '#F8FAFC',
-              borderRadius: '16px',
-              border: '1px solid #E2E8F0',
-              padding: '36px'
-            }}>
-              <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#0F172A', marginBottom: '8px' }}>
-                {currentCategory.name}
-              </h3>
-              <p style={{ fontSize: '14.5px', color: '#64748B', marginBottom: '24px' }}>
-                {currentCategory.description}
-              </p>
-
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
-                gap: '12px'
-              }}>
-                {currentCategory.toolNames.map((tool, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      background: '#FFFFFF',
-                      border: '1px solid #CBD5E1',
-                      borderRadius: '8px',
-                      padding: '12px 16px',
-                      fontSize: '13.5px',
-                      fontWeight: 600,
-                      color: '#1E293B',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px'
-                    }}
-                  >
-                    <CheckCircle2 size={14} color="#10B981" />
-                    <span>{tool}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
-
         </div>
-      </section>
 
-
-      {/* ------------------------------------------------------------- */}
-      {/* 7. FINAL CALL TO ACTION (CTA)                                 */}
-      {/* ------------------------------------------------------------- */}
-      <section style={{
-        background: '#0B1329',
-        color: '#FFFFFF',
-        padding: '70px 0',
-        textAlign: 'center'
-      }}>
-        <div className="container" style={{ maxWidth: '780px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, color: '#FFFFFF', marginBottom: '16px' }}>
-            Ready to Run Your Business Smarter?
-          </h2>
-          <p style={{ fontSize: '16px', color: '#94A3B8', lineHeight: 1.6, marginBottom: '32px' }}>
-            Experience the ease, clarity, and control of Aasaan ERP with a tailored 1-on-1 walkthrough for your team.
-          </p>
-          <button
-            onClick={onOpenDemo}
-            style={{
-              background: '#F97316',
-              color: '#FFFFFF',
-              border: 'none',
-              padding: '14px 32px',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: 700,
-              cursor: 'pointer',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              boxShadow: '0 4px 16px rgba(249, 115, 22, 0.4)'
-            }}
-          >
-            <span>Schedule A Demo Today</span>
-            <ArrowRight size={16} />
-          </button>
-        </div>
-      </section>
+      </div>
 
     </div>
   );
