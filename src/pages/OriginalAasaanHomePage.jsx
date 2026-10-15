@@ -128,33 +128,35 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
   const activeClient = clients[clientTab] || clients[0];
 
   return (
-    <div className="column_alignment base_margin" style={{ marginTop: '98px' }}>
+    <div className="column_alignment base_margin" style={{ marginTop: '106px' }}>
 
       {/* ----------------------------------------------------------- */}
       {/* TRUST / STATS BAR                                           */}
       {/* ----------------------------------------------------------- */}
       <div style={{
-        background: 'var(--colorAccent)',
+        background: 'linear-gradient(90deg, var(--colorAccent) 0%, #1565c0 100%)',
         color: '#ffffff',
-        padding: '12px 20px',
+        padding: '14px 20px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         flexWrap: 'wrap',
-        gap: '32px',
+        gap: '28px',
         fontSize: '14px',
-        fontWeight: 600
+        fontWeight: 600,
+        boxShadow: '0 2px 8px rgba(30,149,211,0.3)'
       }}>
         {[
-          { value: '100+', label: 'Businesses Served' },
-          { value: '9', label: 'ERP Modules' },
-          { value: '10+', label: 'Years of Innovation' },
-          { value: '24/7', label: 'Expert Support' },
+          { value: '100+', label: 'Businesses Served', icon: 'fas fa-briefcase' },
+          { value: '9', label: 'ERP Modules', icon: 'fas fa-cubes' },
+          { value: '10+', label: 'Years of Innovation', icon: 'fas fa-award' },
+          { value: '24/7', label: 'Expert Support', icon: 'fas fa-headset' },
         ].map((stat, i) => (
           <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ fontSize: '20px', fontWeight: 800, color: '#fff' }}>{stat.value}</span>
+            <i className={stat.icon} style={{ fontSize: '18px', color: 'rgba(255,255,255,0.75)' }}></i>
+            <span style={{ fontSize: '22px', fontWeight: 800, color: '#fff' }}>{stat.value}</span>
             <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 500 }}>{stat.label}</span>
-            {i < 3 && <span style={{ color: 'rgba(255,255,255,0.4)', marginLeft: '16px' }}>|</span>}
+            {i < 3 && <span style={{ color: 'rgba(255,255,255,0.35)', marginLeft: '8px' }}>|</span>}
           </div>
         ))}
       </div>
@@ -566,17 +568,42 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       </div>
 
       {/* ----------------------------------------------------------- */}
-      {/* FLOATING BUTTONS: WhatsApp + Demo CTA                       */}
+      {/* FLOATING BUTTONS: WhatsApp + Demo CTA + Back to Top         */}
       {/* ----------------------------------------------------------- */}
       <div style={{
         position: 'fixed',
         bottom: '24px',
-        right: '24px',
+        right: '20px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '12px',
-        zIndex: 9000
+        gap: '10px',
+        zIndex: 9000,
+        alignItems: 'flex-end'
       }}>
+        {/* Back to Top */}
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          title="Back to top"
+          style={{
+            width: '42px',
+            height: '42px',
+            borderRadius: '50%',
+            background: '#ffffff',
+            border: '2px solid #e2e8f0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.12)',
+            cursor: 'pointer',
+            color: '#1e95d3',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = '#1e95d3'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.border = '2px solid #1e95d3'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = '#ffffff'; e.currentTarget.style.color = '#1e95d3'; e.currentTarget.style.border = '2px solid #e2e8f0'; }}
+        >
+          <i className="fas fa-chevron-up" style={{ fontSize: '14px' }}></i>
+        </button>
+
         {/* WhatsApp Button */}
         <a
           href="https://wa.me/917428267616?text=Hi%2C%20I%20would%20like%20to%20know%20more%20about%20Aasaan%20ERP"
@@ -584,21 +611,24 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
           rel="noopener noreferrer"
           title="Chat on WhatsApp"
           style={{
-            width: '52px',
-            height: '52px',
-            borderRadius: '50%',
-            background: '#25D366',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 4px 16px rgba(37, 211, 102, 0.5)',
+            gap: '8px',
+            padding: '10px 16px 10px 12px',
+            borderRadius: '28px',
+            background: '#25D366',
+            boxShadow: '0 4px 16px rgba(37, 211, 102, 0.45)',
             textDecoration: 'none',
-            transition: 'transform 0.2s ease'
+            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+            color: '#fff',
+            fontWeight: 600,
+            fontSize: '13.5px'
           }}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(37,211,102,0.6)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(37,211,102,0.45)'; }}
         >
-          <i className="fab fa-whatsapp" style={{ fontSize: '26px', color: '#fff' }}></i>
+          <i className="fab fa-whatsapp" style={{ fontSize: '22px' }}></i>
+          <span>WhatsApp Us</span>
         </a>
 
         {/* Schedule Demo Button */}
@@ -606,22 +636,25 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
           onClick={onOpenDemo}
           title="Schedule a Demo"
           style={{
-            width: '52px',
-            height: '52px',
-            borderRadius: '50%',
-            background: 'var(--colorAccent2)',
-            border: 'none',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 4px 16px rgba(255, 91, 11, 0.45)',
+            gap: '8px',
+            padding: '10px 16px 10px 12px',
+            borderRadius: '28px',
+            background: 'var(--colorAccent2)',
+            border: 'none',
+            boxShadow: '0 4px 16px rgba(255, 91, 11, 0.4)',
             cursor: 'pointer',
-            transition: 'transform 0.2s ease'
+            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+            color: '#fff',
+            fontWeight: 600,
+            fontSize: '13.5px'
           }}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(255,91,11,0.6)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(255,91,11,0.4)'; }}
         >
-          <i className="fas fa-calendar-check" style={{ fontSize: '20px', color: '#fff' }}></i>
+          <i className="fas fa-calendar-check" style={{ fontSize: '18px' }}></i>
+          <span>Book a Demo</span>
         </button>
       </div>
 

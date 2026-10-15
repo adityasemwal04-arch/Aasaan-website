@@ -93,7 +93,7 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
           <img
             src={aasaanLogoSrc}
             alt="Aasaan ERP"
-            style={{ height: '32px', objectFit: 'contain' }}
+            style={{ height: '44px', objectFit: 'contain' }}
           />
           <button
             onClick={() => setMobileMenuOpen(false)}
@@ -221,7 +221,7 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
         </div>
 
         {/* Sticky Toolbar Bar */}
-        <div id="toolbar" className="main_content row_alignment align_self_center" style={{ padding: '0 16px', height: '64px', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div id="toolbar" className="main_content row_alignment align_self_center" style={{ padding: '0 16px', height: '72px', alignItems: 'center', justifyContent: 'space-between' }}>
           
           {/* Logo */}
           <a
@@ -233,7 +233,7 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
               id="main_logo"
               src={aasaanLogoSrc}
               alt="Aasaan ERP"
-              style={{ height: '44px', objectFit: 'contain' }}
+              style={{ height: '56px', objectFit: 'contain' }}
             />
           </a>
 
