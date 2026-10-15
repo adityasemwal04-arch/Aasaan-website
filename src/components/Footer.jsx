@@ -19,7 +19,7 @@ export default function Footer({ onOpenDemo, onNavigate }) {
       {/* Top Demo CTA Strip */}
       <div style={{
         width: '100%',
-        background: 'linear-gradient(90deg, #ff5b0b 0%, #e04a00 100%)',
+        background: 'linear-gradient(90deg, var(--colorAccent) 0%, #1565c0 100%)',
         padding: '24px 20px',
         display: 'flex',
         alignItems: 'center',
@@ -35,7 +35,7 @@ export default function Footer({ onOpenDemo, onNavigate }) {
           onClick={onOpenDemo}
           style={{
             background: '#ffffff',
-            color: '#ff5b0b',
+            color: 'var(--colorAccent)',
             border: 'none',
             borderRadius: '6px',
             padding: '10px 26px',

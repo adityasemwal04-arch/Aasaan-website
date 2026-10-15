@@ -178,7 +178,7 @@ h1, h2, h3, h4, h5, span, ul, li, p, td, a {
 }
 
 .menu_item span.highlight {
-    background: var(--colorAccent2);
+    background: var(--colorAccent);
     border-radius: 6px;
     color: white;
     font-weight: 600;
@@ -188,7 +188,7 @@ h1, h2, h3, h4, h5, span, ul, li, p, td, a {
 }
 
 .menu_item:hover span.highlight {
-    background: #e04a00;
+    background: var(--colorAccent2);
     color: white;
 }
 
