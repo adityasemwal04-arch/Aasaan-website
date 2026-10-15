@@ -125,10 +125,7 @@ export default function AdminDashboardPage({ onNavigate }) {
     const auth = getAdminAuth();
     if (!auth) {
       if (onNavigate) onNavigate('login');
-      else {
-        window.history.pushState({}, '', getRoutePath('login'));
-        window.dispatchEvent(new PopStateEvent('popstate'));
-      }
+      else window.location.href = getRoutePath('login');
       return;
     }
     setAdminUser(auth.user);
@@ -174,10 +171,7 @@ export default function AdminDashboardPage({ onNavigate }) {
   const handleLogout = () => {
     logoutAdmin();
     if (onNavigate) onNavigate('login');
-    else {
-      window.history.pushState({}, '', getRoutePath('login'));
-      window.dispatchEvent(new PopStateEvent('popstate'));
-    }
+    else window.location.href = getRoutePath('login');
   };
 
   // Queries Actions
@@ -520,10 +514,7 @@ export default function AdminDashboardPage({ onNavigate }) {
             <button
               onClick={() => {
                 if (onNavigate) onNavigate('home');
-                else {
-                  window.history.pushState({}, '', getRoutePath('home'));
-                  window.dispatchEvent(new PopStateEvent('popstate'));
-                }
+                else window.location.href = getRoutePath('home');
               }}
               style={{
                 background: 'transparent',

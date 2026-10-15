@@ -241,8 +241,8 @@ export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenD
       if (onNavigate) {
         onNavigate(item.pageId, item.targetElementId);
       } else {
-        window.history.pushState({}, '', getRoutePath(item.pageId));
-        window.dispatchEvent(new PopStateEvent('popstate'));
+        const dest = item.targetElementId ? `${getRoutePath(item.pageId)}#${item.targetElementId}` : getRoutePath(item.pageId);
+        window.location.href = dest;
       }
     }
   };

@@ -44,16 +44,21 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
   };
 
   const handleNavClick = (pageId, e) => {
-    if (e) e.preventDefault();
     setMobileMenuOpen(false);
     setProductsDropdownOpen(false);
+
+    if (pageId === currentPage) {
+      if (e) e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
     if (onNavigate) {
+      if (e) e.preventDefault();
       onNavigate(pageId);
     } else {
-      window.history.pushState({}, '', getRoutePath(pageId));
-      window.dispatchEvent(new PopStateEvent('popstate'));
+      window.location.href = getRoutePath(pageId);
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const currentAnnouncement = announcements[topBannerIndex] || announcements[0];
@@ -334,11 +339,15 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
 
             <a
               className="menu_item"
-              href="#/services"
+              href={currentPage === 'home' ? '#modules' : getRoutePath('home') + '#modules'}
               onClick={(e) => {
-                e.preventDefault();
-                const el = document.getElementById('modules');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
+                if (currentPage === 'home') {
+                  e.preventDefault();
+                  const el = document.getElementById('modules');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  window.location.href = getRoutePath('home') + '#modules';
+                }
               }}
             >
               <span>Services</span>
@@ -362,11 +371,15 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
 
             <a
               className="menu_item"
-              href="#about"
+              href={currentPage === 'home' ? '#about' : getRoutePath('home') + '#about'}
               onClick={(e) => {
-                e.preventDefault();
-                const el = document.getElementById('about');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
+                if (currentPage === 'home') {
+                  e.preventDefault();
+                  const el = document.getElementById('about');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  window.location.href = getRoutePath('home') + '#about';
+                }
               }}
             >
               <span>About Us</span>

@@ -529,10 +529,8 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                   if (onNavigate) {
                     onNavigate(`blog/${m.slug}`);
                   } else {
-                    window.history.pushState({}, '', getRoutePath(`blog/${m.slug}`));
-                    window.dispatchEvent(new PopStateEvent('popstate'));
+                    window.location.href = getRoutePath(`blog/${m.slug}`);
                   }
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 style={{
                   background: '#FFFFFF',

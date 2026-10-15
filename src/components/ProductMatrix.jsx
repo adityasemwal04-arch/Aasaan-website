@@ -70,14 +70,12 @@ export default function ProductMatrix({ onOpenDemo, onNavigate }) {
   ];
 
   const handleProductNavigate = (pageId, e) => {
-    e.preventDefault();
     if (onNavigate) {
+      if (e) e.preventDefault();
       onNavigate(pageId);
     } else {
-      window.history.pushState({}, '', getRoutePath(pageId));
-      window.dispatchEvent(new PopStateEvent('popstate'));
+      window.location.href = getRoutePath(pageId);
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (

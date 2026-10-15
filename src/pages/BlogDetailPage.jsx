@@ -134,7 +134,7 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
         <h2>Industry Article Not Found</h2>
         <p style={{ color: '#64748B', marginTop: '8px' }}>The requested industry topic does not exist or has been moved.</p>
         <button
-          onClick={() => onNavigate ? onNavigate('global') : window.location.hash = '#/global'}
+          onClick={() => onNavigate ? onNavigate('global') : window.location.href = getRoutePath('global')}
           style={{
             marginTop: '20px',
             background: 'var(--colorAccent)',
@@ -162,7 +162,7 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
         <div className="container" style={{ maxWidth: '880px', margin: '0 auto', padding: '0 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: '#64748B' }}>
             <button
-              onClick={() => onNavigate ? onNavigate('home') : window.location.hash = '#/'}
+              onClick={() => onNavigate ? onNavigate('home') : window.location.href = getRoutePath('home')}
               style={{ background: 'none', border: 'none', color: '#1e95d3', fontWeight: 600, cursor: 'pointer', padding: 0 }}
             >
               Home
@@ -179,7 +179,7 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
                 onClick={() => {
                   localStorage.setItem('aasaan_admin_target_blog', blog.slug);
                   if (onNavigate) onNavigate('admin');
-                  else window.location.hash = '#/admin';
+                  else window.location.href = getRoutePath('admin');
                 }}
                 style={{
                   background: '#eaf6fd',
@@ -383,14 +383,12 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
                   key={ob.slug}
                   href={getRoutePath(`blog/${ob.slug}`)}
                   onClick={(e) => {
-                    e.preventDefault();
                     if (onNavigate) {
+                      if (e) e.preventDefault();
                       onNavigate(`blog/${ob.slug}`);
                     } else {
-                      window.history.pushState({}, '', getRoutePath(`blog/${ob.slug}`));
-                      window.dispatchEvent(new PopStateEvent('popstate'));
+                      window.location.href = getRoutePath(`blog/${ob.slug}`);
                     }
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
                   style={{
                     background: '#f8f9fa',

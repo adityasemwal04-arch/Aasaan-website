@@ -70,42 +70,45 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Check for anchor hash on load (e.g. #modules or #about)
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash && !hash.startsWith('#/')) {
+      const targetId = hash.replace(/^#/, '');
+      setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    }
+  }, []);
+
   const handleNavigate = (pageId, targetElementId) => {
     const cleanUrl = getRoutePath(pageId);
 
-    if (pageId.startsWith('blog/')) {
-      const slug = pageId.replace('blog/', '');
-      setCurrentBlogSlug(slug);
-      setCurrentPage('blog');
-      window.history.pushState({ pageId: 'blog', slug }, '', cleanUrl);
-      updateMetaTags('blog');
+    // If navigating to a section on the same active page, smooth scroll
+    if (pageId === currentPage && targetElementId) {
+      const el = document.getElementById(targetElementId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.style.transition = 'outline 0.3s ease, box-shadow 0.3s ease';
+        el.style.outline = '3px solid var(--primary-blue)';
+        el.style.boxShadow = '0 0 25px rgba(29, 78, 216, 0.4)';
+        setTimeout(() => {
+          el.style.outline = 'none';
+          el.style.boxShadow = '';
+        }, 2200);
+        return;
+      }
+    }
+
+    if (pageId === currentPage && !targetElementId) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
-    setCurrentPage(pageId);
-    window.history.pushState({ pageId }, '', cleanUrl);
-    updateMetaTags(pageId);
-
-    if (targetElementId) {
-      setTimeout(() => {
-        const el = document.getElementById(targetElementId);
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          el.style.transition = 'outline 0.3s ease, box-shadow 0.3s ease';
-          el.style.outline = '3px solid var(--primary-blue)';
-          el.style.boxShadow = '0 0 25px rgba(29, 78, 216, 0.4)';
-          setTimeout(() => {
-            el.style.outline = 'none';
-            el.style.boxShadow = '';
-          }, 2200);
-        } else {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      }, 120);
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    // Trigger real browser page reload navigation to the separate page
+    const dest = targetElementId ? `${cleanUrl}#${targetElementId}` : cleanUrl;
+    window.location.href = dest;
   };
 
   return (

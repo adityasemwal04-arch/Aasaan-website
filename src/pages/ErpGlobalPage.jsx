@@ -277,10 +277,8 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
                 if (onNavigate) {
                   onNavigate(`blog/${cardSlug}`);
                 } else {
-                  window.history.pushState({}, '', getRoutePath(`blog/${cardSlug}`));
-                  window.dispatchEvent(new PopStateEvent('popstate'));
+                  window.location.href = getRoutePath(`blog/${cardSlug}`);
                 }
-                window.scrollTo({ top: 0, behavior: 'smooth' });
               };
 
               return (

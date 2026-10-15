@@ -5,14 +5,12 @@ import { getRoutePath } from '../utils/navigation';
 
 export default function Footer({ onOpenDemo, onNavigate }) {
   const handlePageLink = (pageId, e) => {
-    if (e) e.preventDefault();
     if (onNavigate) {
+      if (e) e.preventDefault();
       onNavigate(pageId);
     } else {
-      window.history.pushState({}, '', getRoutePath(pageId));
-      window.dispatchEvent(new PopStateEvent('popstate'));
+      window.location.href = getRoutePath(pageId);
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -92,8 +90,8 @@ export default function Footer({ onOpenDemo, onNavigate }) {
             <span className="footer_heading">Quick Links</span>
             <div className="column_alignment">
               <a href={getRoutePath('home')} onClick={(e) => handlePageLink('home', e)} className="footer_link">Home</a>
-              <a href="#services" onClick={(e) => { e.preventDefault(); const el = document.getElementById('modules'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }} className="footer_link">Services</a>
-              <a href="#about" onClick={(e) => { e.preventDefault(); const el = document.getElementById('about'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }} className="footer_link">About Us</a>
+              <a href={getRoutePath('home') + '#modules'} onClick={(e) => { e.preventDefault(); const el = document.getElementById('modules'); if (el) { el.scrollIntoView({ behavior: 'smooth' }); } else { window.location.href = getRoutePath('home') + '#modules'; } }} className="footer_link">Services</a>
+              <a href={getRoutePath('home') + '#about'} onClick={(e) => { e.preventDefault(); const el = document.getElementById('about'); if (el) { el.scrollIntoView({ behavior: 'smooth' }); } else { window.location.href = getRoutePath('home') + '#about'; } }} className="footer_link">About Us</a>
               <a href="#contact" onClick={(e) => { e.preventDefault(); onOpenDemo(); }} className="footer_link">Contact Us</a>
               <a href={getRoutePath('partners')} onClick={(e) => handlePageLink('partners', e)} className="footer_link">Become Our Partner</a>
               <a href={getRoutePath('login')} onClick={(e) => handlePageLink('login', e)} className="footer_link">Admin Portal</a>

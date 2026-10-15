@@ -21,10 +21,8 @@ export default function ErpLitePage({ onOpenDemo, onNavigate }) {
     if (onNavigate) {
       onNavigate(`blog/${slug}`);
     } else {
-      window.history.pushState({}, '', getRoutePath(`blog/${slug}`));
-      window.dispatchEvent(new PopStateEvent('popstate'));
+      window.location.href = getRoutePath(`blog/${slug}`);
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (

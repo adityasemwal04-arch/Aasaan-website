@@ -15,10 +15,7 @@ export default function LoginPage({ onNavigate }) {
     const auth = getAdminAuth();
     if (auth) {
       if (onNavigate) onNavigate('admin');
-      else {
-        window.history.pushState({}, '', getRoutePath('admin'));
-        window.dispatchEvent(new PopStateEvent('popstate'));
-      }
+      else window.location.href = getRoutePath('admin');
     }
   }, [onNavigate]);
 
@@ -33,8 +30,7 @@ export default function LoginPage({ onNavigate }) {
         if (onNavigate) {
           onNavigate('admin');
         } else {
-          window.history.pushState({}, '', getRoutePath('admin'));
-          window.dispatchEvent(new PopStateEvent('popstate'));
+          window.location.href = getRoutePath('admin');
         }
       } else {
         setError(result.message || 'Invalid credentials');
@@ -197,10 +193,7 @@ export default function LoginPage({ onNavigate }) {
               onClick={(e) => {
                 e.preventDefault();
                 if (onNavigate) onNavigate('home');
-                else {
-                  window.history.pushState({}, '', getRoutePath('home'));
-                  window.dispatchEvent(new PopStateEvent('popstate'));
-                }
+                else window.location.href = getRoutePath('home');
               }}
               style={{ fontSize: '13px', color: 'var(--text-muted)', textDecoration: 'none' }}
             >
