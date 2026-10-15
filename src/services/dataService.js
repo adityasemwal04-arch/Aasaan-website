@@ -12,6 +12,353 @@ let serverBackendType = 'Java Spring Boot (Port 8080)';
 // Initial pre-seeded industry articles (used as defaults if server or storage is fresh)
 export const INITIAL_INDUSTRY_BLOGS = [
   {
+    slug: 'financial-management',
+    title: 'Financial Management',
+    tag: 'Core Accounting & Finance',
+    industry: 'Financial Management',
+    img: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80',
+    readTime: '6 min read',
+    author: 'Aasaan Finance Architecture Practice',
+    date: 'October 2026',
+    excerpt: 'A full suite of accounting functions and reporting tools, to meet the needs of growing companies. Multi-currency, GST, e-Way bills, and real-time ledgers.',
+    content: `## Financial Management
+
+A full suite of accounting functions and reporting tools, to meet the needs of growing companies.
+
+In enterprise operations, disconnected ledgers and spreadsheet-based bookkeeping create blind spots, cash flow delays, and audit risks. **Aasaan ERP Financial Management** acts as the central nervous system of your business—unifying sales invoices, vendor payments, bank feeds, and statutory tax compliance in real time.
+
+### Key Capabilities
+
+1. **General Ledger & Multi-Entity Accounting**:
+   - Multi-branch, multi-company, and multi-currency ledgers with automatic exchange gain/loss calculations.
+   - Flexible Chart of Accounts (COA) tailored for manufacturing, retail, and service businesses.
+   - Automated journal entries generated directly from sales, purchase, and inventory transactions.
+
+2. **Automated Bank Reconciliation**:
+   - Direct import of bank statements (MT940, CSV, Excel) with rule-based auto-matching of credits and debits.
+   - Instant visibility into uncleared cheques, pending vendor disbursements, and unbilled collections.
+
+3. **Statutory Tax & Regulatory Compliance**:
+   - Built-in GST calculation across CGST, SGST, IGST with 1-click GSTR-1, GSTR-2B, and GSTR-3B preparation.
+   - Native integration with government e-Invoicing and e-Way Bill generation APIs.
+   - Automated TDS (Tax Deducted at Source) deductions, challan tracking, and Form 16A generation.
+
+4. **Accounts Receivable & Accounts Payable (AR/AP)**:
+   - Automated debtor aging reports (30/60/90 days) with automated WhatsApp and email payment reminders.
+   - Vendor credit management, 3-way matching of Purchase Order vs. Goods Receipt vs. Vendor Invoice.
+   - Early payment discount tracking and planned cash outflow calendars.
+
+5. **Financial Statements & Executive Audits**:
+   - Instant drill-down from Balance Sheet, Profit & Loss (P&L), and Cash Flow statement down to the underlying voucher.
+   - Comprehensive audit trail with tamper-proof user activity logging and approval workflows.`
+  },
+  {
+    slug: 'stock-control',
+    title: 'Stock Control',
+    tag: 'Multi-Location Inventory',
+    industry: 'Stock Control',
+    img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80',
+    readTime: '6 min read',
+    author: 'Aasaan Supply Chain Practice',
+    date: 'October 2026',
+    excerpt: "Effortlessly manage inventory with AASAAN ERP's smart Stock Control module. Multi-warehouse tracking, batch/serial numbers, and automated reorder triggers.",
+    content: `## Stock Control
+
+Effortlessly manage inventory with AASAAN ERP's smart Stock Control module.
+
+Inventory miscounts and stockouts lead to lost revenue and dissatisfied customers. **Aasaan ERP Stock Control** provides minute-by-minute visibility of materials across central depots, branch warehouses, transit vehicles, and store shelves.
+
+### Key Capabilities
+
+1. **Multi-Warehouse & Bin Location Hierarchy**:
+   - Structure warehouses by zones, aisles, racks, shelves, and bins for pinpoint item retrieval.
+   - Real-time stock reservation for open sales orders without causing double allocation.
+   - Stock movement workflows: Inward Gate Pass (GRN), Internal Transfer, Material Issue, and Outward Gate Pass.
+
+2. **Batch, Lot & Serial Number Tracking**:
+   - End-to-end traceability from raw material intake to customer dispatch with full pedigree logs.
+   - Support for expiration dates with First-Expired-First-Out (FEFO) and First-In-First-Out (FIFO) picking rules.
+   - Rapid product recall capabilities pinpointing every customer who received a specific batch.
+
+3. **Automated Reordering & Minimum Safety Stock**:
+   - Dynamic reorder thresholds based on historical lead times and seasonal demand forecasting.
+   - Automated purchase requisition creation when physical or reserved stock breaches minimum safety levels.
+
+4. **Barcode & QR Code Mobile Scanning**:
+   - Android-based mobile barcode scanning for fast receiving, cycle counts, stock audits, and dispatch packing.
+   - Generates and prints custom product barcodes, GS1 labels, and carton shipping labels directly from ERP.
+
+5. **Valuation & Landed Cost Allocation**:
+   - Real-time valuation using Weighted Average Cost, FIFO, or Standard Costing methods.
+   - Automated allocation of freight, customs duty, port clearance, and handling charges into raw material unit cost.`
+  },
+  {
+    slug: 'crm',
+    title: 'CRM',
+    tag: 'Customer Relationship Management',
+    industry: 'CRM',
+    img: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
+    readTime: '5 min read',
+    author: 'Aasaan Sales & Growth Practice',
+    date: 'October 2026',
+    excerpt: 'Seamlessly manage leads, track customer interactions, and boost sales conversions. Visual pipelines, quote generation, and team performance metrics.',
+    content: `## CRM
+
+Seamlessly manage leads, track customer interactions, and boost sales conversions.
+
+Closing high-value accounts requires structured follow-ups, contextual client history, and fast quote turnaround. **Aasaan ERP CRM** unifies your marketing leads, field sales representatives, and customer relationship managers on a single collaborative canvas.
+
+### Key Capabilities
+
+1. **Omni-Channel Lead Capture & Intelligent Routing**:
+   - Automatically captures inquiries from website contact forms, WhatsApp Business, Indiamart, TradeIndia, and email inboxes.
+   - Rule-based lead distribution by geography, product category, deal size, or agent availability.
+
+2. **Visual Kanban Deal Pipelines**:
+   - Drag-and-drop sales stages from Initial Discovery, Qualification, Technical Demo, Proposal Sent, Negotiation, to Closed-Won.
+   - Instant deal probability weighting for accurate revenue and sales quota forecasting.
+
+3. **Quotation Generation & Revision History**:
+   - Generate professional, branded PDF quotations in under 60 seconds with item pricing and discount tiers.
+   - Complete version control tracking quotation revisions with client approval timestamps.
+   - One-click conversion from approved quotation into a live Sales Order without manual data re-entry.
+
+4. **Interaction Timeline & Follow-Up Reminders**:
+   - Centralized timeline recording calls, meeting notes, emails, and WhatsApp conversations for every contact.
+   - Automated task reminders alerting sales reps before scheduled calls or proposal follow-ups.
+
+5. **Sales Analytics & Executive Dashboards**:
+   - Real-time win/loss ratio analysis, sales cycle duration metrics, and individual sales rep performance targets.`
+  },
+  {
+    slug: 'purchasing',
+    title: 'Purchasing',
+    tag: 'Procurement & Vendor Management',
+    industry: 'Purchasing',
+    img: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1200&q=80',
+    readTime: '6 min read',
+    author: 'Aasaan Procurement Engineering Team',
+    date: 'October 2026',
+    excerpt: "Streamline vendor management and optimize procurement with Aasaan ERP's smart Purchasing module. RFQ comparison, 3-way matching, and automated PO approvals.",
+    content: `## Purchasing
+
+Streamline vendor management and optimize procurement with Aasaan ERP's smart Purchasing module.
+
+Effective procurement directly protects business margins. **Aasaan ERP Purchasing** eliminates Maverick buying, standardizes vendor selections, and guarantees that every payment is verified against physical goods delivered.
+
+### Key Capabilities
+
+1. **Purchase Requisition (PR) to Purchase Order (PO) Workflow**:
+   - Departmental requisition workflows with multi-tier managerial approval thresholds based on budget limits.
+   - Automated consolidation of requisitions across multiple branches to negotiate bulk volume discounts.
+
+2. **Request for Quotation (RFQ) & Vendor Comparison Matrices**:
+   - Dispatches RFQ inquiries to approved suppliers with 1-click comparison of unit rates, delivery lead times, and payment terms.
+   - Maintains historical vendor pricing records to evaluate rate changes and inflation trends.
+
+3. **3-Way Matching & Fraud Prevention**:
+   - Automatic cross-validation between the Purchase Order, Inward Goods Receipt Note (GRN), and Vendor Tax Invoice.
+   - Flags price variances, excess delivery quantities, or unapproved freight charges before releasing accounts payable vouchers.
+
+4. **Vendor Rating & Performance Scorecards**:
+   - Automated scoring of suppliers based on On-Time In-Full (OTIF) delivery metrics, material rejection rates, and billing accuracy.
+   - Maintains approved vendor lists (AVL) with compliance certifications and GSTIN validity checks.
+
+5. **Debit Notes & Return to Vendor (RTV)**:
+   - Streamlined workflows for rejected quality inspections (QC failed), automatically creating debit notes and return gate passes.`
+  },
+  {
+    slug: 'sales',
+    title: 'Sales',
+    tag: 'Order Management & Billing',
+    industry: 'Sales',
+    img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+    readTime: '6 min read',
+    author: 'Aasaan Commercial Operations Team',
+    date: 'October 2026',
+    excerpt: 'Effortlessly manage your entire sales cycle with AASAAN ERP – from lead to deal! Multi-tier pricing, e-invoicing, and customer credit controls.',
+    content: `## Sales
+
+Effortlessly manage your entire sales cycle with AASAAN ERP – from lead to deal!
+
+In fast-paced B2B and distribution environments, order processing speed dictates market leadership. **Aasaan ERP Sales** links customer orders directly to warehouse fulfillment and tax billing, eliminating bottlenecks and shipping delays.
+
+### Key Capabilities
+
+1. **Omni-Channel Sales Order Processing**:
+   - Centralizes orders received via field sales agents, customer portals, B2B marketplaces, EDI, and email.
+   - Automated credit check verification against customer outstanding balances and predefined credit limits.
+
+2. **Tier-Based Price Lists & Promotional Schemes**:
+   - Unlimited custom price lists (Wholesale, Retail, Distributor, OEM) with currency and volume slab pricing.
+   - Automatic discount application based on order quantity, seasonal campaigns, and prompt payment terms.
+
+3. **Pick, Pack, & Ship Fulfillment Lifecycle**:
+   - Generates digital pick lists organized by warehouse bin locations to minimize order picking time.
+   - Packing slip creation with barcode verification ensuring zero dispatch error rates.
+   - Integration with leading logistics couriers for automated tracking number generation and dispatch manifests.
+
+4. **1-Click GST e-Invoicing & E-Way Bills**:
+   - Generates QR-code compliant GST e-Invoices with immediate IRN (Invoice Reference Number) generation.
+   - Instant e-Way bill creation linked directly to vehicle registration numbers and transporter IDs.
+
+5. **Customer Accounts & Receivables Portal**:
+   - Self-service customer access to download tax invoices, check shipment status, and review account statements.`
+  },
+  {
+    slug: 'service',
+    title: 'Service',
+    tag: 'Field Service & Ticketing',
+    industry: 'Service',
+    img: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80',
+    readTime: '5 min read',
+    author: 'Aasaan Customer Success Practice',
+    date: 'October 2026',
+    excerpt: "Streamline your operations and elevate customer satisfaction with AASAAN ERP's smart Service module. Ticket management, field technician dispatch, and AMC tracking.",
+    content: `## Service
+
+Streamline your operations and elevate customer satisfaction with AASAAN ERP's smart Service module.
+
+Post-sale customer service and equipment maintenance define long-term brand loyalty and recurring revenue. **Aasaan ERP Service** automates support ticket management, field technician dispatch, Annual Maintenance Contracts (AMC), and warranty tracking.
+
+### Key Capabilities
+
+1. **Customer Support Ticketing & SLA Tracking**:
+   - Multi-channel ticket logging through email, customer portal, telephone, and WhatsApp.
+   - Automatic categorization by product serial number, issue severity, and contracted SLA resolution timeframes.
+   - Escalation matrices alerting service managers if a high-priority ticket approaches SLA breach.
+
+2. **Field Technician Mobile Dispatch**:
+   - Real-time job assignment to field technicians based on technician geographic proximity, skillset, and parts availability.
+   - Mobile app for technicians to view site locations, log diagnostic notes, capture customer digital signatures, and upload on-site photos.
+
+3. **Warranty Validation & Spare Parts Consumption**:
+   - Instant serial number lookup to check warranty status, previous service history, and replacement eligibility.
+   - Field engineers record spare parts consumed directly from their mobile app, automatically updating central inventory and issuing billing invoices for out-of-warranty repairs.
+
+4. **Annual Maintenance Contracts (AMC) & Preventive Maintenance (PPM)**:
+   - Automated tracking of AMC contract tenures, service visit schedules, and renewal quotation reminders.
+   - System-generated recurring preventive maintenance work orders to minimize equipment breakdown for clients.
+
+5. **Customer Satisfaction (CSAT) & Feedback**:
+   - Automated post-service SMS and WhatsApp survey links to capture Net Promoter Score (NPS) and technician ratings.`
+  },
+  {
+    slug: 'reporting',
+    title: 'Reporting',
+    tag: 'Analytics & Business Intelligence',
+    industry: 'Reporting',
+    img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+    readTime: '5 min read',
+    author: 'Aasaan BI & Data Engineering Team',
+    date: 'October 2026',
+    excerpt: 'Comprehensive, real-time insights at your fingertips with AASAAN ERP Reporting. Executive BI dashboards, drill-down analytics, and automated compliance reports.',
+    content: `## Reporting
+
+Comprehensive, real-time insights at your fingertips with AASAAN ERP Reporting.
+
+In modern business, decisions cannot wait for month-end manual accounting reviews. **Aasaan ERP Reporting** turns raw transactional data across finance, sales, inventory, and production into clear, real-time visual insights and executive dashboards.
+
+### Key Capabilities
+
+1. **Real-Time Executive Dashboards**:
+   - Key Performance Indicators (KPIs) at a glance: Gross Margin, Net Profit, Day Sales Outstanding (DSO), Inventory Turnover Ratio, and Cash Runway.
+   - Role-based permissions ensuring branch managers, sales leads, and C-level executives see only their authorized data slices.
+
+2. **300+ Pre-Configured Operational Reports**:
+   - Out-of-the-box financial statements: Balance Sheet, Trial Balance, Profit & Loss, Ledger Accounts, and Cash Flow.
+   - Sales & procurement reports: Item-wise profitability, vendor delivery compliance, customer purchase trends, and regional sales performance.
+   - Inventory reports: Stock aging, slow-moving items, stock ledger reconciliations, and reorder projections.
+
+3. **Interactive Multi-Level Drill-Down**:
+   - Click on any top-level dashboard figure to drill into branch totals, customer accounts, and individual underlying tax invoices or vouchers.
+
+4. **Custom Report Builder & Query Views**:
+   - Intuitive drag-and-drop report designer allowing business users to filter, sort, group, and summarize columns without technical coding.
+   - Save custom report configurations for one-click access across team members.
+
+5. **Scheduled Automated Delivery**:
+   - Configure automated daily, weekly, or monthly delivery of key reports directly to stakeholder inboxes or WhatsApp in PDF/Excel formats.`
+  },
+  {
+    slug: 'manufacturing',
+    title: 'Manufacturing',
+    tag: 'Production & Shop Floor',
+    industry: 'Manufacturing',
+    img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80',
+    readTime: '7 min read',
+    author: 'Aasaan Manufacturing Practice Lead',
+    date: 'October 2026',
+    excerpt: "Streamline your production process with AASAAN ERP's intelligent Manufacturing module. Multi-level BOM, machine routing, scrap accounting, and MRP.",
+    content: `## Manufacturing
+
+Streamline your production process with AASAAN ERP's intelligent Manufacturing module.
+
+Discrete and process manufacturing operations require seamless coordination between raw material availability, machine capacity, shop-floor workforce, and delivery timelines. **Aasaan ERP Manufacturing** synchronizes your plant operations directly with procurement and finance.
+
+### Key Capabilities
+
+1. **Multi-Level Bill of Materials (BOM)**:
+   - Supports complex hierarchical BOMs with sub-assemblies, phantom assemblies, and revision engineering control.
+   - Tracks scrap factors and expected yield percentages at every transformation stage.
+   - Dynamic BOM explosion calculating exact component demand for planned production volumes.
+
+2. **Material Requirements Planning (MRP)**:
+   - Automated calculation of material shortages comparing open sales orders and planned production schedules against on-hand inventory.
+   - Generates purchase requisitions for outsourced components and production work orders for in-house assemblies.
+
+3. **Work Center Capacity & Routing Planning**:
+   - Define multi-step production routings specifying machine spindle hours, labor setup times, and run times per workstation.
+   - Live Gantt chart visualization of machine loads to eliminate shop-floor bottlenecks and balance line throughput.
+
+4. **Digital Job Cards & Floor Terminal Tracking**:
+   - Operators log active production batches using barcode/QR scanning at floor terminals to track run duration, output count, and machine downtime causes.
+   - Real-time work-in-progress (WIP) tracking with automatic stock valuation as materials advance through work centers.
+
+5. **Quality Control & In-Process Inspection**:
+   - Mandatory QC gates at raw material inwarding, intermediate WIP stages, and finished goods transfer to warehouse.
+   - Defect logging, non-conformance reports (NCR), and automated quarantine isolation of suspect batches.`
+  },
+  {
+    slug: 'waste-management',
+    title: 'Waste Management',
+    tag: 'AWM Specialized Solution',
+    industry: 'Waste Management',
+    img: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=80',
+    readTime: '7 min read',
+    author: 'AWM Circular Economy Practice',
+    date: 'October 2026',
+    excerpt: 'AWM is tailored for businesses in the waste management sector, offering comprehensive tools for inventory tracking, bin management, and order fulfillment.',
+    content: `## Waste Management
+
+AWM is tailored for businesses in the waste management sector, offering comprehensive tools for inventory tracking, bin management, and order fulfillment.
+
+Waste management, material recycling, and scrap processing facilities operate under strict environmental regulations, volatile commodity pricing, and high-volume weighbridge logistics. **Aasaan Waste Management (AWM)** is the specialized industry solution built from the ground up for circular economy leaders.
+
+### Key Capabilities
+
+1. **Weighbridge Hardware Automation**:
+   - Direct RS-232, RS-485, and IP network integration with digital weighbridge indicators (Avery, Essae, Cardinal).
+   - Automated Gross, Tare, and Net weight calculation with license plate vehicle capture cameras to prevent fraud.
+   - High-speed weighbridge slip printing and driver receipt generation in under 10 seconds per vehicle.
+
+2. **Smart Bin & Container Asset Tracking**:
+   - RFID and barcode tagging of skip bins, roll-on containers, and hazardous drums.
+   - Track physical container deployment at client sites, collection frequency, fill levels, and overdue container dwell times.
+
+3. **Hazardous & Municipal Compliance (EPR)**:
+   - Compliant with hazardous waste manifests, pollution control board reporting, and Extended Producer Responsibility (EPR) mandates.
+   - Instant generation of digital recycling certificates and verified waste destruction documentation for corporate audit trails.
+
+4. **Material Grading, Sorting & Recovery Accounting**:
+   - Capture contamination deduction percentages directly at reception inspection docks.
+   - Track sorting line throughput, baling operations, shredded material inventory, and recovery ratios across plastics, metals, paper, and electronic e-waste.
+
+5. **Dynamic Commodity Pricing & Contractor Billing**:
+   - Tiered rate matrices based on material grade purity, moisture deduction formulas, and index commodity prices.
+   - Automated billing for container rental, scheduled haulage transport, and tipping gate fees.`
+  },
+  {
     slug: 'manufacturing-engineering',
     title: 'Manufacturing & Engineering ERP: Mastering Multi-Level BOM & Shop Floor Routing',
     tag: 'BOM & Routing',
@@ -800,7 +1147,13 @@ export async function getBlogs() {
 export async function getBlogBySlug(slug) {
   const normSlug = (slug || '').toLowerCase().trim();
   const blogs = await getBlogs();
-  const foundBlog = blogs.find(b => b.slug === normSlug || b.slug.toLowerCase() === normSlug);
+  let foundBlog = blogs.find(b => b.slug === normSlug || b.slug.toLowerCase() === normSlug);
+  if (!foundBlog && (normSlug === 'manufacturing-engineering' || normSlug === 'manufacturing')) {
+    foundBlog = blogs.find(b => b.slug === 'manufacturing' || b.slug === 'manufacturing-engineering');
+  }
+  if (!foundBlog && (normSlug === 'waste-management-recycling' || normSlug === 'waste-management')) {
+    foundBlog = blogs.find(b => b.slug === 'waste-management' || b.slug === 'waste-management-recycling');
+  }
   if (foundBlog) return foundBlog;
 
   // 1. Check Lite Features

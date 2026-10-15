@@ -77,6 +77,7 @@ export default function AdminDashboardPage({ onNavigate }) {
 
   // Blogs state
   const [blogs, setBlogs] = useState([]);
+  const [blogSearch, setBlogSearch] = useState('');
   const [editingBlog, setEditingBlog] = useState(null); // null or blog object
   const [isNewBlogModal, setIsNewBlogModal] = useState(false);
   const [blogSuccessMsg, setBlogSuccessMsg] = useState('');
@@ -154,6 +155,16 @@ export default function AdminDashboardPage({ onNavigate }) {
     setAwmModulesList(fetchedAM);
     setAwmClientsList(fetchedAC);
     setLoadingLeads(false);
+
+    const targetBlogSlug = localStorage.getItem('aasaan_admin_target_blog');
+    if (targetBlogSlug) {
+      localStorage.removeItem('aasaan_admin_target_blog');
+      setActiveTab('blogs');
+      const target = fetchedBlogs.find(b => b.slug === targetBlogSlug || b.slug.toLowerCase() === targetBlogSlug.toLowerCase());
+      if (target) {
+        setEditingBlog({ ...target });
+      }
+    }
   };
 
   const handleLogout = () => {
@@ -1081,9 +1092,9 @@ export default function AdminDashboardPage({ onNavigate }) {
               gap: '12px'
             }}>
               <div>
-                <h3 style={{ margin: '0 0 4px', fontSize: '20px', fontWeight: 800 }}>Industry Deep-Dive Blogs</h3>
+                <h3 style={{ margin: '0 0 4px', fontSize: '20px', fontWeight: 800 }}>Modules & Industry Blogs CMS</h3>
                 <p style={{ margin: 0, fontSize: '13.5px', color: '#64748B' }}>
-                  Visitors see these articles when they click on cards like <strong>Manufacturing & Engineering</strong>, <strong>Dairy Industry</strong>, etc.
+                  Visitors see these articles when they click on homepage modules (Financial Management, Stock Control, CRM, Sales, etc.) or industry cards.
                 </p>
               </div>
 
@@ -1108,13 +1119,44 @@ export default function AdminDashboardPage({ onNavigate }) {
               </button>
             </div>
 
+            {/* Search filter for blogs */}
+            <div style={{ marginBottom: '20px', maxWidth: '440px', position: 'relative' }}>
+              <Search size={16} color="#94A3B8" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
+              <input
+                type="text"
+                placeholder="Search module or industry blogs..."
+                value={blogSearch}
+                onChange={(e) => setBlogSearch(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '9px 12px 9px 36px',
+                  borderRadius: '8px',
+                  border: '1.5px solid var(--border-medium)',
+                  fontSize: '13.5px',
+                  outline: 'none',
+                  background: '#FFFFFF'
+                }}
+              />
+            </div>
+
             {/* Blogs Grid */}
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
               gap: '24px'
             }}>
-              {blogs.map((b) => (
+              {blogs
+                .filter(b => {
+                  if (!blogSearch.trim()) return true;
+                  const q = blogSearch.toLowerCase();
+                  return (
+                    (b.title || '').toLowerCase().includes(q) ||
+                    (b.slug || '').toLowerCase().includes(q) ||
+                    (b.industry || '').toLowerCase().includes(q) ||
+                    (b.tag || '').toLowerCase().includes(q)
+                  );
+                })
+                .map((b) => (
                 <div
                   key={b.slug}
                   style={{

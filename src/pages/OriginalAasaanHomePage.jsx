@@ -17,15 +17,15 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
   ];
 
   const modules = [
-    { name: 'Financial Management', desc: 'A full suite of accounting functions and reporting tools, to meet the needs of growing companies.', img: 'media/Group_1281.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1281.png' },
-    { name: 'Stock Control', desc: 'Effortlessly manage inventory with AASAAN ERP\'s smart Stock Control module.', img: 'media/Group_1282.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1282.png' },
-    { name: 'CRM', desc: 'Seamlessly manage leads, track customer interactions, and boost sales conversions.', img: 'media/Group_1283.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1283.png' },
-    { name: 'Purchasing', desc: "Streamline vendor management and optimize procurement with Aasaan ERP's smart Purchasing module.", img: 'media/Group_1287.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1287.png' },
-    { name: 'Sales', desc: 'Effortlessly manage your entire sales cycle with AASAAN ERP – from lead to deal!', img: 'media/Group_1284.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1284.png' },
-    { name: 'Service', desc: "Streamline your operations and elevate customer satisfaction with AASAAN ERP's smart Service module.", img: 'media/Group_1285.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1285.png' },
-    { name: 'Reporting', desc: 'Comprehensive, real-time insights at your fingertips with AASAAN ERP Reporting.', img: 'media/Group_1286.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1286.png' },
-    { name: 'Manufacturing', desc: "Streamline your production process with AASAAN ERP's intelligent Manufacturing module.", img: 'media/Group_1288.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1288.png' },
-    { name: 'Waste Management', desc: 'AWM is tailored for businesses in the waste management sector, offering comprehensive tools for inventory tracking, bin management, and order fulfillment.', img: 'media/Waste_Management_pic.png', fallback: 'https://www.aasaanerp.com/media/solutions/Waste_Management_pic.png' }
+    { slug: 'financial-management', name: 'Financial Management', desc: 'A full suite of accounting functions and reporting tools, to meet the needs of growing companies.', img: 'media/Group_1281.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1281.png' },
+    { slug: 'stock-control', name: 'Stock Control', desc: 'Effortlessly manage inventory with AASAAN ERP\'s smart Stock Control module.', img: 'media/Group_1282.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1282.png' },
+    { slug: 'crm', name: 'CRM', desc: 'Seamlessly manage leads, track customer interactions, and boost sales conversions.', img: 'media/Group_1283.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1283.png' },
+    { slug: 'purchasing', name: 'Purchasing', desc: "Streamline vendor management and optimize procurement with Aasaan ERP's smart Purchasing module.", img: 'media/Group_1287.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1287.png' },
+    { slug: 'sales', name: 'Sales', desc: 'Effortlessly manage your entire sales cycle with AASAAN ERP – from lead to deal!', img: 'media/Group_1284.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1284.png' },
+    { slug: 'service', name: 'Service', desc: "Streamline your operations and elevate customer satisfaction with AASAAN ERP's smart Service module.", img: 'media/Group_1285.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1285.png' },
+    { slug: 'reporting', name: 'Reporting', desc: 'Comprehensive, real-time insights at your fingertips with AASAAN ERP Reporting.', img: 'media/Group_1286.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1286.png' },
+    { slug: 'manufacturing', name: 'Manufacturing', desc: "Streamline your production process with AASAAN ERP's intelligent Manufacturing module.", img: 'media/Group_1288.png', fallback: 'https://www.aasaanerp.com/media/solutions/Group_1288.png' },
+    { slug: 'waste-management', name: 'Waste Management', desc: 'AWM is tailored for businesses in the waste management sector, offering comprehensive tools for inventory tracking, bin management, and order fulfillment.', img: 'media/Waste_Management_pic.png', fallback: 'https://www.aasaanerp.com/media/solutions/Waste_Management_pic.png' }
   ];
 
   const toolCategories = [
@@ -420,7 +420,20 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
           </h2>
           <div className="row_alignment wrap align_center" style={{ justifyContent: 'center' }}>
             {modules.map((m, idx) => (
-              <div key={idx} className="modules_section_item column_alignment" onClick={onOpenDemo}>
+              <div
+                key={idx}
+                className="modules_section_item column_alignment"
+                onClick={() => {
+                  if (onNavigate) {
+                    onNavigate(`blog/${m.slug}`);
+                  } else {
+                    window.location.hash = `#/blog/${m.slug}`;
+                  }
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                style={{ cursor: 'pointer' }}
+                title={`Explore ${m.name} Architecture`}
+              >
                 <img src={getAssetUrl(m.img)} onError={(e) => handleImageError(e, m.fallback)} alt={m.name} />
                 <div className="content column_alignment align_center">
                   <span>{m.name}</span>

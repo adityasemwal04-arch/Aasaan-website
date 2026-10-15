@@ -156,21 +156,25 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
         <div className="container" style={{ maxWidth: '880px', margin: '0 auto', padding: '0 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: '#64748B' }}>
             <button
-              onClick={() => onNavigate ? onNavigate('global') : window.location.hash = '#/global'}
+              onClick={() => onNavigate ? onNavigate('home') : window.location.hash = '#/'}
               style={{ background: 'none', border: 'none', color: '#1e95d3', fontWeight: 600, cursor: 'pointer', padding: 0 }}
             >
-              ERP Global
+              Home
             </button>
             <ChevronRight size={13} />
-            <span>Industries</span>
+            <span>Modules & Solutions</span>
             <ChevronRight size={13} />
-            <span style={{ color: '#212121', fontWeight: 600 }}>{blog.industry || blog.title}</span>
+            <span style={{ color: '#212121', fontWeight: 600 }}>{blog.title}</span>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             {isAdmin && (
               <button
-                onClick={() => onNavigate ? onNavigate('admin') : window.location.hash = '#/admin'}
+                onClick={() => {
+                  localStorage.setItem('aasaan_admin_target_blog', blog.slug);
+                  if (onNavigate) onNavigate('admin');
+                  else window.location.hash = '#/admin';
+                }}
                 style={{
                   background: '#eaf6fd',
                   border: '1px solid rgba(30,149,211,0.3)',
