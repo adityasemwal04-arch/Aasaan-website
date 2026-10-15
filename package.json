@@ -10,7 +10,7 @@
     "server:spring": "cmd /c backend-springboot\\run-backend.bat",
     "server:node": "node server/server.js",
     "start": "cmd /c backend-springboot\\run-backend.bat",
-    "build": "vite build",
+    "build": "vite build && node scripts/post-build.js",
     "preview": "vite preview",
     "sync:onedrive": "node scripts/sync-demo-queries.js"
   },

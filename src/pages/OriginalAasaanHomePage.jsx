@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { getAssetUrl, handleImageError } from '../utils/assetHelper';
+import { getRoutePath } from '../utils/navigation';
 import heroImg from '../assets/aasaan_erp_header_desktop.png';
 import aasaanLogoSrc from '../assets/aasaan-logo.png';
 
@@ -528,7 +529,8 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                   if (onNavigate) {
                     onNavigate(`blog/${m.slug}`);
                   } else {
-                    window.location.hash = `#/blog/${m.slug}`;
+                    window.history.pushState({}, '', getRoutePath(`blog/${m.slug}`));
+                    window.dispatchEvent(new PopStateEvent('popstate'));
                   }
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}

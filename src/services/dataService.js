@@ -724,7 +724,7 @@ Trading companies and regional distributors handle massive SKU counts, complex s
     title: 'Education & Academic Institutes ERP: Fee Lifecycle, SIS Integration & Scholarship Automation',
     tag: 'Fee Lifecycle & SIS',
     industry: 'Education & Academic Institutes',
-    img: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=80',
+    img: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80',
     readTime: '6 min read',
     author: 'Aasaan Education Technology Division',
     date: 'October 2026',
@@ -1131,10 +1131,18 @@ export async function getBlogs() {
 
   // Always merge INITIAL_INDUSTRY_BLOGS — any slug not already in storedBlogs gets added
   const storedSlugs = new Set(storedBlogs.map(b => b.slug));
-  const merged = [
+  let merged = [
     ...storedBlogs,
     ...INITIAL_INDUSTRY_BLOGS.filter(b => !storedSlugs.has(b.slug))
   ];
+
+  // Auto-heal any legacy broken photo URLs
+  merged = merged.map(b => {
+    if (b.img && (b.img.includes('1523050854058-8df90110c9f1') || !b.img.startsWith('http'))) {
+      return { ...b, img: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80' };
+    }
+    return b;
+  });
 
   // Persist merged list back to localStorage
   try {

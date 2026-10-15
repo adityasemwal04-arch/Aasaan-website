@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { awmSectors, awmModules as defaultModules, awmClients as defaultClients, awmWeighbridgeSimulation } from '../data/awmData';
 import { getAwmModules, getAwmClients } from '../services/dataService';
 import { Recycle, Scale, ArrowRight, CheckCircle2, ShieldCheck, Mail } from 'lucide-react';
+import { getRoutePath } from '../utils/navigation';
 
 export default function AwmPage({ onOpenDemo, onNavigate }) {
   const [selectedSectorId, setSelectedSectorId] = useState('municipal');
@@ -17,7 +18,8 @@ export default function AwmPage({ onOpenDemo, onNavigate }) {
     if (onNavigate) {
       onNavigate(`blog/${slug}`);
     } else {
-      window.location.hash = `#/blog/${slug}`;
+      window.history.pushState({}, '', getRoutePath(`blog/${slug}`));
+      window.dispatchEvent(new PopStateEvent('popstate'));
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };

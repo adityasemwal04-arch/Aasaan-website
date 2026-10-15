@@ -14,41 +14,48 @@ import LoginPage from './pages/LoginPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import BlogDetailPage from './pages/BlogDetailPage';
 
+import { parseRoute, getRoutePath } from './utils/navigation';
+import { updateMetaTags } from './utils/seoHelper';
+
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [currentBlogSlug, setCurrentBlogSlug] = useState('manufacturing-engineering');
   const [isDemoOpen, setIsDemoOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-  // Sync state with URL hash
+  // Sync state with HTML5 History / URL
   useEffect(() => {
-    const parseHash = () => {
-      const rawHash = window.location.hash || '#/';
-      const lowerHash = rawHash.toLowerCase();
+    const applyCurrentRoute = () => {
+      const { page, slug, hadHash } = parseRoute();
+      setCurrentPage(page);
+      if (slug) setCurrentBlogSlug(slug);
+      updateMetaTags(page);
 
-      if (lowerHash.startsWith('#/blog/')) {
-        const slug = rawHash.replace(/^#\/blog\//i, '').split('?')[0].trim();
-        if (slug) setCurrentBlogSlug(slug);
-        return 'blog';
+      // If user landed on an old hash URL (e.g. #/awm or #/lite), upgrade URL to clean pushState URL
+      if (hadHash) {
+        const cleanPath = getRoutePath(page === 'blog' ? `blog/${slug}` : page);
+        window.history.replaceState({ pageId: page }, '', cleanPath);
       }
-      if (lowerHash.includes('login')) return 'login';
-      if (lowerHash.includes('admin')) return 'admin';
-      if (lowerHash.includes('global')) return 'global';
-      if (lowerHash.includes('lite')) return 'lite';
-      if (lowerHash.includes('awm')) return 'awm';
-      if (lowerHash.includes('partner')) return 'partners';
-      return 'home';
     };
 
-    setCurrentPage(parseHash());
+    applyCurrentRoute();
 
-    const handleHashChange = () => {
-      setCurrentPage(parseHash());
+    const handlePopState = () => {
+      applyCurrentRoute();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
+    const handleHashChange = () => {
+      applyCurrentRoute();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.addEventListener('popstate', handlePopState);
     window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('hashchange', handleHashChange);
+    };
   }, []);
 
   // Global keyboard shortcut: Cmd+K / Ctrl+K opens search
@@ -64,18 +71,21 @@ export default function App() {
   }, []);
 
   const handleNavigate = (pageId, targetElementId) => {
+    const cleanUrl = getRoutePath(pageId);
+
     if (pageId.startsWith('blog/')) {
       const slug = pageId.replace('blog/', '');
       setCurrentBlogSlug(slug);
       setCurrentPage('blog');
-      window.location.hash = `#/blog/${slug}`;
+      window.history.pushState({ pageId: 'blog', slug }, '', cleanUrl);
+      updateMetaTags('blog');
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
     setCurrentPage(pageId);
-    const hashTarget = pageId === 'home' ? '#/' : `#/${pageId}`;
-    window.location.hash = hashTarget;
+    window.history.pushState({ pageId }, '', cleanUrl);
+    updateMetaTags(pageId);
 
     if (targetElementId) {
       setTimeout(() => {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Lock, Search } from 'lucide-react';
 import { getActiveAnnouncements } from '../services/dataService';
 import { getAssetUrl, handleImageError } from '../utils/assetHelper';
+import { getRoutePath } from '../utils/navigation';
 import aasaanLogoSrc from '../assets/aasaan-logo.png';
 
 export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNavigate }) {
@@ -42,14 +43,15 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
     setTopBannerIndex((prev) => (prev + 1) % announcements.length);
   };
 
-  const handleNavClick = (pageId, href, e) => {
+  const handleNavClick = (pageId, e) => {
     if (e) e.preventDefault();
     setMobileMenuOpen(false);
     setProductsDropdownOpen(false);
     if (onNavigate) {
       onNavigate(pageId);
     } else {
-      window.location.hash = href;
+      window.history.pushState({}, '', getRoutePath(pageId));
+      window.dispatchEvent(new PopStateEvent('popstate'));
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -105,50 +107,50 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <a
-            href="#/"
-            onClick={(e) => handleNavClick('home', '#/', e)}
+            href={getRoutePath('home')}
+            onClick={(e) => handleNavClick('home', e)}
             style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#212121', textDecoration: 'none' }}
           >
             Home
           </a>
           <a
-            href="#/global"
-            onClick={(e) => handleNavClick('global', '#/global', e)}
+            href={getRoutePath('global')}
+            onClick={(e) => handleNavClick('global', e)}
             style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#212121', textDecoration: 'none' }}
           >
             Aasaan Enterprises
           </a>
           <a
-            href="#/lite"
-            onClick={(e) => handleNavClick('lite', '#/lite', e)}
+            href={getRoutePath('lite')}
+            onClick={(e) => handleNavClick('lite', e)}
             style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#212121', textDecoration: 'none' }}
           >
             ERP Lite
           </a>
           <a
-            href="#/awm"
-            onClick={(e) => handleNavClick('awm', '#/awm', e)}
+            href={getRoutePath('awm')}
+            onClick={(e) => handleNavClick('awm', e)}
             style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#212121', textDecoration: 'none' }}
           >
             AWM Waste Management
           </a>
           <a
-            href="#/partners"
-            onClick={(e) => handleNavClick('partners', '#/partners', e)}
+            href={getRoutePath('partners')}
+            onClick={(e) => handleNavClick('partners', e)}
             style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#212121', textDecoration: 'none' }}
           >
             Partners
           </a>
           <a
-            href="#/blog/manufacturing-engineering"
-            onClick={(e) => handleNavClick('blog/manufacturing-engineering', '#/blog/manufacturing-engineering', e)}
+            href={getRoutePath('blog/manufacturing-engineering')}
+            onClick={(e) => handleNavClick('blog/manufacturing-engineering', e)}
             style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#212121', textDecoration: 'none' }}
           >
             Blogs
           </a>
           <a
-            href="#/login"
-            onClick={(e) => handleNavClick('login', '#/login', e)}
+            href={getRoutePath('login')}
+            onClick={(e) => handleNavClick('login', e)}
             style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#1e95d3', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}
           >
             <Lock size={16} /> Admin Portal
@@ -225,8 +227,8 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
           
           {/* Logo */}
           <a
-            href="#/"
-            onClick={(e) => handleNavClick('home', '#/', e)}
+            href={getRoutePath('home')}
+            onClick={(e) => handleNavClick('home', e)}
             style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
           >
             <img
@@ -268,8 +270,8 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
                   }}
                 >
                   <a
-                    href="#/global"
-                    onClick={(e) => handleNavClick('global', '#/global', e)}
+                    href={getRoutePath('global')}
+                    onClick={(e) => handleNavClick('global', e)}
                     style={{
                       display: 'block',
                       padding: '10px 14px',
@@ -288,8 +290,8 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
                   </a>
 
                   <a
-                    href="#/lite"
-                    onClick={(e) => handleNavClick('lite', '#/lite', e)}
+                    href={getRoutePath('lite')}
+                    onClick={(e) => handleNavClick('lite', e)}
                     style={{
                       display: 'block',
                       padding: '10px 14px',
@@ -308,8 +310,8 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
                   </a>
 
                   <a
-                    href="#/awm"
-                    onClick={(e) => handleNavClick('awm', '#/awm', e)}
+                    href={getRoutePath('awm')}
+                    onClick={(e) => handleNavClick('awm', e)}
                     style={{
                       display: 'block',
                       padding: '10px 14px',
@@ -344,16 +346,16 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
 
             <a
               className="menu_item"
-              href="#/partners"
-              onClick={(e) => handleNavClick('partners', '#/partners', e)}
+              href={getRoutePath('partners')}
+              onClick={(e) => handleNavClick('partners', e)}
             >
               <span>Partners</span>
             </a>
 
             <a
               className="menu_item"
-              href="#/blog/manufacturing-engineering"
-              onClick={(e) => handleNavClick('blog/manufacturing-engineering', '#/blog/manufacturing-engineering', e)}
+              href={getRoutePath('blog/manufacturing-engineering')}
+              onClick={(e) => handleNavClick('blog/manufacturing-engineering', e)}
             >
               <span>Blogs</span>
             </a>
@@ -390,8 +392,8 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
             {/* Admin Portal subtle access */}
             <a
               className="menu_item"
-              href="#/login"
-              onClick={(e) => handleNavClick('login', '#/login', e)}
+              href={getRoutePath('login')}
+              onClick={(e) => handleNavClick('login', e)}
               title="Admin Portal"
               style={{ padding: '0 8px' }}
             >

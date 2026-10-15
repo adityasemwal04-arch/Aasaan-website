@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Lock, User, ArrowRight, AlertCircle } from 'lucide-react';
 import { loginAdmin, getAdminAuth } from '../services/dataService';
+import { getRoutePath } from '../utils/navigation';
 import AasaanLogo from '../components/AasaanLogo';
 
 export default function LoginPage({ onNavigate }) {
@@ -14,7 +15,10 @@ export default function LoginPage({ onNavigate }) {
     const auth = getAdminAuth();
     if (auth) {
       if (onNavigate) onNavigate('admin');
-      else window.location.hash = '#/admin';
+      else {
+        window.history.pushState({}, '', getRoutePath('admin'));
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      }
     }
   }, [onNavigate]);
 
@@ -29,7 +33,8 @@ export default function LoginPage({ onNavigate }) {
         if (onNavigate) {
           onNavigate('admin');
         } else {
-          window.location.hash = '#/admin';
+          window.history.pushState({}, '', getRoutePath('admin'));
+          window.dispatchEvent(new PopStateEvent('popstate'));
         }
       } else {
         setError(result.message || 'Invalid credentials');
@@ -188,11 +193,14 @@ export default function LoginPage({ onNavigate }) {
 
           <div style={{ textAlign: 'center', marginTop: '20px' }}>
             <a
-              href="#/"
+              href={getRoutePath('home')}
               onClick={(e) => {
                 e.preventDefault();
                 if (onNavigate) onNavigate('home');
-                else window.location.hash = '#/';
+                else {
+                  window.history.pushState({}, '', getRoutePath('home'));
+                  window.dispatchEvent(new PopStateEvent('popstate'));
+                }
               }}
               style={{ fontSize: '13px', color: 'var(--text-muted)', textDecoration: 'none' }}
             >

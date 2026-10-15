@@ -1,12 +1,13 @@
 import React from 'react';
 import { Globe, Feather, Recycle, Check, ArrowRight, ShieldCheck, Sparkles, ExternalLink } from 'lucide-react';
+import { getRoutePath } from '../utils/navigation';
 
 export default function ProductMatrix({ onOpenDemo, onNavigate }) {
   const products = [
     {
       id: 'global',
       pageId: 'global',
-      href: '#/global',
+      href: getRoutePath('global'),
       name: 'ERP Global',
       badge: 'Mid-Market & Multi-Entity',
       icon: Globe,
@@ -27,7 +28,7 @@ export default function ProductMatrix({ onOpenDemo, onNavigate }) {
     {
       id: 'lite',
       pageId: 'lite',
-      href: '#/lite',
+      href: getRoutePath('lite'),
       name: 'ERP Lite',
       badge: 'From ₹12,000 / Year',
       icon: Feather,
@@ -48,7 +49,7 @@ export default function ProductMatrix({ onOpenDemo, onNavigate }) {
     {
       id: 'awm',
       pageId: 'awm',
-      href: '#/awm',
+      href: getRoutePath('awm'),
       name: 'AWM',
       badge: 'Specialized Waste & Recycling',
       icon: Recycle,
@@ -68,12 +69,13 @@ export default function ProductMatrix({ onOpenDemo, onNavigate }) {
     }
   ];
 
-  const handleProductNavigate = (pageId, href, e) => {
+  const handleProductNavigate = (pageId, e) => {
     e.preventDefault();
     if (onNavigate) {
       onNavigate(pageId);
     } else {
-      window.location.hash = href;
+      window.history.pushState({}, '', getRoutePath(pageId));
+      window.dispatchEvent(new PopStateEvent('popstate'));
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -222,7 +224,7 @@ export default function ProductMatrix({ onOpenDemo, onNavigate }) {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   <a
                     href={prod.href}
-                    onClick={(e) => handleProductNavigate(prod.pageId, prod.href, e)}
+                    onClick={(e) => handleProductNavigate(prod.pageId, e)}
                     className={prod.recommended ? 'btn btn-primary' : 'btn btn-ghost'}
                     style={{ width: '100%', padding: '12px' }}
                   >

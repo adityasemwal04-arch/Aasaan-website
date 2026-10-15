@@ -63,6 +63,7 @@ import {
   getCustomBackendUrl,
   setCustomBackendUrl
 } from '../services/dataService';
+import { getRoutePath } from '../utils/navigation';
 import AasaanLogo from '../components/AasaanLogo';
 
 export default function AdminDashboardPage({ onNavigate }) {
@@ -124,7 +125,10 @@ export default function AdminDashboardPage({ onNavigate }) {
     const auth = getAdminAuth();
     if (!auth) {
       if (onNavigate) onNavigate('login');
-      else window.location.hash = '#/login';
+      else {
+        window.history.pushState({}, '', getRoutePath('login'));
+        window.dispatchEvent(new PopStateEvent('popstate'));
+      }
       return;
     }
     setAdminUser(auth.user);
@@ -170,7 +174,10 @@ export default function AdminDashboardPage({ onNavigate }) {
   const handleLogout = () => {
     logoutAdmin();
     if (onNavigate) onNavigate('login');
-    else window.location.hash = '#/login';
+    else {
+      window.history.pushState({}, '', getRoutePath('login'));
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    }
   };
 
   // Queries Actions
@@ -513,7 +520,10 @@ export default function AdminDashboardPage({ onNavigate }) {
             <button
               onClick={() => {
                 if (onNavigate) onNavigate('home');
-                else window.location.hash = '#/';
+                else {
+                  window.history.pushState({}, '', getRoutePath('home'));
+                  window.dispatchEvent(new PopStateEvent('popstate'));
+                }
               }}
               style={{
                 background: 'transparent',
@@ -1172,9 +1182,13 @@ export default function AdminDashboardPage({ onNavigate }) {
                 >
                   <div style={{ height: '150px', position: 'relative', overflow: 'hidden' }}>
                     <img
-                      src={b.img || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80'}
+                      src={b.img || 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80'}
                       alt={b.title}
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80';
+                      }}
                     />
                     <div style={{
                       position: 'absolute',
@@ -1215,7 +1229,7 @@ export default function AdminDashboardPage({ onNavigate }) {
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                         <a
-                          href={`#/blog/${b.slug}`}
+                          href={getRoutePath(`blog/${b.slug}`)}
                           target="_blank"
                           rel="noreferrer"
                           style={{

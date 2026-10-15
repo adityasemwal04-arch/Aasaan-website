@@ -1,14 +1,16 @@
 import React from 'react';
 import aasaanLogoSrc from '../assets/aasaan-logo.png';
 import { getAssetUrl, handleImageError } from '../utils/assetHelper';
+import { getRoutePath } from '../utils/navigation';
 
 export default function Footer({ onOpenDemo, onNavigate }) {
-  const handlePageLink = (pageId, href, e) => {
+  const handlePageLink = (pageId, e) => {
     if (e) e.preventDefault();
     if (onNavigate) {
       onNavigate(pageId);
     } else {
-      window.location.hash = href;
+      window.history.pushState({}, '', getRoutePath(pageId));
+      window.dispatchEvent(new PopStateEvent('popstate'));
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -89,12 +91,12 @@ export default function Footer({ onOpenDemo, onNavigate }) {
           <div className="footer_container column_alignment" style={{ flex: '0.8', minWidth: '160px' }}>
             <span className="footer_heading">Quick Links</span>
             <div className="column_alignment">
-              <a href="#/" onClick={(e) => handlePageLink('home', '#/', e)} className="footer_link">Home</a>
-              <a href="#/services" onClick={(e) => { e.preventDefault(); const el = document.getElementById('modules'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }} className="footer_link">Services</a>
+              <a href={getRoutePath('home')} onClick={(e) => handlePageLink('home', e)} className="footer_link">Home</a>
+              <a href="#services" onClick={(e) => { e.preventDefault(); const el = document.getElementById('modules'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }} className="footer_link">Services</a>
               <a href="#about" onClick={(e) => { e.preventDefault(); const el = document.getElementById('about'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }} className="footer_link">About Us</a>
               <a href="#contact" onClick={(e) => { e.preventDefault(); onOpenDemo(); }} className="footer_link">Contact Us</a>
-              <a href="#/partners" onClick={(e) => handlePageLink('partners', '#/partners', e)} className="footer_link">Become Our Partner</a>
-              <a href="#/login" onClick={(e) => handlePageLink('login', '#/login', e)} className="footer_link">Admin Portal</a>
+              <a href={getRoutePath('partners')} onClick={(e) => handlePageLink('partners', e)} className="footer_link">Become Our Partner</a>
+              <a href={getRoutePath('login')} onClick={(e) => handlePageLink('login', e)} className="footer_link">Admin Portal</a>
             </div>
           </div>
 
@@ -102,10 +104,10 @@ export default function Footer({ onOpenDemo, onNavigate }) {
           <div className="footer_container column_alignment" style={{ flex: '0.8', minWidth: '160px' }}>
             <span className="footer_heading">Our Products</span>
             <div className="column_alignment">
-              <a href="#/global" onClick={(e) => handlePageLink('global', '#/global', e)} className="footer_link">Aasaan Enterprises</a>
-              <a href="#/lite" onClick={(e) => handlePageLink('lite', '#/lite', e)} className="footer_link">ERP Lite</a>
-              <a href="#/awm" onClick={(e) => handlePageLink('awm', '#/awm', e)} className="footer_link">AWM Waste Management</a>
-              <a href="#/blog/manufacturing-engineering" onClick={(e) => handlePageLink('blog/manufacturing-engineering', '#/blog/manufacturing-engineering', e)} className="footer_link">Blog</a>
+              <a href={getRoutePath('global')} onClick={(e) => handlePageLink('global', e)} className="footer_link">Aasaan Enterprises</a>
+              <a href={getRoutePath('lite')} onClick={(e) => handlePageLink('lite', e)} className="footer_link">ERP Lite</a>
+              <a href={getRoutePath('awm')} onClick={(e) => handlePageLink('awm', e)} className="footer_link">AWM Waste Management</a>
+              <a href={getRoutePath('blog/manufacturing-engineering')} onClick={(e) => handlePageLink('blog/manufacturing-engineering', e)} className="footer_link">Blog</a>
             </div>
           </div>
 

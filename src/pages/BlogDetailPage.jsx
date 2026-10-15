@@ -14,6 +14,8 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { getBlogBySlug, getBlogs, getAdminAuth } from '../services/dataService';
+import { updateMetaTags } from '../utils/seoHelper';
+import { getRoutePath } from '../utils/navigation';
 
 export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
   const [blog, setBlog] = useState(null);
@@ -28,13 +30,17 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
       const auth = getAdminAuth();
       setIsAdmin(!!auth);
 
-      const targetSlug = slug || window.location.hash.replace('#/blog/', '').trim() || 'manufacturing-engineering';
+      const targetSlug = slug || window.location.pathname.replace(/^.*\/blog\//i, '').trim() || window.location.hash.replace(/^#\/blog\//i, '').trim() || 'manufacturing-engineering';
       const fetchedBlog = await getBlogBySlug(targetSlug);
       const blogsList = await getBlogs();
 
       setBlog(fetchedBlog);
       setAllBlogs(blogsList);
       setLoading(false);
+
+      if (fetchedBlog) {
+        updateMetaTags('blog', fetchedBlog);
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -300,6 +306,10 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
               src={blog.img}
               alt={blog.title}
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80';
+              }}
             />
           </div>
         </div>
@@ -371,13 +381,14 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
               {otherBlogs.map(ob => (
                 <a
                   key={ob.slug}
-                  href={`#/blog/${ob.slug}`}
+                  href={getRoutePath(`blog/${ob.slug}`)}
                   onClick={(e) => {
                     e.preventDefault();
                     if (onNavigate) {
                       onNavigate(`blog/${ob.slug}`);
                     } else {
-                      window.location.hash = `#/blog/${ob.slug}`;
+                      window.history.pushState({}, '', getRoutePath(`blog/${ob.slug}`));
+                      window.dispatchEvent(new PopStateEvent('popstate'));
                     }
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}

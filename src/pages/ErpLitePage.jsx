@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { liteSteps, liteFeatures as defaultFeatures, liteIndustries as defaultIndustries } from '../data/liteData';
 import { getLiteFeatures, getLiteIndustries } from '../services/dataService';
 import { Feather, ArrowRight, ExternalLink } from 'lucide-react';
+import { getRoutePath } from '../utils/navigation';
 
 export default function ErpLitePage({ onOpenDemo, onNavigate }) {
   const [features, setFeatures] = useState(defaultFeatures);
@@ -20,7 +21,8 @@ export default function ErpLitePage({ onOpenDemo, onNavigate }) {
     if (onNavigate) {
       onNavigate(`blog/${slug}`);
     } else {
-      window.location.hash = `#/blog/${slug}`;
+      window.history.pushState({}, '', getRoutePath(`blog/${slug}`));
+      window.dispatchEvent(new PopStateEvent('popstate'));
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };

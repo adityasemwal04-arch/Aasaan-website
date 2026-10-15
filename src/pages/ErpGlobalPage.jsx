@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { globalIndustries, globalModules, globalTestimonials } from '../data/globalData';
 import { Globe, ArrowRight, ExternalLink, Check, Server, Layers, Cpu, Building2, ShieldCheck, Star } from 'lucide-react';
+import { getRoutePath } from '../utils/navigation';
 
 export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
   const [selectedModuleId, setSelectedModuleId] = useState('financial');
@@ -276,7 +277,8 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
                 if (onNavigate) {
                   onNavigate(`blog/${cardSlug}`);
                 } else {
-                  window.location.hash = `#/blog/${cardSlug}`;
+                  window.history.pushState({}, '', getRoutePath(`blog/${cardSlug}`));
+                  window.dispatchEvent(new PopStateEvent('popstate'));
                 }
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               };

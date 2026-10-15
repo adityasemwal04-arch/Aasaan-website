@@ -3,6 +3,7 @@ import { Search, X, ArrowRight, CornerDownLeft, Sparkles, Layers, Factory, Recyc
 import { globalModules, globalIndustries } from '../data/globalData';
 import { liteFeatures, liteIndustries } from '../data/liteData';
 import { awmSectors, awmModules } from '../data/awmData';
+import { getRoutePath } from '../utils/navigation';
 
 export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenDemo }) {
   const [query, setQuery] = useState('');
@@ -240,7 +241,8 @@ export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenD
       if (onNavigate) {
         onNavigate(item.pageId, item.targetElementId);
       } else {
-        window.location.hash = item.pageId === 'home' ? '#/' : `#/${item.pageId}`;
+        window.history.pushState({}, '', getRoutePath(item.pageId));
+        window.dispatchEvent(new PopStateEvent('popstate'));
       }
     }
   };
