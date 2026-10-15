@@ -168,10 +168,7 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
         
         {/* Video / Banner Container */}
         <div className="column_alignment" style={{ position: 'relative', width: '100%', overflow: 'hidden', minHeight: '380px', background: '#f8f9fa' }}>
-          <div
-            onClick={onOpenDemo}
-            style={{ position: 'relative', zIndex: 2, cursor: 'pointer', width: '100%' }}
-          >
+          <div style={{ position: 'relative', zIndex: 2, width: '100%' }}>
             <video
               className="header_video"
               autoPlay
@@ -190,6 +187,60 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                 style={{ width: '100%' }}
               />
             </video>
+            {/* Overlay text on video */}
+            <div style={{
+              position: 'absolute',
+              bottom: '0',
+              left: '0',
+              right: '0',
+              background: 'linear-gradient(to top, rgba(21,37,54,0.85) 0%, rgba(21,37,54,0.3) 70%, transparent 100%)',
+              padding: '40px 32px 32px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              gap: '12px'
+            }}>
+              <h1 style={{
+                color: '#ffffff',
+                fontSize: '28px',
+                fontWeight: 800,
+                margin: 0,
+                lineHeight: 1.3,
+                textShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                maxWidth: '560px'
+              }}>
+                Smart ERP. <span style={{ color: '#75d0f7' }}>Simple Setup.</span> Real Results.
+              </h1>
+              <p style={{
+                color: 'rgba(255,255,255,0.85)',
+                fontSize: '15px',
+                margin: 0,
+                maxWidth: '460px',
+                lineHeight: 1.5
+              }}>
+                Built for growing businesses — from 1 user to 10,000. Go live in days, not months.
+              </p>
+              <button
+                onClick={onOpenDemo}
+                style={{
+                  background: '#ff5b0b',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '6px',
+                  padding: '12px 26px',
+                  fontSize: '14px',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  marginTop: '4px',
+                  boxShadow: '0 4px 14px rgba(255,91,11,0.4)',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = '#e04a00'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = '#ff5b0b'; e.currentTarget.style.transform = 'translateY(0)'; }}
+              >
+                Get Started Free →
+              </button>
+            </div>
           </div>
         </div>
 
@@ -467,6 +518,95 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
 
             </div>
 
+          </div>
+        </div>
+
+        {/* ------------------------------------------------------------- */}
+        {/* CTA BANNER — BOOK YOUR FREE DEMO                             */}
+        {/* ------------------------------------------------------------- */}
+        <div style={{
+          background: 'linear-gradient(135deg, #1e95d3 0%, #0d6ea0 60%, #212121 100%)',
+          padding: '52px 24px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          textAlign: 'center',
+          gap: '18px'
+        }}>
+          <span style={{
+            background: 'rgba(255,255,255,0.15)',
+            color: '#fff',
+            fontSize: '12px',
+            fontWeight: 700,
+            padding: '4px 14px',
+            borderRadius: '20px',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase'
+          }}>
+            Limited Demo Slots Available
+          </span>
+          <h2 style={{
+            color: '#ffffff',
+            fontSize: '30px',
+            fontWeight: 800,
+            margin: 0,
+            lineHeight: 1.3,
+            maxWidth: '640px'
+          }}>
+            Ready to Transform Your Business?
+          </h2>
+          <p style={{
+            color: 'rgba(255,255,255,0.8)',
+            fontSize: '16px',
+            margin: 0,
+            maxWidth: '520px',
+            lineHeight: 1.6
+          }}>
+            See Aasaan ERP in action — live, personalised, and built around your workflows. No commitment required.
+          </p>
+          <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', justifyContent: 'center', marginTop: '8px' }}>
+            <button
+              onClick={onOpenDemo}
+              style={{
+                background: '#ff5b0b',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '8px',
+                padding: '14px 32px',
+                fontSize: '16px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                boxShadow: '0 4px 16px rgba(255,91,11,0.4)',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = '#e04a00'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = '#ff5b0b'; e.currentTarget.style.transform = 'translateY(0)'; }}
+            >
+              Book a Free Demo →
+            </button>
+            <a
+              href="https://wa.me/917428267616?text=Hi%2C%20I%20want%20to%20book%20a%20demo%20of%20Aasaan%20ERP"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                background: 'rgba(255,255,255,0.1)',
+                color: '#fff',
+                border: '1px solid rgba(255,255,255,0.35)',
+                borderRadius: '8px',
+                padding: '14px 28px',
+                fontSize: '15px',
+                fontWeight: 600,
+                textDecoration: 'none',
+                transition: 'all 0.2s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.2)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; }}
+            >
+              <i className="fab fa-whatsapp" style={{ fontSize: '18px' }}></i> Chat with Us
+            </a>
           </div>
         </div>
 
