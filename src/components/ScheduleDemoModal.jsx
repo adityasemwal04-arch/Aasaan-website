@@ -10,7 +10,7 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
     email: '',
     phone: '',
     country: 'India',
-    solution: 'ERP Global',
+    solution: 'Aasaan Enterprises',
     message: ''
   });
 
@@ -46,7 +46,7 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
       email: '',
       phone: '',
       country: 'India',
-      solution: 'ERP Global',
+      solution: 'Aasaan Enterprises',
       message: ''
     });
     onClose();
@@ -334,11 +334,9 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
                     onFocus={e => e.target.style.borderColor = '#1e95d3'}
                     onBlur={e => e.target.style.borderColor = '#cbd5e1'}
                   >
-                    <option value="ERP Global">Aasaan ERP Global (Mid-Market)</option>
-                    <option value="ERP Lite">Aasaan ERP Lite (Small Teams)</option>
-                    <option value="AWM Waste">AWM (Waste & Weighbridges)</option>
-                    <option value="Manufacturing">Manufacturing & Engineering</option>
-                    <option value="Retail POS">Retail & Multi-store POS</option>
+                    <option value="Aasaan Enterprises">Aasaan Enterprises</option>
+                    <option value="ERP Lite">ERP Lite</option>
+                    <option value="AWM">AWM</option>
                   </select>
                 </div>
 
