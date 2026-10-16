@@ -184,6 +184,16 @@ for (const baseDest of springBootStaticDirs) {
       fs.cpSync(imagesSrc, imagesDest, { recursive: true });
       console.log('✓ Synced images to', imagesDest);
     }
+
+    // Sync pre-generated SEO directory pages (services, about, awm, etc.)
+    for (const p of seoPages) {
+      const srcDir = path.resolve('dist', p.route);
+      const destDir = path.join(fullBaseDest, p.route);
+      if (fs.existsSync(srcDir)) {
+        fs.cpSync(srcDir, destDir, { recursive: true });
+      }
+    }
+    console.log('✓ Synced SEO pages to', fullBaseDest);
   } catch (e) {
     console.error('Error copying assets to', baseDest, e.message);
   }

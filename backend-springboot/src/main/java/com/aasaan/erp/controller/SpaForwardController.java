@@ -11,14 +11,45 @@ public class SpaForwardController {
      * or bookmark visits return HTTP 200 without 404 errors.
      */
     @GetMapping(value = {
+        "/services",
+        "/services/",
+        "/services/**",
+        "/about",
+        "/about/",
+        "/about/**",
+        "/about-us",
+        "/about-us/",
+        "/about-us/**",
         "/awm",
+        "/awm/",
+        "/awm/**",
         "/lite",
+        "/lite/",
+        "/lite/**",
         "/global",
+        "/global/",
+        "/global/**",
         "/partners",
+        "/partners/",
+        "/partners/**",
+        "/partner",
+        "/partner/",
+        "/partner/**",
         "/login",
+        "/login/",
+        "/login/**",
         "/admin",
+        "/admin/",
+        "/admin/**",
         "/blog",
-        "/blog/{slug:[^\\.]*}"
+        "/blog/",
+        "/blog/**",
+        "/contact",
+        "/contact/",
+        "/products",
+        "/products/",
+        "/solutions",
+        "/solutions/"
     })
     public String forwardSpa() {
         return "forward:/index.html";
