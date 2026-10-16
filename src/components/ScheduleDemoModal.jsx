@@ -335,8 +335,8 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
                     onBlur={e => e.target.style.borderColor = '#cbd5e1'}
                   >
                     <option value="Aasaan Enterprises">Aasaan Enterprises</option>
-                    <option value="ERP Lite">ERP Lite</option>
-                    <option value="AWM">AWM</option>
+                    <option value="Aasaan ERP Lite">Aasaan ERP Lite</option>
+                    <option value="AWM Waste Management">AWM Waste Management</option>
                   </select>
                 </div>
 
