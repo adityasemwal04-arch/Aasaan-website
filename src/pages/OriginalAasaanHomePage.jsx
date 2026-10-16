@@ -1977,11 +1977,11 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                             overflow: 'hidden'
                           }}>
                             <img
-                              src={`https://www.aasaanerp.com/static/main/images/tools/${currentToolCategory.dir}/logo_${logoIndex}.png`}
+                              src={getAssetUrl(`tools/${currentToolCategory.dir}/logo_${logoIndex}.png`)}
                               onError={(e) => {
-                                const localSrc = getAssetUrl(`tools/${currentToolCategory.dir}/logo_${logoIndex}.png`);
-                                if (e.currentTarget.src !== localSrc) {
-                                  e.currentTarget.src = localSrc;
+                                const cdnSrc = `https://www.aasaanerp.com/static/main/images/tools/${currentToolCategory.dir}/logo_${logoIndex}.png`;
+                                if (e.currentTarget.src !== cdnSrc) {
+                                  e.currentTarget.src = cdnSrc;
                                 } else {
                                   e.currentTarget.style.display = 'none';
                                   if (e.currentTarget.parentNode) {
