@@ -162,4 +162,24 @@ for (const dest of springBootStaticPaths) {
   }
 }
 
+// Copy tools directory to Spring Boot static resources as well
+const springBootStaticDirs = [
+  'backend-springboot/src/main/resources/static',
+  'backend-springboot/target/classes/static'
+];
+
+for (const baseDest of springBootStaticDirs) {
+  try {
+    const fullBaseDest = path.resolve(baseDest);
+    const toolsSrc = path.resolve('public/tools');
+    const toolsDest = path.join(fullBaseDest, 'tools');
+    if (fs.existsSync(toolsSrc)) {
+      fs.cpSync(toolsSrc, toolsDest, { recursive: true });
+      console.log('✓ Synced tools to', toolsDest);
+    }
+  } catch (e) {
+    console.error('Error copying tools to', baseDest, e.message);
+  }
+}
+
 console.log('🎉 Post-build SEO and SPA routing setup completed successfully!');

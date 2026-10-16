@@ -40,10 +40,17 @@ export const getAssetUrl = (path) => {
   return `${base}${clean}`;
 };
 
+// Bundle and inline all tool logos directly so they NEVER fail or 404 regardless of host, port, subpath, or CDN availability
+const toolLogos = import.meta.glob('../assets/tools/**/*.png', { eager: true, import: 'default' });
+
 /**
  * Get logo URL for connected tools
  */
 export const getToolLogoUrl = (dir, logoNum) => {
+  const assetKey = `../assets/tools/${dir}/logo_${logoNum}.png`;
+  if (toolLogos[assetKey]) {
+    return toolLogos[assetKey];
+  }
   return getAssetUrl(`tools/${dir}/logo_${logoNum}.png`);
 };
 

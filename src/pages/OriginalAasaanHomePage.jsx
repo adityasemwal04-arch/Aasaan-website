@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ArrowRight,
   Sparkles,
@@ -37,6 +37,10 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
   const [clientTab, setClientTab] = useState(0);
   const [toolTab, setToolTab] = useState(0);
   const [logoErrors, setLogoErrors] = useState({});
+
+  useEffect(() => {
+    setLogoErrors({});
+  }, [toolTab]);
 
   const clients = [
     {
