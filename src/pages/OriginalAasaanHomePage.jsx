@@ -192,15 +192,15 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       badge: 'Core Financials',
       description: 'Synchronize ledgers, payment gateways, tax compliance, and automated bank feeds.',
       tools: [
-        { name: 'Razorpay', type: 'Payment Gateway', status: 'Instant Sync' },
         { name: 'CCAvenue', type: 'Payment Gateway', status: 'Active' },
-        { name: 'Tally Prime', type: 'Accounting Bridge', status: 'Two-Way Sync' },
-        { name: 'PayU', type: 'Payment Gateway', status: 'Verified' },
+        { name: 'Razorpay', type: 'Payment Gateway', status: 'Instant Sync' },
+        { name: 'PayPal', type: 'Cross-Border', status: 'Instant Sync' },
+        { name: 'ICICI Bank', type: 'Bank Feed', status: 'Automated' },
+        { name: 'Xero', type: 'Cloud Accounting', status: 'Connected' },
         { name: 'QuickBooks', type: 'Ledger Export', status: 'Automated' },
         { name: 'Stripe', type: 'Global Checkout', status: 'Active' },
-        { name: 'PayPal', type: 'Cross-Border', status: 'Instant Sync' },
-        { name: 'Zoho Books', type: 'Financial Cloud', status: 'Connected' },
-        { name: 'Cashfree', type: 'Payouts & Banking', status: 'Active' }
+        { name: 'Tally Prime', type: 'Accounting Bridge', status: 'Two-Way Sync' },
+        { name: 'Zoho Books', type: 'Financial Cloud', status: 'Connected' }
       ]
     },
     {
@@ -211,11 +211,11 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       description: 'Trigger WhatsApp alerts, automated SMS updates, and internal team dispatches.',
       tools: [
         { name: 'WhatsApp Business', type: 'Direct Messaging', status: 'Instant Sync' },
+        { name: 'Microsoft Teams', type: 'Collaboration', status: 'Connected' },
+        { name: 'SendGrid', type: 'Transactional Email', status: 'Automated' },
         { name: 'Slack', type: 'Ops Notifications', status: 'Webhooks' },
         { name: 'Twilio', type: 'Cloud SMS & OTP', status: 'Active' },
-        { name: 'SendGrid', type: 'Transactional Email', status: 'Automated' },
-        { name: 'Microsoft Teams', type: 'Collaboration', status: 'Connected' },
-        { name: 'Exotel', type: 'Cloud Telephony', status: 'Verified' }
+        { name: 'Mailgun', type: 'Email Automation', status: 'Verified' }
       ]
     },
     {
@@ -225,11 +225,11 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       badge: 'Multi-Store',
       description: 'Consolidate orders, catalog inventory, and fulfillment across digital storefronts.',
       tools: [
-        { name: 'Shopify', type: 'Storefront Sync', status: 'Real-Time' },
-        { name: 'WooCommerce', type: 'WordPress Sync', status: 'Two-Way Sync' },
-        { name: 'Magento', type: 'Enterprise Commerce', status: 'Active' },
         { name: 'Amazon Seller', type: 'Marketplace Orders', status: 'Connected' },
-        { name: 'Flipkart', type: 'Fulfillment Sync', status: 'Active' }
+        { name: 'Flipkart', type: 'Fulfillment Sync', status: 'Active' },
+        { name: 'Shopify', type: 'Storefront Sync', status: 'Real-Time' },
+        { name: 'Magento', type: 'Enterprise Commerce', status: 'Active' },
+        { name: 'WooCommerce', type: 'WordPress Sync', status: 'Two-Way Sync' }
       ]
     },
     {
@@ -239,9 +239,9 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       badge: 'Shop Floor & IoT',
       description: 'Connect shop-floor SCADA, machine PLC feeds, and raw material replenishment.',
       tools: [
-        { name: 'Siemens PLC', type: 'Hardware Telemetry', status: 'Active' },
-        { name: 'Modbus SCADA', type: 'Machine Monitoring', status: 'Real-Time' },
-        { name: 'SAP Ariba', type: 'Procurement Network', status: 'Connected' }
+        { name: 'MS Excel', type: 'Data Import/Export', status: 'Automated' },
+        { name: 'SAP HANA', type: 'Enterprise DB', status: 'Connected' },
+        { name: 'Autodesk', type: 'CAD Integration', status: 'Active' }
       ]
     },
     {
@@ -251,11 +251,11 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       badge: 'Pipeline Growth',
       description: 'Bi-directional synchronization of enterprise leads, deals, and customer touchpoints.',
       tools: [
-        { name: 'HubSpot', type: 'Inbound CRM', status: 'Two-Way Sync' },
-        { name: 'Salesforce', type: 'Enterprise CRM', status: 'Active' },
-        { name: 'Zoho CRM', type: 'Pipeline Manager', status: 'Verified' },
+        { name: 'Freshsales', type: 'CRM Suite', status: 'Two-Way Sync' },
+        { name: 'HubSpot', type: 'Inbound CRM', status: 'Active' },
+        { name: 'LeadSquared', type: 'Field Sales', status: 'Instant Sync' },
         { name: 'Mailchimp', type: 'Campaign Marketing', status: 'Automated' },
-        { name: 'LeadSquared', type: 'Field Sales', status: 'Instant Sync' }
+        { name: 'Zoho CRM', type: 'Pipeline Manager', status: 'Verified' }
       ]
     },
     {
@@ -265,11 +265,11 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       badge: 'Fulfillment & Fleet',
       description: 'Automate AWB generation, dispatch manifests, and live fleet parcel tracking.',
       tools: [
-        { name: 'Shiprocket', type: 'Multi-Courier Shipping', status: 'Instant Sync' },
         { name: 'Delhivery', type: 'Express Logistics', status: 'Automated' },
-        { name: 'BlueDart', type: 'Priority Cargo', status: 'Active' },
-        { name: 'FedEx', type: 'Global Air Cargo', status: 'Connected' },
-        { name: 'DHL Express', type: 'International Freight', status: 'Verified' }
+        { name: 'Shiprocket', type: 'Multi-Courier Shipping', status: 'Instant Sync' },
+        { name: 'Pickrr', type: 'Smart Courier', status: 'Active' },
+        { name: 'India Post', type: 'Government Postal', status: 'Connected' },
+        { name: 'BlueDart', type: 'Priority Cargo', status: 'Verified' }
       ]
     },
     {
@@ -279,11 +279,11 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       badge: 'Workforce',
       description: 'Reconcile attendance biometrics, statutory deductions, and payroll disbursement.',
       tools: [
-        { name: 'Darwinbox', type: 'HCM Suite', status: 'Two-Way Sync' },
-        { name: 'Keka', type: 'Payroll & HR', status: 'Active' },
         { name: 'GreytHR', type: 'Statutory Payroll', status: 'Connected' },
+        { name: 'ADP', type: 'Global Payroll', status: 'Active' },
         { name: 'Zoho People', type: 'Staff Directory', status: 'Automated' },
-        { name: 'BambooHR', type: 'Employee Ops', status: 'Verified' }
+        { name: 'Keka', type: 'Payroll & HR', status: 'Active' },
+        { name: 'Paybooks', type: 'Payroll Management', status: 'Verified' }
       ]
     },
     {
@@ -293,37 +293,37 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       badge: 'Business Intelligence',
       description: 'Stream ERP data warehouses into executive visual dashboards and custom models.',
       tools: [
-        { name: 'Power BI', type: 'Microsoft Analytics', status: 'Live Data Feed' },
-        { name: 'Google Looker Studio', type: 'Executive Dashboards', status: 'Connected' },
-        { name: 'Tableau', type: 'Visual Analytics', status: 'Active' },
+        { name: 'Google Data Studio', type: 'Executive Dashboards', status: 'Connected' },
         { name: 'Metabase', type: 'SQL Explorer', status: 'Automated' },
-        { name: 'Grafana', type: 'Metrics & Uptime', status: 'Real-Time' }
+        { name: 'Power BI', type: 'Microsoft Analytics', status: 'Live Data Feed' },
+        { name: 'Tableau', type: 'Visual Analytics', status: 'Active' },
+        { name: 'Zoho Analytics', type: 'Business Intelligence', status: 'Real-Time' }
       ]
     },
     {
       name: 'Document & Cloud Storage',
-      dir: 'document_and_cloud_storage',
+      dir: 'dev_tools_and_api',
       icon: Database,
       badge: 'Secure Storage',
       description: 'Encrypted document archiving for PO receipts, invoices, and e-way bill PDFs.',
       tools: [
+        { name: 'Adobe Sign', type: 'e-Signatures', status: 'Active' },
+        { name: 'Dropbox', type: 'Digital Archive', status: 'Verified' },
         { name: 'Google Drive', type: 'Workspace Storage', status: 'Automated' },
-        { name: 'AWS S3', type: 'Encrypted Cloud Bucket', status: 'Active' },
-        { name: 'Microsoft OneDrive', type: 'Document Vault', status: 'Connected' },
-        { name: 'Dropbox', type: 'Digital Archive', status: 'Verified' }
+        { name: 'OneDrive', type: 'Document Vault', status: 'Connected' }
       ]
     },
     {
       name: 'Dev Tools & APIs',
-      dir: 'dev_tools_and_api',
+      dir: 'document_and_cloud_storage',
       icon: Code2,
       badge: 'Extensibility',
       description: 'Open REST endpoints, webhooks, and developer SDKs for unlimited customizations.',
       tools: [
-        { name: 'REST Webhooks', type: 'Custom Endpoints', status: '<100ms Ping' },
-        { name: 'Zapier', type: 'No-Code Workflow', status: 'Active' },
+        { name: 'Webhooks', type: 'Custom Endpoints', status: '<100ms Ping' },
+        { name: 'Make', type: 'No-Code Workflow', status: 'Active' },
         { name: 'Postman', type: 'API Test Suite', status: 'Verified' },
-        { name: 'Swagger OpenAPI', type: 'Contract Specs', status: 'Published' }
+        { name: 'Zapier', type: 'Automation Platform', status: 'Published' }
       ]
     }
   ];
