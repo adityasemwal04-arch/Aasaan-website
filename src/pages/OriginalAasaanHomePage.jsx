@@ -1977,19 +1977,13 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                             overflow: 'hidden'
                           }}>
                             <img
-                              src={getAssetUrl(`tools/${currentToolCategory.dir}/logo_${logoIndex}.png`)}
+                              src={`${window.location.origin}/tools/${currentToolCategory.dir}/logo_${logoIndex}.png`}
                               onError={(e) => {
-                                const cdnSrc = `https://www.aasaanerp.com/static/main/images/tools/${currentToolCategory.dir}/logo_${logoIndex}.png`;
-                                if (e.currentTarget.src !== cdnSrc) {
-                                  e.currentTarget.src = cdnSrc;
-                                } else {
-                                  e.currentTarget.style.display = 'none';
-                                  if (e.currentTarget.parentNode) {
-                                    e.currentTarget.parentNode.innerText = tool.name.substring(0, 2).toUpperCase();
-                                    e.currentTarget.parentNode.style.fontWeight = '800';
-                                    e.currentTarget.parentNode.style.color = '#1e95d3';
-                                    e.currentTarget.parentNode.style.fontSize = '12px';
-                                  }
+                                // Only try once — prevent infinite loop
+                                e.currentTarget.onerror = null;
+                                e.currentTarget.style.display = 'none';
+                                if (e.currentTarget.parentNode) {
+                                  e.currentTarget.parentNode.innerHTML = `<span style="font-size:10px;font-weight:800;color:#1e95d3;">${tool.name.substring(0, 2).toUpperCase()}</span>`;
                                 }
                               }}
                               alt={tool.name}
@@ -2050,8 +2044,8 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                       }}
                     >
                       <img
-                        src={getAssetUrl(`tools/${currentToolCategory.dir}/logo_${num}.png`)}
-                        onError={(e) => { e.currentTarget.src = `https://www.aasaanerp.com/static/main/images/tools/${currentToolCategory.dir}/logo_${num}.png`; }}
+                        src={`${window.location.origin}/tools/${currentToolCategory.dir}/logo_${num}.png`}
+                        onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.style.display = 'none'; }}
                         alt={`${currentToolCategory.name} Logo ${num}`}
                         style={{ maxHeight: '42px', maxWidth: '100px', objectFit: 'contain' }}
                       />
