@@ -1,5 +1,32 @@
 import React, { useState } from 'react';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import {
+  ArrowRight,
+  Sparkles,
+  Cpu,
+  Bot,
+  Zap,
+  RefreshCw,
+  ShieldCheck,
+  Globe,
+  Award,
+  Layers,
+  CheckCircle2,
+  SlidersHorizontal,
+  LayoutDashboard,
+  Smartphone,
+  Lock,
+  Building2,
+  TrendingUp,
+  CreditCard,
+  MessageSquare,
+  ShoppingCart,
+  Factory,
+  Users,
+  Truck,
+  BarChart3,
+  Database,
+  Code2
+} from 'lucide-react';
 import { getAssetUrl, handleImageError } from '../utils/assetHelper';
 import { getRoutePath } from '../utils/navigation';
 import heroImg from '../assets/aasaan_erp_header_desktop.png';
@@ -11,11 +38,66 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
   const [toolTab, setToolTab] = useState(0);
 
   const clients = [
-    { id: 0, name: 'Tadweeer', industry: 'Recycling & Waste Management', work: 'Recycling operations management.', img: 'media/Taqdweer_11.png', fallback: 'https://www.aasaanerp.com/media/solutions/Taqdweer_11.png' },
-    { id: 1, name: 'Resustainability', industry: 'Environmental Services & Sustainability Solutions', work: 'Sustainability project tracking', img: 'media/Resustainability_11.png', fallback: 'https://www.aasaanerp.com/media/solutions/Resustainability_11.png' },
-    { id: 2, name: 'Galaxy Tools', industry: 'Industrial Tools & Equipment Manufacturing', work: 'Production and inventory', img: 'media/Galaxy_Tools1_MYqjHU9.png', fallback: 'https://www.aasaanerp.com/media/solutions/Galaxy_Tools1_MYqjHU9.png' },
-    { id: 3, name: 'Shofu Dental', industry: 'Dental Products & Medical Equipment', work: 'Stock and order management', img: 'media/Shofu_Dental_1.png', fallback: 'https://www.aasaanerp.com/media/solutions/Shofu_Dental_1.png' },
-    { id: 4, name: 'Miranay Trading and Investment', industry: 'Trading & Investment Services', work: 'Financial operations management', img: 'media/Miranay_Trading_and_Investment_11.png', fallback: 'https://www.aasaanerp.com/media/solutions/Miranay_Trading_and_Investment_11.png' }
+    {
+      id: 0,
+      name: 'Tadweeer',
+      initials: 'TD',
+      industry: 'Recycling & Waste Management',
+      work: 'End-to-end municipal & commercial recycling operations management.',
+      metrics: '1,200+ Daily Weighbridge Manifests',
+      highlight: 'Automated Gross/Tare weighbridge telemetry & 100% CPCB compliance export.',
+      tag: 'Circular Economy',
+      img: 'media/Taqdweer_11.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Taqdweer_11.png'
+    },
+    {
+      id: 1,
+      name: 'Resustainability',
+      initials: 'RS',
+      industry: 'Environmental Services & Sustainability Solutions',
+      work: 'Large-scale sustainability project tracking and environmental compliance.',
+      metrics: '40% Faster Regulatory Filing',
+      highlight: 'Multi-site environmental monitoring and zero-latency operational audit logs.',
+      tag: 'CleanTech',
+      img: 'media/Resustainability_11.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Resustainability_11.png'
+    },
+    {
+      id: 2,
+      name: 'Galaxy Tools',
+      initials: 'GT',
+      industry: 'Industrial Tools & Equipment Manufacturing',
+      work: 'Multi-level BOM engineering, shop-floor routing and inventory control.',
+      metrics: '99.2% Inventory Accuracy',
+      highlight: 'Real-time machine telemetry, multi-tier BOM costing & scrap tracking.',
+      tag: 'Precision Mfg',
+      img: 'media/Galaxy_Tools1_MYqjHU9.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Galaxy_Tools1_MYqjHU9.png'
+    },
+    {
+      id: 3,
+      name: 'Shofu Dental',
+      initials: 'SD',
+      industry: 'Dental Products & Medical Equipment',
+      work: 'Batch-expiry tracking, multi-warehouse stock and sterile order distribution.',
+      metrics: '3.5x Faster Order Dispatch',
+      highlight: 'Automated cold-chain inventory & regulatory batch trace validation.',
+      tag: 'MedTech & Dental',
+      img: 'media/Shofu_Dental_1.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Shofu_Dental_1.png'
+    },
+    {
+      id: 4,
+      name: 'Miranay Trading and Investment',
+      initials: 'MT',
+      industry: 'Trading & Investment Services',
+      work: 'Multi-currency corporate consolidation, forex reconciliation & credit limits.',
+      metrics: '100% Consolidated Ledgers',
+      highlight: 'Real-time multi-entity cash flow and trade finance visibility.',
+      tag: 'Global Trade',
+      img: 'media/Miranay_Trading_and_Investment_11.png',
+      fallback: 'https://www.aasaanerp.com/media/solutions/Miranay_Trading_and_Investment_11.png'
+    }
   ];
 
   const modules = [
@@ -103,16 +185,147 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
   ];
 
   const toolCategories = [
-    { name: 'Accounting & Finance', dir: 'accounting_and_finance', count: 9 },
-    { name: 'Communication & Messaging', dir: 'communication_and_messaging', count: 6 },
-    { name: 'E-Commerce Platforms', dir: 'ecommerce_platforms', count: 5 },
-    { name: 'Manufacturing & Supply Chain', dir: 'manufacturing_and_supply', count: 3 },
-    { name: 'CRM & Marketing', dir: 'crm_and_marketing', count: 5 },
-    { name: 'Logistics & Shipping', dir: 'logistics_and_shipping', count: 5 },
-    { name: 'HR & Payroll', dir: 'hr_and_payroll', count: 5 },
-    { name: 'Analytics & Reporting', dir: 'analytics_and_reporting', count: 5 },
-    { name: 'Document & Cloud Storage', dir: 'document_and_cloud_storage', count: 4 },
-    { name: 'Dev Tools & APIs', dir: 'dev_tools_and_api', count: 4 }
+    {
+      name: 'Accounting & Finance',
+      dir: 'accounting_and_finance',
+      icon: CreditCard,
+      badge: 'Core Financials',
+      description: 'Synchronize ledgers, payment gateways, tax compliance, and automated bank feeds.',
+      tools: [
+        { name: 'Razorpay', type: 'Payment Gateway', status: 'Instant Sync' },
+        { name: 'CCAvenue', type: 'Payment Gateway', status: 'Active' },
+        { name: 'Tally Prime', type: 'Accounting Bridge', status: 'Two-Way Sync' },
+        { name: 'PayU', type: 'Payment Gateway', status: 'Verified' },
+        { name: 'QuickBooks', type: 'Ledger Export', status: 'Automated' },
+        { name: 'Stripe', type: 'Global Checkout', status: 'Active' },
+        { name: 'PayPal', type: 'Cross-Border', status: 'Instant Sync' },
+        { name: 'Zoho Books', type: 'Financial Cloud', status: 'Connected' },
+        { name: 'Cashfree', type: 'Payouts & Banking', status: 'Active' }
+      ]
+    },
+    {
+      name: 'Communication & Messaging',
+      dir: 'communication_and_messaging',
+      icon: MessageSquare,
+      badge: 'Omni-Channel',
+      description: 'Trigger WhatsApp alerts, automated SMS updates, and internal team dispatches.',
+      tools: [
+        { name: 'WhatsApp Business', type: 'Direct Messaging', status: 'Instant Sync' },
+        { name: 'Slack', type: 'Ops Notifications', status: 'Webhooks' },
+        { name: 'Twilio', type: 'Cloud SMS & OTP', status: 'Active' },
+        { name: 'SendGrid', type: 'Transactional Email', status: 'Automated' },
+        { name: 'Microsoft Teams', type: 'Collaboration', status: 'Connected' },
+        { name: 'Exotel', type: 'Cloud Telephony', status: 'Verified' }
+      ]
+    },
+    {
+      name: 'E-Commerce Platforms',
+      dir: 'ecommerce_platforms',
+      icon: ShoppingCart,
+      badge: 'Multi-Store',
+      description: 'Consolidate orders, catalog inventory, and fulfillment across digital storefronts.',
+      tools: [
+        { name: 'Shopify', type: 'Storefront Sync', status: 'Real-Time' },
+        { name: 'WooCommerce', type: 'WordPress Sync', status: 'Two-Way Sync' },
+        { name: 'Magento', type: 'Enterprise Commerce', status: 'Active' },
+        { name: 'Amazon Seller', type: 'Marketplace Orders', status: 'Connected' },
+        { name: 'Flipkart', type: 'Fulfillment Sync', status: 'Active' }
+      ]
+    },
+    {
+      name: 'Manufacturing & Supply Chain',
+      dir: 'manufacturing_and_supply',
+      icon: Factory,
+      badge: 'Shop Floor & IoT',
+      description: 'Connect shop-floor SCADA, machine PLC feeds, and raw material replenishment.',
+      tools: [
+        { name: 'Siemens PLC', type: 'Hardware Telemetry', status: 'Active' },
+        { name: 'Modbus SCADA', type: 'Machine Monitoring', status: 'Real-Time' },
+        { name: 'SAP Ariba', type: 'Procurement Network', status: 'Connected' }
+      ]
+    },
+    {
+      name: 'CRM & Marketing',
+      dir: 'crm_and_marketing',
+      icon: Building2,
+      badge: 'Pipeline Growth',
+      description: 'Bi-directional synchronization of enterprise leads, deals, and customer touchpoints.',
+      tools: [
+        { name: 'HubSpot', type: 'Inbound CRM', status: 'Two-Way Sync' },
+        { name: 'Salesforce', type: 'Enterprise CRM', status: 'Active' },
+        { name: 'Zoho CRM', type: 'Pipeline Manager', status: 'Verified' },
+        { name: 'Mailchimp', type: 'Campaign Marketing', status: 'Automated' },
+        { name: 'LeadSquared', type: 'Field Sales', status: 'Instant Sync' }
+      ]
+    },
+    {
+      name: 'Logistics & Shipping',
+      dir: 'logistics_and_shipping',
+      icon: Truck,
+      badge: 'Fulfillment & Fleet',
+      description: 'Automate AWB generation, dispatch manifests, and live fleet parcel tracking.',
+      tools: [
+        { name: 'Shiprocket', type: 'Multi-Courier Shipping', status: 'Instant Sync' },
+        { name: 'Delhivery', type: 'Express Logistics', status: 'Automated' },
+        { name: 'BlueDart', type: 'Priority Cargo', status: 'Active' },
+        { name: 'FedEx', type: 'Global Air Cargo', status: 'Connected' },
+        { name: 'DHL Express', type: 'International Freight', status: 'Verified' }
+      ]
+    },
+    {
+      name: 'HR & Payroll',
+      dir: 'hr_and_payroll',
+      icon: Users,
+      badge: 'Workforce',
+      description: 'Reconcile attendance biometrics, statutory deductions, and payroll disbursement.',
+      tools: [
+        { name: 'Darwinbox', type: 'HCM Suite', status: 'Two-Way Sync' },
+        { name: 'Keka', type: 'Payroll & HR', status: 'Active' },
+        { name: 'GreytHR', type: 'Statutory Payroll', status: 'Connected' },
+        { name: 'Zoho People', type: 'Staff Directory', status: 'Automated' },
+        { name: 'BambooHR', type: 'Employee Ops', status: 'Verified' }
+      ]
+    },
+    {
+      name: 'Analytics & Reporting',
+      dir: 'analytics_and_reporting',
+      icon: BarChart3,
+      badge: 'Business Intelligence',
+      description: 'Stream ERP data warehouses into executive visual dashboards and custom models.',
+      tools: [
+        { name: 'Power BI', type: 'Microsoft Analytics', status: 'Live Data Feed' },
+        { name: 'Google Looker Studio', type: 'Executive Dashboards', status: 'Connected' },
+        { name: 'Tableau', type: 'Visual Analytics', status: 'Active' },
+        { name: 'Metabase', type: 'SQL Explorer', status: 'Automated' },
+        { name: 'Grafana', type: 'Metrics & Uptime', status: 'Real-Time' }
+      ]
+    },
+    {
+      name: 'Document & Cloud Storage',
+      dir: 'document_and_cloud_storage',
+      icon: Database,
+      badge: 'Secure Storage',
+      description: 'Encrypted document archiving for PO receipts, invoices, and e-way bill PDFs.',
+      tools: [
+        { name: 'Google Drive', type: 'Workspace Storage', status: 'Automated' },
+        { name: 'AWS S3', type: 'Encrypted Cloud Bucket', status: 'Active' },
+        { name: 'Microsoft OneDrive', type: 'Document Vault', status: 'Connected' },
+        { name: 'Dropbox', type: 'Digital Archive', status: 'Verified' }
+      ]
+    },
+    {
+      name: 'Dev Tools & APIs',
+      dir: 'dev_tools_and_api',
+      icon: Code2,
+      badge: 'Extensibility',
+      description: 'Open REST endpoints, webhooks, and developer SDKs for unlimited customizations.',
+      tools: [
+        { name: 'REST Webhooks', type: 'Custom Endpoints', status: '<100ms Ping' },
+        { name: 'Zapier', type: 'No-Code Workflow', status: 'Active' },
+        { name: 'Postman', type: 'API Test Suite', status: 'Verified' },
+        { name: 'Swagger OpenAPI', type: 'Contract Specs', status: 'Published' }
+      ]
+    }
   ];
 
   const currentToolCategory = toolCategories[toolTab] || toolCategories[0];
@@ -346,38 +559,261 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       {/* ============================================================ */}
       {/* AI-DRIVEN ERP BANNER                                         */}
       {/* ============================================================ */}
-      <div className="column_alignment" style={{ background: '#f8f9fa' }}>
-        <div className="main_content align_self_center" style={{ padding: '40px 16px' }}>
-          <div className="row_column_alignment two home_trusted_section" style={{ alignItems: 'center', gap: '30px' }}>
-            <div className="column_alignment" style={{ flex: 1 }}>
-              <img
-                src={getAssetUrl('images/AI Driven Image.jpg')}
-                onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/AI%20Driven%20Image.jpg')}
-                alt="AI Driven ERP"
-                style={{ width: '100%', borderRadius: '12px 60px 12px 12px', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
-              />
-            </div>
-            <div className="column_alignment" style={{ flex: 1, padding: '10px 16px', justifyContent: 'center' }}>
-              <div className="column_alignment">
-                <span style={{ fontWeight: 700, fontSize: '24px', color: '#212121', lineHeight: 1.3 }}>
-                  Shaping the Future with AI-Driven ERP
-                </span>
-                <span style={{ marginTop: '10px', marginBottom: '14px', lineHeight: 1.6, color: '#5f5f5f', fontSize: '14.5px' }}>
-                  Aasaan ERP is more than software — it's your intelligent business co-pilot. Powered by AI, driven by your data, and always learning.
-                </span>
-                <ul>
-                  <li><b>Smart Recommendations –</b> Get AI-powered insights for pricing, inventory, customer follow-ups &amp; more</li>
-                  <li><b>Predictive Automation –</b> Forecast demand, auto-suggest purchase orders, detect anomalies before they happen</li>
-                  <li><b>Conversational UI –</b> Use voice or chat to pull reports, assign tasks, or create records — just like messaging a teammate</li>
-                  <li><b>Real-Time Decision Support –</b> AI helps you make faster, data-backed decisions across finance, ops, and sales</li>
-                  <li><b>Self-optimizing Workflows –</b> The system learns from how your team works and suggests better ways</li>
-                  <li style={{ borderBottom: 'none' }}><b>With Aasaan ERP, AI isn't a buzzword —</b> it's baked into the DNA of your business operations.</li>
-                </ul>
-                <div style={{ marginTop: '16px' }}>
-                  <button onClick={onOpenDemo} className="accent_button" style={{ borderRadius: '6px' }}>
-                    Experience AI ERP
-                  </button>
+      <div style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f1f8fd 50%, #ffffff 100%)', padding: '60px 20px' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{
+            background: 'radial-gradient(ellipse at 20% 20%, rgba(30,149,211,0.08) 0%, rgba(255,255,255,0.95) 70%), #ffffff',
+            border: '1px solid rgba(30,149,211,0.22)',
+            borderRadius: '24px',
+            boxShadow: '0 20px 50px -15px rgba(30,149,211,0.12)',
+            padding: '44px 36px',
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            gap: '40px'
+          }}>
+            {/* Visual Column */}
+            <div style={{ flex: '1 1 440px', position: 'relative' }}>
+              <div style={{
+                position: 'relative',
+                borderRadius: '20px',
+                overflow: 'hidden',
+                boxShadow: '0 20px 45px -10px rgba(15, 23, 42, 0.22)'
+              }}>
+                <img
+                  src={getAssetUrl('images/AI Driven Image.jpg')}
+                  onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/AI%20Driven%20Image.jpg')}
+                  alt="AI Driven ERP Co-Pilot"
+                  style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(180deg, transparent 60%, rgba(15,23,42,0.45) 100%)'
+                }}></div>
+              </div>
+
+              {/* Floating Live Badge Top Left */}
+              <div style={{
+                position: 'absolute',
+                top: '-16px',
+                left: '-12px',
+                background: 'rgba(255, 255, 255, 0.95)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(30,149,211,0.25)',
+                borderRadius: '12px',
+                padding: '10px 16px',
+                boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px'
+              }}>
+                <div style={{
+                  width: '10px',
+                  height: '10px',
+                  borderRadius: '50%',
+                  background: '#10b981',
+                  boxShadow: '0 0 10px #10b981'
+                }}></div>
+                <div>
+                  <div style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#64748b' }}>Neural Co-Pilot</div>
+                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#0f172a' }}>v4.2 Engine Active</div>
                 </div>
+              </div>
+
+              {/* Floating Stat Card Bottom Right */}
+              <div style={{
+                position: 'absolute',
+                bottom: '-16px',
+                right: '-12px',
+                background: 'rgba(15, 23, 42, 0.94)',
+                backdropFilter: 'blur(12px)',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                borderRadius: '14px',
+                padding: '12px 18px',
+                boxShadow: '0 15px 35px rgba(0,0,0,0.3)',
+                color: '#ffffff',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px'
+              }}>
+                <div style={{
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '10px',
+                  background: 'rgba(30,149,211,0.2)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#38bdf8'
+                }}>
+                  <Cpu size={20} />
+                </div>
+                <div>
+                  <div style={{ fontSize: '15px', fontWeight: 800, color: '#ffffff' }}>99.4% Anomaly Precision</div>
+                  <div style={{ fontSize: '12px', color: '#94a3b8' }}>+28% Operational Velocity</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Content Column */}
+            <div style={{ flex: '1 1 500px', display: 'flex', flexDirection: 'column', gap: '18px' }}>
+              <div>
+                <span style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  background: 'rgba(30,149,211,0.1)',
+                  color: '#0d6ea0',
+                  fontSize: '11px',
+                  fontWeight: 800,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  padding: '6px 14px',
+                  borderRadius: '20px',
+                  marginBottom: '10px'
+                }}>
+                  <Sparkles size={14} /> Next-Generation Intelligence
+                </span>
+                <h2 style={{ fontSize: '32px', fontWeight: 800, color: '#0f172a', margin: '6px 0 10px', lineHeight: 1.25 }}>
+                  Shaping the Future with <span style={{ background: 'linear-gradient(135deg, #1e95d3, #0284c7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AI-Driven Enterprise ERP</span>
+                </h2>
+                <p style={{ fontSize: '15px', color: '#475569', lineHeight: 1.6, margin: 0 }}>
+                  Aasaan ERP is more than software — it's your intelligent business co-pilot. Powered by machine learning, driven by your real-time operational data, and constantly calibrating for margin efficiency.
+                </p>
+              </div>
+
+              {/* 5 Feature Cards */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: '12px' }}>
+                {[
+                  {
+                    icon: Sparkles,
+                    color: '#1e95d3',
+                    bg: 'rgba(30,149,211,0.1)',
+                    title: 'Smart Recommendations',
+                    desc: 'Real-time AI insights for dynamic pricing, reorder thresholds & receivables.'
+                  },
+                  {
+                    icon: TrendingUp,
+                    color: '#0284c7',
+                    bg: 'rgba(2,132,199,0.1)',
+                    title: 'Predictive Automation',
+                    desc: 'Forecast demand, auto-suggest purchase orders & detect anomalies before stock-outs.'
+                  },
+                  {
+                    icon: Bot,
+                    color: '#6366f1',
+                    bg: 'rgba(99,102,241,0.1)',
+                    title: 'Conversational Co-Pilot',
+                    desc: 'Natural language queries to pull reports and trigger workflows instantly.'
+                  },
+                  {
+                    icon: Zap,
+                    color: '#f59e0b',
+                    bg: 'rgba(245,158,11,0.1)',
+                    title: 'Real-Time Risk Radar',
+                    desc: 'Instant cross-functional decision support across cash flow, shop floor & dispatch.'
+                  },
+                  {
+                    icon: RefreshCw,
+                    color: '#10b981',
+                    bg: 'rgba(16,185,129,0.1)',
+                    title: 'Self-Optimizing Workflows',
+                    desc: 'Continuous pattern learning that eliminates repetitive manual tasks.'
+                  }
+                ].map((item, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      display: 'flex',
+                      gap: '12px',
+                      background: '#ffffff',
+                      border: '1px solid #e2e8f0',
+                      borderRadius: '12px',
+                      padding: '12px 14px',
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(30,149,211,0.4)';
+                      e.currentTarget.style.boxShadow = '0 6px 16px rgba(30,149,211,0.08)';
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = '#e2e8f0';
+                      e.currentTarget.style.boxShadow = '0 2px 6px rgba(0,0,0,0.02)';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                    }}
+                  >
+                    <div style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '8px',
+                      background: item.bg,
+                      color: item.color,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0
+                    }}>
+                      <item.icon size={16} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '13.5px', fontWeight: 700, color: '#0f172a', marginBottom: '2px' }}>{item.title}</div>
+                      <div style={{ fontSize: '12px', color: '#64748b', lineHeight: 1.45 }}>{item.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Dark Callout Bar */}
+              <div style={{
+                background: '#0f172a',
+                color: '#e2e8f0',
+                borderRadius: '12px',
+                padding: '14px 18px',
+                borderLeft: '4px solid #1e95d3',
+                fontSize: '13.5px',
+                lineHeight: 1.5,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px'
+              }}>
+                <ShieldCheck size={20} style={{ color: '#38bdf8', flexShrink: 0 }} />
+                <span><b>With Aasaan ERP, AI isn't an afterthought —</b> it's embedded across every ledger, warehouse, and work order.</span>
+              </div>
+
+              {/* Action Button */}
+              <div>
+                <button
+                  onClick={onOpenDemo}
+                  style={{
+                    background: 'linear-gradient(135deg, #1e95d3 0%, #0d6ea0 100%)',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '10px',
+                    padding: '14px 28px',
+                    fontSize: '15px',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    boxShadow: '0 8px 20px rgba(30,149,211,0.28)',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 12px 28px rgba(30,149,211,0.38)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(30,149,211,0.28)';
+                  }}
+                >
+                  <span>Experience AI ERP</span>
+                  <ArrowRight size={17} />
+                </button>
               </div>
             </div>
           </div>
@@ -387,95 +823,477 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       {/* ============================================================ */}
       {/* 2. WHY AASAAN ERP — TABS                                     */}
       {/* ============================================================ */}
-      <div className="column_alignment section_wrapper" style={{ background: '#FFFFFF' }}>
-        <div className="column_alignment main_content align_self_center">
+      <div className="column_alignment section_wrapper" style={{ background: '#FFFFFF', padding: '80px 20px' }}>
+        <div className="column_alignment main_content align_self_center" style={{ maxWidth: '1200px' }}>
 
-          <h2 className="page_heading">
-            Why <b>AASAAN</b><br />ENTERPRISE Resource Planning (ERP)?
-          </h2>
-
-          <div className="why_aasaan_tabs_wrapper">
-            <span onClick={() => setWhyTab(0)} className={whyTab === 0 ? 'active' : ''}>⚡ Effortless to Use</span>
-            <span onClick={() => setWhyTab(1)} className={whyTab === 1 ? 'active' : ''}>🌐 Your Business, Anywhere</span>
-            <span onClick={() => setWhyTab(2)} className={whyTab === 2 ? 'active' : ''}>🏆 Proven. Powerful. Trusted.</span>
+          <div style={{ textAlign: 'center', marginBottom: '36px' }}>
+            <span style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              background: 'rgba(30,149,211,0.1)',
+              color: '#0d6ea0',
+              fontSize: '11px',
+              fontWeight: 800,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              padding: '6px 14px',
+              borderRadius: '20px',
+              marginBottom: '12px'
+            }}>
+              <Zap size={14} /> Built for Speed &amp; Reliability
+            </span>
+            <h2 style={{ fontSize: '34px', fontWeight: 800, color: '#0f172a', margin: '0 0 12px', lineHeight: 1.25 }}>
+              Why <span style={{ color: '#1e95d3' }}>AASAAN Enterprise</span> Resource Planning?
+            </h2>
+            <p style={{ fontSize: '16px', color: '#64748b', maxWidth: '680px', margin: '0 auto', lineHeight: 1.6 }}>
+              Purpose-built architecture that unifies operations, eliminates software babysitting, and delivers rapid ROI across your entire enterprise.
+            </p>
           </div>
 
+          {/* Segmented Switcher */}
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
+            <div style={{
+              display: 'inline-flex',
+              background: '#f1f5f9',
+              padding: '6px',
+              borderRadius: '14px',
+              border: '1px solid #e2e8f0',
+              gap: '6px',
+              flexWrap: 'wrap',
+              justifyContent: 'center'
+            }}>
+              {[
+                { label: 'Effortless to Use', icon: Zap },
+                { label: 'Your Business, Anywhere', icon: Globe },
+                { label: 'Proven. Powerful. Trusted.', icon: Award }
+              ].map((tab, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setWhyTab(idx)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '12px 24px',
+                    borderRadius: '10px',
+                    fontSize: '14.5px',
+                    fontWeight: whyTab === idx ? 700 : 600,
+                    color: whyTab === idx ? '#1e95d3' : '#64748b',
+                    background: whyTab === idx ? '#ffffff' : 'transparent',
+                    boxShadow: whyTab === idx ? '0 4px 14px rgba(30,149,211,0.14)' : 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  <tab.icon size={16} style={{ color: whyTab === idx ? '#1e95d3' : '#94a3b8' }} />
+                  <span>{tab.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* TAB 0 CONTENT */}
           {whyTab === 0 && (
-            <div className="column_alignment why_aasaan_tab_content active">
-              <div className="row_column_alignment two" style={{ alignItems: 'center', gap: '30px' }}>
-                <div className="column_alignment align_self_center" style={{ flex: 1, padding: '0 16px' }}>
-                  <span style={{ fontSize: '18px', fontWeight: 600, color: '#212121', marginBottom: '16px' }}>
-                    Aasaan ERP is designed for people who get things done — not for those who want to babysit software.
-                  </span>
-                  <div style={{ color: '#495057', fontSize: '15px', lineHeight: 1.7 }}>
-                    <p>🎯 <b>Zero learning curve</b> – Start using it like a pro from Day 1</p>
-                    <p>🖥️ <b>Intuitive interface</b> – Everything where you expect it</p>
-                    <p>🔄 <b>Smart workflows</b> – Automate repetitive tasks, skip the grunt work</p>
-                    <p>🧠 <b>Easily customizable</b> – Tailor screens, fields, and flows without tech support</p>
-                    <p>🕹️ <b>One-click navigation</b> – Jump between modules in a snap</p>
-                  </div>
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              gap: '40px',
+              animation: 'fadeIn 0.3s ease-in-out'
+            }}>
+              <div style={{ flex: '1 1 480px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#0f172a', margin: 0, lineHeight: 1.35 }}>
+                  Designed for people who get things done — <span style={{ color: '#1e95d3' }}>zero babysitting required.</span>
+                </h3>
+                <p style={{ fontSize: '15px', color: '#64748b', margin: 0, lineHeight: 1.6 }}>
+                  Most ERP systems require months of painful training. Aasaan ERP is built with modern consumer-grade UX so your staff adopts it effortlessly from Day 1.
+                </p>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {[
+                    { icon: LayoutDashboard, color: '#1e95d3', title: 'Zero Learning Curve', desc: 'Start using it like a pro from Day 1 with intuitive UI workflows.' },
+                    { icon: SlidersHorizontal, color: '#0284c7', title: 'Intuitive Navigation', desc: 'Everything is positioned contextually right where operators expect it.' },
+                    { icon: Zap, color: '#f59e0b', title: 'Smart Workflows', desc: 'Automate repetitive tasks, skip tedious paperwork and eliminate human error.' },
+                    { icon: Layers, color: '#6366f1', title: 'Easily Customizable', desc: 'Tailor screens, custom fields, and approval paths without tech support.' },
+                    { icon: CheckCircle2, color: '#10b981', title: 'One-Click Navigation', desc: 'Jump between modules, ledgers, and transactions in a snap.' }
+                  ].map((row, rIdx) => (
+                    <div
+                      key={rIdx}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: '14px',
+                        background: '#f8fafc',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: '12px',
+                        padding: '12px 16px',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#ffffff';
+                        e.currentTarget.style.borderColor = 'rgba(30,149,211,0.3)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(30,149,211,0.06)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = '#f8fafc';
+                        e.currentTarget.style.borderColor = '#e2e8f0';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
+                    >
+                      <div style={{
+                        width: '34px',
+                        height: '34px',
+                        borderRadius: '8px',
+                        background: '#ffffff',
+                        border: '1px solid #e2e8f0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: row.color,
+                        flexShrink: 0
+                      }}>
+                        <row.icon size={17} />
+                      </div>
+                      <div>
+                        <div style={{ fontSize: '14.5px', fontWeight: 700, color: '#0f172a' }}>{row.title}</div>
+                        <div style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.45 }}>{row.desc}</div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="column_alignment align_self_center" style={{ flex: 1, textAlign: 'center' }}>
+              </div>
+
+              {/* Right Visual Frame */}
+              <div style={{ flex: '1 1 440px', position: 'relative' }}>
+                <div style={{
+                  borderRadius: '20px',
+                  overflow: 'hidden',
+                  boxShadow: '0 20px 45px -10px rgba(15, 23, 42, 0.18)',
+                  border: '1px solid rgba(30,149,211,0.2)'
+                }}>
                   <img
-                    style={{ width: '90%', maxWidth: '450px', alignSelf: 'center', borderRadius: '12px', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
+                    style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
                     src={getAssetUrl('images/Why Aasaan Image 1 Effortless Use.jpg')}
                     onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/Why%20Aasaan%20Image%201%20Effortless%20Use.jpg')}
                     alt="Effortless to Use"
                   />
                 </div>
+
+                {/* Floating Stat Top Right */}
+                <div style={{
+                  position: 'absolute',
+                  top: '-14px',
+                  right: '-10px',
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(30,149,211,0.25)',
+                  borderRadius: '12px',
+                  padding: '10px 16px',
+                  boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px'
+                }}>
+                  <Zap size={18} style={{ color: '#1e95d3' }} />
+                  <div>
+                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Rapid Deployment</div>
+                    <div style={{ fontSize: '13.5px', fontWeight: 800, color: '#0f172a' }}>7-Day Average Go-Live</div>
+                  </div>
+                </div>
+
+                {/* Floating Stat Bottom Left */}
+                <div style={{
+                  position: 'absolute',
+                  bottom: '-14px',
+                  left: '-10px',
+                  background: 'rgba(15, 23, 42, 0.94)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  borderRadius: '12px',
+                  padding: '10px 16px',
+                  boxShadow: '0 12px 30px rgba(0,0,0,0.25)',
+                  color: '#ffffff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px'
+                }}>
+                  <CheckCircle2 size={18} style={{ color: '#10b981' }} />
+                  <div>
+                    <div style={{ fontSize: '13px', fontWeight: 800, color: '#ffffff' }}>100% User Adoption</div>
+                    <div style={{ fontSize: '11px', color: '#94a3b8' }}>Zero specialized training required</div>
+                  </div>
+                </div>
               </div>
             </div>
           )}
 
+          {/* TAB 1 CONTENT */}
           {whyTab === 1 && (
-            <div className="column_alignment why_aasaan_tab_content active">
-              <div className="row_column_alignment two" style={{ alignItems: 'center', gap: '30px' }}>
-                <div className="column_alignment align_self_center" style={{ flex: 1, padding: '0 16px' }}>
-                  <span style={{ fontSize: '18px', fontWeight: 600, color: '#212121', marginBottom: '16px' }}>
-                    Whether you're in the office, on-site, or halfway across the world — your ERP moves with you.
-                  </span>
-                  <div style={{ color: '#495057', fontSize: '15px', lineHeight: 1.7 }}>
-                    <p>🌐 <b>100% cloud-native</b> – No setup, no server hassles</p>
-                    <p>📱 <b>Mobile-first</b> – Works beautifully across devices</p>
-                    <p>🔐 <b>Secure &amp; scalable</b> – Enterprise-grade protection, startup-friendly speed</p>
-                    <p>🔄 <b>Real-time sync</b> – Everyone stays updated, always</p>
-                    <p>🔌 <b>Connect your stack</b> – Plug into WhatsApp, Razorpay, Tally &amp; more</p>
-                  </div>
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              gap: '40px',
+              animation: 'fadeIn 0.3s ease-in-out'
+            }}>
+              <div style={{ flex: '1 1 480px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#0f172a', margin: 0, lineHeight: 1.35 }}>
+                  Whether in the office, on-site, or across borders — <span style={{ color: '#1e95d3' }}>your ERP moves with you.</span>
+                </h3>
+                <p style={{ fontSize: '15px', color: '#64748b', margin: 0, lineHeight: 1.6 }}>
+                  Run your whole business from any web browser or mobile phone with zero server maintenance, high-availability AWS hosting, and instant sync.
+                </p>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {[
+                    { icon: Globe, color: '#1e95d3', title: '100% Cloud-Native', desc: 'Zero hardware setup, automatic version upgrades and zero server hassles.' },
+                    { icon: Smartphone, color: '#0284c7', title: 'Mobile-First Architecture', desc: 'Fully responsive operations across iOS, Android, laptops and tablets.' },
+                    { icon: Lock, color: '#10b981', title: 'Enterprise-Grade Security', desc: 'ISO 27001-aligned access control, role permissions and SSL encryption.' },
+                    { icon: RefreshCw, color: '#6366f1', title: 'Real-Time Multi-Branch Sync', desc: 'All plants, warehouses, and corporate branches stay synchronized.' },
+                    { icon: Zap, color: '#f59e0b', title: 'Connect Your Modern Stack', desc: 'Plug into WhatsApp, Razorpay, Tally, logistics APIs & 50+ integrations.' }
+                  ].map((row, rIdx) => (
+                    <div
+                      key={rIdx}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: '14px',
+                        background: '#f8fafc',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: '12px',
+                        padding: '12px 16px',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#ffffff';
+                        e.currentTarget.style.borderColor = 'rgba(30,149,211,0.3)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(30,149,211,0.06)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = '#f8fafc';
+                        e.currentTarget.style.borderColor = '#e2e8f0';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
+                    >
+                      <div style={{
+                        width: '34px',
+                        height: '34px',
+                        borderRadius: '8px',
+                        background: '#ffffff',
+                        border: '1px solid #e2e8f0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: row.color,
+                        flexShrink: 0
+                      }}>
+                        <row.icon size={17} />
+                      </div>
+                      <div>
+                        <div style={{ fontSize: '14.5px', fontWeight: 700, color: '#0f172a' }}>{row.title}</div>
+                        <div style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.45 }}>{row.desc}</div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="column_alignment align_self_center" style={{ flex: 1, textAlign: 'center' }}>
+              </div>
+
+              {/* Right Visual Frame */}
+              <div style={{ flex: '1 1 440px', position: 'relative' }}>
+                <div style={{
+                  borderRadius: '20px',
+                  overflow: 'hidden',
+                  boxShadow: '0 20px 45px -10px rgba(15, 23, 42, 0.18)',
+                  border: '1px solid rgba(30,149,211,0.2)'
+                }}>
                   <img
-                    style={{ width: '90%', maxWidth: '450px', alignSelf: 'center', borderRadius: '12px', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
+                    style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
                     src={getAssetUrl('images/Why Aasaan Image 2 Business Anywhere.jpg')}
                     onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/Why%20Aasaan%20Image%202%20Business%20Anywhere.jpg')}
                     alt="Your Business Anywhere"
                   />
                 </div>
+
+                {/* Floating Stat Top Right */}
+                <div style={{
+                  position: 'absolute',
+                  top: '-14px',
+                  right: '-10px',
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(30,149,211,0.25)',
+                  borderRadius: '12px',
+                  padding: '10px 16px',
+                  boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px'
+                }}>
+                  <Globe size={18} style={{ color: '#1e95d3' }} />
+                  <div>
+                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Uptime Guarantee</div>
+                    <div style={{ fontSize: '13.5px', fontWeight: 800, color: '#0f172a' }}>99.99% AWS Reliability</div>
+                  </div>
+                </div>
+
+                {/* Floating Stat Bottom Left */}
+                <div style={{
+                  position: 'absolute',
+                  bottom: '-14px',
+                  left: '-10px',
+                  background: 'rgba(15, 23, 42, 0.94)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  borderRadius: '12px',
+                  padding: '10px 16px',
+                  boxShadow: '0 12px 30px rgba(0,0,0,0.25)',
+                  color: '#ffffff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px'
+                }}>
+                  <ShieldCheck size={18} style={{ color: '#38bdf8' }} />
+                  <div>
+                    <div style={{ fontSize: '13px', fontWeight: 800, color: '#ffffff' }}>Bank-Grade Encryption</div>
+                    <div style={{ fontSize: '11px', color: '#94a3b8' }}>256-Bit SSL payload protection</div>
+                  </div>
+                </div>
               </div>
             </div>
           )}
 
+          {/* TAB 2 CONTENT */}
           {whyTab === 2 && (
-            <div className="column_alignment why_aasaan_tab_content active">
-              <div className="row_column_alignment two" style={{ alignItems: 'center', gap: '30px' }}>
-                <div className="column_alignment align_self_center" style={{ flex: 1, padding: '0 16px' }}>
-                  <span style={{ fontSize: '18px', fontWeight: 600, color: '#212121', marginBottom: '16px' }}>
-                    Aasaan ERP isn't just another tool — it's the backbone of 100+ businesses and counting.
-                  </span>
-                  <div style={{ color: '#495057', fontSize: '15px', lineHeight: 1.7 }}>
-                    <p>🏢 <b>Trusted by real businesses</b> – Across retail, waste mgmt, manufacturing &amp; more</p>
-                    <p>🚀 <b>Built to grow</b> – Easily handle 10 or 10,000 users</p>
-                    <p>⚙️ <b>Flexible architecture</b> – Add new modules or workflows without breaking anything</p>
-                    <p>🤝 <b>Support that shows up</b> – Direct help from experts, not bots</p>
-                    <p>🔁 <b>Always improving</b> – New features drop regularly, with no disruption</p>
-                  </div>
+            <div style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              gap: '40px',
+              animation: 'fadeIn 0.3s ease-in-out'
+            }}>
+              <div style={{ flex: '1 1 480px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#0f172a', margin: 0, lineHeight: 1.35 }}>
+                  The proven operational backbone for <span style={{ color: '#1e95d3' }}>100+ high-growth enterprises.</span>
+                </h3>
+                <p style={{ fontSize: '15px', color: '#64748b', margin: 0, lineHeight: 1.6 }}>
+                  Aasaan ERP is the trusted operating system across heavy manufacturing, circular economy waste management, healthcare, retail, and global investment trading.
+                </p>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {[
+                    { icon: Building2, color: '#1e95d3', title: 'Trusted Across Industries', desc: 'Proven across precision engineering, waste management, dental & retail.' },
+                    { icon: TrendingUp, color: '#10b981', title: 'Built to Scale With You', desc: 'Easily supports 10 to 10,000 concurrent operators with zero lag.' },
+                    { icon: Cpu, color: '#6366f1', title: 'Flexible Architecture', desc: 'Add new modules, custom triggers, or workflows without breaking existing data.' },
+                    { icon: Award, color: '#f59e0b', title: 'Direct Human Expert Support', desc: 'Fast, dedicated help from senior ERP solution architects — no robotic runaround.' },
+                    { icon: RefreshCw, color: '#0284c7', title: 'Always Improving', desc: 'Regular feature updates and compliance upgrades delivered with zero downtime.' }
+                  ].map((row, rIdx) => (
+                    <div
+                      key={rIdx}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: '14px',
+                        background: '#f8fafc',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: '12px',
+                        padding: '12px 16px',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#ffffff';
+                        e.currentTarget.style.borderColor = 'rgba(30,149,211,0.3)';
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(30,149,211,0.06)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = '#f8fafc';
+                        e.currentTarget.style.borderColor = '#e2e8f0';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
+                    >
+                      <div style={{
+                        width: '34px',
+                        height: '34px',
+                        borderRadius: '8px',
+                        background: '#ffffff',
+                        border: '1px solid #e2e8f0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: row.color,
+                        flexShrink: 0
+                      }}>
+                        <row.icon size={17} />
+                      </div>
+                      <div>
+                        <div style={{ fontSize: '14.5px', fontWeight: 700, color: '#0f172a' }}>{row.title}</div>
+                        <div style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.45 }}>{row.desc}</div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="column_alignment align_self_center" style={{ flex: 1, textAlign: 'center' }}>
+              </div>
+
+              {/* Right Visual Frame */}
+              <div style={{ flex: '1 1 440px', position: 'relative' }}>
+                <div style={{
+                  borderRadius: '20px',
+                  overflow: 'hidden',
+                  boxShadow: '0 20px 45px -10px rgba(15, 23, 42, 0.18)',
+                  border: '1px solid rgba(30,149,211,0.2)'
+                }}>
                   <img
-                    style={{ width: '90%', maxWidth: '450px', alignSelf: 'center', borderRadius: '12px', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }}
+                    style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
                     src={getAssetUrl('images/Why Aasaan Image 3 Proven trusted.jpg')}
                     onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/Why%20Aasaan%20Image%203%20Proven%20trusted.jpg')}
                     alt="Proven Powerful Trusted"
                   />
+                </div>
+
+                {/* Floating Stat Top Right */}
+                <div style={{
+                  position: 'absolute',
+                  top: '-14px',
+                  right: '-10px',
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(30,149,211,0.25)',
+                  borderRadius: '12px',
+                  padding: '10px 16px',
+                  boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px'
+                }}>
+                  <Award size={18} style={{ color: '#1e95d3' }} />
+                  <div>
+                    <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Client Loyalty</div>
+                    <div style={{ fontSize: '13.5px', fontWeight: 800, color: '#0f172a' }}>98.7% Retention Rate</div>
+                  </div>
+                </div>
+
+                {/* Floating Stat Bottom Left */}
+                <div style={{
+                  position: 'absolute',
+                  bottom: '-14px',
+                  left: '-10px',
+                  background: 'rgba(15, 23, 42, 0.94)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  borderRadius: '12px',
+                  padding: '10px 16px',
+                  boxShadow: '0 12px 30px rgba(0,0,0,0.25)',
+                  color: '#ffffff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px'
+                }}>
+                  <Building2 size={18} style={{ color: '#38bdf8' }} />
+                  <div>
+                    <div style={{ fontSize: '13px', fontWeight: 800, color: '#ffffff' }}>100+ Enterprise Deployments</div>
+                    <div style={{ fontSize: '11px', color: '#94a3b8' }}>Across India, Middle East &amp; Global</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -666,45 +1484,207 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       </div>
 
       {/* ============================================================ */}
-      {/* 4. OUR CLIENTS                                               */}
+      {/* 4. OUR CLIENTS — ENTERPRISE SUCCESS SHOWCASE                 */}
       {/* ============================================================ */}
-      <div className="column_alignment section_wrapper" style={{ background: 'rgba(211,234,245,0.3)' }}>
-        <div className="column_alignment main_content align_self_center">
-          <span className="page_heading" style={{ alignSelf: 'flex-start', textAlign: 'left', marginBottom: '8px' }}>
-            <b>OUR CLIENTS</b>
-          </span>
-          <span style={{ alignSelf: 'flex-start', textAlign: 'left', fontSize: '16px', color: '#5f5f5f', maxWidth: '750px', marginBottom: '30px', lineHeight: 1.5 }}>
-            The reason Aasaan has been the world's fastest-growing Cloud ERP company for 10 years and counting – we put our customers first.
-          </span>
+      <div className="column_alignment section_wrapper" style={{ background: 'linear-gradient(180deg, #f0f7fc 0%, #ffffff 100%)', padding: '80px 20px' }}>
+        <div className="column_alignment main_content align_self_center" style={{ maxWidth: '1200px' }}>
+          
+          <div style={{ textAlign: 'center', marginBottom: '44px' }}>
+            <span style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              background: 'rgba(30,149,211,0.1)',
+              color: '#0d6ea0',
+              fontSize: '11px',
+              fontWeight: 800,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              padding: '6px 14px',
+              borderRadius: '20px',
+              marginBottom: '12px'
+            }}>
+              <ShieldCheck size={14} /> Proven Enterprise Success
+            </span>
+            <h2 style={{ fontSize: '34px', fontWeight: 800, color: '#0f172a', margin: '0 0 12px', lineHeight: 1.25 }}>
+              Trusted by <span style={{ color: '#1e95d3' }}>Industrial &amp; Corporate</span> Leaders
+            </h2>
+            <p style={{ fontSize: '16px', color: '#64748b', maxWidth: '700px', margin: '0 auto', lineHeight: 1.6 }}>
+              The reason Aasaan has been trusted for over a decade — we engineer high-performance operational systems tailored to actual shop floors, weighbridges, and corporate trading desks.
+            </p>
+          </div>
 
-          <div className="row_column_alignment two" style={{ gap: '30px', alignItems: 'center' }}>
-            <div className="column_alignment" style={{ flex: 1 }}>
-              {clients.map((c, idx) => (
-                <div key={c.id} className={`column_alignment client_section_item_wrapper ${clientTab === idx ? 'active' : ''}`} onClick={() => setClientTab(idx)}>
-                  <span className="client_name">{c.name}</span>
-                  <div className="row_column_alignment two content" style={{ display: clientTab === idx ? 'flex' : 'none', gap: '16px' }}>
-                    <div className="column_alignment" style={{ flex: 1 }}>
-                      <span className="client_label">Industry</span>
-                      <span className="client_label_value">{c.industry}</span>
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '36px',
+            alignItems: 'center'
+          }}>
+            {/* Left Column: Interactive Client Cards */}
+            <div style={{ flex: '1 1 480px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              {clients.map((c, idx) => {
+                const isActive = clientTab === idx;
+                return (
+                  <div
+                    key={c.id}
+                    onClick={() => setClientTab(idx)}
+                    style={{
+                      background: isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.65)',
+                      border: isActive ? '2px solid #1e95d3' : '1px solid #e2e8f0',
+                      borderRadius: '16px',
+                      padding: '18px 22px',
+                      cursor: 'pointer',
+                      boxShadow: isActive ? '0 10px 28px rgba(30, 149, 211, 0.12)' : '0 2px 6px rgba(0,0,0,0.02)',
+                      transition: 'all 0.25s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.background = '#ffffff';
+                        e.currentTarget.style.borderColor = 'rgba(30,149,211,0.3)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.65)';
+                        e.currentTarget.style.borderColor = '#e2e8f0';
+                      }
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                        <div style={{
+                          width: '42px',
+                          height: '42px',
+                          borderRadius: '12px',
+                          background: isActive ? 'linear-gradient(135deg, #1e95d3, #0d6ea0)' : '#e2e8f0',
+                          color: isActive ? '#ffffff' : '#475569',
+                          fontWeight: 800,
+                          fontSize: '15px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0,
+                          boxShadow: isActive ? '0 4px 12px rgba(30,149,211,0.3)' : 'none'
+                        }}>
+                          {c.initials}
+                        </div>
+                        <div>
+                          <div style={{ fontSize: '17px', fontWeight: 800, color: '#0f172a' }}>{c.name}</div>
+                          <div style={{ fontSize: '12.5px', color: '#64748b', fontWeight: 500 }}>{c.industry}</div>
+                        </div>
+                      </div>
+                      <span style={{
+                        background: isActive ? '#e0f2fe' : '#f1f5f9',
+                        color: isActive ? '#0284c7' : '#64748b',
+                        fontSize: '11px',
+                        fontWeight: 700,
+                        padding: '4px 10px',
+                        borderRadius: '20px',
+                        whiteSpace: 'nowrap'
+                      }}>
+                        {c.tag}
+                      </span>
                     </div>
-                    <div className="column_alignment" style={{ flex: 1 }}>
-                      <span className="client_label">Aasaan ERP Work</span>
-                      <span className="client_label_value">{c.work}</span>
+
+                    {isActive && (
+                      <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #f1f5f9' }}>
+                        {/* Metric Highlight */}
+                        <div style={{
+                          background: 'linear-gradient(90deg, #f0f9ff, #f8fafc)',
+                          borderLeft: '3px solid #1e95d3',
+                          padding: '10px 14px',
+                          borderRadius: '0 8px 8px 0',
+                          marginBottom: '12px'
+                        }}>
+                          <div style={{ fontSize: '12px', fontWeight: 700, color: '#0284c7', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Key Transformation</div>
+                          <div style={{ fontSize: '14.5px', fontWeight: 800, color: '#0f172a' }}>{c.metrics}</div>
+                          <div style={{ fontSize: '12.5px', color: '#64748b', marginTop: '2px' }}>{c.highlight}</div>
+                        </div>
+
+                        <div style={{ fontSize: '13.5px', color: '#475569', lineHeight: 1.5 }}>
+                          <span style={{ fontWeight: 700, color: '#0f172a' }}>Aasaan ERP Scope: </span>
+                          {c.work}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Right Column: High-Impact Showcase Visual & Live Case Badge */}
+            <div style={{ flex: '1 1 480px', position: 'relative' }}>
+              <div style={{
+                borderRadius: '24px',
+                overflow: 'hidden',
+                boxShadow: '0 24px 50px -12px rgba(15, 23, 42, 0.2)',
+                border: '1px solid rgba(30,149,211,0.25)',
+                position: 'relative',
+                background: '#0f172a'
+              }}>
+                <img
+                  src={getAssetUrl(activeClient.img)}
+                  onError={(e) => handleImageError(e, activeClient.fallback)}
+                  alt={activeClient.name}
+                  style={{ width: '100%', height: '440px', objectFit: 'cover', display: 'block' }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(180deg, transparent 40%, rgba(15, 23, 42, 0.88) 100%)'
+                }}></div>
+
+                {/* Glassmorphism Case Card Overlay */}
+                <div style={{
+                  position: 'absolute',
+                  bottom: '20px',
+                  left: '20px',
+                  right: '20px',
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(12px)',
+                  borderRadius: '16px',
+                  padding: '18px 20px',
+                  boxShadow: '0 12px 32px rgba(0,0,0,0.25)',
+                  border: '1px solid rgba(255,255,255,0.4)'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{
+                        width: '8px',
+                        height: '8px',
+                        borderRadius: '50%',
+                        background: '#10b981',
+                        boxShadow: '0 0 8px #10b981'
+                      }}></span>
+                      <span style={{ fontSize: '12px', fontWeight: 800, color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Verified Production Client</span>
+                    </div>
+                    <span style={{ fontSize: '11px', fontWeight: 700, background: '#f1f5f9', color: '#475569', padding: '2px 8px', borderRadius: '4px' }}>
+                      {activeClient.tag}
+                    </span>
+                  </div>
+
+                  <div style={{ fontSize: '18px', fontWeight: 800, color: '#0f172a', marginBottom: '4px' }}>
+                    {activeClient.name}
+                  </div>
+                  <div style={{ fontSize: '13px', color: '#475569', lineHeight: 1.45, marginBottom: '10px' }}>
+                    "{activeClient.highlight}"
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px', borderTop: '1px solid #e2e8f0', paddingTop: '8px', fontSize: '12px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#0284c7', fontWeight: 700 }}>
+                      <Zap size={14} />
+                      <span>{activeClient.metrics}</span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#64748b' }}>
+                      <ShieldCheck size={14} />
+                      <span>Zero Downtime Architecture</span>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-            <div className="column_alignment" style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-              <img
-                className="client_section_img"
-                src={getAssetUrl(activeClient.img)}
-                onError={(e) => handleImageError(e, activeClient.fallback)}
-                alt={activeClient.name}
-                style={{ display: 'block' }}
-              />
+              </div>
             </div>
           </div>
+
         </div>
       </div>
 
@@ -785,36 +1765,338 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       {/* ============================================================ */}
       {/* 6. SEAMLESS INTEGRATION TOOLS                                */}
       {/* ============================================================ */}
-      <div className="column_alignment section_wrapper" style={{ background: '#f8f9fa' }}>
-        <div className="column_alignment main_content align_self_center">
-          <h2 className="page_heading" style={{ maxWidth: '700px', alignSelf: 'center', marginBottom: '8px' }}>
-            <b style={{ fontWeight: 600 }}>Seamless Integration with Your</b><br />Existing Tools
-          </h2>
-          <span style={{ maxWidth: '540px', textAlign: 'center', alignSelf: 'center', fontSize: '15px', color: '#5f5f5f', lineHeight: 1.5, marginBottom: '32px' }}>
-            Connects effortlessly with the software you already use — so your data flows freely, and your team works smarter.
-          </span>
+      <div className="column_alignment section_wrapper" style={{ background: '#f8fafc', padding: '80px 20px' }}>
+        <div className="column_alignment main_content align_self_center" style={{ maxWidth: '1200px' }}>
+          
+          <div style={{ textAlign: 'center', marginBottom: '44px' }}>
+            <span style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              background: 'rgba(30,149,211,0.1)',
+              color: '#0d6ea0',
+              fontSize: '11px',
+              fontWeight: 800,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              padding: '6px 14px',
+              borderRadius: '20px',
+              marginBottom: '12px'
+            }}>
+              <Layers size={14} /> Extensible Ecosystem
+            </span>
+            <h2 style={{ fontSize: '34px', fontWeight: 800, color: '#0f172a', margin: '0 0 12px', lineHeight: 1.25 }}>
+              Seamless Integration with Your <span style={{ color: '#1e95d3' }}>Existing Tools</span>
+            </h2>
+            <p style={{ fontSize: '16px', color: '#64748b', maxWidth: '680px', margin: '0 auto', lineHeight: 1.6 }}>
+              Connects effortlessly with 50+ enterprise services — eliminating data silos, accelerating bookkeeping, and ensuring bidirectional real-time sync.
+            </p>
+          </div>
 
-          <div className="row_alignment" style={{ gap: '24px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-            <div className="integration_tools_tabs_wrapper">
-              {toolCategories.map((t, idx) => (
-                <span key={idx} onClick={() => setToolTab(idx)} className={toolTab === idx ? 'active' : ''}>
-                  {t.name}
-                </span>
-              ))}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '28px', alignItems: 'flex-start' }}>
+            
+            {/* Left Column: Category Navigator */}
+            <div style={{
+              flex: '0 0 320px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '6px',
+              background: '#ffffff',
+              borderRadius: '18px',
+              padding: '12px',
+              border: '1px solid #e2e8f0',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.03)'
+            }}>
+              <div style={{ padding: '8px 12px', fontSize: '12px', fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                Tool Categories
+              </div>
+              {toolCategories.map((t, idx) => {
+                const isActive = toolTab === idx;
+                const IconComponent = t.icon || Layers;
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => setToolTab(idx)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '12px 14px',
+                      borderRadius: '10px',
+                      border: isActive ? '1px solid #1e95d3' : '1px solid transparent',
+                      background: isActive ? '#f0f9ff' : 'transparent',
+                      color: isActive ? '#0284c7' : '#475569',
+                      fontWeight: isActive ? 700 : 500,
+                      cursor: 'pointer',
+                      textAlign: 'left',
+                      transition: 'all 0.2s ease',
+                      width: '100%'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.background = '#f8fafc';
+                        e.currentTarget.style.color = '#0f172a';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) {
+                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.color = '#475569';
+                      }
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <div style={{
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '8px',
+                        background: isActive ? '#1e95d3' : '#f1f5f9',
+                        color: isActive ? '#ffffff' : '#64748b',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0
+                      }}>
+                        <IconComponent size={16} />
+                      </div>
+                      <span style={{ fontSize: '13.5px' }}>{t.name}</span>
+                    </div>
+                    <span style={{
+                      fontSize: '11px',
+                      fontWeight: 700,
+                      padding: '2px 8px',
+                      borderRadius: '12px',
+                      background: isActive ? '#e0f2fe' : '#f1f5f9',
+                      color: isActive ? '#0369a1' : '#94a3b8'
+                    }}>
+                      {t.tools ? t.tools.length : t.count}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
-            <div className="column_alignment fill">
-              <div className="integration_tools_logo_wrapper">
-                {Array.from({ length: currentToolCategory.count }, (_, i) => i + 1).map((num) => (
-                  <img
-                    key={num}
-                    src={getAssetUrl(`tools/${currentToolCategory.dir}/logo_${num}.png`)}
-                    onError={(e) => { e.currentTarget.src = `https://www.aasaanerp.com/static/main/images/tools/${currentToolCategory.dir}/logo_${num}.png`; }}
-                    alt={`${currentToolCategory.name} Logo ${num}`}
-                  />
-                ))}
+
+            {/* Right Column: Connected App Directory Grid */}
+            <div style={{ flex: '1 1 560px', display: 'flex', flexDirection: 'column', gap: '18px' }}>
+              
+              {/* Category Header Bar */}
+              <div style={{
+                background: '#ffffff',
+                border: '1px solid #e2e8f0',
+                borderRadius: '16px',
+                padding: '20px 24px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: '12px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
+              }}>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
+                    <h3 style={{ fontSize: '19px', fontWeight: 800, color: '#0f172a', margin: 0 }}>
+                      {currentToolCategory.name}
+                    </h3>
+                    <span style={{
+                      fontSize: '11px',
+                      fontWeight: 700,
+                      background: 'rgba(30,149,211,0.1)',
+                      color: '#0284c7',
+                      padding: '2px 8px',
+                      borderRadius: '6px'
+                    }}>
+                      {currentToolCategory.badge || 'Verified Stack'}
+                    </span>
+                  </div>
+                  <p style={{ fontSize: '13.5px', color: '#64748b', margin: 0, lineHeight: 1.5 }}>
+                    {currentToolCategory.description || 'Seamless bi-directional integration with your core enterprise stack.'}
+                  </p>
+                </div>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  background: '#ecfdf5',
+                  color: '#059669',
+                  border: '1px solid #a7f3d0',
+                  padding: '4px 12px',
+                  borderRadius: '20px',
+                  fontSize: '12px',
+                  fontWeight: 700
+                }}>
+                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981' }}></div>
+                  <span>100% Cloud Connected</span>
+                </div>
+              </div>
+
+              {/* Cards Grid */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+                gap: '14px'
+              }}>
+                {currentToolCategory.tools ? (
+                  currentToolCategory.tools.map((tool, tIdx) => {
+                    const logoIndex = (tIdx % currentToolCategory.tools.length) + 1;
+                    return (
+                      <div
+                        key={tIdx}
+                        style={{
+                          background: '#ffffff',
+                          border: '1px solid #e2e8f0',
+                          borderRadius: '14px',
+                          padding: '16px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '12px',
+                          boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
+                          transition: 'all 0.25s ease'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-3px)';
+                          e.currentTarget.style.borderColor = 'rgba(30,149,211,0.35)';
+                          e.currentTarget.style.boxShadow = '0 10px 22px rgba(30,149,211,0.1)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'translateY(0)';
+                          e.currentTarget.style.borderColor = '#e2e8f0';
+                          e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.02)';
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                          <div style={{
+                            width: '52px',
+                            height: '52px',
+                            background: '#f8fafc',
+                            borderRadius: '10px',
+                            border: '1px solid #e2e8f0',
+                            padding: '6px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            overflow: 'hidden'
+                          }}>
+                            <img
+                              src={getAssetUrl(`tools/${currentToolCategory.dir}/logo_${logoIndex}.png`)}
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                if (e.currentTarget.parentNode) {
+                                  e.currentTarget.parentNode.innerText = tool.name.substring(0, 2).toUpperCase();
+                                  e.currentTarget.parentNode.style.fontWeight = '800';
+                                  e.currentTarget.parentNode.style.color = '#1e95d3';
+                                }
+                              }}
+                              alt={tool.name}
+                              style={{ maxHeight: '38px', maxWidth: '42px', objectFit: 'contain' }}
+                            />
+                          </div>
+                          <span style={{
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            padding: '3px 8px',
+                            borderRadius: '6px',
+                            background: '#f0fdf4',
+                            color: '#16a34a',
+                            border: '1px solid #bbf7d0',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}>
+                            <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#16a34a' }}></span>
+                            {tool.status}
+                          </span>
+                        </div>
+
+                        <div>
+                          <div style={{ fontSize: '15px', fontWeight: 800, color: '#0f172a' }}>{tool.name}</div>
+                          <div style={{ fontSize: '12px', color: '#64748b', marginTop: '2px' }}>{tool.type}</div>
+                        </div>
+
+                        <div style={{
+                          borderTop: '1px solid #f1f5f9',
+                          paddingTop: '8px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          fontSize: '11.5px',
+                          color: '#1e95d3',
+                          fontWeight: 600
+                        }}>
+                          <span>Native Connector</span>
+                          <CheckCircle2 size={13} style={{ color: '#10b981' }} />
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  Array.from({ length: currentToolCategory.count }, (_, i) => i + 1).map((num) => (
+                    <div
+                      key={num}
+                      style={{
+                        background: '#ffffff',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: '12px',
+                        padding: '16px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        minHeight: '80px'
+                      }}
+                    >
+                      <img
+                        src={getAssetUrl(`tools/${currentToolCategory.dir}/logo_${num}.png`)}
+                        onError={(e) => { e.currentTarget.src = `https://www.aasaanerp.com/static/main/images/tools/${currentToolCategory.dir}/logo_${num}.png`; }}
+                        alt={`${currentToolCategory.name} Logo ${num}`}
+                        style={{ maxHeight: '42px', maxWidth: '100px', objectFit: 'contain' }}
+                      />
+                    </div>
+                  ))
+                )}
               </div>
             </div>
+
           </div>
+
+          {/* Ecosystem Capabilities Security Strip */}
+          <div style={{
+            marginTop: '44px',
+            background: '#ffffff',
+            border: '1px solid #e2e8f0',
+            borderRadius: '18px',
+            padding: '24px 30px',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.03)',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gap: '24px'
+          }}>
+            {[
+              { icon: ShieldCheck, title: 'Enterprise REST APIs', desc: 'Secure tokenized endpoints for custom ERP integrations.' },
+              { icon: Zap, title: 'Real-Time Webhooks', desc: 'Sub-100ms event notifications for payments and orders.' },
+              { icon: Lock, title: 'AES-256 Encryption', desc: 'End-to-end encrypted payload transit and token protection.' },
+              { icon: RefreshCw, title: 'Two-Way Syncing', desc: 'Automated conflict resolution ensuring single source of truth.' }
+            ].map((feature, fIdx) => (
+              <div key={fIdx} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                <div style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '10px',
+                  background: 'rgba(30,149,211,0.1)',
+                  color: '#1e95d3',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0
+                }}>
+                  <feature.icon size={18} />
+                </div>
+                <div>
+                  <div style={{ fontSize: '14px', fontWeight: 700, color: '#0f172a' }}>{feature.title}</div>
+                  <div style={{ fontSize: '12px', color: '#64748b', lineHeight: 1.45, marginTop: '2px' }}>{feature.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
         </div>
       </div>
 
