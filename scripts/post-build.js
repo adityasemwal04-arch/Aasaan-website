@@ -101,6 +101,16 @@ const seoPages = [
     route: 'blog/waste-management-recycling',
     title: 'Waste Management & Recycling ERP: CPCB Compliance & Weighbridge Sync | Aasaan ERP',
     desc: 'Flagship AWM solution for municipal, industrial, biomedical, and e-waste operators with live weighbridge gross/tare capture.'
+  },
+  {
+    route: 'services',
+    title: 'ERP Services - Implementation, Cloud, AI & Support | Aasaan ERP',
+    desc: 'Full lifecycle ERP services: implementation, custom development, cloud infrastructure, AI consulting, training, and 24/7 managed support. Enterprise go-live in 7 days.'
+  },
+  {
+    route: 'about',
+    title: 'About Us - The Aasaan ERP Story, Mission & Team | Aasaan ERP',
+    desc: 'Learn about Aasaan ERP — founded in 2014 to make enterprise software genuinely simple. Meet our leadership team, discover our values, and explore our decade of innovation.'
   }
 ];
 

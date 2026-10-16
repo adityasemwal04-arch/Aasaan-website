@@ -33,6 +33,16 @@ export const SEO_DATA = {
     title: 'Admin Dashboard - Aasaan ERP Management Console',
     description: 'Manage demo leads, customer queries, active announcements, and publication of ERP industry blogs.',
     keywords: 'ERP dashboard, CMS admin'
+  },
+  services: {
+    title: 'ERP Services - Implementation, Cloud, AI & Support | Aasaan ERP',
+    description: 'Full lifecycle ERP services: implementation, custom development, cloud infrastructure, AI consulting, training, and 24/7 managed support. Enterprise go-live in 7 days.',
+    keywords: 'ERP implementation services, ERP consulting, cloud ERP services, AI ERP, ERP training, managed ERP support'
+  },
+  about: {
+    title: 'About Us - The Aasaan ERP Story, Mission & Team | Aasaan ERP',
+    description: 'Learn about Aasaan ERP — founded in 2014 to make enterprise software genuinely simple. Meet our leadership team, discover our values, and explore our decade of innovation.',
+    keywords: 'about Aasaan ERP, ERP company India, enterprise software company, ERP team, Aasaan mission'
   }
 };
 

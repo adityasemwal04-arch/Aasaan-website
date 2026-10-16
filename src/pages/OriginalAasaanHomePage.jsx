@@ -1977,13 +1977,19 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                             overflow: 'hidden'
                           }}>
                             <img
-                              src={getAssetUrl(`tools/${currentToolCategory.dir}/logo_${logoIndex}.png`)}
+                              src={`https://www.aasaanerp.com/static/main/images/tools/${currentToolCategory.dir}/logo_${logoIndex}.png`}
                               onError={(e) => {
-                                e.currentTarget.style.display = 'none';
-                                if (e.currentTarget.parentNode) {
-                                  e.currentTarget.parentNode.innerText = tool.name.substring(0, 2).toUpperCase();
-                                  e.currentTarget.parentNode.style.fontWeight = '800';
-                                  e.currentTarget.parentNode.style.color = '#1e95d3';
+                                const localSrc = getAssetUrl(`tools/${currentToolCategory.dir}/logo_${logoIndex}.png`);
+                                if (e.currentTarget.src !== localSrc) {
+                                  e.currentTarget.src = localSrc;
+                                } else {
+                                  e.currentTarget.style.display = 'none';
+                                  if (e.currentTarget.parentNode) {
+                                    e.currentTarget.parentNode.innerText = tool.name.substring(0, 2).toUpperCase();
+                                    e.currentTarget.parentNode.style.fontWeight = '800';
+                                    e.currentTarget.parentNode.style.color = '#1e95d3';
+                                    e.currentTarget.parentNode.style.fontSize = '12px';
+                                  }
                                 }
                               }}
                               alt={tool.name}

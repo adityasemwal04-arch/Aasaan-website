@@ -140,6 +140,20 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
             AWM Waste Management
           </a>
           <a
+            href={getRoutePath('services')}
+            onClick={(e) => handleNavClick('services', e)}
+            style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#212121', textDecoration: 'none' }}
+          >
+            Services
+          </a>
+          <a
+            href={getRoutePath('about')}
+            onClick={(e) => handleNavClick('about', e)}
+            style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#212121', textDecoration: 'none' }}
+          >
+            About Us
+          </a>
+          <a
             href={getRoutePath('partners')}
             onClick={(e) => handleNavClick('partners', e)}
             style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#212121', textDecoration: 'none' }}
@@ -339,16 +353,8 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
 
             <a
               className="menu_item"
-              href={currentPage === 'home' ? '#modules' : getRoutePath('home') + '#modules'}
-              onClick={(e) => {
-                if (currentPage === 'home') {
-                  e.preventDefault();
-                  const el = document.getElementById('modules');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  window.location.href = getRoutePath('home') + '#modules';
-                }
-              }}
+              href={getRoutePath('services')}
+              onClick={(e) => handleNavClick('services', e)}
             >
               <span>Services</span>
             </a>
@@ -371,16 +377,8 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
 
             <a
               className="menu_item"
-              href={currentPage === 'home' ? '#about' : getRoutePath('home') + '#about'}
-              onClick={(e) => {
-                if (currentPage === 'home') {
-                  e.preventDefault();
-                  const el = document.getElementById('about');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  window.location.href = getRoutePath('home') + '#about';
-                }
-              }}
+              href={getRoutePath('about')}
+              onClick={(e) => handleNavClick('about', e)}
             >
               <span>About Us</span>
             </a>

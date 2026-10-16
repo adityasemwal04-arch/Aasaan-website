@@ -53,6 +53,8 @@ export function parseRoute() {
   if (cleaned === 'lite' || cleaned.endsWith('/lite')) return { page: 'lite', hadHash };
   if (cleaned === 'awm' || cleaned.endsWith('/awm')) return { page: 'awm', hadHash };
   if (cleaned === 'partners' || cleaned === 'partner' || cleaned.endsWith('/partners')) return { page: 'partners', hadHash };
+  if (cleaned === 'services' || cleaned.endsWith('/services')) return { page: 'services', hadHash };
+  if (cleaned === 'about' || cleaned === 'about-us' || cleaned.endsWith('/about') || cleaned.endsWith('/about-us')) return { page: 'about', hadHash };
 
   return { page: 'home', hadHash };
 }

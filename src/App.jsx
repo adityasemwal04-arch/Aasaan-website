@@ -13,6 +13,8 @@ import PartnersPage from './pages/PartnersPage';
 import LoginPage from './pages/LoginPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import BlogDetailPage from './pages/BlogDetailPage';
+import ServicesPage from './pages/ServicesPage';
+import AboutUsPage from './pages/AboutUsPage';
 
 import { parseRoute, getRoutePath } from './utils/navigation';
 import { updateMetaTags } from './utils/seoHelper';
@@ -150,6 +152,18 @@ export default function App() {
         )}
         {currentPage === 'partners' && (
           <PartnersPage
+            onOpenDemo={() => setIsDemoOpen(true)}
+            onNavigate={handleNavigate}
+          />
+        )}
+        {currentPage === 'services' && (
+          <ServicesPage
+            onOpenDemo={() => setIsDemoOpen(true)}
+            onNavigate={handleNavigate}
+          />
+        )}
+        {currentPage === 'about' && (
+          <AboutUsPage
             onOpenDemo={() => setIsDemoOpen(true)}
             onNavigate={handleNavigate}
           />
