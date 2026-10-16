@@ -5,15 +5,16 @@ export function getBasePath() {
   return match ? match[1] : '';
 }
 
-// Map a pageId to a clean URL path
+// Map a pageId to a clean URL path with consistent directory structure
 export function getRoutePath(pageId) {
   const base = getBasePath();
   if (!pageId || pageId === 'home') return base ? `${base}/` : '/';
   if (pageId.startsWith('blog/')) {
     const slug = pageId.replace('blog/', '');
-    return `${base}/blog/${slug}`;
+    return `${base}/blog/${slug}/`;
   }
-  return `${base}/${pageId.replace(/^\//, '')}`;
+  const cleanId = pageId.replace(/^\/+|\/+$/g, '');
+  return `${base}/${cleanId}/`;
 }
 
 // Parse current URL (pathname primary, hash fallback)
@@ -35,11 +36,13 @@ export function parseRoute() {
     hadHash = true;
   }
 
-  // Remove leading and trailing slashes for clean matching
-  const cleaned = activePath.replace(/^\/+|\/+$/g, '').toLowerCase();
+  // Remove index.html / index.htm and leading/trailing slashes for clean matching
+  let cleaned = activePath.replace(/^\/+|\/+$/g, '').toLowerCase();
+  cleaned = cleaned.replace(/\/?index\.(html?|php)$/i, '');
+  cleaned = cleaned.replace(/\/+$/, '');
 
   if (cleaned.startsWith('blog/')) {
-    const rawSlug = (hadHash ? hash.slice(7) : activePath.replace(/^\/?blog\//i, '')).split('?')[0].split('#')[0].trim();
+    const rawSlug = (hadHash ? hash.slice(7) : activePath.replace(/^\/?blog\//i, '')).split('?')[0].split('#')[0].replace(/\/?index\.(html?|php)$/i, '').replace(/\/+$/, '').trim();
     return {
       page: 'blog',
       slug: rawSlug || 'manufacturing-engineering',

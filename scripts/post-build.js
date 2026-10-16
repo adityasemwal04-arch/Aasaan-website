@@ -177,8 +177,15 @@ for (const baseDest of springBootStaticDirs) {
       fs.cpSync(toolsSrc, toolsDest, { recursive: true });
       console.log('✓ Synced tools to', toolsDest);
     }
+
+    const imagesSrc = path.resolve('public/images');
+    const imagesDest = path.join(fullBaseDest, 'images');
+    if (fs.existsSync(imagesSrc)) {
+      fs.cpSync(imagesSrc, imagesDest, { recursive: true });
+      console.log('✓ Synced images to', imagesDest);
+    }
   } catch (e) {
-    console.error('Error copying tools to', baseDest, e.message);
+    console.error('Error copying assets to', baseDest, e.message);
   }
 }
 
