@@ -27,7 +27,7 @@ import {
   Database,
   Code2
 } from 'lucide-react';
-import { getAssetUrl, handleImageError } from '../utils/assetHelper';
+import { getAssetUrl, handleImageError, getToolLogoUrl } from '../utils/assetHelper';
 import { getRoutePath } from '../utils/navigation';
 import heroImg from '../assets/aasaan_erp_header_desktop.png';
 import aasaanLogoSrc from '../assets/aasaan-logo.png';
@@ -36,6 +36,7 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
   const [whyTab, setWhyTab] = useState(0);
   const [clientTab, setClientTab] = useState(0);
   const [toolTab, setToolTab] = useState(0);
+  const [logoErrors, setLogoErrors] = useState({});
 
   const clients = [
     {
@@ -1976,19 +1977,25 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                             justifyContent: 'center',
                             overflow: 'hidden'
                           }}>
-                            <img
-                              src={`${window.location.origin}/tools/${currentToolCategory.dir}/logo_${logoIndex}.png`}
-                              onError={(e) => {
-                                // Only try once — prevent infinite loop
-                                e.currentTarget.onerror = null;
-                                e.currentTarget.style.display = 'none';
-                                if (e.currentTarget.parentNode) {
-                                  e.currentTarget.parentNode.innerHTML = `<span style="font-size:10px;font-weight:800;color:#1e95d3;">${tool.name.substring(0, 2).toUpperCase()}</span>`;
-                                }
-                              }}
-                              alt={tool.name}
-                              style={{ maxHeight: '38px', maxWidth: '42px', objectFit: 'contain' }}
-                            />
+                            {logoErrors[`${currentToolCategory.dir}_${logoIndex}`] ? (
+                              <span style={{ fontSize: '11px', fontWeight: 800, color: '#1e95d3' }}>
+                                {tool.name.substring(0, 2).toUpperCase()}
+                              </span>
+                            ) : (
+                              <img
+                                src={getToolLogoUrl(currentToolCategory.dir, logoIndex)}
+                                onError={(e) => {
+                                  const cdnUrl = `https://www.aasaanerp.com/static/main/images/tools/${currentToolCategory.dir}/logo_${logoIndex}.png`;
+                                  if (e.currentTarget.src !== cdnUrl) {
+                                    e.currentTarget.src = cdnUrl;
+                                  } else {
+                                    setLogoErrors(prev => ({ ...prev, [`${currentToolCategory.dir}_${logoIndex}`]: true }));
+                                  }
+                                }}
+                                alt={tool.name}
+                                style={{ maxHeight: '38px', maxWidth: '42px', objectFit: 'contain' }}
+                              />
+                            )}
                           </div>
                           <span style={{
                             fontSize: '11px',
@@ -2044,8 +2051,15 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                       }}
                     >
                       <img
-                        src={`${window.location.origin}/tools/${currentToolCategory.dir}/logo_${num}.png`}
-                        onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.style.display = 'none'; }}
+                        src={getToolLogoUrl(currentToolCategory.dir, num)}
+                        onError={(e) => {
+                          const cdnUrl = `https://www.aasaanerp.com/static/main/images/tools/${currentToolCategory.dir}/logo_${num}.png`;
+                          if (e.currentTarget.src !== cdnUrl) {
+                            e.currentTarget.src = cdnUrl;
+                          } else {
+                            e.currentTarget.style.display = 'none';
+                          }
+                        }}
                         alt={`${currentToolCategory.name} Logo ${num}`}
                         style={{ maxHeight: '42px', maxWidth: '100px', objectFit: 'contain' }}
                       />
