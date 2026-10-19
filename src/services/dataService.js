@@ -1036,6 +1036,54 @@ export async function getLeads() {
   return finalLeads;
 }
 
+export const AASAAN_OFFICIAL_LEAD_API = 'https://erplite.aasaan.in/rest/import_leads_into_aasaan?id=iNmozr7dtS2mWFJfIrjgUQ';
+export const AASAAN_OFFICIAL_API_KEY = 'CE114E4501D2F4E2DCEA3E17B546F339';
+
+/**
+ * Directly submit lead to Aasaan ERP Official REST API Endpoint
+ * Headers: Content-Type: application/json, apikey: CE114E4501D2F4E2DCEA3E17B546F339
+ */
+export async function sendLeadToOfficialAasaanApi(leadData) {
+  const phone = (leadData.phone || leadData.mobile || '').trim();
+  const solution = leadData.solution || 'Aasaan Enterprises';
+  const requirementText = leadData.message 
+    ? `[Product: ${solution}] ${leadData.message}` 
+    : `Requested demo for ${solution}`;
+
+  const payload = {
+    name: leadData.name || '',
+    prefix: 'Mr.',
+    mobile: phone,
+    phone: phone,
+    email: leadData.email || '',
+    company: leadData.company || '',
+    address: leadData.address || leadData.country || 'India',
+    pincode: leadData.pincode || '110026',
+    website: leadData.website || '',
+    gstin: leadData.gstin || '',
+    requirement: requirementText,
+    leadStatus: 'New',
+    industry: solution
+  };
+
+  try {
+    const res = await fetch(AASAAN_OFFICIAL_LEAD_API, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': AASAAN_OFFICIAL_API_KEY
+      },
+      body: JSON.stringify(payload)
+    });
+    const resultText = await res.text();
+    console.log('Official Aasaan ERP Lead API response:', resultText);
+    return { success: res.ok, response: resultText };
+  } catch (err) {
+    console.warn('Official Aasaan ERP Lead API error:', err);
+    return { success: false, error: err.message };
+  }
+}
+
 export async function saveLead(leadData) {
   const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
   const newLead = {
@@ -1045,13 +1093,18 @@ export async function saveLead(leadData) {
     company: leadData.company || '',
     email: leadData.email || '',
     phone: leadData.phone || '',
-    solution: leadData.solution || 'ERP Global',
+    solution: leadData.solution || 'Aasaan Enterprises',
     country: leadData.country || 'India',
     message: leadData.message || '',
     status: 'New'
   };
 
-  // 1. Try backend server
+  // 1. Transmit to official Aasaan ERP Lead API
+  sendLeadToOfficialAasaanApi(leadData).catch(err => {
+    console.warn('Official API async dispatch notice:', err);
+  });
+
+  // 2. Try backend server
   try {
     await fetch(`${BACKEND_URL}/leads`, {
       method: 'POST',
@@ -1062,7 +1115,7 @@ export async function saveLead(leadData) {
     // server offline, proceed with local
   }
 
-  // 2. Always persist in localStorage
+  // 3. Always persist in localStorage
   const existing = await getLeads();
   const updated = [newLead, ...existing.filter(l => l.id !== newLead.id)];
   localStorage.setItem('aasaan_demo_queries', JSON.stringify(updated));

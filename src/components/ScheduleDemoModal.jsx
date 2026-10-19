@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, CheckCircle, Sparkles, Send, Check } from 'lucide-react';
 import { saveQueryToStorage, syncLeadToBackend } from '../utils/excelExport';
-import { saveLead } from '../services/dataService';
+import { saveLead, sendLeadToOfficialAasaanApi } from '../services/dataService';
 
 export default function ScheduleDemoModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
@@ -24,11 +24,14 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
     setIsSyncing(true);
 
     try {
-      // 1. Save query to persistent storage & backend API
+      // 1. Submit lead directly to Official Aasaan ERP REST API
+      await sendLeadToOfficialAasaanApi(formData);
+
+      // 2. Save query to persistent storage & backend API
       saveQueryToStorage(formData);
       await saveLead(formData);
 
-      // 2. Transmit to Cloud Spreadsheet Webhook / Backend Excel
+      // 3. Transmit to Cloud Spreadsheet Webhook / Backend Excel
       await syncLeadToBackend(formData);
     } catch (err) {
       console.warn('Lead capture error:', err);

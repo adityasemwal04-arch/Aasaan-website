@@ -25,6 +25,9 @@ export function getStoredQueries() {
   }
 }
 
+export const AASAAN_OFFICIAL_LEAD_API = 'https://erplite.aasaan.in/rest/import_leads_into_aasaan?id=iNmozr7dtS2mWFJfIrjgUQ';
+export const AASAAN_OFFICIAL_API_KEY = 'CE114E4501D2F4E2DCEA3E17B546F339';
+
 /**
  * Saves a new query to localStorage (local backup store)
  */
@@ -39,7 +42,7 @@ export function saveQueryToStorage(leadData) {
       company: leadData.company || '',
       email: leadData.email || '',
       phone: leadData.phone || '',
-      solution: leadData.solution || 'ERP Global',
+      solution: leadData.solution || 'Aasaan Enterprises',
       country: leadData.country || 'India',
       message: leadData.message || '',
       status: 'New Demo Lead'
@@ -54,7 +57,7 @@ export function saveQueryToStorage(leadData) {
 }
 
 /**
- * Sends lead to Cloud Spreadsheet Webhook (works globally from any device)
+ * Sends lead to Official Aasaan ERP REST API, Cloud Spreadsheet Webhook,
  * and falls back to local dev server endpoint if running on localhost.
  */
 export async function syncLeadToBackend(leadData) {
@@ -65,10 +68,50 @@ export async function syncLeadToBackend(leadData) {
     status: 'New Demo Lead'
   };
 
+  let syncedOfficial = false;
   let syncedCloud = false;
   let syncedLocal = false;
 
-  // 1. Send to Cloud Webhook (Accessible globally from any browser / mobile device)
+  // 1. Transmit directly to official Aasaan ERP Lead API
+  try {
+    const phone = (leadData.phone || leadData.mobile || '').trim();
+    const solution = leadData.solution || 'Aasaan Enterprises';
+    const requirementText = leadData.message 
+      ? `[Product: ${solution}] ${leadData.message}` 
+      : `Requested demo for ${solution}`;
+
+    const officialPayload = {
+      name: leadData.name || '',
+      prefix: 'Mr.',
+      mobile: phone,
+      phone: phone,
+      email: leadData.email || '',
+      company: leadData.company || '',
+      address: leadData.address || leadData.country || 'India',
+      pincode: leadData.pincode || '110026',
+      website: leadData.website || '',
+      gstin: leadData.gstin || '',
+      requirement: requirementText,
+      leadStatus: 'New',
+      industry: solution
+    };
+
+    const res = await fetch(AASAAN_OFFICIAL_LEAD_API, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': AASAAN_OFFICIAL_API_KEY
+      },
+      body: JSON.stringify(officialPayload)
+    });
+    const result = await res.text();
+    console.log('Aasaan Official Lead API sync response:', result);
+    syncedOfficial = res.ok;
+  } catch (err) {
+    console.warn('Aasaan Official Lead API sync error:', err.message);
+  }
+
+  // 2. Send to Cloud Webhook (Accessible globally from any browser / mobile device)
   if (CLOUD_WEBHOOK_URL && CLOUD_WEBHOOK_URL.trim() !== '') {
     try {
       // mode: 'no-cors' allows sending to Google Apps Script / Power Automate without CORS issues
@@ -86,7 +129,7 @@ export async function syncLeadToBackend(leadData) {
     }
   }
 
-  // 2. Also try local Vite server (if running locally on dev server, updates local OneDrive Excel file)
+  // 3. Also try local Vite server (if running locally on dev server, updates local OneDrive Excel file)
   try {
     const res = await fetch('/api/save-demo-query', {
       method: 'POST',
@@ -103,7 +146,8 @@ export async function syncLeadToBackend(leadData) {
   }
 
   return {
-    success: syncedCloud || syncedLocal,
+    success: syncedOfficial || syncedCloud || syncedLocal,
+    syncedOfficial,
     syncedCloud,
     syncedLocal
   };
