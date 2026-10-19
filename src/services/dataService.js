@@ -1099,12 +1099,7 @@ export async function saveLead(leadData) {
     status: 'New'
   };
 
-  // 1. Transmit to official Aasaan ERP Lead API
-  sendLeadToOfficialAasaanApi(leadData).catch(err => {
-    console.warn('Official API async dispatch notice:', err);
-  });
-
-  // 2. Try backend server
+  // 1. Try backend server for Admin Dashboard
   try {
     await fetch(`${BACKEND_URL}/leads`, {
       method: 'POST',

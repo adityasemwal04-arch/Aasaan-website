@@ -16,18 +16,21 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
 
   const [submitted, setSubmitted] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
+  const isSubmittingRef = React.useRef(false);
 
   if (!isOpen) return null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isSubmittingRef.current || isSyncing) return;
+    isSubmittingRef.current = true;
     setIsSyncing(true);
 
     try {
-      // 1. Submit lead directly to Official Aasaan ERP REST API
+      // 1. Submit lead to Official Aasaan ERP REST API (single unique dispatch)
       await sendLeadToOfficialAasaanApi(formData);
 
-      // 2. Save query to persistent storage & backend API
+      // 2. Save query to persistent storage & backend API for admin dashboard
       saveQueryToStorage(formData);
       await saveLead(formData);
 
@@ -37,6 +40,7 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
       console.warn('Lead capture error:', err);
     } finally {
       setIsSyncing(false);
+      isSubmittingRef.current = false;
       setSubmitted(true);
     }
   };

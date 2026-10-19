@@ -127,60 +127,7 @@ public class LeadService {
         // Add to top of list
         inMemoryLeads.add(0, lead);
         saveToFile();
-
-        // Forward lead asynchronously to Official Aasaan ERP REST API
-        forwardToOfficialAasaanApi(lead);
-
         return lead;
-    }
-
-    private void forwardToOfficialAasaanApi(Lead lead) {
-        new Thread(() -> {
-            try {
-                String apiUrl = "https://erplite.aasaan.in/rest/import_leads_into_aasaan?id=iNmozr7dtS2mWFJfIrjgUQ";
-                String apiKey = "CE114E4501D2F4E2DCEA3E17B546F339";
-
-                String solution = lead.getSolution() != null && !lead.getSolution().isBlank()
-                        ? lead.getSolution()
-                        : "Aasaan Enterprises";
-
-                String requirement = lead.getMessage() != null && !lead.getMessage().isBlank()
-                        ? "[Product: " + solution + "] " + lead.getMessage()
-                        : "Requested demo for " + solution;
-
-                String phone = lead.getPhone() != null ? lead.getPhone() : "";
-
-                Map<String, Object> payload = new HashMap<>();
-                payload.put("name", lead.getName() != null ? lead.getName() : "");
-                payload.put("prefix", "Mr.");
-                payload.put("mobile", phone);
-                payload.put("phone", phone);
-                payload.put("email", lead.getEmail() != null ? lead.getEmail() : "");
-                payload.put("company", lead.getCompany() != null ? lead.getCompany() : "");
-                payload.put("address", lead.getCountry() != null && !lead.getCountry().isBlank() ? lead.getCountry() : "India");
-                payload.put("pincode", "110026");
-                payload.put("website", "");
-                payload.put("gstin", "");
-                payload.put("requirement", requirement);
-                payload.put("leadStatus", "New");
-                payload.put("industry", solution);
-
-                String jsonBody = objectMapper.writeValueAsString(payload);
-
-                HttpClient client = HttpClient.newHttpClient();
-                HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create(apiUrl))
-                        .header("Content-Type", "application/json")
-                        .header("apikey", apiKey)
-                        .POST(HttpRequest.BodyPublishers.ofString(jsonBody, StandardCharsets.UTF_8))
-                        .build();
-
-                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                System.out.println("Forwarded lead to Official Aasaan API: status=" + response.statusCode() + " body=" + response.body());
-            } catch (Exception e) {
-                System.err.println("Could not forward lead to Official Aasaan API: " + e.getMessage());
-            }
-        }).start();
     }
 
     public synchronized Optional<Lead> updateLead(Long id, Lead updatedData) {

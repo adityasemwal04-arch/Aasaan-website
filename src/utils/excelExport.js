@@ -57,7 +57,7 @@ export function saveQueryToStorage(leadData) {
 }
 
 /**
- * Sends lead to Official Aasaan ERP REST API, Cloud Spreadsheet Webhook,
+ * Sends lead to Cloud Spreadsheet Webhook (Google Sheets / Excel Online)
  * and falls back to local dev server endpoint if running on localhost.
  */
 export async function syncLeadToBackend(leadData) {
@@ -68,50 +68,10 @@ export async function syncLeadToBackend(leadData) {
     status: 'New Demo Lead'
   };
 
-  let syncedOfficial = false;
   let syncedCloud = false;
   let syncedLocal = false;
 
-  // 1. Transmit directly to official Aasaan ERP Lead API
-  try {
-    const phone = (leadData.phone || leadData.mobile || '').trim();
-    const solution = leadData.solution || 'Aasaan Enterprises';
-    const requirementText = leadData.message 
-      ? `[Product: ${solution}] ${leadData.message}` 
-      : `Requested demo for ${solution}`;
-
-    const officialPayload = {
-      name: leadData.name || '',
-      prefix: 'Mr.',
-      mobile: phone,
-      phone: phone,
-      email: leadData.email || '',
-      company: leadData.company || '',
-      address: leadData.address || leadData.country || 'India',
-      pincode: leadData.pincode || '110026',
-      website: leadData.website || '',
-      gstin: leadData.gstin || '',
-      requirement: requirementText,
-      leadStatus: 'New',
-      industry: solution
-    };
-
-    const res = await fetch(AASAAN_OFFICIAL_LEAD_API, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': AASAAN_OFFICIAL_API_KEY
-      },
-      body: JSON.stringify(officialPayload)
-    });
-    const result = await res.text();
-    console.log('Aasaan Official Lead API sync response:', result);
-    syncedOfficial = res.ok;
-  } catch (err) {
-    console.warn('Aasaan Official Lead API sync error:', err.message);
-  }
-
-  // 2. Send to Cloud Webhook (Accessible globally from any browser / mobile device)
+  // 1. Send to Cloud Webhook (Accessible globally from any browser / mobile device)
   if (CLOUD_WEBHOOK_URL && CLOUD_WEBHOOK_URL.trim() !== '') {
     try {
       // mode: 'no-cors' allows sending to Google Apps Script / Power Automate without CORS issues
@@ -146,8 +106,7 @@ export async function syncLeadToBackend(leadData) {
   }
 
   return {
-    success: syncedOfficial || syncedCloud || syncedLocal,
-    syncedOfficial,
+    success: syncedCloud || syncedLocal,
     syncedCloud,
     syncedLocal
   };
