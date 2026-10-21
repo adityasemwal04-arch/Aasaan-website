@@ -125,8 +125,28 @@ export default function AdminDashboardPage({ onNavigate }) {
   const [cloudUrlMsg, setCloudUrlMsg] = useState('');
 
   // Lead Email Notification Settings
-  const [notificationEmail, setNotificationEmail] = useState('work007life22@gmail.com');
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [notificationEmail, setNotificationEmail] = useState(() => {
+    try {
+      const saved = localStorage.getItem('aasaan_notification_settings');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && parsed.recipientEmail && parsed.recipientEmail !== 'work007life22@gmail.com') {
+          return parsed.recipientEmail;
+        }
+      }
+    } catch (e) {}
+    return 'sales@aasaanerp.com';
+  });
+  const [notificationsEnabled, setNotificationsEnabled] = useState(() => {
+    try {
+      const saved = localStorage.getItem('aasaan_notification_settings');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (typeof parsed.enabled === 'boolean') return parsed.enabled;
+      }
+    } catch (e) {}
+    return true;
+  });
   const [notificationMsg, setNotificationMsg] = useState('');
   const [isTestingNotif, setIsTestingNotif] = useState(false);
   const [testNotifMsg, setTestNotifMsg] = useState('');
@@ -169,7 +189,9 @@ export default function AdminDashboardPage({ onNavigate }) {
 
     getNotificationSettings().then((notif) => {
       if (notif) {
-        if (notif.recipientEmail) setNotificationEmail(notif.recipientEmail);
+        if (notif.recipientEmail && notif.recipientEmail !== 'work007life22@gmail.com') {
+          setNotificationEmail(notif.recipientEmail);
+        }
         if (typeof notif.enabled === 'boolean') setNotificationsEnabled(notif.enabled);
       }
     });
@@ -2091,7 +2113,7 @@ export default function AdminDashboardPage({ onNavigate }) {
                       required
                       value={notificationEmail}
                       onChange={(e) => setNotificationEmail(e.target.value)}
-                      placeholder="e.g. sales@aasaanerp.com or work007life22@gmail.com"
+                      placeholder="e.g. sales@aasaanerp.com or your-email@company.com"
                       style={{
                         width: '100%',
                         padding: '10px 14px 10px 38px',

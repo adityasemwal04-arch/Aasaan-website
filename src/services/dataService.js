@@ -1730,49 +1730,67 @@ export const deleteAwmClient = (id) => deleteSectionItem('awm-clients', 'aasaan_
 // LEAD EMAIL NOTIFICATIONS & SETTINGS
 // -------------------------------------------------------------
 const DEFAULT_NOTIFICATION_SETTINGS = {
-  recipientEmail: 'work007life22@gmail.com',
+  recipientEmail: 'sales@aasaanerp.com',
   enabled: true,
   companyAlertEmail: 'contactus@aasaanservices.in'
 };
 
 export async function getNotificationSettings() {
+  // 1. Check local storage first (instant client cache)
+  let localSettings = null;
   try {
-    const res = await fetch(`${BACKEND_URL}/settings/notifications`);
+    const raw = localStorage.getItem('aasaan_notification_settings');
+    if (raw) {
+      localSettings = JSON.parse(raw);
+      // Clean up legacy test email if it got saved previously
+      if (localSettings && localSettings.recipientEmail === 'work007life22@gmail.com') {
+        localSettings.recipientEmail = 'sales@aasaanerp.com';
+        localStorage.setItem('aasaan_notification_settings', JSON.stringify(localSettings));
+      }
+    }
+  } catch (e) {}
+
+  // 2. Attempt to sync from backend if online with short timeout
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+    const res = await fetch(`${BACKEND_URL}/settings/notifications`, { signal: controller.signal });
+    clearTimeout(timeoutId);
     if (res.ok) {
       const data = await res.json();
-      if (data && data.recipientEmail) {
+      if (data && data.recipientEmail && data.recipientEmail !== 'work007life22@gmail.com') {
         localStorage.setItem('aasaan_notification_settings', JSON.stringify(data));
         return data;
       }
     }
   } catch (e) {
-    // Offline/fallback to localStorage
+    // Backend offline / timed out
   }
 
-  try {
-    const raw = localStorage.getItem('aasaan_notification_settings');
-    if (raw) return JSON.parse(raw);
-  } catch (e) {}
-
-  return DEFAULT_NOTIFICATION_SETTINGS;
+  return localSettings || DEFAULT_NOTIFICATION_SETTINGS;
 }
 
 export async function saveNotificationSettings(settings) {
-  const merged = { ...DEFAULT_NOTIFICATION_SETTINGS, ...settings };
+  const current = await getNotificationSettings();
+  const merged = { ...current, ...settings };
   localStorage.setItem('aasaan_notification_settings', JSON.stringify(merged));
 
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2500);
     const res = await fetch(`${BACKEND_URL}/settings/notifications`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(merged)
+      body: JSON.stringify(merged),
+      signal: controller.signal
     });
+    clearTimeout(timeoutId);
     if (res.ok) {
       const data = await res.json();
       return data;
     }
   } catch (e) {
-    console.warn('Backend settings sync failed (using local store):', e.message);
+    console.warn('Backend settings sync failed (persisted in browser storage):', e.message);
   }
 
   return merged;
@@ -1788,7 +1806,7 @@ export async function sendLeadEmailNotification(leadData, recipientEmailOverride
       return { success: false, reason: 'Notifications disabled' };
     }
 
-    const targetEmail = recipientEmailOverride || settings.recipientEmail || 'work007life22@gmail.com';
+    const targetEmail = recipientEmailOverride || settings.recipientEmail || 'sales@aasaanerp.com';
     const timestamp = leadData.timestamp || new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 
     // Use FormSubmit AJAX service - sends formatted email directly to recipientEmail with zero setup needed

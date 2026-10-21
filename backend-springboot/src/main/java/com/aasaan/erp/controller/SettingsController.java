@@ -35,8 +35,9 @@ public class SettingsController {
         settingsFile = new File(dataDir, "notification_settings.json");
         loadSettings();
 
-        if (notificationSettings.isEmpty() || !notificationSettings.containsKey("recipientEmail")) {
-            notificationSettings.put("recipientEmail", "work007life22@gmail.com");
+        if (notificationSettings.isEmpty() || !notificationSettings.containsKey("recipientEmail") 
+            || "work007life22@gmail.com".equals(notificationSettings.get("recipientEmail"))) {
+            notificationSettings.put("recipientEmail", "sales@aasaanerp.com");
             notificationSettings.put("enabled", true);
             notificationSettings.put("updatedAt", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             saveSettings();
