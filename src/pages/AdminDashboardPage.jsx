@@ -61,7 +61,10 @@ import {
   saveAwmClient,
   deleteAwmClient,
   getCustomBackendUrl,
-  setCustomBackendUrl
+  setCustomBackendUrl,
+  getNotificationSettings,
+  saveNotificationSettings,
+  sendTestNotification
 } from '../services/dataService';
 import { getRoutePath } from '../utils/navigation';
 import AasaanLogo from '../components/AasaanLogo';
@@ -121,6 +124,13 @@ export default function AdminDashboardPage({ onNavigate }) {
   const [cloudUrl, setCloudUrl] = useState(getCustomBackendUrl());
   const [cloudUrlMsg, setCloudUrlMsg] = useState('');
 
+  // Lead Email Notification Settings
+  const [notificationEmail, setNotificationEmail] = useState('work007life22@gmail.com');
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [notificationMsg, setNotificationMsg] = useState('');
+  const [isTestingNotif, setIsTestingNotif] = useState(false);
+  const [testNotifMsg, setTestNotifMsg] = useState('');
+
   useEffect(() => {
     const auth = getAdminAuth();
     if (!auth) {
@@ -156,6 +166,13 @@ export default function AdminDashboardPage({ onNavigate }) {
     setAwmModulesList(fetchedAM);
     setAwmClientsList(fetchedAC);
     setLoadingLeads(false);
+
+    getNotificationSettings().then((notif) => {
+      if (notif) {
+        if (notif.recipientEmail) setNotificationEmail(notif.recipientEmail);
+        if (typeof notif.enabled === 'boolean') setNotificationsEnabled(notif.enabled);
+      }
+    });
 
     const targetBlogSlug = localStorage.getItem('aasaan_admin_target_blog');
     if (targetBlogSlug) {
@@ -407,6 +424,40 @@ export default function AdminDashboardPage({ onNavigate }) {
       setCloudUrlMsg(cloudUrl ? 'Saved, but could not connect yet. Check URL or wait for cloud server to boot.' : 'Reset to default backend.');
     }
     setTimeout(() => setCloudUrlMsg(''), 6000);
+  };
+
+  const handleSaveNotificationSettings = async (e) => {
+    e.preventDefault();
+    setNotificationMsg('');
+    try {
+      const cleanEmail = notificationEmail.trim();
+      const updated = await saveNotificationSettings({
+        recipientEmail: cleanEmail,
+        enabled: notificationsEnabled
+      });
+      setNotificationMsg(`Saved! Demo inquiries will now trigger alerts to ${cleanEmail}`);
+      setTimeout(() => setNotificationMsg(''), 6000);
+    } catch (err) {
+      setNotificationMsg('Error saving notification settings: ' + err.message);
+    }
+  };
+
+  const handleSendTestNotification = async () => {
+    setIsTestingNotif(true);
+    setTestNotifMsg('Sending test lead alert to ' + notificationEmail + '...');
+    try {
+      const res = await sendTestNotification(notificationEmail.trim());
+      if (res.success) {
+        setTestNotifMsg(`Test email sent successfully to ${notificationEmail}! Please check inbox (and spam folder).`);
+      } else {
+        setTestNotifMsg(`Notice: ${res.reason || res.error || 'Failed to send test email.'}`);
+      }
+    } catch (err) {
+      setTestNotifMsg('Error sending test email: ' + err.message);
+    } finally {
+      setIsTestingNotif(false);
+      setTimeout(() => setTestNotifMsg(''), 7000);
+    }
   };
 
   // Announcement handlers
@@ -1954,6 +2005,165 @@ export default function AdminDashboardPage({ onNavigate }) {
         {/* ------------------------------------------------------------- */}
         {activeTab === 'settings' && (
           <div style={{ maxWidth: '680px' }}>
+            {/* Lead Email Notification & Alert Settings */}
+            <div style={{ background: '#FFFFFF', padding: '28px', borderRadius: '16px', border: '1px solid var(--border-medium)', marginBottom: '24px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div style={{
+                    width: '38px',
+                    height: '38px',
+                    borderRadius: '10px',
+                    background: '#EFF6FF',
+                    color: 'var(--primary-blue)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <Mail size={20} />
+                  </div>
+                  <div>
+                    <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 800 }}>Lead Email Notification & Alerts</h3>
+                    <p style={{ margin: 0, fontSize: '13px', color: '#64748B' }}>
+                      Configure the destination inbox for all incoming demo schedule and lead inquiries.
+                    </p>
+                  </div>
+                </div>
+                <span style={{
+                  padding: '4px 10px',
+                  borderRadius: '20px',
+                  fontSize: '11px',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
+                  background: notificationsEnabled ? '#ECFDF5' : '#F1F5F9',
+                  color: notificationsEnabled ? '#059669' : '#64748B',
+                  border: `1px solid ${notificationsEnabled ? '#A7F3D0' : '#E2E8F0'}`
+                }}>
+                  {notificationsEnabled ? '● Alerts Active' : '○ Disabled'}
+                </span>
+              </div>
+
+              {notificationMsg && (
+                <div style={{
+                  background: '#ECFDF5',
+                  color: '#065F46',
+                  border: '1px solid #A7F3D0',
+                  padding: '10px 14px',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  marginTop: '16px',
+                  marginBottom: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}>
+                  <CheckCircle size={16} />
+                  {notificationMsg}
+                </div>
+              )}
+
+              {testNotifMsg && (
+                <div style={{
+                  background: testNotifMsg.includes('successfully') ? '#ECFDF5' : '#EFF6FF',
+                  color: testNotifMsg.includes('successfully') ? '#065F46' : '#1E40AF',
+                  border: `1px solid ${testNotifMsg.includes('successfully') ? '#A7F3D0' : '#BFDBFE'}`,
+                  padding: '10px 14px',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  marginTop: '16px',
+                  marginBottom: '16px'
+                }}>
+                  {testNotifMsg}
+                </div>
+              )}
+
+              <form onSubmit={handleSaveNotificationSettings} style={{ marginTop: '18px' }}>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, marginBottom: '6px', color: '#1E293B' }}>
+                  Lead Notification Recipient Email
+                </label>
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '14px' }}>
+                  <div style={{ position: 'relative', flex: 1 }}>
+                    <Mail size={16} color="#94A3B8" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
+                    <input
+                      type="email"
+                      required
+                      value={notificationEmail}
+                      onChange={(e) => setNotificationEmail(e.target.value)}
+                      placeholder="e.g. sales@aasaanerp.com or work007life22@gmail.com"
+                      style={{
+                        width: '100%',
+                        padding: '10px 14px 10px 38px',
+                        borderRadius: '8px',
+                        border: '1px solid var(--border-medium)',
+                        fontSize: '14px',
+                        outline: 'none',
+                        boxSizing: 'border-box'
+                      }}
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    style={{
+                      background: 'var(--primary-blue)',
+                      color: '#FFFFFF',
+                      border: 'none',
+                      padding: '10px 20px',
+                      borderRadius: '8px',
+                      fontSize: '13.5px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    <Save size={15} /> Save Email
+                  </button>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 14px', background: '#F8FAFC', borderRadius: '8px', border: '1px solid #E2E8F0', marginTop: '10px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '13px', color: '#334155', fontWeight: 600 }}>
+                    <input
+                      type="checkbox"
+                      checked={notificationsEnabled}
+                      onChange={(e) => setNotificationsEnabled(e.target.checked)}
+                      style={{ width: '16px', height: '16px', cursor: 'pointer', accentColor: 'var(--primary-blue)' }}
+                    />
+                    Send instant email notification whenever a visitor schedules a demo
+                  </label>
+
+                  <button
+                    type="button"
+                    onClick={handleSendTestNotification}
+                    disabled={isTestingNotif}
+                    style={{
+                      background: '#FFFFFF',
+                      color: 'var(--primary-blue)',
+                      border: '1px solid var(--primary-blue)',
+                      padding: '6px 14px',
+                      borderRadius: '6px',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      cursor: isTestingNotif ? 'wait' : 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}
+                  >
+                    <RefreshCw size={13} className={isTestingNotif ? 'spin' : ''} />
+                    {isTestingNotif ? 'Sending...' : 'Send Test Alert'}
+                  </button>
+                </div>
+
+                <p style={{ margin: '12px 0 0', fontSize: '12px', color: '#64748B', lineHeight: 1.5 }}>
+                  💡 <strong>How it works:</strong> In addition to posting directly to Aasaan ERP Lite API, each incoming lead instantly dispatches a full summary email (Lead Name, Company, Mobile, Solution, Requirement, Date/Time) directly to this address. Only admin portal users can view or update this email recipient.
+                </p>
+              </form>
+            </div>
+
             <div style={{ background: '#FFFFFF', padding: '28px', borderRadius: '16px', border: '1px solid var(--border-medium)', marginBottom: '24px' }}>
               <h3 style={{ margin: '0 0 6px', fontSize: '18px', fontWeight: 800 }}>Change Admin Password</h3>
               <p style={{ margin: '0 0 20px', fontSize: '13.5px', color: '#64748B' }}>

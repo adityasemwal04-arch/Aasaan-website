@@ -116,14 +116,40 @@ const seoPages = [
 
 function injectSeo(html, page) {
   let updated = html;
+  const canonicalUrl = `https://www.aasaanerp.com/${page.route}/`;
+
   // Replace <title>
   updated = updated.replace(/<title>.*?<\/title>/i, `<title>${page.title}</title>`);
+  
   // Replace <meta name="description">
-  if (updated.includes('<meta name="description"')) {
+  if (updated.includes('name="description"')) {
     updated = updated.replace(/<meta name="description" content=".*?" \/>/i, `<meta name="description" content="${page.desc}" />`);
-  } else {
-    updated = updated.replace('</head>', `  <meta name="description" content="${page.desc}" />\n</head>`);
   }
+
+  // Replace Canonical Link
+  if (updated.includes('rel="canonical"')) {
+    updated = updated.replace(/<link rel="canonical" href=".*?" \/>/i, `<link rel="canonical" href="${canonicalUrl}" />`);
+  }
+
+  // Replace Open Graph Tags
+  if (updated.includes('property="og:title"')) {
+    updated = updated.replace(/<meta property="og:title" content=".*?" \/>/i, `<meta property="og:title" content="${page.title}" />`);
+  }
+  if (updated.includes('property="og:description"')) {
+    updated = updated.replace(/<meta property="og:description" content=".*?" \/>/i, `<meta property="og:description" content="${page.desc}" />`);
+  }
+  if (updated.includes('property="og:url"')) {
+    updated = updated.replace(/<meta property="og:url" content=".*?" \/>/i, `<meta property="og:url" content="${canonicalUrl}" />`);
+  }
+
+  // Replace Twitter Tags
+  if (updated.includes('name="twitter:title"')) {
+    updated = updated.replace(/<meta name="twitter:title" content=".*?" \/>/i, `<meta name="twitter:title" content="${page.title}" />`);
+  }
+  if (updated.includes('name="twitter:description"')) {
+    updated = updated.replace(/<meta name="twitter:description" content=".*?" \/>/i, `<meta name="twitter:description" content="${page.desc}" />`);
+  }
+
   return updated;
 }
 
@@ -144,7 +170,18 @@ for (const p of seoPages) {
   console.log(`✓ Pre-generated SEO page: /${p.route}/index.html`);
 }
 
-// 3. Sync to Spring Boot static resources
+// 3. Ensure robots.txt and sitemap.xml are copied to dist
+const staticFilesToDist = ['robots.txt', 'sitemap.xml', 'aasaan-logo.png'];
+for (const file of staticFilesToDist) {
+  const src = path.resolve('public', file);
+  const dest = path.resolve('dist', file);
+  if (fs.existsSync(src)) {
+    fs.copyFileSync(src, dest);
+    console.log(`✓ Copied ${file} to dist/`);
+  }
+}
+
+// 4. Sync to Spring Boot static resources
 const springBootStaticPaths = [
   'backend-springboot/src/main/resources/static/index.html',
   'backend-springboot/target/classes/static/index.html'
@@ -162,7 +199,7 @@ for (const dest of springBootStaticPaths) {
   }
 }
 
-// Copy tools directory to Spring Boot static resources as well
+// Copy public tools, images, robots.txt, sitemap.xml to Spring Boot static resources as well
 const springBootStaticDirs = [
   'backend-springboot/src/main/resources/static',
   'backend-springboot/target/classes/static'
@@ -185,6 +222,14 @@ for (const baseDest of springBootStaticDirs) {
       console.log('✓ Synced images to', imagesDest);
     }
 
+    for (const f of ['robots.txt', 'sitemap.xml', 'aasaan-logo.png']) {
+      const fSrc = path.resolve('public', f);
+      const fDest = path.join(fullBaseDest, f);
+      if (fs.existsSync(fSrc)) {
+        fs.copyFileSync(fSrc, fDest);
+      }
+    }
+
     // Sync pre-generated SEO directory pages (services, about, awm, etc.)
     for (const p of seoPages) {
       const srcDir = path.resolve('dist', p.route);
@@ -193,7 +238,7 @@ for (const baseDest of springBootStaticDirs) {
         fs.cpSync(srcDir, destDir, { recursive: true });
       }
     }
-    console.log('✓ Synced SEO pages to', fullBaseDest);
+    console.log('✓ Synced SEO pages and assets to', fullBaseDest);
   } catch (e) {
     console.error('Error copying assets to', baseDest, e.message);
   }

@@ -1726,4 +1726,123 @@ export const getAwmClients = () => getSectionItems('awm-clients', 'aasaan_awm_cl
 export const saveAwmClient = (item) => saveSectionItem('awm-clients', 'aasaan_awm_clients', item, INITIAL_AWM_CLIENTS);
 export const deleteAwmClient = (id) => deleteSectionItem('awm-clients', 'aasaan_awm_clients', id, INITIAL_AWM_CLIENTS);
 
+// -------------------------------------------------------------
+// LEAD EMAIL NOTIFICATIONS & SETTINGS
+// -------------------------------------------------------------
+const DEFAULT_NOTIFICATION_SETTINGS = {
+  recipientEmail: 'work007life22@gmail.com',
+  enabled: true,
+  companyAlertEmail: 'contactus@aasaanservices.in'
+};
+
+export async function getNotificationSettings() {
+  try {
+    const res = await fetch(`${BACKEND_URL}/settings/notifications`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.recipientEmail) {
+        localStorage.setItem('aasaan_notification_settings', JSON.stringify(data));
+        return data;
+      }
+    }
+  } catch (e) {
+    // Offline/fallback to localStorage
+  }
+
+  try {
+    const raw = localStorage.getItem('aasaan_notification_settings');
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+
+  return DEFAULT_NOTIFICATION_SETTINGS;
+}
+
+export async function saveNotificationSettings(settings) {
+  const merged = { ...DEFAULT_NOTIFICATION_SETTINGS, ...settings };
+  localStorage.setItem('aasaan_notification_settings', JSON.stringify(merged));
+
+  try {
+    const res = await fetch(`${BACKEND_URL}/settings/notifications`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(merged)
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    }
+  } catch (e) {
+    console.warn('Backend settings sync failed (using local store):', e.message);
+  }
+
+  return merged;
+}
+
+/**
+ * Sends real-time email notification alert when a lead is captured
+ */
+export async function sendLeadEmailNotification(leadData, recipientEmailOverride = null) {
+  try {
+    const settings = await getNotificationSettings();
+    if (!settings.enabled && !recipientEmailOverride) {
+      return { success: false, reason: 'Notifications disabled' };
+    }
+
+    const targetEmail = recipientEmailOverride || settings.recipientEmail || 'work007life22@gmail.com';
+    const timestamp = leadData.timestamp || new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+
+    // Use FormSubmit AJAX service - sends formatted email directly to recipientEmail with zero setup needed
+    const payload = {
+      _subject: `New Aasaan ERP Lead: ${leadData.name || 'Anonymous'} (${leadData.company || 'Not Specified'})`,
+      _template: 'table',
+      _captcha: 'false',
+      "Lead Name": leadData.name || 'N/A',
+      "Company Name": leadData.company || 'N/A',
+      "Work Email": leadData.email || 'N/A',
+      "Phone / WhatsApp": leadData.phone || leadData.mobile || 'N/A',
+      "Primary Solution": leadData.solution || 'Aasaan Enterprises',
+      "Country / Location": leadData.country || leadData.address || 'India',
+      "Requirements / Message": leadData.message || leadData.requirement || 'N/A',
+      "Submission Time (IST)": timestamp,
+      "Lead Status": "New - Follow-up Required",
+      "Source": "Aasaan ERP Official Website Demo Request"
+    };
+
+    const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(targetEmail)}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await res.json();
+    console.log('Lead notification email dispatched to', targetEmail, result);
+    return { success: true, targetEmail, result };
+  } catch (err) {
+    console.warn('Email notification dispatch error:', err.message);
+    return { success: false, error: err.message };
+  }
+}
+
+/**
+ * Sends a test lead notification email from admin portal
+ */
+export async function sendTestNotification(recipientEmail) {
+  const sampleLead = {
+    name: 'Sample Test Lead (Admin Verification)',
+    company: 'Aasaan Tech Demo Org',
+    email: 'test@aasaanerp.com',
+    phone: '+91 98765 43210',
+    solution: 'Aasaan Enterprises',
+    country: 'India',
+    message: 'This is a test notification from the Aasaan ERP Admin Portal confirming that lead alerts are correctly configured.',
+    timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+  };
+
+  return await sendLeadEmailNotification(sampleLead, recipientEmail);
+}
+
+
 
