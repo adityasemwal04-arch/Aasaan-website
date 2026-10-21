@@ -91,7 +91,7 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
               <ArrowRight size={16} style={{ marginLeft: '6px' }} />
             </button>
             <a
-              href="https://erp.aasaan.in/"
+              href="https://erpplus.aasaan.in/portal/register"
               target="_blank"
               rel="noreferrer"
               style={{
@@ -111,7 +111,7 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
               onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--colorAccent)'; e.currentTarget.style.color = 'var(--colorAccent)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#cbd5e1'; e.currentTarget.style.color = '#212121'; }}
             >
-              <span>Register at erp.aasaan.in</span>
+              <span>Register at erpplus.aasaan.in</span>
               <ExternalLink size={15} />
             </a>
           </div>
@@ -684,7 +684,7 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
               Schedule Global Demo
             </button>
             <a
-              href="https://erp.aasaan.in/"
+              href="https://erpplus.aasaan.in/portal/register"
               target="_blank"
               rel="noreferrer"
               style={{
@@ -704,7 +704,7 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
               onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.2)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; }}
             >
-              <span>Register Now at erp.aasaan.in</span>
+              <span>Register Now at erpplus.aasaan.in</span>
               <ExternalLink size={15} />
             </a>
           </div>

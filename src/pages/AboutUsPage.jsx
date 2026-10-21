@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Sparkles,
   ShieldCheck,
@@ -16,14 +16,33 @@ import {
   HeartHandshake,
   Cpu,
   Layers,
-  Building2
+  Building2,
+  Lock,
+  Server,
+  Cloud,
+  Check,
+  X as CloseIcon,
+  ChevronDown,
+  ChevronUp,
+  Quote,
+  Star,
+  FileCheck,
+  Clock,
+  Mail
 } from 'lucide-react';
 import { getAssetUrl, handleImageError } from '../utils/assetHelper';
 
 export default function AboutUsPage({ onOpenDemo }) {
+  const [activeTab, setActiveTab] = useState('comparison'); // 'comparison' | 'tech'
+  const [activeFaq, setActiveFaq] = useState(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const toggleFaq = (idx) => {
+    setActiveFaq(activeFaq === idx ? null : idx);
+  };
 
   const milestones = [
     {
@@ -92,6 +111,46 @@ export default function AboutUsPage({ onOpenDemo }) {
     { name: 'Omnichannel Retail Chains', metric: '250+ Stores' },
     { name: 'Food, Dairy & Agriculture', metric: '90+ Depots' },
     { name: 'Chemicals, Oil & Energy', metric: '60+ Sites' }
+  ];
+
+  const testimonials = [
+    {
+      quote: "Aasaan migrated our 12-year-old Tally and Excel ledgers in just 4 days with zero discrepancies. Our floor supervisors were issuing work orders and material requisitions without needing IT help.",
+      author: "Rajesh Singhania",
+      role: "Managing Director",
+      company: "Apex Precision Auto Components Ltd."
+    },
+    {
+      quote: "With AWM, our weighbridge gross/tare capture and CPCB compliance manifests are 100% automated. We saved 20+ hours every week in manual ledger entry and driver dispatch scheduling.",
+      author: "Pooja Deshmukh",
+      role: "Head of Operations",
+      company: "EcoClean Waste Solutions Pvt. Ltd."
+    },
+    {
+      quote: "Managing 35 retail outlets with real-time POS sync and automated replenishment from central warehouse used to be a nightmare. Aasaan made multi-store billing effortless.",
+      author: "Karan Mehta",
+      role: "VP Supply Chain",
+      company: "Urban Retail Brands Network"
+    }
+  ];
+
+  const aboutFaqs = [
+    {
+      q: "How long has Aasaan Services Solutions been in operation?",
+      a: "Aasaan Services Solutions Private Limited was incorporated in 2014 and has been serving enterprise clients for over 10+ continuous years. Over the decade, we have expanded to serve over 1,250+ active deployments across 20+ countries including India, the UAE, the US, and the UK."
+    },
+    {
+      q: "Where is our business data hosted, and how secure is it?",
+      a: "All client data is hosted on enterprise-grade AWS Cloud data centers with multi-Availability Zone (AZ) redundancy, automated daily snapshots, and bank-grade 256-bit AES encryption at rest and in transit. We maintain 99.98% high-availability uptime and strict role-based audit logs."
+    },
+    {
+      q: "Does Aasaan support multi-company, multi-GSTIN consolidation?",
+      a: "Yes, natively. Aasaan ERP allows large enterprise groups to operate multiple legal entities, branch offices, and separate GSTIN registrations under one unified login, generating both entity-specific ledgers and group consolidated balance sheets with a single click."
+    },
+    {
+      q: "Can we integrate Aasaan with our existing hardware and 3rd party tools?",
+      a: "Absolutely. Aasaan provides a fully documented RESTful OpenAPI suite that connects with IoT weighbridges (RS232/IP), barcode label printers, biometric attendance devices, banking APIs, payment gateways, and ecommerce platforms (Shopify, WooCommerce, Amazon)."
+    }
   ];
 
   return (
@@ -207,8 +266,8 @@ export default function AboutUsPage({ onOpenDemo }) {
                 gap: '8px',
                 transition: 'all 0.2s ease'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'}
+              onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)')}
+              onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)')}
             >
               <PhoneCall size={16} /> Contact Team: +91 92892 38814
             </a>
@@ -341,8 +400,8 @@ export default function AboutUsPage({ onOpenDemo }) {
                   gap: '8px',
                   transition: 'all 0.2s ease'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.background = '#007bb5'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'var(--primary-blue)'}
+                onMouseEnter={(e) => (e.currentTarget.style.background = '#007bb5')}
+                onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--primary-blue)')}
               >
                 Schedule Architecture Walkthrough <ArrowRight size={16} />
               </button>
@@ -377,7 +436,7 @@ export default function AboutUsPage({ onOpenDemo }) {
                   <Building2 size={24} color="var(--primary-blue)" />
                   <div>
                     <div style={{ fontSize: '13px', fontWeight: 800, color: '#0F172A' }}>Headquarters: New Delhi</div>
-                    <div style={{ fontSize: '11.5px', color: '#64748B' }}>West Punjabi Bagh, New Delhi 110026</div>
+                    <div style={{ fontSize: '11.5px', color: '#64748B' }}>17A/35, Fourth Floor, West Punjabi Bagh, New Delhi 110026</div>
                   </div>
                 </div>
               </div>
@@ -493,9 +552,141 @@ export default function AboutUsPage({ onOpenDemo }) {
       </section>
 
       {/* ======================================================== */}
-      {/* 5. 12-YEAR MILESTONES TIMELINE (2014 – 2026)             */}
+      {/* 5. AASAAN VS LEGACY SYSTEMS COMPARISON MATRIX            */}
       {/* ======================================================== */}
       <section style={{ padding: '80px 20px', background: '#F8FAFC' }}>
+        <div style={{ maxWidth: '1150px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '45px' }}>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              background: '#EFF6FF',
+              color: 'var(--primary-blue)',
+              padding: '6px 16px',
+              borderRadius: '20px',
+              fontSize: '12.5px',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
+              marginBottom: '12px'
+            }}>
+              <Zap size={14} /> Clear Competitive Advantage
+            </div>
+            <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 38px)', fontWeight: 900, color: '#0F172A', marginBottom: '14px' }}>
+              Why Modern Enterprises Choose Aasaan ERP
+            </h2>
+            <p style={{ fontSize: '16px', color: '#64748B', maxWidth: '680px', margin: '0 auto' }}>
+              Compare how Aasaan stacks up against outdated legacy monoliths and entry-level accounting tools.
+            </p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))',
+            gap: '24px'
+          }}>
+            {/* Column 1: Legacy Monoliths */}
+            <div style={{
+              background: '#FFFFFF',
+              borderRadius: '16px',
+              padding: '30px 24px',
+              border: '1px solid #E2E8F0',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.03)'
+            }}>
+              <div style={{ fontSize: '12px', fontWeight: 800, color: '#DC2626', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '6px' }}>
+                Outdated Approach
+              </div>
+              <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#0F172A', marginBottom: '14px' }}>
+                Heavy Legacy ERPs
+              </h3>
+              <p style={{ fontSize: '13px', color: '#64748B', marginBottom: '20px', lineHeight: 1.6 }}>
+                SAP ECC / Oracle / Legacy On-Premise systems that require massive server rooms and consultants.
+              </p>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '13px', color: '#475569' }}>
+                <div style={{ display: 'flex', gap: '8px' }}><CloseIcon size={16} color="#DC2626" style={{ flexShrink: 0 }} /> <span>6 to 18 months painful deployment</span></div>
+                <div style={{ display: 'flex', gap: '8px' }}><CloseIcon size={16} color="#DC2626" style={{ flexShrink: 0 }} /> <span>Crores in consulting & license lock-ins</span></div>
+                <div style={{ display: 'flex', gap: '8px' }}><CloseIcon size={16} color="#DC2626" style={{ flexShrink: 0 }} /> <span>Cryptic menus that take months to learn</span></div>
+                <div style={{ display: 'flex', gap: '8px' }}><CloseIcon size={16} color="#DC2626" style={{ flexShrink: 0 }} /> <span>Difficult, high-cost version upgrades</span></div>
+              </div>
+            </div>
+
+            {/* Column 2: Entry-Level Accounting */}
+            <div style={{
+              background: '#FFFFFF',
+              borderRadius: '16px',
+              padding: '30px 24px',
+              border: '1px solid #E2E8F0',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.03)'
+            }}>
+              <div style={{ fontSize: '12px', fontWeight: 800, color: '#D97706', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '6px' }}>
+                Basic Tools
+              </div>
+              <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#0F172A', marginBottom: '14px' }}>
+                Desktop Accounting
+              </h3>
+              <p style={{ fontSize: '13px', color: '#64748B', marginBottom: '20px', lineHeight: 1.6 }}>
+                Tally / Busy / Excel spreadsheets designed primarily for bookkeeping, not operations.
+              </p>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '13px', color: '#475569' }}>
+                <div style={{ display: 'flex', gap: '8px' }}><CloseIcon size={16} color="#D97706" style={{ flexShrink: 0 }} /> <span>No real-time shop-floor BOM routing</span></div>
+                <div style={{ display: 'flex', gap: '8px' }}><CloseIcon size={16} color="#D97706" style={{ flexShrink: 0 }} /> <span>No automated multi-bin warehouse tracking</span></div>
+                <div style={{ display: 'flex', gap: '8px' }}><CloseIcon size={16} color="#D97706" style={{ flexShrink: 0 }} /> <span>Lacks IoT weighbridge & camera integrations</span></div>
+                <div style={{ display: 'flex', gap: '8px' }}><CloseIcon size={16} color="#D97706" style={{ flexShrink: 0 }} /> <span>Single-user desktop bottlenecks</span></div>
+              </div>
+            </div>
+
+            {/* Column 3: The Aasaan Difference (Hero Card) */}
+            <div style={{
+              background: 'linear-gradient(135deg, #FFFFFF 0%, #F0F9FF 100%)',
+              borderRadius: '16px',
+              padding: '30px 24px',
+              border: '2px solid var(--primary-blue)',
+              boxShadow: '0 12px 30px rgba(30, 149, 211, 0.15)',
+              position: 'relative'
+            }}>
+              <div style={{
+                position: 'absolute',
+                top: '-12px',
+                right: '20px',
+                background: 'var(--primary-blue)',
+                color: '#FFFFFF',
+                padding: '3px 12px',
+                borderRadius: '12px',
+                fontSize: '11px',
+                fontWeight: 800,
+                letterSpacing: '0.04em'
+              }}>
+                MODERN ENTERPRISE STANDARD
+              </div>
+
+              <div style={{ fontSize: '12px', fontWeight: 800, color: 'var(--primary-blue)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '6px' }}>
+                The Right Solution
+              </div>
+              <h3 style={{ fontSize: '20px', fontWeight: 800, color: '#0F172A', marginBottom: '14px' }}>
+                Aasaan Cloud ERP
+              </h3>
+              <p style={{ fontSize: '13px', color: '#475569', marginBottom: '20px', lineHeight: 1.6 }}>
+                Fast, agile, AI-driven cloud ERP with complete Indian statutory compliance and 7-day rollout.
+              </p>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '13px', color: '#1E293B', fontWeight: 600 }}>
+                <div style={{ display: 'flex', gap: '8px' }}><Check size={16} color="var(--primary-blue)" style={{ flexShrink: 0 }} /> <span><strong>Instant 7-Day SME Go-Live</strong></span></div>
+                <div style={{ display: 'flex', gap: '8px' }}><Check size={16} color="var(--primary-blue)" style={{ flexShrink: 0 }} /> <span><strong>Zero infrastructure or server hardware cost</strong></span></div>
+                <div style={{ display: 'flex', gap: '8px' }}><Check size={16} color="var(--primary-blue)" style={{ flexShrink: 0 }} /> <span><strong>30-minute floor operator learning curve</strong></span></div>
+                <div style={{ display: 'flex', gap: '8px' }}><Check size={16} color="var(--primary-blue)" style={{ flexShrink: 0 }} /> <span><strong>Native GST, e-Invoicing, CPCB & Weighbridge hooks</strong></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 6. 12-YEAR MILESTONES TIMELINE (2014 – 2026)             */}
+      {/* ======================================================== */}
+      <section style={{ padding: '80px 20px', background: '#FFFFFF' }}>
         <div style={{ maxWidth: '1050px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '50px' }}>
             <div style={{
@@ -531,7 +722,7 @@ export default function AboutUsPage({ onOpenDemo }) {
               <div
                 key={idx}
                 style={{
-                  background: '#FFFFFF',
+                  background: '#F8FAFC',
                   borderRadius: '16px',
                   padding: '28px 24px',
                   border: '1px solid #E2E8F0',
@@ -543,11 +734,13 @@ export default function AboutUsPage({ onOpenDemo }) {
                   e.currentTarget.style.transform = 'translateY(-4px)';
                   e.currentTarget.style.boxShadow = '0 12px 30px rgba(30, 149, 211, 0.12)';
                   e.currentTarget.style.borderColor = 'var(--primary-blue-border)';
+                  e.currentTarget.style.background = '#FFFFFF';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
                   e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.03)';
                   e.currentTarget.style.borderColor = '#E2E8F0';
+                  e.currentTarget.style.background = '#F8FAFC';
                 }}
               >
                 <div style={{
@@ -577,9 +770,9 @@ export default function AboutUsPage({ onOpenDemo }) {
       </section>
 
       {/* ======================================================== */}
-      {/* 6. OUR FOUR CORE VALUES                                  */}
+      {/* 7. OUR FOUR CORE VALUES                                  */}
       {/* ======================================================== */}
-      <section style={{ padding: '80px 20px', background: '#FFFFFF' }}>
+      <section style={{ padding: '80px 20px', background: '#F8FAFC' }}>
         <div style={{ maxWidth: '1150px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '50px' }}>
             <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 38px)', fontWeight: 900, color: '#0F172A', marginBottom: '12px' }}>
@@ -601,18 +794,18 @@ export default function AboutUsPage({ onOpenDemo }) {
                 <div
                   key={idx}
                   style={{
-                    background: '#F8FAFC',
+                    background: '#FFFFFF',
                     borderRadius: '16px',
                     padding: '30px 24px',
                     border: '1px solid #E2E8F0',
                     transition: 'all 0.2s ease'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = '#FFFFFF';
-                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.06)';
+                    e.currentTarget.style.transform = 'translateY(-3px)';
+                    e.currentTarget.style.boxShadow = '0 10px 25px rgba(0,0,0,0.06)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = '#F8FAFC';
+                    e.currentTarget.style.transform = 'translateY(0)';
                     e.currentTarget.style.boxShadow = 'none';
                   }}
                 >
@@ -645,7 +838,74 @@ export default function AboutUsPage({ onOpenDemo }) {
       </section>
 
       {/* ======================================================== */}
-      {/* 7. TRUSTED WORLDWIDE STRIP WITH BEST SOFTWARE TAG        */}
+      {/* 8. CLIENT VOICES & TESTIMONIALS                          */}
+      {/* ======================================================== */}
+      <section style={{ padding: '80px 20px', background: '#FFFFFF' }}>
+        <div style={{ maxWidth: '1150px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '50px' }}>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              background: '#ECFDF5',
+              color: '#059669',
+              padding: '6px 16px',
+              borderRadius: '20px',
+              fontSize: '12.5px',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
+              marginBottom: '12px'
+            }}>
+              <Star size={14} fill="#059669" /> Proven Customer Satisfaction
+            </div>
+            <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 38px)', fontWeight: 900, color: '#0F172A', marginBottom: '14px' }}>
+              Trusted by 1,250+ Forward-Thinking Enterprises
+            </h2>
+            <p style={{ fontSize: '16px', color: '#64748B', maxWidth: '650px', margin: '0 auto' }}>
+              Hear how leaders across manufacturing, recycling, and retail transformed operations with Aasaan.
+            </p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '24px'
+          }}>
+            {testimonials.map((t, idx) => (
+              <div
+                key={idx}
+                style={{
+                  background: '#F8FAFC',
+                  borderRadius: '16px',
+                  padding: '30px 26px',
+                  border: '1px solid #E2E8F0',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.03)'
+                }}
+              >
+                <div>
+                  <Quote size={28} color="var(--primary-blue)" style={{ opacity: 0.4, marginBottom: '14px' }} />
+                  <p style={{ fontSize: '14.5px', lineHeight: 1.75, color: '#334155', fontStyle: 'italic', marginBottom: '24px' }}>
+                    "{t.quote}"
+                  </p>
+                </div>
+
+                <div style={{ borderTop: '1px solid #E2E8F0', paddingTop: '16px' }}>
+                  <div style={{ fontSize: '15px', fontWeight: 800, color: '#0F172A' }}>{t.author}</div>
+                  <div style={{ fontSize: '12.5px', color: 'var(--primary-blue)', fontWeight: 600 }}>{t.role}</div>
+                  <div style={{ fontSize: '12px', color: '#64748B' }}>{t.company}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 9. TRUSTED WORLDWIDE STRIP WITH BEST SOFTWARE TAG        */}
       {/* ======================================================== */}
       <section style={{
         background: 'linear-gradient(135deg, #EFF6FF 0%, #E0F2FE 100%)',
@@ -670,60 +930,156 @@ export default function AboutUsPage({ onOpenDemo }) {
           />
           <div style={{ flex: '1 1 550px' }}>
             <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#0F172A', marginBottom: '8px' }}>
-              Trusted by 1,250+ Industry Leaders Across 20+ Countries
+              Recognized Across India & Globally for Operational Excellence
             </h3>
             <p style={{ fontSize: '15px', lineHeight: 1.7, color: '#334155', margin: 0 }}>
-              From ISO-certified automotive manufacturers to government-recognized waste recycling operators and multi-state retail distribution networks — Aasaan ERP empowers organizations to scale with unwavering confidence.
+              From ISO-certified automotive manufacturing plants to government-authorized waste recycling facilities and multi-state retail distribution networks — Aasaan ERP empowers organizations to scale with total peace of mind.
             </p>
           </div>
         </div>
       </section>
 
       {/* ======================================================== */}
-      {/* 8. INDUSTRIES WE SPECIALIZE IN                           */}
+      {/* 10. FREQUENTLY ASKED QUESTIONS (FAQ) ACCORDION           */}
       {/* ======================================================== */}
-      <section style={{ padding: '80px 20px', background: '#FFFFFF' }}>
-        <div style={{ maxWidth: '1050px', margin: '0 auto' }}>
+      <section style={{ padding: '80px 20px', background: '#F8FAFC' }}>
+        <div style={{ maxWidth: '850px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <h2 style={{ fontSize: 'clamp(26px, 3.5vw, 36px)', fontWeight: 900, color: '#0F172A', marginBottom: '12px' }}>
-              Deep Domain Specialization
+              Frequently Asked Questions About Aasaan ERP
             </h2>
             <p style={{ fontSize: '15.5px', color: '#64748B' }}>
-              Pre-built modules configured with your industry's exact terminology, statutory rules, and operational workflows.
+              Learn more about our heritage, infrastructure, and enterprise deployment options.
             </p>
           </div>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
-            gap: '18px'
-          }}>
-            {industries.map((ind, idx) => (
-              <div
-                key={idx}
-                style={{
-                  background: '#F8FAFC',
-                  borderRadius: '12px',
-                  padding: '20px 20px',
-                  border: '1px solid #E2E8F0',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <div>
-                  <div style={{ fontSize: '14.5px', fontWeight: 800, color: '#0F172A' }}>{ind.name}</div>
-                  <div style={{ fontSize: '12px', color: 'var(--primary-blue)', fontWeight: 600 }}>{ind.metric}</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            {aboutFaqs.map((faq, idx) => {
+              const isOpen = activeFaq === idx;
+              return (
+                <div
+                  key={idx}
+                  style={{
+                    background: '#FFFFFF',
+                    borderRadius: '12px',
+                    border: '1px solid #E2E8F0',
+                    overflow: 'hidden',
+                    transition: 'all 0.2s ease',
+                    boxShadow: isOpen ? '0 6px 18px rgba(0,0,0,0.06)' : 'none'
+                  }}
+                >
+                  <button
+                    onClick={() => toggleFaq(idx)}
+                    style={{
+                      width: '100%',
+                      padding: '20px 24px',
+                      background: 'none',
+                      border: 'none',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      textAlign: 'left',
+                      cursor: 'pointer',
+                      gap: '16px'
+                    }}
+                  >
+                    <span style={{ fontSize: '16px', fontWeight: 700, color: isOpen ? 'var(--primary-blue)' : '#0F172A' }}>
+                      {faq.q}
+                    </span>
+                    {isOpen ? <ChevronUp size={20} color="var(--primary-blue)" /> : <ChevronDown size={20} color="#94A3B8" />}
+                  </button>
+
+                  {isOpen && (
+                    <div style={{
+                      padding: '0 24px 22px',
+                      fontSize: '14.5px',
+                      lineHeight: 1.7,
+                      color: '#475569',
+                      borderTop: '1px solid #F1F5F9'
+                    }}>
+                      {faq.a}
+                    </div>
+                  )}
                 </div>
-                <CheckCircle2 size={18} color="#059669" />
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* ======================================================== */}
-      {/* 9. BOTTOM CTA BANNER                                     */}
+      {/* 11. CORPORATE HEADQUARTERS & CONTACT FOOTPRINT           */}
+      {/* ======================================================== */}
+      <section style={{ padding: '70px 20px', background: '#FFFFFF', borderTop: '1px solid #E2E8F0' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <div style={{
+            background: 'linear-gradient(135deg, #0b1e36 0%, #173b5f 100%)',
+            color: '#FFFFFF',
+            borderRadius: '20px',
+            padding: '40px 36px',
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '30px'
+          }}>
+            <div style={{ flex: '1 1 450px' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#38BDF8', fontSize: '13px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
+                <Building2 size={16} /> Corporate Headquarters
+              </div>
+              <h3 style={{ fontSize: '24px', fontWeight: 800, margin: '0 0 12px', color: '#FFFFFF' }}>
+                Aasaan Services Solutions Private Limited
+              </h3>
+              <p style={{ fontSize: '14.5px', lineHeight: 1.7, color: 'rgba(255, 255, 255, 0.85)', margin: '0 0 20px' }}>
+                17A/35, Fourth Floor, West Punjabi Bagh, New Delhi, Delhi 110026, India.<br />
+                Regional presence & partner distribution across Mumbai, Bengaluru, Ahmedabad, and Dubai (UAE).
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', fontSize: '14px', color: '#E2E8F0' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <PhoneCall size={15} color="#38BDF8" /> +91 92892 38814
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Mail size={15} color="#38BDF8" /> sales@aasaanerp.com
+                </div>
+              </div>
+            </div>
+
+            <div style={{ flex: '0 0 auto' }}>
+              <button
+                onClick={onOpenDemo}
+                style={{
+                  background: '#ff5b0b',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  padding: '14px 32px',
+                  borderRadius: '8px',
+                  fontSize: '15px',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  boxShadow: '0 6px 20px rgba(255,91,11,0.3)',
+                  transition: 'all 0.2s ease',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.background = '#e04a00';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.background = '#ff5b0b';
+                }}
+              >
+                Schedule Guided Demo <ArrowRight size={16} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ======================================================== */}
+      {/* 12. BOTTOM CONVERSION CTA BANNER                         */}
       {/* ======================================================== */}
       <section style={{
         background: 'linear-gradient(135deg, #0b1e36 0%, #1e95d3 100%)',
@@ -813,8 +1169,8 @@ export default function AboutUsPage({ onOpenDemo }) {
                 gap: '8px',
                 transition: 'all 0.2s ease'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'}
+              onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)')}
+              onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)')}
             >
               Email: sales@aasaanerp.com
             </a>
