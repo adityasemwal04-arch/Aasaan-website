@@ -272,6 +272,18 @@ export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenD
     return () => window.removeEventListener('keydown', handleKeyDown);
   });
 
+  // Auto-focus input when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        if (inputRef.current) inputRef.current.focus();
+      }, 50);
+    } else {
+      setQuery('');
+      setSelectedIndex(0);
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   // Filter Logic
@@ -307,7 +319,7 @@ export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenD
         inset: 0,
         background: 'rgba(15, 23, 42, 0.75)',
         backdropFilter: 'blur(8px)',
-        zIndex: 100,
+        zIndex: 99999,
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'center',
