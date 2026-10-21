@@ -36,8 +36,9 @@ public class SettingsController {
         loadSettings();
 
         if (notificationSettings.isEmpty() || !notificationSettings.containsKey("recipientEmail") 
-            || "work007life22@gmail.com".equals(notificationSettings.get("recipientEmail"))) {
-            notificationSettings.put("recipientEmail", "sales@aasaanerp.com");
+            || "work007life22@gmail.com".equals(notificationSettings.get("recipientEmail"))
+            || "sales@aasaanerp.com".equals(notificationSettings.get("recipientEmail"))) {
+            notificationSettings.put("recipientEmail", "aditya@aasaan.in");
             notificationSettings.put("enabled", true);
             notificationSettings.put("updatedAt", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             saveSettings();

@@ -130,12 +130,17 @@ export default function AdminDashboardPage({ onNavigate }) {
       const saved = localStorage.getItem('aasaan_notification_settings');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed && parsed.recipientEmail && parsed.recipientEmail !== 'work007life22@gmail.com') {
+        if (
+          parsed &&
+          parsed.recipientEmail &&
+          parsed.recipientEmail !== 'work007life22@gmail.com' &&
+          parsed.recipientEmail !== 'sales@aasaanerp.com'
+        ) {
           return parsed.recipientEmail;
         }
       }
     } catch (e) {}
-    return 'sales@aasaanerp.com';
+    return 'aditya@aasaan.in';
   });
   const [notificationsEnabled, setNotificationsEnabled] = useState(() => {
     try {
@@ -189,8 +194,14 @@ export default function AdminDashboardPage({ onNavigate }) {
 
     getNotificationSettings().then((notif) => {
       if (notif) {
-        if (notif.recipientEmail && notif.recipientEmail !== 'work007life22@gmail.com') {
+        if (
+          notif.recipientEmail &&
+          notif.recipientEmail !== 'work007life22@gmail.com' &&
+          notif.recipientEmail !== 'sales@aasaanerp.com'
+        ) {
           setNotificationEmail(notif.recipientEmail);
+        } else {
+          setNotificationEmail('aditya@aasaan.in');
         }
         if (typeof notif.enabled === 'boolean') setNotificationsEnabled(notif.enabled);
       }
@@ -2113,7 +2124,7 @@ export default function AdminDashboardPage({ onNavigate }) {
                       required
                       value={notificationEmail}
                       onChange={(e) => setNotificationEmail(e.target.value)}
-                      placeholder="e.g. sales@aasaanerp.com or your-email@company.com"
+                      placeholder="e.g. aditya@aasaan.in"
                       style={{
                         width: '100%',
                         padding: '10px 14px 10px 38px',

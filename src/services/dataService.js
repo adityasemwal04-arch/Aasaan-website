@@ -1734,7 +1734,7 @@ export const deleteAwmClient = (id) => deleteSectionItem('awm-clients', 'aasaan_
 // LEAD EMAIL NOTIFICATIONS & SETTINGS
 // -------------------------------------------------------------
 const DEFAULT_NOTIFICATION_SETTINGS = {
-  recipientEmail: 'sales@aasaanerp.com',
+  recipientEmail: 'aditya@aasaan.in',
   enabled: true,
   companyAlertEmail: 'contactus@aasaanservices.in'
 };
@@ -1746,9 +1746,14 @@ export async function getNotificationSettings() {
     const raw = localStorage.getItem('aasaan_notification_settings');
     if (raw) {
       localSettings = JSON.parse(raw);
-      // Clean up legacy test email if it got saved previously
-      if (localSettings && localSettings.recipientEmail === 'work007life22@gmail.com') {
-        localSettings.recipientEmail = 'sales@aasaanerp.com';
+      // Automatically migrate any legacy fallback emails to aditya@aasaan.in
+      if (
+        localSettings &&
+        (!localSettings.recipientEmail ||
+          localSettings.recipientEmail === 'work007life22@gmail.com' ||
+          localSettings.recipientEmail === 'sales@aasaanerp.com')
+      ) {
+        localSettings.recipientEmail = 'aditya@aasaan.in';
         localStorage.setItem('aasaan_notification_settings', JSON.stringify(localSettings));
       }
     }
@@ -1762,7 +1767,12 @@ export async function getNotificationSettings() {
     clearTimeout(timeoutId);
     if (res.ok) {
       const data = await res.json();
-      if (data && data.recipientEmail && data.recipientEmail !== 'work007life22@gmail.com') {
+      if (
+        data &&
+        data.recipientEmail &&
+        data.recipientEmail !== 'work007life22@gmail.com' &&
+        data.recipientEmail !== 'sales@aasaanerp.com'
+      ) {
         localStorage.setItem('aasaan_notification_settings', JSON.stringify(data));
         return data;
       }
@@ -1810,7 +1820,7 @@ export async function sendLeadEmailNotification(leadData, recipientEmailOverride
       return { success: false, reason: 'Notifications disabled' };
     }
 
-    const targetEmail = recipientEmailOverride || settings.recipientEmail || 'sales@aasaanerp.com';
+    const targetEmail = recipientEmailOverride || settings.recipientEmail || 'aditya@aasaan.in';
     const timestamp = leadData.timestamp || new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 
     // Use FormSubmit AJAX service - sends formatted email directly to recipientEmail with zero setup needed
