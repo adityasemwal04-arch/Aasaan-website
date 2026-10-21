@@ -31,7 +31,8 @@ import {
   Recycle,
   Layers,
   Award,
-  Image as ImageIcon
+  Image as ImageIcon,
+  ArrowUpDown
 } from 'lucide-react';
 import {
   getLeads,
@@ -64,7 +65,9 @@ import {
   setCustomBackendUrl,
   getNotificationSettings,
   saveNotificationSettings,
-  sendTestNotification
+  sendTestNotification,
+  parseLeadTimestamp,
+  formatQueryDate
 } from '../services/dataService';
 import { getRoutePath } from '../utils/navigation';
 import AasaanLogo from '../components/AasaanLogo';
@@ -77,6 +80,7 @@ export default function AdminDashboardPage({ onNavigate }) {
   const [leads, setLeads] = useState([]);
   const [leadSearch, setLeadSearch] = useState('');
   const [leadStatusFilter, setLeadStatusFilter] = useState('All');
+  const [leadSortOrder, setLeadSortOrder] = useState('desc'); // 'desc' (newest first) | 'asc' (oldest first)
   const [loadingLeads, setLoadingLeads] = useState(false);
 
   // Blogs state
@@ -259,9 +263,9 @@ export default function AdminDashboardPage({ onNavigate }) {
     }
 
     const headers = ['ID', 'Date/Time', 'Name', 'Company', 'Email', 'Phone', 'Country', 'Solution', 'Message', 'Status'];
-    const rows = leads.map(l => [
+    const rows = filteredLeads.map(l => [
       l.id,
-      `"${l.timestamp || ''}"`,
+      `"${formatQueryDate(l).fullFormatted}"`,
       `"${(l.name || '').replace(/"/g, '""')}"`,
       `"${(l.company || '').replace(/"/g, '""')}"`,
       `"${l.email || ''}"`,
@@ -525,7 +529,7 @@ export default function AdminDashboardPage({ onNavigate }) {
     }
   };
 
-  // Filtered queries
+  // Filtered & Chronologically Ordered queries
   const filteredLeads = leads.filter(l => {
     const matchesSearch =
       (l.name && l.name.toLowerCase().includes(leadSearch.toLowerCase())) ||
@@ -534,6 +538,10 @@ export default function AdminDashboardPage({ onNavigate }) {
       (l.phone && l.phone.includes(leadSearch));
     const matchesStatus = leadStatusFilter === 'All' || l.status === leadStatusFilter;
     return matchesSearch && matchesStatus;
+  }).sort((a, b) => {
+    const timeA = parseLeadTimestamp(a);
+    const timeB = parseLeadTimestamp(b);
+    return leadSortOrder === 'desc' ? timeB - timeA : timeA - timeB;
   });
 
   const newLeadsCount = leads.filter(l => l.status === 'New').length;
@@ -1039,7 +1047,33 @@ export default function AdminDashboardPage({ onNavigate }) {
                         <th style={{ padding: '14px 18px', fontWeight: 700 }}>Contact Info</th>
                         <th style={{ padding: '14px 18px', fontWeight: 700 }}>Product / Scope</th>
                         <th style={{ padding: '14px 18px', fontWeight: 700 }}>Requirement / Message</th>
-                        <th style={{ padding: '14px 18px', fontWeight: 700 }}>Date Received</th>
+                        <th
+                          onClick={() => setLeadSortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}
+                          style={{
+                            padding: '14px 18px',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            userSelect: 'none'
+                          }}
+                          title="Click to toggle sorting (Newest / Oldest)"
+                        >
+                          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                            <span>Date Received</span>
+                            <span style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '3px',
+                              fontSize: '11px',
+                              padding: '2px 7px',
+                              borderRadius: '4px',
+                              background: '#E2E8F0',
+                              color: '#0F172A',
+                              fontWeight: 700
+                            }}>
+                              <ArrowUpDown size={11} /> {leadSortOrder === 'desc' ? 'Newest' : 'Oldest'}
+                            </span>
+                          </div>
+                        </th>
                         <th style={{ padding: '14px 18px', fontWeight: 700 }}>Status</th>
                         <th style={{ padding: '14px 18px', fontWeight: 700, textAlign: 'right' }}>Actions</th>
                       </tr>
@@ -1106,10 +1140,33 @@ export default function AdminDashboardPage({ onNavigate }) {
                               </p>
                             </td>
 
-                            <td style={{ padding: '16px 18px', whiteSpace: 'nowrap', fontSize: '12.5px', color: '#64748B' }}>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-                                <Calendar size={12} /> {lead.timestamp || 'Recent'}
-                              </div>
+                            <td style={{ padding: '16px 18px', whiteSpace: 'nowrap' }}>
+                              {(() => {
+                                const { dateStr, timeStr, relativeBadge, isToday } = formatQueryDate(lead);
+                                return (
+                                  <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 600, color: '#1E293B', fontSize: '13px' }}>
+                                      <Calendar size={13} style={{ color: 'var(--primary-blue)', flexShrink: 0 }} />
+                                      <span>{dateStr}</span>
+                                      {timeStr && <span style={{ color: '#64748B', fontWeight: 500, fontSize: '12px' }}>• {timeStr}</span>}
+                                    </div>
+                                    {relativeBadge && (
+                                      <span style={{
+                                        alignSelf: 'flex-start',
+                                        fontSize: '10.5px',
+                                        fontWeight: 700,
+                                        padding: '1px 6px',
+                                        borderRadius: '4px',
+                                        background: isToday ? '#ECFDF5' : '#F1F5F9',
+                                        color: isToday ? '#047857' : '#475569',
+                                        border: isToday ? '1px solid #A7F3D0' : '1px solid #CBD5E1'
+                                      }}>
+                                        {relativeBadge}
+                                      </span>
+                                    )}
+                                  </div>
+                                );
+                              })()}
                             </td>
 
                             <td style={{ padding: '16px 18px' }}>

@@ -954,8 +954,120 @@ export function setCustomBackendUrl(url) {
 }
 
 // -------------------------------------------------------------
-// LEADS / QUERIES API
+// LEADS / QUERIES API & ROBUST TIMESTAMP SORTING
 // -------------------------------------------------------------
+
+/**
+ * Accurately parses any lead timestamp (ISO, Indian locale DD/MM/YYYY, Date.toString(), or epoch ms)
+ * into numeric milliseconds for sorting.
+ */
+export function parseLeadTimestamp(leadOrTimestamp) {
+  if (!leadOrTimestamp) return 0;
+  let raw = leadOrTimestamp;
+  if (typeof leadOrTimestamp === 'object') {
+    raw = leadOrTimestamp.timestamp || leadOrTimestamp.createdAt || leadOrTimestamp.created_at || leadOrTimestamp.date || leadOrTimestamp.id;
+  }
+  if (!raw) return 0;
+  if (typeof raw === 'number') return raw;
+
+  const rawStr = raw.toString().trim();
+  if (/^\d{10,13}$/.test(rawStr)) {
+    return parseInt(rawStr, 10);
+  }
+
+  // Handle DD/MM/YYYY or DD-MM-YYYY format (with optional time and AM/PM)
+  const dmyMatch = rawStr.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})(?:[,\s]+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?(?:\s*(am|pm))?)?/i);
+  if (dmyMatch) {
+    const day = parseInt(dmyMatch[1], 10);
+    const month = parseInt(dmyMatch[2], 10) - 1;
+    const year = parseInt(dmyMatch[3], 10);
+    let hours = dmyMatch[4] ? parseInt(dmyMatch[4], 10) : 0;
+    const minutes = dmyMatch[5] ? parseInt(dmyMatch[5], 10) : 0;
+    const seconds = dmyMatch[6] ? parseInt(dmyMatch[6], 10) : 0;
+    const ampm = dmyMatch[7] ? dmyMatch[7].toLowerCase() : null;
+
+    if (ampm === 'pm' && hours < 12) hours += 12;
+    if (ampm === 'am' && hours === 12) hours = 0;
+
+    const d = new Date(year, month, day, hours, minutes, seconds);
+    if (!isNaN(d.getTime())) return d.getTime();
+  }
+
+  const d = new Date(rawStr);
+  if (!isNaN(d.getTime())) return d.getTime();
+
+  // If lead is an object and raw failed, try numeric lead.id
+  if (typeof leadOrTimestamp === 'object' && leadOrTimestamp.id) {
+    const idNum = Number(leadOrTimestamp.id);
+    if (!isNaN(idNum) && idNum > 1000000000000) return idNum;
+  }
+
+  return 0;
+}
+
+/**
+ * Formats a lead timestamp into a clean enterprise date string
+ * with date, time, and relative indicator ("Today, 2h ago", "Yesterday", etc.)
+ */
+export function formatQueryDate(leadOrTimestamp) {
+  const timeMs = parseLeadTimestamp(leadOrTimestamp);
+  const fallbackStr = typeof leadOrTimestamp === 'string'
+    ? leadOrTimestamp
+    : (leadOrTimestamp && typeof leadOrTimestamp === 'object' && typeof leadOrTimestamp.timestamp === 'string' ? leadOrTimestamp.timestamp : 'Recent');
+
+  if (!timeMs) {
+    return {
+      dateStr: fallbackStr || 'Recent',
+      timeStr: '',
+      fullFormatted: fallbackStr || 'Recent',
+      relativeBadge: null,
+      isToday: false,
+      isYesterday: false
+    };
+  }
+
+  const d = new Date(timeMs);
+  const now = new Date();
+
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = months[d.getMonth()];
+  const year = d.getFullYear();
+
+  let hours = d.getHours();
+  const minutes = String(d.getMinutes()).padStart(2, '0');
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12;
+  const timeStr = `${hours}:${minutes} ${ampm}`;
+  const dateStr = `${day} ${month} ${year}`;
+
+  const isToday = d.toDateString() === now.toDateString();
+  const yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
+  const isYesterday = d.toDateString() === yesterday.toDateString();
+
+  let relativeBadge = null;
+  if (isToday) {
+    const diffHours = Math.floor((now.getTime() - d.getTime()) / (1000 * 60 * 60));
+    if (diffHours < 1) {
+      const diffMins = Math.max(1, Math.floor((now.getTime() - d.getTime()) / (1000 * 60)));
+      relativeBadge = `${diffMins}m ago`;
+    } else {
+      relativeBadge = `Today, ${diffHours}h ago`;
+    }
+  } else if (isYesterday) {
+    relativeBadge = 'Yesterday';
+  }
+
+  return {
+    dateStr,
+    timeStr,
+    fullFormatted: `${dateStr}, ${timeStr}`,
+    relativeBadge,
+    isToday,
+    isYesterday
+  };
+}
 
 export async function getLeads() {
   let backendLeads = [];
@@ -1027,7 +1139,10 @@ export async function getLeads() {
   }
 
   // If literally no leads exist anywhere, fall back to DEFAULT_LEADS
-  const finalLeads = mergedLeads.length > 0 ? mergedLeads : DEFAULT_LEADS;
+  const finalLeads = mergedLeads.length > 0 ? [...mergedLeads] : [...DEFAULT_LEADS];
+
+  // Strictly sort descending: newest leads always at the top (row 1)
+  finalLeads.sort((a, b) => parseLeadTimestamp(b) - parseLeadTimestamp(a));
 
   try {
     localStorage.setItem('aasaan_demo_queries', JSON.stringify(finalLeads));
@@ -1089,7 +1204,7 @@ export async function sendLeadToOfficialAasaanApi(leadData) {
 }
 
 export async function saveLead(leadData) {
-  const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+  const timestamp = leadData.timestamp || new Date().toISOString();
   const newLead = {
     id: Date.now(),
     timestamp,
@@ -1114,9 +1229,10 @@ export async function saveLead(leadData) {
     // server offline, proceed with local
   }
 
-  // 3. Always persist in localStorage
+  // 3. Always persist in localStorage (sorted newest first)
   const existing = await getLeads();
   const updated = [newLead, ...existing.filter(l => l.id !== newLead.id)];
+  updated.sort((a, b) => parseLeadTimestamp(b) - parseLeadTimestamp(a));
   localStorage.setItem('aasaan_demo_queries', JSON.stringify(updated));
 
   return newLead;
