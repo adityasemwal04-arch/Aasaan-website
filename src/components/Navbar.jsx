@@ -140,6 +140,26 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
             AWM Waste Management
           </a>
           <a
+            href="https://erplite.aasaan.in/aasaanmart"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              padding: '12px',
+              fontSize: '15px',
+              fontWeight: 600,
+              color: '#059669',
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
+            <span>Aasaan Mart</span>
+            <span style={{ fontSize: '11px', padding: '2px 6px', background: '#ECFDF5', color: '#059669', borderRadius: '4px', border: '1px solid #A7F3D0', fontWeight: 700 }}>
+              Marketplace ↗
+            </span>
+          </a>
+          <a
             href={getRoutePath('services')}
             onClick={(e) => handleNavClick('services', e)}
             style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#212121', textDecoration: 'none' }}
@@ -346,6 +366,46 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
                   >
                     <div style={{ fontWeight: 600, color: '#ff5b0b' }}>AWM Waste Management</div>
                     <div style={{ fontSize: '11.5px', color: '#64748b' }}>Industry-Specific Solution</div>
+                  </a>
+
+                  <a
+                    href="https://erplite.aasaan.in/aasaanmart"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'block',
+                      padding: '10px 14px',
+                      borderRadius: '6px',
+                      textDecoration: 'none',
+                      color: '#212121',
+                      fontSize: '13.5px',
+                      fontWeight: 500,
+                      transition: 'background 0.2s ease',
+                      borderTop: '1px solid #f1f5f9',
+                      marginTop: '4px'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = '#f0fdf4'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span style={{ fontWeight: 600, color: '#059669' }}>Aasaan Mart</span>
+                      <span style={{
+                        fontSize: '9.5px',
+                        fontWeight: 800,
+                        textTransform: 'uppercase',
+                        padding: '1px 6px',
+                        borderRadius: '4px',
+                        background: '#ECFDF5',
+                        color: '#059669',
+                        border: '1px solid #A7F3D0',
+                        letterSpacing: '0.04em'
+                      }}>
+                        Marketplace ↗
+                      </span>
+                    </div>
+                    <div style={{ fontSize: '11.5px', color: '#64748b', marginTop: '2px' }}>
+                      B2B & Retail Business Network
+                    </div>
                   </a>
                 </div>
               )}

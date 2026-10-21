@@ -731,6 +731,7 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
                     <option value="Aasaan Enterprises">Aasaan Enterprises (Global ERP)</option>
                     <option value="Aasaan ERP Lite">Aasaan ERP Lite (SME 7-Day)</option>
                     <option value="AWM Waste Management">AWM Waste Management</option>
+                    <option value="Aasaan Mart">Aasaan Mart (Business Marketplace)</option>
                   </select>
                 </div>
 

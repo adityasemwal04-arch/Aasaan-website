@@ -105,6 +105,16 @@ export default function Footer({ onOpenDemo, onNavigate }) {
               <a href={getRoutePath('global')} onClick={(e) => handlePageLink('global', e)} className="footer_link">Aasaan Enterprises</a>
               <a href={getRoutePath('lite')} onClick={(e) => handlePageLink('lite', e)} className="footer_link">ERP Lite</a>
               <a href={getRoutePath('awm')} onClick={(e) => handlePageLink('awm', e)} className="footer_link">AWM Waste Management</a>
+              <a
+                href="https://erplite.aasaan.in/aasaanmart"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer_link"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', color: '#10B981', fontWeight: 600 }}
+              >
+                <span>Aasaan Mart</span>
+                <span style={{ fontSize: '10px', background: 'rgba(16, 185, 129, 0.15)', padding: '1px 5px', borderRadius: '3px' }}>↗</span>
+              </a>
               <a href={getRoutePath('blog/manufacturing-engineering')} onClick={(e) => handlePageLink('blog/manufacturing-engineering', e)} className="footer_link">Blog</a>
             </div>
           </div>

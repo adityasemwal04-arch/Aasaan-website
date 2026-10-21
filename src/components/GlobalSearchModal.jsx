@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, X, ArrowRight, CornerDownLeft, Sparkles, Layers, Factory, Recycle, Feather, Users, Calendar, ArrowUpRight, ShieldCheck } from 'lucide-react';
+import { Search, X, ArrowRight, CornerDownLeft, Sparkles, Layers, Factory, Recycle, Feather, Users, Calendar, ArrowUpRight, ShieldCheck, ShoppingBag } from 'lucide-react';
 import { globalModules, globalIndustries } from '../data/globalData';
 import { liteFeatures, liteIndustries } from '../data/liteData';
 import { awmSectors, awmModules } from '../data/awmData';
@@ -56,6 +56,16 @@ export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenD
       keywords: 'awm waste management recycling weighbridge scale rfid dumpster mrf cpcb scrap',
       pageId: 'awm',
       targetElementId: 'awm-sectors'
+    },
+    {
+      id: 'ext-aasaan-mart',
+      category: 'Marketplace',
+      badge: 'Live Network',
+      icon: ShoppingBag,
+      title: 'Aasaan Mart — B2B & Verified Business Marketplace',
+      desc: 'Discover active companies across India, buy and sell directly, and launch your verified business storefront.',
+      keywords: 'aasaan mart mart marketplace shop store b2b network buyers sellers products directory quick order storefront',
+      externalUrl: 'https://erplite.aasaan.in/aasaanmart'
     },
     {
       id: 'page-partners',
@@ -222,6 +232,11 @@ export default function GlobalSearchModal({ isOpen, onClose, onNavigate, onOpenD
     onClose();
     if (item.action === 'demo') {
       if (onOpenDemo) onOpenDemo();
+      return;
+    }
+
+    if (item.externalUrl) {
+      window.open(item.externalUrl, '_blank', 'noopener,noreferrer');
       return;
     }
 

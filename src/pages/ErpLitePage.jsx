@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { liteSteps, liteFeatures as defaultFeatures, liteIndustries as defaultIndustries } from '../data/liteData';
 import { getLiteFeatures, getLiteIndustries } from '../services/dataService';
-import { Feather, ArrowRight, ExternalLink } from 'lucide-react';
+import { Feather, ArrowRight, ExternalLink, ShoppingBag, CheckCircle2 } from 'lucide-react';
 import { getRoutePath } from '../utils/navigation';
 
 export default function ErpLitePage({ onOpenDemo, onNavigate }) {
@@ -516,6 +516,131 @@ export default function ErpLitePage({ onOpenDemo, onNavigate }) {
             })}
           </div>
 
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* 4.5 SPOTLIGHT: AASAAN MART BUSINESS NETWORK                  */}
+      {/* ============================================================ */}
+      <section style={{
+        background: 'linear-gradient(180deg, #F0FDF4 0%, #FFFFFF 100%)',
+        borderTop: '1px solid #DCFCE7',
+        borderBottom: '1px solid #E2E8F0',
+        padding: '60px 20px'
+      }}>
+        <div className="main_content align_self_center" style={{ maxWidth: '1080px', margin: '0 auto' }}>
+          <div style={{
+            background: '#FFFFFF',
+            border: '1.5px solid #BBF7D0',
+            borderRadius: '20px',
+            padding: '36px 32px',
+            boxShadow: '0 12px 36px rgba(16, 185, 129, 0.08)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '24px'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                <div style={{
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '12px',
+                  background: '#ECFDF5',
+                  color: '#059669',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: '1px solid #A7F3D0',
+                  flexShrink: 0
+                }}>
+                  <ShoppingBag size={24} />
+                </div>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                    <h3 style={{ margin: 0, fontSize: '20px', fontWeight: 800, color: '#064E3B' }}>
+                      Aasaan Mart Powered By Aasaan ERP
+                    </h3>
+                    <span style={{
+                      fontSize: '11px',
+                      fontWeight: 700,
+                      background: '#059669',
+                      color: '#FFFFFF',
+                      padding: '2px 8px',
+                      borderRadius: '12px'
+                    }}>
+                      LIVE MARKETPLACE
+                    </span>
+                  </div>
+                  <p style={{ margin: '4px 0 0', fontSize: '13.5px', color: '#4B5563' }}>
+                    The verified business network connecting buyers and sellers across all Indian states with instant storefront listing.
+                  </p>
+                </div>
+              </div>
+
+              <a
+                href="https://erplite.aasaan.in/aasaanmart"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  background: '#059669',
+                  color: '#FFFFFF',
+                  padding: '11px 22px',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontWeight: 700,
+                  textDecoration: 'none',
+                  boxShadow: '0 4px 14px rgba(5, 150, 105, 0.25)',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = '#047857'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = '#059669'; e.currentTarget.style.transform = 'none'; }}
+              >
+                <span>Explore Aasaan Mart</span>
+                <ExternalLink size={15} />
+              </a>
+            </div>
+
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gap: '18px',
+              paddingTop: '20px',
+              borderTop: '1px solid #F1F5F9'
+            }}>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <CheckCircle2 size={18} style={{ color: '#059669', flexShrink: 0, marginTop: '2px' }} />
+                <div>
+                  <div style={{ fontSize: '13.5px', fontWeight: 700, color: '#1E293B' }}>Instant Digital Storefront</div>
+                  <div style={{ fontSize: '12.5px', color: '#64748B', lineHeight: 1.4, marginTop: '2px' }}>
+                    Switch on "Show in Aasaan Mart" inside your ERP organization settings and your company goes live across India.
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <CheckCircle2 size={18} style={{ color: '#059669', flexShrink: 0, marginTop: '2px' }} />
+                <div>
+                  <div style={{ fontSize: '13.5px', fontWeight: 700, color: '#1E293B' }}>Verified B2B & Retail Buyers</div>
+                  <div style={{ fontSize: '12.5px', color: '#64748B', lineHeight: 1.4, marginTop: '2px' }}>
+                    Receive qualified inquiries and direct quick orders from active businesses searching by category and state.
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <CheckCircle2 size={18} style={{ color: '#059669', flexShrink: 0, marginTop: '2px' }} />
+                <div>
+                  <div style={{ fontSize: '13.5px', fontWeight: 700, color: '#1E293B' }}>Unified Inventory & Billing</div>
+                  <div style={{ fontSize: '12.5px', color: '#64748B', lineHeight: 1.4, marginTop: '2px' }}>
+                    Orders from Aasaan Mart automatically synchronize with your Aasaan ERP ledger and real-time inventory.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
