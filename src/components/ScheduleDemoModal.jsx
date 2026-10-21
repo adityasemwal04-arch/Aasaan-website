@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
-import { X, CheckCircle, Sparkles, Send, Check } from 'lucide-react';
+import { X, CheckCircle, Sparkles, Send, Check, AlertCircle, Phone, Mail, Building, Globe, MapPin } from 'lucide-react';
 import { saveQueryToStorage, syncLeadToBackend } from '../utils/excelExport';
 import { saveLead, sendLeadToOfficialAasaanApi, sendLeadEmailNotification } from '../services/dataService';
+import {
+  validateEmail,
+  validatePhone,
+  COUNTRY_CODES,
+  INDIAN_STATES_STD
+} from '../utils/validationHelper';
 
 export default function ScheduleDemoModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
@@ -10,9 +16,23 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
     email: '',
     phone: '',
     country: 'India',
+    state: 'Delhi NCR',
     solution: 'Aasaan Enterprises',
     message: ''
   });
+
+  const [countryCode, setCountryCode] = useState('+91');
+  const [phoneType, setPhoneType] = useState('mobile'); // 'mobile' | 'landline'
+  const [selectedState, setSelectedState] = useState('Delhi NCR');
+
+  // Validation States
+  const [emailError, setEmailError] = useState('');
+  const [emailSuggestion, setEmailSuggestion] = useState('');
+  const [isEmailValid, setIsEmailValid] = useState(false);
+
+  const [phoneError, setPhoneError] = useState('');
+  const [isPhoneValid, setIsPhoneValid] = useState(false);
+  const [phoneSuccessMsg, setPhoneSuccessMsg] = useState('');
 
   const [submitted, setSubmitted] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
@@ -20,25 +40,189 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
+  // Real-time Email Validation
+  const handleEmailChange = (val) => {
+    setFormData((prev) => ({ ...prev, email: val }));
+    setEmailSuggestion('');
+
+    if (!val || !val.trim()) {
+      setEmailError('');
+      setIsEmailValid(false);
+      return;
+    }
+
+    const res = validateEmail(val);
+    if (res.isValid) {
+      setEmailError('');
+      setIsEmailValid(true);
+      if (res.suggestion) {
+        setEmailSuggestion(res.suggestion);
+      }
+    } else {
+      setIsEmailValid(false);
+      // Only show error text if user typed past '@' or has several chars
+      if (val.length > 5 && (val.includes('@') || val.includes('.'))) {
+        setEmailError(res.message);
+      } else {
+        setEmailError('');
+      }
+    }
+  };
+
+  const handleEmailBlur = () => {
+    if (!formData.email || !formData.email.trim()) {
+      setEmailError('Work email is required.');
+      setIsEmailValid(false);
+      return;
+    }
+    const res = validateEmail(formData.email);
+    if (!res.isValid) {
+      setEmailError(res.message);
+      setIsEmailValid(false);
+    } else {
+      setEmailError('');
+      setIsEmailValid(true);
+      if (res.suggestion) setEmailSuggestion(res.suggestion);
+    }
+  };
+
+  const applyEmailSuggestion = () => {
+    if (emailSuggestion) {
+      setFormData((prev) => ({ ...prev, email: emailSuggestion }));
+      setEmailSuggestion('');
+      setEmailError('');
+      setIsEmailValid(true);
+    }
+  };
+
+  // Real-time Phone Validation
+  const handlePhoneChange = (val) => {
+    setFormData((prev) => ({ ...prev, phone: val }));
+
+    if (!val || !val.trim()) {
+      setPhoneError('');
+      setIsPhoneValid(false);
+      setPhoneSuccessMsg('');
+      return;
+    }
+
+    const res = validatePhone(val, countryCode, phoneType, selectedState);
+    if (res.isValid) {
+      setPhoneError('');
+      setIsPhoneValid(true);
+      setPhoneSuccessMsg(res.message);
+    } else {
+      setIsPhoneValid(false);
+      setPhoneSuccessMsg('');
+      const cleanDigits = val.replace(/\D/g, '');
+      if (cleanDigits.length >= 4) {
+        setPhoneError(res.message);
+      } else {
+        setPhoneError('');
+      }
+    }
+  };
+
+  const handlePhoneBlur = () => {
+    if (!formData.phone || !formData.phone.trim()) {
+      setPhoneError('Phone number is required.');
+      setIsPhoneValid(false);
+      setPhoneSuccessMsg('');
+      return;
+    }
+    const res = validatePhone(formData.phone, countryCode, phoneType, selectedState);
+    if (!res.isValid) {
+      setPhoneError(res.message);
+      setIsPhoneValid(false);
+      setPhoneSuccessMsg('');
+    } else {
+      setPhoneError('');
+      setIsPhoneValid(true);
+      setPhoneSuccessMsg(res.message);
+    }
+  };
+
+  const handleCountryChange = (newCode) => {
+    setCountryCode(newCode);
+    const countryObj = COUNTRY_CODES.find((c) => c.code === newCode);
+    if (countryObj) {
+      setFormData((prev) => ({ ...prev, country: countryObj.name }));
+    }
+    // Re-validate phone with new country rules
+    if (formData.phone) {
+      const res = validatePhone(formData.phone, newCode, phoneType, selectedState);
+      setIsPhoneValid(res.isValid);
+      setPhoneError(res.isValid ? '' : res.message);
+      setPhoneSuccessMsg(res.isValid ? res.message : '');
+    }
+  };
+
+  const handleStateChange = (newState) => {
+    setSelectedState(newState);
+    setFormData((prev) => ({ ...prev, state: newState }));
+    if (countryCode === '+91' && formData.phone) {
+      const res = validatePhone(formData.phone, countryCode, phoneType, newState);
+      setIsPhoneValid(res.isValid);
+      setPhoneError(res.isValid ? '' : res.message);
+      setPhoneSuccessMsg(res.isValid ? res.message : '');
+    }
+  };
+
+  const handlePhoneTypeChange = (newType) => {
+    setPhoneType(newType);
+    if (countryCode === '+91' && formData.phone) {
+      const res = validatePhone(formData.phone, countryCode, newType, selectedState);
+      setIsPhoneValid(res.isValid);
+      setPhoneError(res.isValid ? '' : res.message);
+      setPhoneSuccessMsg(res.isValid ? res.message : '');
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // 1. Strict Validation Check
+    const emailRes = validateEmail(formData.email);
+    if (!emailRes.isValid) {
+      setEmailError(emailRes.message);
+      setIsEmailValid(false);
+      return;
+    }
+
+    const phoneRes = validatePhone(formData.phone, countryCode, phoneType, selectedState);
+    if (!phoneRes.isValid) {
+      setPhoneError(phoneRes.message);
+      setIsPhoneValid(false);
+      return;
+    }
+
     if (isSubmittingRef.current || isSyncing) return;
     isSubmittingRef.current = true;
     setIsSyncing(true);
 
+    const formattedLead = {
+      ...formData,
+      phone: phoneRes.formatted || `${countryCode} ${formData.phone}`,
+      rawPhone: phoneRes.cleanDigits || formData.phone,
+      countryCode,
+      phoneType,
+      state: countryCode === '+91' ? selectedState : (formData.state || ''),
+      timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+    };
+
     try {
       // 1. Submit lead to Official Aasaan ERP REST API (single unique dispatch)
-      await sendLeadToOfficialAasaanApi(formData);
+      await sendLeadToOfficialAasaanApi(formattedLead);
 
       // 2. Dispatch real-time email notification alert to admin-configured lead email
-      sendLeadEmailNotification(formData).catch(e => console.warn('Notification email error:', e));
+      sendLeadEmailNotification(formattedLead).catch((err) => console.warn('Notification email error:', err));
 
       // 3. Save query to persistent storage & backend API for admin dashboard
-      saveQueryToStorage(formData);
-      await saveLead(formData);
+      saveQueryToStorage(formattedLead);
+      await saveLead(formattedLead);
 
       // 4. Transmit to Cloud Spreadsheet Webhook / Backend Excel
-      await syncLeadToBackend(formData);
+      await syncLeadToBackend(formattedLead);
     } catch (err) {
       console.warn('Lead capture error:', err);
     } finally {
@@ -56,11 +240,24 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
       email: '',
       phone: '',
       country: 'India',
+      state: 'Delhi NCR',
       solution: 'Aasaan Enterprises',
       message: ''
     });
+    setCountryCode('+91');
+    setPhoneType('mobile');
+    setSelectedState('Delhi NCR');
+    setEmailError('');
+    setEmailSuggestion('');
+    setIsEmailValid(false);
+    setPhoneError('');
+    setIsPhoneValid(false);
+    setPhoneSuccessMsg('');
     onClose();
   };
+
+  // Find active state STD
+  const activeStateObj = INDIAN_STATES_STD.find((s) => s.state === selectedState) || INDIAN_STATES_STD[0];
 
   return (
     <div
@@ -81,12 +278,15 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
         style={{
           background: '#FFFFFF',
           width: '100%',
-          maxWidth: '560px',
+          maxWidth: '580px',
+          maxHeight: '92vh',
           borderRadius: '24px',
           border: '1px solid #e2e8f0',
           boxShadow: '0 30px 70px -15px rgba(0,0,0,0.3)',
-          overflow: 'hidden',
-          position: 'relative'
+          overflowY: 'auto',
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column'
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -94,15 +294,15 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
         <div style={{
           background: 'linear-gradient(135deg, #0b1e36 0%, #1e95d3 100%)',
           color: '#FFFFFF',
-          padding: '28px 30px 24px',
+          padding: '26px 28px 22px',
           position: 'relative'
         }}>
           <button
             onClick={onClose}
             style={{
               position: 'absolute',
-              top: '20px',
-              right: '20px',
+              top: '18px',
+              right: '18px',
               background: 'rgba(255, 255, 255, 0.15)',
               border: 'none',
               borderRadius: '50%',
@@ -115,8 +315,8 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
               cursor: 'pointer',
               transition: 'background 0.2s ease'
             }}
-            onMouseEnter={e => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)'}
-            onMouseLeave={e => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'}
+            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)')}
             aria-label="Close"
           >
             <X size={18} />
@@ -133,21 +333,21 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
             background: 'rgba(255, 255, 255, 0.15)',
             color: '#FFFFFF',
             border: '1px solid rgba(255, 255, 255, 0.3)',
-            marginBottom: '10px'
+            marginBottom: '8px'
           }}>
             <Sparkles size={12} color="#ffbe3d" /> 1-on-1 Guided Architecture Walkthrough
           </span>
 
-          <h3 style={{ fontSize: '24px', fontWeight: 800, color: '#FFFFFF', marginTop: '6px', margin: '6px 0 0' }}>
+          <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#FFFFFF', margin: '4px 0 0' }}>
             Schedule an Aasaan ERP Demo
           </h3>
-          <p style={{ fontSize: '14px', color: '#e0f2fe', marginTop: '4px', margin: '4px 0 0' }}>
-            See how Aasaan connects your specific sales, inventory, and finance workflows.
+          <p style={{ fontSize: '13.5px', color: '#e0f2fe', margin: '4px 0 0' }}>
+            Experience how Aasaan simplifies your inventory, GST billing, and factory workflows.
           </p>
         </div>
 
         {/* Content Body */}
-        <div style={{ padding: '28px 30px' }}>
+        <div style={{ padding: '24px 28px' }}>
           {submitted ? (
             <div style={{ textAlign: 'center', padding: '16px 0' }}>
               <div style={{
@@ -169,7 +369,7 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
               </h4>
 
               <p style={{ fontSize: '14.5px', color: '#64748b', marginTop: '8px', lineHeight: 1.5 }}>
-                Thank you, <strong>{formData.name}</strong>. Your inquiry has been successfully transmitted to our solution engineering team.
+                Thank you, <strong>{formData.name}</strong>. Your inquiry has been verified and transmitted to our enterprise solutions team.
               </p>
 
               {/* Inquiry Summary Box */}
@@ -182,13 +382,15 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
                 textAlign: 'left'
               }}>
                 <div style={{ fontSize: '12px', fontWeight: 700, color: '#1e95d3', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>
-                  Inquiry Summary
+                  Verified Inquiry Details
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '13px', color: '#334155' }}>
                   <div><strong>Company:</strong> {formData.company || 'N/A'}</div>
                   <div><strong>Solution:</strong> {formData.solution}</div>
                   <div><strong>Email:</strong> {formData.email}</div>
                   <div><strong>Phone:</strong> {formData.phone}</div>
+                  {countryCode === '+91' && <div><strong>State / Region:</strong> {selectedState}</div>}
+                  <div><strong>Country:</strong> {formData.country}</div>
                 </div>
                 <div style={{ marginTop: '12px', fontSize: '12px', color: '#059669', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Check size={14} />
@@ -218,9 +420,10 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
             </div>
           ) : (
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              {/* Row 1: Name & Company */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#212121', marginBottom: '5px' }}>
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, color: '#1E293B', marginBottom: '4px' }}>
                     Your Full Name *
                   </label>
                   <input
@@ -234,18 +437,17 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
                       padding: '9px 12px',
                       borderRadius: '8px',
                       border: '1.5px solid #cbd5e1',
-                      fontSize: '14px',
+                      fontSize: '13.5px',
                       outline: 'none',
-                      transition: 'border-color 0.2s ease',
                       boxSizing: 'border-box'
                     }}
-                    onFocus={e => e.target.style.borderColor = '#1e95d3'}
-                    onBlur={e => e.target.style.borderColor = '#cbd5e1'}
+                    onFocus={(e) => (e.target.style.borderColor = '#1e95d3')}
+                    onBlur={(e) => (e.target.style.borderColor = '#cbd5e1')}
                   />
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#212121', marginBottom: '5px' }}>
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, color: '#1E293B', marginBottom: '4px' }}>
                     Company Name *
                   </label>
                   <input
@@ -253,78 +455,261 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
                     required
                     value={formData.company}
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    placeholder="e.g. ABC Manufacturing Ltd."
+                    placeholder="e.g. ABC Industries Ltd."
                     style={{
                       width: '100%',
                       padding: '9px 12px',
                       borderRadius: '8px',
                       border: '1.5px solid #cbd5e1',
-                      fontSize: '14px',
+                      fontSize: '13.5px',
                       outline: 'none',
-                      transition: 'border-color 0.2s ease',
                       boxSizing: 'border-box'
                     }}
-                    onFocus={e => e.target.style.borderColor = '#1e95d3'}
-                    onBlur={e => e.target.style.borderColor = '#cbd5e1'}
+                    onFocus={(e) => (e.target.style.borderColor = '#1e95d3')}
+                    onBlur={(e) => (e.target.style.borderColor = '#cbd5e1')}
                   />
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#212121', marginBottom: '5px' }}>
-                    Work Email *
+              {/* Row 2: Work Email with Real-Time Validator */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                  <label style={{ fontSize: '12.5px', fontWeight: 700, color: '#1E293B' }}>
+                    Work Email Address *
                   </label>
+                  {isEmailValid && (
+                    <span style={{ fontSize: '11.5px', color: '#059669', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                      <CheckCircle size={13} /> Valid format
+                    </span>
+                  )}
+                </div>
+                <div style={{ position: 'relative' }}>
+                  <Mail size={16} color={emailError ? '#EF4444' : (isEmailValid ? '#059669' : '#94A3B8')} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
                   <input
                     type="email"
                     required
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) => handleEmailChange(e.target.value)}
+                    onBlur={handleEmailBlur}
                     placeholder="name@company.com"
                     style={{
                       width: '100%',
-                      padding: '9px 12px',
+                      padding: '9px 12px 9px 36px',
                       borderRadius: '8px',
-                      border: '1.5px solid #cbd5e1',
-                      fontSize: '14px',
+                      border: `1.5px solid ${emailError ? '#EF4444' : (isEmailValid ? '#10B981' : '#cbd5e1')}`,
+                      fontSize: '13.5px',
                       outline: 'none',
-                      transition: 'border-color 0.2s ease',
-                      boxSizing: 'border-box'
+                      boxSizing: 'border-box',
+                      background: emailError ? '#FEF2F2' : (isEmailValid ? '#F0FDF4' : '#FFFFFF')
                     }}
-                    onFocus={e => e.target.style.borderColor = '#1e95d3'}
-                    onBlur={e => e.target.style.borderColor = '#cbd5e1'}
                   />
                 </div>
 
+                {emailError && (
+                  <div style={{ fontSize: '11.5px', color: '#DC2626', fontWeight: 600, marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <AlertCircle size={12} /> {emailError}
+                  </div>
+                )}
+
+                {emailSuggestion && (
+                  <div style={{
+                    fontSize: '12px',
+                    color: '#1E40AF',
+                    background: '#EFF6FF',
+                    border: '1px solid #BFDBFE',
+                    padding: '6px 10px',
+                    borderRadius: '6px',
+                    marginTop: '6px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                  }}>
+                    <span>Did you mean <strong>{emailSuggestion}</strong>?</span>
+                    <button
+                      type="button"
+                      onClick={applyEmailSuggestion}
+                      style={{
+                        background: 'var(--primary-blue)',
+                        color: '#FFFFFF',
+                        border: 'none',
+                        padding: '3px 8px',
+                        borderRadius: '4px',
+                        fontSize: '11px',
+                        fontWeight: 700,
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Apply
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Row 3: Country Code & State-Wise Code Selector */}
+              <div style={{ background: '#F8FAFC', padding: '12px 14px', borderRadius: '12px', border: '1px solid #E2E8F0' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: countryCode === '+91' ? '1fr 1fr' : '1fr', gap: '10px', marginBottom: '10px' }}>
+                  {/* Country Selector */}
+                  <div>
+                    <label style={{ display: 'block', fontSize: '11.5px', fontWeight: 700, color: '#475569', marginBottom: '3px' }}>
+                      Country Code
+                    </label>
+                    <select
+                      value={countryCode}
+                      onChange={(e) => handleCountryChange(e.target.value)}
+                      style={{
+                        width: '100%',
+                        padding: '7px 10px',
+                        borderRadius: '6px',
+                        border: '1px solid #cbd5e1',
+                        fontSize: '13px',
+                        background: '#FFFFFF',
+                        outline: 'none',
+                        boxSizing: 'border-box',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {COUNTRY_CODES.map((c) => (
+                        <option key={c.id} value={c.code}>
+                          {c.flag} {c.name} ({c.code})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Indian State / STD Code Selector */}
+                  {countryCode === '+91' && (
+                    <div>
+                      <label style={{ display: 'block', fontSize: '11.5px', fontWeight: 700, color: '#475569', marginBottom: '3px' }}>
+                        State / Telecom Circle (STD)
+                      </label>
+                      <select
+                        value={selectedState}
+                        onChange={(e) => handleStateChange(e.target.value)}
+                        style={{
+                          width: '100%',
+                          padding: '7px 10px',
+                          borderRadius: '6px',
+                          border: '1px solid #cbd5e1',
+                          fontSize: '13px',
+                          background: '#FFFFFF',
+                          outline: 'none',
+                          boxSizing: 'border-box',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        {INDIAN_STATES_STD.map((s) => (
+                          <option key={s.state} value={s.state}>
+                            {s.state} {s.std !== 'STD' ? `(STD: ${s.std})` : ''}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                </div>
+
+                {/* If India, provide Phone Type Toggle (Mobile vs Landline) */}
+                {countryCode === '+91' && (
+                  <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '10px', fontSize: '12px', color: '#475569' }}>
+                    <span style={{ fontWeight: 700 }}>Line Type:</span>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer', fontWeight: phoneType === 'mobile' ? 700 : 500, color: phoneType === 'mobile' ? 'var(--primary-blue)' : '#64748B' }}>
+                      <input
+                        type="radio"
+                        name="phoneType"
+                        value="mobile"
+                        checked={phoneType === 'mobile'}
+                        onChange={() => handlePhoneTypeChange('mobile')}
+                        style={{ accentColor: 'var(--primary-blue)' }}
+                      />
+                      10-Digit Mobile (+91)
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer', fontWeight: phoneType === 'landline' ? 700 : 500, color: phoneType === 'landline' ? 'var(--primary-blue)' : '#64748B' }}>
+                      <input
+                        type="radio"
+                        name="phoneType"
+                        value="landline"
+                        checked={phoneType === 'landline'}
+                        onChange={() => handlePhoneTypeChange('landline')}
+                        style={{ accentColor: 'var(--primary-blue)' }}
+                      />
+                      Office Landline (STD {activeStateObj.std})
+                    </label>
+                  </div>
+                )}
+
+                {/* Phone Input */}
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#212121', marginBottom: '5px' }}>
-                    Phone / WhatsApp *
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+91 98765 43210"
-                    style={{
-                      width: '100%',
-                      padding: '9px 12px',
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                    <label style={{ fontSize: '12.5px', fontWeight: 700, color: '#1E293B' }}>
+                      {phoneType === 'mobile' ? 'Mobile / WhatsApp Number *' : 'Office Landline Number *'}
+                    </label>
+                    {isPhoneValid && (
+                      <span style={{ fontSize: '11.5px', color: '#059669', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                        <CheckCircle size={13} /> {phoneSuccessMsg || 'Verified'}
+                      </span>
+                    )}
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '6px' }}>
+                    <span style={{
+                      background: '#E2E8F0',
+                      color: '#334155',
+                      padding: '8px 10px',
                       borderRadius: '8px',
-                      border: '1.5px solid #cbd5e1',
-                      fontSize: '14px',
-                      outline: 'none',
-                      transition: 'border-color 0.2s ease',
-                      boxSizing: 'border-box'
-                    }}
-                    onFocus={e => e.target.style.borderColor = '#1e95d3'}
-                    onBlur={e => e.target.style.borderColor = '#cbd5e1'}
-                  />
+                      fontSize: '13px',
+                      fontWeight: 700,
+                      display: 'flex',
+                      alignItems: 'center',
+                      userSelect: 'none'
+                    }}>
+                      {countryCode}
+                    </span>
+
+                    <div style={{ position: 'relative', flex: 1 }}>
+                      <input
+                        type="tel"
+                        required
+                        value={formData.phone}
+                        onChange={(e) => handlePhoneChange(e.target.value)}
+                        onBlur={handlePhoneBlur}
+                        placeholder={
+                          countryCode === '+91'
+                            ? (phoneType === 'mobile' ? '98112 34567 (10 digits starting with 6-9)' : `e.g. ${activeStateObj.std}-23456789`)
+                            : 'Enter phone number'
+                        }
+                        style={{
+                          width: '100%',
+                          padding: '9px 12px',
+                          borderRadius: '8px',
+                          border: `1.5px solid ${phoneError ? '#EF4444' : (isPhoneValid ? '#10B981' : '#cbd5e1')}`,
+                          fontSize: '13.5px',
+                          outline: 'none',
+                          boxSizing: 'border-box',
+                          background: phoneError ? '#FEF2F2' : (isPhoneValid ? '#F0FDF4' : '#FFFFFF')
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {phoneError && (
+                    <div style={{ fontSize: '11.5px', color: '#DC2626', fontWeight: 600, marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <AlertCircle size={12} /> {phoneError}
+                    </div>
+                  )}
+
+                  <div style={{ fontSize: '11px', color: '#64748B', marginTop: '4px' }}>
+                    {countryCode === '+91'
+                      ? (phoneType === 'mobile'
+                          ? '💡 Enter 10 digits without leading 0 or +91. Must start with 6, 7, 8, or 9.'
+                          : `💡 Standard office telephone for ${selectedState}. Includes area STD code (${activeStateObj.std}).`)
+                      : `💡 Country dial code ${countryCode} will be automatically formatted.`}
+                  </div>
                 </div>
               </div>
 
+              {/* Row 4: Solution & State confirmation */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#212121', marginBottom: '5px' }}>
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, color: '#1E293B', marginBottom: '4px' }}>
                     Primary Solution
                   </label>
                   <select
@@ -335,80 +720,79 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
                       padding: '9px 12px',
                       borderRadius: '8px',
                       border: '1.5px solid #cbd5e1',
-                      fontSize: '14px',
+                      fontSize: '13.5px',
                       outline: 'none',
                       background: '#FFF',
-                      transition: 'border-color 0.2s ease',
                       boxSizing: 'border-box'
                     }}
-                    onFocus={e => e.target.style.borderColor = '#1e95d3'}
-                    onBlur={e => e.target.style.borderColor = '#cbd5e1'}
+                    onFocus={(e) => (e.target.style.borderColor = '#1e95d3')}
+                    onBlur={(e) => (e.target.style.borderColor = '#cbd5e1')}
                   >
-                    <option value="Aasaan Enterprises">Aasaan Enterprises</option>
-                    <option value="Aasaan ERP Lite">Aasaan ERP Lite</option>
+                    <option value="Aasaan Enterprises">Aasaan Enterprises (Global ERP)</option>
+                    <option value="Aasaan ERP Lite">Aasaan ERP Lite (SME 7-Day)</option>
                     <option value="AWM Waste Management">AWM Waste Management</option>
                   </select>
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#212121', marginBottom: '5px' }}>
-                    Country
+                  <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, color: '#1E293B', marginBottom: '4px' }}>
+                    Country & Region
                   </label>
                   <input
                     type="text"
-                    value={formData.country}
-                    onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                    value={countryCode === '+91' ? `${formData.country} (${selectedState})` : formData.country}
+                    readOnly
                     style={{
                       width: '100%',
                       padding: '9px 12px',
                       borderRadius: '8px',
                       border: '1.5px solid #cbd5e1',
-                      fontSize: '14px',
+                      fontSize: '13px',
                       outline: 'none',
-                      transition: 'border-color 0.2s ease',
+                      background: '#F1F5F9',
+                      color: '#475569',
                       boxSizing: 'border-box'
                     }}
-                    onFocus={e => e.target.style.borderColor = '#1e95d3'}
-                    onBlur={e => e.target.style.borderColor = '#cbd5e1'}
                   />
                 </div>
               </div>
 
+              {/* Row 5: Specific Requirements */}
               <div>
-                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#212121', marginBottom: '5px' }}>
+                <label style={{ display: 'block', fontSize: '12.5px', fontWeight: 700, color: '#1E293B', marginBottom: '4px' }}>
                   Specific Requirements or Current Pain Points
                 </label>
                 <textarea
-                  rows="3"
+                  rows="2"
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  placeholder="Tell us about your current software setup (e.g. migrating from Tally/Excel, need bin tracking, multi-warehouse sync)..."
+                  placeholder="Tell us about your setup (e.g. migrating from Tally/Excel, factory floor BOM, multi-bin warehouse, CPCB weighbridge)..."
                   style={{
                     width: '100%',
                     padding: '9px 12px',
                     borderRadius: '8px',
                     border: '1.5px solid #cbd5e1',
-                    fontSize: '14px',
+                    fontSize: '13px',
                     outline: 'none',
                     resize: 'none',
-                    transition: 'border-color 0.2s ease',
                     boxSizing: 'border-box'
                   }}
-                  onFocus={e => e.target.style.borderColor = '#1e95d3'}
-                  onBlur={e => e.target.style.borderColor = '#cbd5e1'}
+                  onFocus={(e) => (e.target.style.borderColor = '#1e95d3')}
+                  onBlur={(e) => (e.target.style.borderColor = '#cbd5e1')}
                 />
               </div>
 
+              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={isSyncing}
                 style={{
                   width: '100%',
                   padding: '13px',
-                  fontSize: '15.5px',
-                  fontWeight: 700,
-                  marginTop: '4px',
-                  background: 'var(--colorAccent)',
+                  fontSize: '15px',
+                  fontWeight: 800,
+                  marginTop: '2px',
+                  background: isEmailValid && isPhoneValid ? '#059669' : 'var(--colorAccent)',
                   color: '#FFFFFF',
                   border: 'none',
                   borderRadius: '8px',
@@ -418,23 +802,26 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
                   justifyContent: 'center',
                   gap: '8px',
                   boxShadow: '0 4px 14px rgba(30,149,211,0.3)',
-                  transition: 'background 0.2s ease, transform 0.15s ease',
+                  transition: 'all 0.2s ease',
                   opacity: isSyncing ? 0.75 : 1
                 }}
-                onMouseEnter={e => { if (!isSyncing) e.currentTarget.style.background = '#157bb3'; }}
-                onMouseLeave={e => { if (!isSyncing) e.currentTarget.style.background = 'var(--colorAccent)'; }}
+                onMouseEnter={(e) => {
+                  if (!isSyncing) e.currentTarget.style.transform = 'translateY(-1px)';
+                }}
+                onMouseLeave={(e) => {
+                  if (!isSyncing) e.currentTarget.style.transform = 'translateY(0)';
+                }}
               >
                 <Send size={16} />
-                <span>{isSyncing ? 'Submitting Request...' : 'Confirm & Request Architecture Demo'}</span>
+                <span>{isSyncing ? 'Submitting & Verifying...' : 'Confirm & Request Architecture Demo'}</span>
               </button>
 
-              <div style={{ fontSize: '11.5px', color: '#64748b', textAlign: 'center', marginTop: '2px' }}>
-                🔒 Your information is secure. Aasaan Services Solutions Pvt Ltd will never share your contact details.
+              <div style={{ fontSize: '11px', color: '#64748b', textAlign: 'center' }}>
+                🔒 Bank-grade 256-bit AES encryption. Official API synchronization verified.
               </div>
             </form>
           )}
         </div>
-
       </div>
     </div>
   );

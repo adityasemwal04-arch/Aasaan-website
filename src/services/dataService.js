@@ -1045,19 +1045,23 @@ export const AASAAN_OFFICIAL_API_KEY = 'CE114E4501D2F4E2DCEA3E17B546F339';
  */
 export async function sendLeadToOfficialAasaanApi(leadData) {
   const phone = (leadData.phone || leadData.mobile || '').trim();
+  const rawMobile = leadData.rawPhone || (phone.replace(/\D/g, '').length === 10 ? phone.replace(/\D/g, '') : phone);
   const solution = leadData.solution || 'Aasaan Enterprises';
   const requirementText = leadData.message 
     ? `[Product: ${solution}] ${leadData.message}` 
     : `Requested demo for ${solution}`;
+  const addressStr = leadData.state && leadData.state !== 'Other Indian State / UT'
+    ? `${leadData.state}, ${leadData.country || 'India'}`
+    : (leadData.address || leadData.country || 'India');
 
   const payload = {
     name: leadData.name || '',
     prefix: 'Mr.',
-    mobile: phone,
+    mobile: rawMobile,
     phone: phone,
     email: leadData.email || '',
     company: leadData.company || '',
-    address: leadData.address || leadData.country || 'India',
+    address: addressStr,
     pincode: leadData.pincode || '110026',
     website: leadData.website || '',
     gstin: leadData.gstin || '',
