@@ -54,7 +54,7 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
               alignItems: 'center',
               gap: '6px'
             }}>
-              <Globe size={13} /> Aasaan Enterprises Global Edition
+              <Globe size={13} /> Aasaan Enterprises
             </span>
             <span style={{
               background: '#f8fafc',
