@@ -159,6 +159,8 @@ fs.writeFileSync(path404, baseHtml, 'utf8');
 console.log('✓ Generated dist/404.html (GitHub Pages SPA Fallback)');
 
 // 2. Pre-generate directory index.html files for each route
+const faviconFiles = ['favicon.ico', 'favicon.png', 'favicon-32x32.png', 'favicon-16x16.png', 'apple-touch-icon.png', 'aasaan-mart-favicon.png'];
+
 for (const p of seoPages) {
   const targetDir = path.resolve('dist', p.route);
   if (!fs.existsSync(targetDir)) {
@@ -167,11 +169,31 @@ for (const p of seoPages) {
   const pageHtml = injectSeo(baseHtml, p);
   const targetFile = path.join(targetDir, 'index.html');
   fs.writeFileSync(targetFile, pageHtml, 'utf8');
+
+  // Also place local favicon copies in subdirectories for relative fallback
+  for (const fav of faviconFiles) {
+    const srcFav = path.resolve('public', fav);
+    if (fs.existsSync(srcFav)) {
+      fs.copyFileSync(srcFav, path.join(targetDir, fav));
+    }
+  }
+
   console.log(`✓ Pre-generated SEO page: /${p.route}/index.html`);
 }
 
-// 3. Ensure robots.txt and sitemap.xml are copied to dist
-const staticFilesToDist = ['robots.txt', 'sitemap.xml', 'aasaan-logo.png'];
+// 3. Ensure robots.txt, sitemap.xml, and favicons are copied to dist
+const staticFilesToDist = [
+  'robots.txt',
+  'sitemap.xml',
+  'aasaan-logo.png',
+  'favicon.ico',
+  'favicon.png',
+  'favicon-32x32.png',
+  'favicon-16x16.png',
+  'apple-touch-icon.png',
+  'aasaan-mart-favicon.png',
+  'aasaan-icon-hd.png'
+];
 for (const file of staticFilesToDist) {
   const src = path.resolve('public', file);
   const dest = path.resolve('dist', file);
@@ -222,7 +244,7 @@ for (const baseDest of springBootStaticDirs) {
       console.log('✓ Synced images to', imagesDest);
     }
 
-    for (const f of ['robots.txt', 'sitemap.xml', 'aasaan-logo.png']) {
+    for (const f of ['robots.txt', 'sitemap.xml', 'aasaan-logo.png', 'favicon.ico', 'favicon.png', 'favicon-32x32.png', 'favicon-16x16.png', 'apple-touch-icon.png', 'aasaan-mart-favicon.png', 'aasaan-icon-hd.png']) {
       const fSrc = path.resolve('public', f);
       const fDest = path.join(fullBaseDest, f);
       if (fs.existsSync(fSrc)) {

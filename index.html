@@ -46,8 +46,21 @@
     <meta name="twitter:image" content="https://www.aasaanerp.com/aasaan-logo.png" />
 
     <!-- Favicon & Icons -->
-    <link rel="icon" type="image/png" href="./aasaan-logo.png" />
-    <link rel="apple-touch-icon" href="./aasaan-logo.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <script>
+      (function() {
+        var base = window.location.pathname.startsWith('/Aasaan-website') ? '/Aasaan-website' : '';
+        var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+        link.type = 'image/png';
+        link.rel = 'shortcut icon';
+        link.href = base + '/favicon.png';
+        document.getElementsByTagName('head')[0].appendChild(link);
+      })();
+    </script>
 
     <!-- Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

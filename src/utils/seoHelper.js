@@ -146,4 +146,19 @@ export function updateMetaTags(pageId, blogData = null) {
     document.head.appendChild(twitterDesc);
   }
   twitterDesc.setAttribute('content', description);
+
+  // Ensure Tab Favicon is always set to the orange Aasaan Mart logo mark across all routes
+  try {
+    const isGh = window.location.pathname.startsWith('/Aasaan-website');
+    const prefix = isGh ? '/Aasaan-website' : '';
+    const faviconUrl = prefix + '/favicon.png';
+    let favLink = document.querySelector("link[rel='shortcut icon']") || document.querySelector("link[rel='icon']");
+    if (!favLink) {
+      favLink = document.createElement('link');
+      favLink.rel = 'shortcut icon';
+      document.head.appendChild(favLink);
+    }
+    favLink.type = 'image/png';
+    favLink.href = faviconUrl;
+  } catch (e) {}
 }
