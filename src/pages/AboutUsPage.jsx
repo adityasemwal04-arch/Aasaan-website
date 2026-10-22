@@ -46,34 +46,39 @@ export default function AboutUsPage({ onOpenDemo }) {
 
   const milestones = [
     {
-      year: '2014',
+      year: '2015',
       title: 'Foundation & Core Vision',
       desc: 'Founded in New Delhi by enterprise software veterans with one fundamental objective: dismantle the multi-million-dollar, bloated legacy ERP model and build intuitive business management software that anyone can master.'
     },
     {
       year: '2017',
       title: 'Indian GST Revolution',
-      desc: 'Pioneered zero-touch GST e-invoicing, e-Way bills, and multi-state tax reconciliation engines, enabling over 200+ Indian manufacturers to navigate the GST transition with zero operational disruption.'
+      desc: 'Pioneered zero-touch GST e-invoicing, e-Way bills, and multi-state tax reconciliation engines, enabling over 2,000+ Indian manufacturers to navigate the GST transition with zero operational disruption.'
     },
     {
-      year: '2019',
+      year: '2018',
       title: 'Global & Middle East Expansion',
       desc: 'Extended operations to the UAE and Middle East. Engineered multi-currency consolidation, GCC VAT compliance, and multi-branch warehouse distribution capabilities.'
     },
     {
-      year: '2021',
+      year: '2020',
       title: 'AWM Waste Management Flagship',
       desc: 'Launched AWM (Aasaan Waste Management ERP) — pioneering automated weighbridge gross/tare capture, GPS fleet tracking, and CPCB regulatory compliance for municipal and hazardous waste operators.'
     },
     {
-      year: '2024',
-      title: 'AWS Cloud-Native Architecture',
+      year: '2022',
+      title: 'Cloud-Native Architecture',
       desc: 'Re-engineered the entire technology stack onto AWS cloud microservices, delivering sub-second reporting across millions of records, bank-grade encryption, and native mobile companion apps.'
     },
     {
-      year: '2026',
+      year: '2024',
       title: 'AI-Native ERP & ERP Lite',
       desc: 'Introduced AI-driven predictive stock replenishment, automated shop-floor telemetry, and the agile Aasaan ERP Lite suite for fast-growing SMEs with 7-day instant go-live.'
+    },
+    {
+      year: '2026',
+      title: 'Agentic AI',
+      desc: 'Launched next-generation Agentic AI capabilities — autonomous ERP agents that proactively detect anomalies, trigger approvals, generate reports, and operate workflows with minimal human intervention.'
     }
   ];
 
@@ -88,7 +93,7 @@ export default function AboutUsPage({ onOpenDemo }) {
       icon: HeartHandshake,
       color: '#ff5b0b',
       title: 'Relentless Customer Advocacy',
-      desc: 'We do not operate as a distant software vendor. We act as an extension of your internal operations team. Over 74% of our R&D roadmap is directly influenced by real-world customer feature requests.'
+      desc: 'We do not operate as a distant software vendor. We act as an extension of your internal operations team. Over 85% of our R&D roadmap is directly influenced by real-world customer feature requests.'
     },
     {
       icon: ShieldCheck,
@@ -137,7 +142,7 @@ export default function AboutUsPage({ onOpenDemo }) {
   const aboutFaqs = [
     {
       q: "How long has Aasaan Services Solutions been in operation?",
-      a: "Aasaan Services Solutions Private Limited was incorporated in 2014 and has been serving enterprise clients for over 10+ continuous years. Over the decade, we have expanded to serve over 5,000+ active deployments across 20+ countries including India, the UAE, the US, and the UK."
+      a: "Aasaan Services Solutions Private Limited was incorporated in 2015 and has been serving enterprise clients for over 10+ continuous years. Over the decade, we have expanded to serve over 5,000+ active deployments across 20+ countries including India, the UAE, the US, and the UK."
     },
     {
       q: "Where is our business data hosted, and how secure is it?",
@@ -196,7 +201,7 @@ export default function AboutUsPage({ onOpenDemo }) {
             marginBottom: '24px'
           }}>
             <Sparkles size={14} color="#ffbe3d" />
-            <span>OUR STORY • OVER A DECADE OF ENTERPRISE INNOVATION (2014 – 2026)</span>
+            <span>OUR STORY • OVER A DECADE OF ENTERPRISE INNOVATION (2015 – 2026)</span>
           </div>
 
           <h1 style={{
@@ -251,7 +256,7 @@ export default function AboutUsPage({ onOpenDemo }) {
             </button>
 
             <a
-              href="tel:+919289238814"
+              href="tel:+917428267616"
               style={{
                 background: 'rgba(255, 255, 255, 0.15)',
                 color: '#FFFFFF',
@@ -269,7 +274,7 @@ export default function AboutUsPage({ onOpenDemo }) {
               onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)')}
               onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)')}
             >
-              <PhoneCall size={16} /> Contact Team: +91 92892 38814
+              <PhoneCall size={16} /> Contact Team: +91 74282 67616
             </a>
           </div>
         </div>
@@ -300,7 +305,7 @@ export default function AboutUsPage({ onOpenDemo }) {
           <div>
             <div style={{ fontSize: '36px', fontWeight: 900, color: 'var(--primary-blue)', marginBottom: '4px' }}>10+</div>
             <div style={{ fontSize: '13.5px', fontWeight: 700, color: '#1E293B', marginBottom: '2px' }}>Years of Experience</div>
-            <div style={{ fontSize: '12px', color: '#64748B' }}>Founded in 2014</div>
+            <div style={{ fontSize: '12px', color: '#64748B' }}>Founded in 2015</div>
           </div>
           <div>
             <div style={{ fontSize: '36px', fontWeight: 900, color: 'var(--primary-blue)', marginBottom: '4px' }}>20+</div>
@@ -318,7 +323,7 @@ export default function AboutUsPage({ onOpenDemo }) {
             <div style={{ fontSize: '12px', color: '#64748B' }}>Unmatched Support Record</div>
           </div>
           <div>
-            <div style={{ fontSize: '36px', fontWeight: 900, color: '#ff5b0b', marginBottom: '4px' }}>74%</div>
+            <div style={{ fontSize: '36px', fontWeight: 900, color: '#ff5b0b', marginBottom: '4px' }}>85%</div>
             <div style={{ fontSize: '13.5px', fontWeight: 700, color: '#1E293B', marginBottom: '2px' }}>R&D Focus</div>
             <div style={{ fontSize: '12px', color: '#64748B' }}>Customer-Driven Features</div>
           </div>
@@ -540,7 +545,7 @@ export default function AboutUsPage({ onOpenDemo }) {
               </h3>
 
               <p style={{ fontSize: '15.5px', lineHeight: 1.8, color: '#334155', flex: 1 }}>
-                To design and deliver a lightning-fast, user-centric ERP ecosystem that simplifies complex operational processes without compromising on depth. With over 74% of our resources dedicated to engineering and customer-led R&D, we commit to long-term partnerships, 7-day rapid deployments, and personalized, high-touch support that helps our clients outperform their competitors.
+                To design and deliver a lightning-fast, user-centric ERP ecosystem that simplifies complex operational processes without compromising on depth. With over 85% of our resources dedicated to engineering and customer-led R&D, we commit to long-term partnerships, 7-day rapid deployments, and personalized, high-touch support that helps our clients outperform their competitors.
               </p>
 
               <div style={{ borderTop: '1px solid rgba(254, 215, 170, 0.6)', paddingTop: '16px', marginTop: '20px', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: 700, color: '#ff5b0b' }}>
@@ -1036,10 +1041,10 @@ export default function AboutUsPage({ onOpenDemo }) {
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', fontSize: '14px', color: '#E2E8F0' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <PhoneCall size={15} color="#38BDF8" /> +91 92892 38814
+                  <PhoneCall size={15} color="#38BDF8" /> +91 74282 67616
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Mail size={15} color="#38BDF8" /> sales@aasaanerp.com
+                  <Mail size={15} color="#38BDF8" /> contactus@aasaanservices.in
                 </div>
               </div>
             </div>
@@ -1154,7 +1159,7 @@ export default function AboutUsPage({ onOpenDemo }) {
             </button>
 
             <a
-              href="mailto:sales@aasaanerp.com"
+              href="mailto:contactus@aasaanservices.in"
               style={{
                 background: 'rgba(255, 255, 255, 0.15)',
                 color: '#FFFFFF',
@@ -1172,7 +1177,7 @@ export default function AboutUsPage({ onOpenDemo }) {
               onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)')}
               onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)')}
             >
-              Email: sales@aasaanerp.com
+              Email: contactus@aasaanservices.in
             </a>
           </div>
         </div>

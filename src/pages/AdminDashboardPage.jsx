@@ -138,7 +138,8 @@ export default function AdminDashboardPage({ onNavigate }) {
           parsed &&
           parsed.recipientEmail &&
           parsed.recipientEmail !== 'work007life22@gmail.com' &&
-          parsed.recipientEmail !== 'sales@aasaanerp.com'
+          parsed.recipientEmail !== 'sales@aasaanerp.com' &&
+          parsed.recipientEmail !== 'contactus@aasaanservices.in'
         ) {
           return parsed.recipientEmail;
         }
@@ -201,7 +202,8 @@ export default function AdminDashboardPage({ onNavigate }) {
         if (
           notif.recipientEmail &&
           notif.recipientEmail !== 'work007life22@gmail.com' &&
-          notif.recipientEmail !== 'sales@aasaanerp.com'
+          notif.recipientEmail !== 'sales@aasaanerp.com' &&
+          notif.recipientEmail !== 'contactus@aasaanservices.in'
         ) {
           setNotificationEmail(notif.recipientEmail);
         } else {

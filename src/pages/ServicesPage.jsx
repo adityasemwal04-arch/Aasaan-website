@@ -1179,7 +1179,7 @@ export default function ServicesPage({ onOpenDemo }) {
             </button>
 
             <a
-              href="tel:+919289238814"
+              href="tel:+917428267616"
               style={{
                 background: 'rgba(255, 255, 255, 0.15)',
                 color: '#FFFFFF',
@@ -1197,7 +1197,7 @@ export default function ServicesPage({ onOpenDemo }) {
               onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)'}
               onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'}
             >
-              <PhoneCall size={17} /> Direct Desk: +91 92892 38814
+              <PhoneCall size={17} /> Direct Desk: +91 74282 67616
             </a>
           </div>
         </div>

@@ -17,7 +17,7 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
     phone: '',
     country: 'India',
     state: 'Delhi NCR',
-    solution: 'Aasaan Enterprises',
+    solution: 'Aasaan ERP Enterprise',
     message: ''
   });
 
@@ -241,7 +241,7 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
       phone: '',
       country: 'India',
       state: 'Delhi NCR',
-      solution: 'Aasaan Enterprises',
+      solution: 'Aasaan ERP Enterprise',
       message: ''
     });
     setCountryCode('+91');
@@ -607,40 +607,11 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
                   )}
                 </div>
 
-                {/* If India, provide Phone Type Toggle (Mobile vs Landline) */}
-                {countryCode === '+91' && (
-                  <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '10px', fontSize: '12px', color: '#475569' }}>
-                    <span style={{ fontWeight: 700 }}>Line Type:</span>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer', fontWeight: phoneType === 'mobile' ? 700 : 500, color: phoneType === 'mobile' ? 'var(--primary-blue)' : '#64748B' }}>
-                      <input
-                        type="radio"
-                        name="phoneType"
-                        value="mobile"
-                        checked={phoneType === 'mobile'}
-                        onChange={() => handlePhoneTypeChange('mobile')}
-                        style={{ accentColor: 'var(--primary-blue)' }}
-                      />
-                      10-Digit Mobile (+91)
-                    </label>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer', fontWeight: phoneType === 'landline' ? 700 : 500, color: phoneType === 'landline' ? 'var(--primary-blue)' : '#64748B' }}>
-                      <input
-                        type="radio"
-                        name="phoneType"
-                        value="landline"
-                        checked={phoneType === 'landline'}
-                        onChange={() => handlePhoneTypeChange('landline')}
-                        style={{ accentColor: 'var(--primary-blue)' }}
-                      />
-                      Office Landline (STD {activeStateObj.std})
-                    </label>
-                  </div>
-                )}
-
                 {/* Phone Input */}
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
                     <label style={{ fontSize: '12.5px', fontWeight: 700, color: '#1E293B' }}>
-                      {phoneType === 'mobile' ? 'Mobile / WhatsApp Number *' : 'Office Landline Number *'}
+                      Mobile / WhatsApp Number *
                     </label>
                     {isPhoneValid && (
                       <span style={{ fontSize: '11.5px', color: '#059669', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
@@ -728,7 +699,7 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
                     onFocus={(e) => (e.target.style.borderColor = '#1e95d3')}
                     onBlur={(e) => (e.target.style.borderColor = '#cbd5e1')}
                   >
-                    <option value="Aasaan Enterprises">Aasaan Enterprises (Global ERP)</option>
+                    <option value="Aasaan ERP Enterprise">Aasaan ERP Enterprise (Global ERP)</option>
                     <option value="Aasaan ERP Lite">Aasaan ERP Lite (SME 7-Day)</option>
                     <option value="AWM Waste Management">AWM Waste Management</option>
                     <option value="Aasaan Mart">Aasaan Mart (Business Marketplace)</option>
@@ -816,10 +787,6 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
                 <Send size={16} />
                 <span>{isSyncing ? 'Submitting & Verifying...' : 'Confirm & Request Architecture Demo'}</span>
               </button>
-
-              <div style={{ fontSize: '11px', color: '#64748b', textAlign: 'center' }}>
-                🔒 Bank-grade 256-bit AES encryption. Official API synchronization verified.
-              </div>
             </form>
           )}
         </div>

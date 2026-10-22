@@ -1867,7 +1867,8 @@ export async function getNotificationSettings() {
         localSettings &&
         (!localSettings.recipientEmail ||
           localSettings.recipientEmail === 'work007life22@gmail.com' ||
-          localSettings.recipientEmail === 'sales@aasaanerp.com')
+          localSettings.recipientEmail === 'sales@aasaanerp.com' ||
+          localSettings.recipientEmail === 'contactus@aasaanservices.in')
       ) {
         localSettings.recipientEmail = 'aditya@aasaan.in';
         localStorage.setItem('aasaan_notification_settings', JSON.stringify(localSettings));
@@ -1887,7 +1888,8 @@ export async function getNotificationSettings() {
         data &&
         data.recipientEmail &&
         data.recipientEmail !== 'work007life22@gmail.com' &&
-        data.recipientEmail !== 'sales@aasaanerp.com'
+        data.recipientEmail !== 'sales@aasaanerp.com' &&
+        data.recipientEmail !== 'contactus@aasaanservices.in'
       ) {
         localStorage.setItem('aasaan_notification_settings', JSON.stringify(data));
         return data;
