@@ -45,20 +45,37 @@
     <meta name="twitter:description" content="Deploy modern, AI-powered cloud ERP in days. Streamline finance, GST invoicing, supply chain, HRMS, and multi-entity operations." />
     <meta name="twitter:image" content="https://www.aasaanerp.com/aasaan-logo.png" />
 
-    <!-- Favicon & Icons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <!-- Favicon & Icons with Cache-Busting -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=20261022" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=20261022" />
+    <link rel="icon" type="image/png" href="/favicon.png?v=20261022" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=20261022" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=20261022" />
     <script>
       (function() {
-        var base = window.location.pathname.startsWith('/Aasaan-website') ? '/Aasaan-website' : '';
-        var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-        link.type = 'image/png';
-        link.rel = 'shortcut icon';
-        link.href = base + '/favicon.png';
-        document.getElementsByTagName('head')[0].appendChild(link);
+        try {
+          var isGh = window.location.pathname.startsWith('/Aasaan-website');
+          var prefix = isGh ? '/Aasaan-website' : '';
+          var favUrl = prefix + '/favicon.png?v=20261022';
+          var icoUrl = prefix + '/favicon.ico?v=20261022';
+          
+          // Remove any stale cached favicon tags
+          var existing = document.querySelectorAll("link[rel*='icon']");
+          existing.forEach(function(el) { el.parentNode.removeChild(el); });
+
+          var f1 = document.createElement('link');
+          f1.rel = 'icon';
+          f1.type = 'image/png';
+          f1.sizes = '32x32';
+          f1.href = favUrl;
+          document.head.appendChild(f1);
+
+          var f2 = document.createElement('link');
+          f2.rel = 'shortcut icon';
+          f2.type = 'image/x-icon';
+          f2.href = icoUrl;
+          document.head.appendChild(f2);
+        } catch (e) {}
       })();
     </script>
 

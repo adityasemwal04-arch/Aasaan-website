@@ -9,6 +9,11 @@ if (!fs.existsSync(distIndexPath)) {
 
 let baseHtml = fs.readFileSync(distIndexPath, 'utf8');
 
+// Ensure all favicon links are root-absolute with cache buster for all domains
+baseHtml = baseHtml.replace(/href="\.\/favicon/g, 'href="/favicon');
+baseHtml = baseHtml.replace(/href="\.\/apple-touch-icon/g, 'href="/apple-touch-icon');
+fs.writeFileSync(distIndexPath, baseHtml, 'utf8');
+
 // List of static SEO pages to pre-generate for search engines & static hosting (GitHub Pages / Render)
 const seoPages = [
   {
@@ -149,6 +154,10 @@ function injectSeo(html, page) {
   if (updated.includes('name="twitter:description"')) {
     updated = updated.replace(/<meta name="twitter:description" content=".*?" \/>/i, `<meta name="twitter:description" content="${page.desc}" />`);
   }
+
+  // Ensure all favicon links are root-absolute
+  updated = updated.replace(/href="\.\/favicon/g, 'href="/favicon');
+  updated = updated.replace(/href="\.\/apple-touch-icon/g, 'href="/apple-touch-icon');
 
   return updated;
 }

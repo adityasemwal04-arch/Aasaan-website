@@ -151,14 +151,25 @@ export function updateMetaTags(pageId, blogData = null) {
   try {
     const isGh = window.location.pathname.startsWith('/Aasaan-website');
     const prefix = isGh ? '/Aasaan-website' : '';
-    const faviconUrl = prefix + '/favicon.png';
-    let favLink = document.querySelector("link[rel='shortcut icon']") || document.querySelector("link[rel='icon']");
-    if (!favLink) {
-      favLink = document.createElement('link');
-      favLink.rel = 'shortcut icon';
-      document.head.appendChild(favLink);
-    }
-    favLink.type = 'image/png';
-    favLink.href = faviconUrl;
+    const faviconUrl = prefix + '/favicon.png?v=20261022';
+    const icoUrl = prefix + '/favicon.ico?v=20261022';
+
+    const existing = document.querySelectorAll("link[rel*='icon']");
+    existing.forEach((el) => {
+      if (el && el.parentNode) el.parentNode.removeChild(el);
+    });
+
+    const f1 = document.createElement('link');
+    f1.rel = 'icon';
+    f1.type = 'image/png';
+    f1.sizes = '32x32';
+    f1.href = faviconUrl;
+    document.head.appendChild(f1);
+
+    const f2 = document.createElement('link');
+    f2.rel = 'shortcut icon';
+    f2.type = 'image/x-icon';
+    f2.href = icoUrl;
+    document.head.appendChild(f2);
   } catch (e) {}
 }
