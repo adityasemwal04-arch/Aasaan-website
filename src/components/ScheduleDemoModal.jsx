@@ -580,7 +580,7 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
                   {countryCode === '+91' && (
                     <div>
                       <label style={{ display: 'block', fontSize: '11.5px', fontWeight: 700, color: '#475569', marginBottom: '3px' }}>
-                        State / Telecom Circle (STD)
+                        State
                       </label>
                       <select
                         value={selectedState}
@@ -599,7 +599,7 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
                       >
                         {INDIAN_STATES_STD.map((s) => (
                           <option key={s.state} value={s.state}>
-                            {s.state} {s.std !== 'STD' ? `(STD: ${s.std})` : ''}
+                            {s.state}
                           </option>
                         ))}
                       </select>
