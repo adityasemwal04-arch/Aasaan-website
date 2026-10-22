@@ -24,8 +24,6 @@ import {
   X as CloseIcon,
   ChevronDown,
   ChevronUp,
-  Quote,
-  Star,
   FileCheck,
   Clock,
   Mail
@@ -116,27 +114,6 @@ export default function AboutUsPage({ onOpenDemo }) {
     { name: 'Omnichannel Retail Chains', metric: '250+ Stores' },
     { name: 'Food, Dairy & Agriculture', metric: '90+ Depots' },
     { name: 'Chemicals, Oil & Energy', metric: '60+ Sites' }
-  ];
-
-  const testimonials = [
-    {
-      quote: "Aasaan migrated our 12-year-old Tally and Excel ledgers in just 4 days with zero discrepancies. Our floor supervisors were issuing work orders and material requisitions without needing IT help.",
-      author: "Rajesh Singhania",
-      role: "Managing Director",
-      company: "Apex Precision Auto Components Ltd."
-    },
-    {
-      quote: "With AWM, our weighbridge gross/tare capture and CPCB compliance manifests are 100% automated. We saved 20+ hours every week in manual ledger entry and driver dispatch scheduling.",
-      author: "Pooja Deshmukh",
-      role: "Head of Operations",
-      company: "EcoClean Waste Solutions Pvt. Ltd."
-    },
-    {
-      quote: "Managing 35 retail outlets with real-time POS sync and automated replenishment from central warehouse used to be a nightmare. Aasaan made multi-store billing effortless.",
-      author: "Karan Mehta",
-      role: "VP Supply Chain",
-      company: "Urban Retail Brands Network"
-    }
   ];
 
   const aboutFaqs = [
@@ -838,73 +815,6 @@ export default function AboutUsPage({ onOpenDemo }) {
                 </div>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* ======================================================== */}
-      {/* 8. CLIENT VOICES & TESTIMONIALS                          */}
-      {/* ======================================================== */}
-      <section style={{ padding: '80px 20px', background: '#FFFFFF' }}>
-        <div style={{ maxWidth: '1150px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              background: '#ECFDF5',
-              color: '#059669',
-              padding: '6px 16px',
-              borderRadius: '20px',
-              fontSize: '12.5px',
-              fontWeight: 800,
-              textTransform: 'uppercase',
-              letterSpacing: '0.04em',
-              marginBottom: '12px'
-            }}>
-              <Star size={14} fill="#059669" /> Proven Customer Satisfaction
-            </div>
-            <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 38px)', fontWeight: 900, color: '#0F172A', marginBottom: '14px' }}>
-              Trusted by 5,000+ Forward-Thinking Enterprises
-            </h2>
-            <p style={{ fontSize: '16px', color: '#64748B', maxWidth: '650px', margin: '0 auto' }}>
-              Hear how leaders across manufacturing, recycling, and retail transformed operations with Aasaan.
-            </p>
-          </div>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '24px'
-          }}>
-            {testimonials.map((t, idx) => (
-              <div
-                key={idx}
-                style={{
-                  background: '#F8FAFC',
-                  borderRadius: '16px',
-                  padding: '30px 26px',
-                  border: '1px solid #E2E8F0',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  boxShadow: '0 4px 16px rgba(0,0,0,0.03)'
-                }}
-              >
-                <div>
-                  <Quote size={28} color="var(--primary-blue)" style={{ opacity: 0.4, marginBottom: '14px' }} />
-                  <p style={{ fontSize: '14.5px', lineHeight: 1.75, color: '#334155', fontStyle: 'italic', marginBottom: '24px' }}>
-                    "{t.quote}"
-                  </p>
-                </div>
-
-                <div style={{ borderTop: '1px solid #E2E8F0', paddingTop: '16px' }}>
-                  <div style={{ fontSize: '15px', fontWeight: 800, color: '#0F172A' }}>{t.author}</div>
-                  <div style={{ fontSize: '12.5px', color: 'var(--primary-blue)', fontWeight: 600 }}>{t.role}</div>
-                  <div style={{ fontSize: '12px', color: '#64748B' }}>{t.company}</div>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
