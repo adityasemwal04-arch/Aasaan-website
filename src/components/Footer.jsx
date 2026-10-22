@@ -67,8 +67,19 @@ export default function Footer({ onOpenDemo, onNavigate }) {
             />
             <p>
               Aasaan ERP is a powerful business management software that can perfectly integrate with any type of business.
-              Available on the cloud and on-premises, powered by Amazon Web Services (AWS). AI-powered, scalable, and easy to use.
+              Available on the cloud and on-premises, powered by Amazon Web Services (AWS), Microsoft Azure, and Google Cloud (GCP). AI-powered, scalable, and easy to use.
             </p>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', margin: '10px 0 4px' }}>
+              <span style={{ fontSize: '11px', background: 'rgba(255,255,255,0.08)', color: '#cbd5e1', padding: '3px 8px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.15)' }}>
+                ☁️ AWS Powered
+              </span>
+              <span style={{ fontSize: '11px', background: 'rgba(255,255,255,0.08)', color: '#cbd5e1', padding: '3px 8px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.15)' }}>
+                ☁️ Azure Powered
+              </span>
+              <span style={{ fontSize: '11px', background: 'rgba(255,255,255,0.08)', color: '#cbd5e1', padding: '3px 8px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.15)' }}>
+                ☁️ Google Cloud Powered
+              </span>
+            </div>
             <p style={{ margin: '14px 0 8px', fontWeight: 600, color: '#ffffff', fontSize: '13px' }}>Follow Us</p>
             <div className="row_alignment wrap" style={{ gap: '8px' }}>
               {[
@@ -92,9 +103,9 @@ export default function Footer({ onOpenDemo, onNavigate }) {
               <a href={getRoutePath('home')} onClick={(e) => handlePageLink('home', e)} className="footer_link">Home</a>
               <a href={getRoutePath('services')} onClick={(e) => handlePageLink('services', e)} className="footer_link">Services</a>
               <a href={getRoutePath('about')} onClick={(e) => handlePageLink('about', e)} className="footer_link">About Us</a>
+              <a href={getRoutePath('blog/manufacturing-engineering')} onClick={(e) => handlePageLink('blog/manufacturing-engineering', e)} className="footer_link">Blogs</a>
               <a href="#contact" onClick={(e) => { e.preventDefault(); onOpenDemo(); }} className="footer_link">Contact Us</a>
               <a href={getRoutePath('partners')} onClick={(e) => handlePageLink('partners', e)} className="footer_link">Become Our Partner</a>
-              <a href={getRoutePath('login')} onClick={(e) => handlePageLink('login', e)} className="footer_link">Admin Portal</a>
             </div>
           </div>
 
@@ -115,7 +126,6 @@ export default function Footer({ onOpenDemo, onNavigate }) {
                 <span>Aasaan Mart</span>
                 <span style={{ fontSize: '10px', background: 'rgba(16, 185, 129, 0.15)', padding: '1px 5px', borderRadius: '3px' }}>↗</span>
               </a>
-              <a href={getRoutePath('blog/manufacturing-engineering')} onClick={(e) => handlePageLink('blog/manufacturing-engineering', e)} className="footer_link">Blog</a>
             </div>
           </div>
 
@@ -123,10 +133,6 @@ export default function Footer({ onOpenDemo, onNavigate }) {
           <div className="footer_container column_alignment" style={{ flex: '1', minWidth: '220px' }}>
             <span className="footer_heading">Reach Us</span>
             <div className="column_alignment" style={{ gap: '10px' }}>
-              <div className="footer_link" style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                <i className="fas fa-map-marker-alt" style={{ marginTop: '3px', color: 'var(--colorAccent)', fontSize: '14px' }}></i>
-                <span>17A/35, Fourth Floor,<br />West Punjabi Bagh,<br />New Delhi 110026</span>
-              </div>
               <a href="mailto:contactus@aasaanservices.in" className="footer_link" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <i className="fas fa-envelope" style={{ color: 'var(--colorAccent)', fontSize: '14px' }}></i>
                 <span>contactus@aasaanservices.in</span>

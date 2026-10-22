@@ -137,7 +137,7 @@ export default function AboutUsPage({ onOpenDemo }) {
   const aboutFaqs = [
     {
       q: "How long has Aasaan Services Solutions been in operation?",
-      a: "Aasaan Services Solutions Private Limited was incorporated in 2014 and has been serving enterprise clients for over 10+ continuous years. Over the decade, we have expanded to serve over 1,250+ active deployments across 20+ countries including India, the UAE, the US, and the UK."
+      a: "Aasaan Services Solutions Private Limited was incorporated in 2014 and has been serving enterprise clients for over 10+ continuous years. Over the decade, we have expanded to serve over 5,000+ active deployments across 20+ countries including India, the UAE, the US, and the UK."
     },
     {
       q: "Where is our business data hosted, and how secure is it?",
@@ -308,7 +308,7 @@ export default function AboutUsPage({ onOpenDemo }) {
             <div style={{ fontSize: '12px', color: '#64748B' }}>India, UAE, US & Beyond</div>
           </div>
           <div>
-            <div style={{ fontSize: '36px', fontWeight: 900, color: 'var(--primary-blue)', marginBottom: '4px' }}>1,250+</div>
+            <div style={{ fontSize: '36px', fontWeight: 900, color: 'var(--primary-blue)', marginBottom: '4px' }}>5,000+</div>
             <div style={{ fontSize: '13.5px', fontWeight: 700, color: '#1E293B', marginBottom: '2px' }}>Active Deployments</div>
             <div style={{ fontSize: '12px', color: '#64748B' }}>SMEs to Large Enterprises</div>
           </div>
@@ -709,7 +709,7 @@ export default function AboutUsPage({ onOpenDemo }) {
               Key Milestones in the Aasaan ERP Journey
             </h2>
             <p style={{ fontSize: '16px', color: '#64748B', maxWidth: '650px', margin: '0 auto' }}>
-              From a boutique New Delhi engineering studio to a multi-national platform supporting over 1,250+ enterprise installations.
+              From a boutique New Delhi engineering studio to a multi-national platform supporting over 5,000+ enterprise installations.
             </p>
           </div>
 
@@ -860,7 +860,7 @@ export default function AboutUsPage({ onOpenDemo }) {
               <Star size={14} fill="#059669" /> Proven Customer Satisfaction
             </div>
             <h2 style={{ fontSize: 'clamp(28px, 3.5vw, 38px)', fontWeight: 900, color: '#0F172A', marginBottom: '14px' }}>
-              Trusted by 1,250+ Forward-Thinking Enterprises
+              Trusted by 5,000+ Forward-Thinking Enterprises
             </h2>
             <p style={{ fontSize: '16px', color: '#64748B', maxWidth: '650px', margin: '0 auto' }}>
               Hear how leaders across manufacturing, recycling, and retail transformed operations with Aasaan.
@@ -1120,7 +1120,7 @@ export default function AboutUsPage({ onOpenDemo }) {
             maxWidth: '700px',
             margin: '0 auto 36px'
           }}>
-            Join over 1,250+ high-growth businesses running on Aasaan. Schedule a 1-on-1 guided architecture walkthrough with our solutions team.
+            Join over 5,000+ high-growth businesses running on Aasaan. Schedule a 1-on-1 guided architecture walkthrough with our solutions team.
           </p>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '16px', alignItems: 'center' }}>

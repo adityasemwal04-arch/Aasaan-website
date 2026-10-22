@@ -21,7 +21,12 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
 
   const filteredIndustries = industryFilter === 'All'
     ? globalIndustries
-    : globalIndustries.filter((ind) => ind.name.toLowerCase().includes(industryFilter.toLowerCase()) || ind.tag.toLowerCase().includes(industryFilter.toLowerCase()));
+    : globalIndustries.filter((ind) => {
+        if (industryFilter === 'Waste & Recycling') {
+          return ind.name.includes('Waste') || ind.name.includes('Recycling');
+        }
+        return ind.name.toLowerCase().includes(industryFilter.toLowerCase()) || ind.tag.toLowerCase().includes(industryFilter.toLowerCase());
+      });
 
   return (
     <div className="column_alignment base_margin" style={{ marginTop: '106px' }}>
@@ -60,7 +65,7 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
               fontSize: '12.5px',
               fontWeight: 600
             }}>
-              ☁️ AWS Powered &amp; On-Premises
+              ☁️ Cloud Powered &amp; On-Premises
             </span>
           </div>
 
@@ -87,7 +92,7 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
             flexWrap: 'wrap'
           }}>
             <button onClick={onOpenDemo} className="accent_button" style={{ padding: '13px 28px', fontSize: '15px' }}>
-              <span>Schedule Architecture Demo</span>
+              <span>Schedule Detailed Demo</span>
               <ArrowRight size={16} style={{ marginLeft: '6px' }} />
             </button>
             <a
@@ -111,7 +116,7 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
               onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--colorAccent)'; e.currentTarget.style.color = 'var(--colorAccent)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#cbd5e1'; e.currentTarget.style.color = '#212121'; }}
             >
-              <span>Register at erpplus.aasaan.in</span>
+              <span>Try Free Demo Today</span>
               <ExternalLink size={15} />
             </a>
           </div>
@@ -221,7 +226,7 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
 
             {/* Quick Filter */}
             <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginTop: '22px', flexWrap: 'wrap' }}>
-              {['All', 'Manufacturing', 'Pharma', 'Chemical', 'Construction', 'Trading', 'Warehouse', 'Recycling'].map((f) => (
+              {['All', 'Manufacturing', 'Pharma', 'Chemical', 'Construction', 'Trading', 'Warehouse', 'Waste & Recycling'].map((f) => (
                 <button
                   key={f}
                   onClick={() => setIndustryFilter(f)}
@@ -476,7 +481,7 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
                       {activeModule.tag}
                     </span>
                     <span style={{ fontSize: '12px', color: '#cbd5e1', background: 'rgba(15, 23, 42, 0.7)', padding: '4px 10px', borderRadius: '4px' }}>
-                      Module 0{globalModules.findIndex(m => m.id === selectedModuleId) + 1} of 0{globalModules.length}
+                      Module {String(globalModules.findIndex(m => m.id === selectedModuleId) + 1).padStart(2, '0')} of {String(globalModules.length).padStart(2, '0')}
                     </span>
                   </div>
                 </div>
@@ -556,8 +561,14 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
               Built on Secure Cloud &amp; On-Premises Architecture
             </h2>
             <p style={{ fontSize: '16px', color: '#5f5f5f', margin: '0 auto', lineHeight: 1.5 }}>
-              Deploy on high-availability Amazon Web Services (AWS) or host entirely on your own secure on-premises private infrastructure.
+              Deploy on high-availability Amazon Web Services (AWS), Microsoft Azure, Google Cloud (GCP), or host entirely on your own secure on-premises private infrastructure.
             </p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '16px', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: '12px', background: '#f1f5f9', color: '#334155', padding: '4px 12px', borderRadius: '20px', fontWeight: 600, border: '1px solid #cbd5e1' }}>☁️ AWS Powered</span>
+              <span style={{ fontSize: '12px', background: '#f1f5f9', color: '#334155', padding: '4px 12px', borderRadius: '20px', fontWeight: 600, border: '1px solid #cbd5e1' }}>☁️ Azure Powered</span>
+              <span style={{ fontSize: '12px', background: '#f1f5f9', color: '#334155', padding: '4px 12px', borderRadius: '20px', fontWeight: 600, border: '1px solid #cbd5e1' }}>☁️ Google Cloud Powered</span>
+              <span style={{ fontSize: '12px', background: '#f1f5f9', color: '#334155', padding: '4px 12px', borderRadius: '20px', fontWeight: 600, border: '1px solid #cbd5e1' }}>🏢 On-Premises Private</span>
+            </div>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
@@ -677,7 +688,7 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
             Maximize Your ERP Technology ROI with <br /><span style={{ color: '#75d0f7' }}>Aasaan ERP Global</span>
           </h2>
           <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.85)', margin: '0 auto', maxWidth: '600px', lineHeight: 1.5 }}>
-            Join 100+ enterprises running connected operations across sales, finance, inventory, and manufacturing.
+            Join 5,000+ enterprises running connected operations across sales, finance, inventory, and manufacturing.
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '14px', marginTop: '28px', flexWrap: 'wrap' }}>
             <button onClick={onOpenDemo} className="accent_button" style={{ padding: '13px 30px', fontSize: '15px' }}>
@@ -704,7 +715,7 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
               onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.2)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; }}
             >
-              <span>Register Now at erpplus.aasaan.in</span>
+              <span>Try Free Demo Today</span>
               <ExternalLink size={15} />
             </a>
           </div>

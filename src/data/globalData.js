@@ -185,6 +185,22 @@ export const globalModules = [
     img: 'https://images.unsplash.com/photo-1581092162384-8987c1d64718?auto=format&fit=crop&w=1000&q=80',
     desc: 'Empowers plant managers with 360-degree shop-floor control. Explode multi-tier BOMs, schedule work centers, issue barcode job cards, and calculate scrap and by-product costs.',
     highlights: ['Capacity planning & bottleneck alerts', 'Subcontracting & job-work accounting', 'Machine cycle-time logs', 'In-process QC tolerance gates']
+  },
+  {
+    id: 'digital-ceo',
+    title: 'Digital CEO',
+    tag: 'Executive Command Center',
+    img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1000&q=80',
+    desc: 'An AI-driven executive cockpit engineered for founders, CEOs, and C-suite leadership. Consolidates multi-plant metrics, projected cash runway, automated margin leakage alerts, and strategic KPI variances into real-time decision intelligence.',
+    highlights: ['Multi-entity executive flash reports', 'Automated anomaly & margin leak alerts', 'Real-time cash runway & burn forecasting', 'Voice & natural language KPI querying']
+  },
+  {
+    id: 'ai-capabilities',
+    title: 'AI Capabilities',
+    tag: 'Predictive & Generative Intelligence',
+    img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1000&q=80',
+    desc: 'Native deep intelligence embedded into everyday enterprise workflows. Automates document OCR and purchase voucher ingestion, delivers dynamic inventory replenishment forecasts, and powers autonomous workflow approvals.',
+    highlights: ['Document OCR & smart voucher ingestion', 'Predictive demand & dynamic safety stock', 'Automated churn & customer risk scoring', 'AI workflow bots & exception triaging']
   }
 ];
 

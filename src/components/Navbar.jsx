@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Lock, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { getActiveAnnouncements } from '../services/dataService';
 import { getAssetUrl, handleImageError } from '../utils/assetHelper';
 import { getRoutePath } from '../utils/navigation';
@@ -186,13 +186,6 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
             style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#212121', textDecoration: 'none' }}
           >
             Blogs
-          </a>
-          <a
-            href={getRoutePath('login')}
-            onClick={(e) => handleNavClick('login', e)}
-            style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#1e95d3', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}
-          >
-            <Lock size={16} /> Admin Portal
           </a>
           <div style={{ marginTop: '20px' }}>
             <button
@@ -459,19 +452,6 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
             >
               <Search size={16} />
             </button>
-
-            {/* Admin Portal subtle access */}
-            <a
-              className="menu_item"
-              href={getRoutePath('login')}
-              onClick={(e) => handleNavClick('login', e)}
-              title="Admin Portal"
-              style={{ padding: '0 8px' }}
-            >
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#1e95d3' }}>
-                <Lock size={13} /> Admin
-              </span>
-            </a>
 
             {/* Highlighted Schedule Demo CTA */}
             <div

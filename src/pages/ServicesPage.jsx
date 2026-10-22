@@ -255,7 +255,7 @@ export default function ServicesPage({ onOpenDemo }) {
               <div style={{ fontSize: '13px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.8)' }}>Critical SLA Response Time</div>
             </div>
             <div>
-              <div style={{ fontSize: '32px', fontWeight: 900, color: '#38BDF8', marginBottom: '4px' }}>1,250+</div>
+              <div style={{ fontSize: '32px', fontWeight: 900, color: '#38BDF8', marginBottom: '4px' }}>5,000+</div>
               <div style={{ fontSize: '13px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.8)' }}>Enterprise Deployments</div>
             </div>
           </div>
@@ -802,7 +802,7 @@ export default function ServicesPage({ onOpenDemo }) {
               How We Take You from Legacy Chaos to Live in 7 Days
             </h2>
             <p style={{ fontSize: '16px', color: '#64748B', maxWidth: '720px', margin: '0 auto' }}>
-              A disciplined, sprint-based deployment framework developed across 1,250+ enterprise installations to guarantee zero downtime.
+              A disciplined, sprint-based deployment framework developed across 5,000+ enterprise installations to guarantee zero downtime.
             </p>
           </div>
 
