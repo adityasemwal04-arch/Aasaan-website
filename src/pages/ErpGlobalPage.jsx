@@ -654,7 +654,7 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '14px', marginTop: '28px', flexWrap: 'wrap' }}>
             <button onClick={onOpenDemo} className="accent_button" style={{ padding: '13px 30px', fontSize: '15px' }}>
-              Schedule Global Demo
+              Schedule Enterprise Demo
             </button>
             <a
               href="https://erpplus.aasaan.in/portal/register"
