@@ -8,12 +8,11 @@ import {
   CheckCircle,
   Sparkles,
   ArrowRight,
-  Edit3,
   Layers,
   ShieldCheck,
   ChevronRight
 } from 'lucide-react';
-import { getBlogBySlug, getBlogs, getAdminAuth } from '../services/dataService';
+import { getBlogBySlug, getBlogs } from '../services/dataService';
 import { updateMetaTags } from '../utils/seoHelper';
 import { getRoutePath } from '../utils/navigation';
 
@@ -21,14 +20,11 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
   const [blog, setBlog] = useState(null);
   const [allBlogs, setAllBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     async function load() {
       setLoading(true);
-      const auth = getAdminAuth();
-      setIsAdmin(!!auth);
 
       const targetSlug = slug || window.location.pathname.replace(/^.*\/blog\//i, '').trim() || window.location.hash.replace(/^#\/blog\//i, '').trim() || 'manufacturing-engineering';
       const fetchedBlog = await getBlogBySlug(targetSlug);
@@ -174,31 +170,6 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            {isAdmin && (
-              <button
-                onClick={() => {
-                  localStorage.setItem('aasaan_admin_target_blog', blog.slug);
-                  if (onNavigate) onNavigate('admin');
-                  else window.location.href = getRoutePath('admin');
-                }}
-                style={{
-                  background: '#eaf6fd',
-                  border: '1px solid rgba(30,149,211,0.3)',
-                  color: '#1e95d3',
-                  padding: '5px 12px',
-                  borderRadius: '6px',
-                  fontSize: '12px',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px'
-                }}
-              >
-                <Edit3 size={13} /> Edit Article (Admin)
-              </button>
-            )}
-
             <button
               onClick={handleShare}
               style={{
