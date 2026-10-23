@@ -58,6 +58,56 @@ const seoPages = [
     desc: 'Automate accounting, Indian GST compliance, E-Invoicing, multi-entity ledgers, and bank reconciliation with Aasaan Financial ERP.'
   },
   {
+    route: 'blog/stock-control',
+    title: 'Stock Control & Multi-Depot ERP: Surplus & Expiry Optimization | Aasaan ERP',
+    desc: 'Master inventory control across central hubs and factory stores. Automated FIFO/FEFO picking, batch lot traceability, and landed cost calculation.'
+  },
+  {
+    route: 'blog/crm',
+    title: 'Enterprise CRM: Lead-to-Customer Pipeline & Deal Conversion | Aasaan ERP',
+    desc: 'Streamline customer relationships, omnichannel lead capture, visual Kanban deal stages, quotation versioning, and sales rep analytics.'
+  },
+  {
+    route: 'blog/purchasing',
+    title: 'Strategic Procurement ERP: Rate Contracts & 3-Way Match | Aasaan ERP',
+    desc: 'Automate purchase requisitions, RFQ vendor comparison matrices, 3-way GRN invoice matching, and automated PO digital approvals.'
+  },
+  {
+    route: 'blog/sales',
+    title: 'Sales & Quote-to-Cash ERP: Customer Credit Lock & Dispatch | Aasaan ERP',
+    desc: 'End-to-end sales lifecycle automation from inquiry to quotation, sales order credit checks, delivery challans, and GST e-invoicing.'
+  },
+  {
+    route: 'blog/service',
+    title: 'Field Service & Maintenance ERP: SLA Tracking & AMC Contracts | Aasaan ERP',
+    desc: 'Field service ticket escalation, AMC recurring maintenance contracts, mobile engineer GPS dispatching, and on-site spare parts logs.'
+  },
+  {
+    route: 'blog/reporting',
+    title: 'Reporting & Business Intelligence: Real-Time BI Analytics | Aasaan ERP',
+    desc: '300+ pre-built executive reports, interactive drill-down financial statements, drag-and-drop report builder, and scheduled automated email delivery.'
+  },
+  {
+    route: 'blog/manufacturing',
+    title: 'Manufacturing & MRP II: Multi-Level BOM & Work Center Routing | Aasaan ERP',
+    desc: 'Shop-floor control with multi-tier BOM explosion, material requirements planning (MRP), barcode floor terminals, and scrap accounting.'
+  },
+  {
+    route: 'blog/waste-management',
+    title: 'Waste Management & Recycling ERP: Digital Weighbridge & Manifests | Aasaan ERP',
+    desc: 'Purpose-built circular economy ERP for waste haulers and recycling plants with automated weighbridge scale integration and CPCB compliance.'
+  },
+  {
+    route: 'blog/digital-ceo',
+    title: 'Digital CEO: Real-Time Executive Command Cockpit | Aasaan ERP',
+    desc: 'AI-driven executive cockpit consolidating multi-plant operations, cash flow projections, margin leakages, and strategic KPI variances.'
+  },
+  {
+    route: 'blog/ai-capabilities',
+    title: 'AI Capabilities: Predictive & Generative Intelligence | Aasaan ERP',
+    desc: 'Deep enterprise machine learning embedded natively across workflows. Powers predictive inventory replenishment, automated invoice OCR, and smart agent bots.'
+  },
+  {
     route: 'blog/supply-chain-warehouse',
     title: 'Supply Chain & Intelligent Warehouse: Automated Reorder & Multi-Bin Tracking | Aasaan ERP',
     desc: 'Optimize inventory turnover with multi-bin tracking, automated purchase orders, vendor 3-way matching, and batch expiry tracking.'

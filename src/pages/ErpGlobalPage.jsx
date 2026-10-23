@@ -1,7 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { globalIndustries, globalModules, globalTestimonials } from '../data/globalData';
-import { Globe, ArrowRight, ExternalLink, Check, Server, Layers, Cpu, Building2, ShieldCheck, Star } from 'lucide-react';
+import { Globe, ArrowRight, ExternalLink, Check, Server, Cpu, ShieldCheck, Star } from 'lucide-react';
 import { getRoutePath } from '../utils/navigation';
+
+const moduleSlugMap = {
+  'financial': 'financial-management',
+  'stock': 'stock-control',
+  'crm': 'crm',
+  'purchasing': 'purchasing',
+  'sales': 'sales',
+  'service': 'service',
+  'reporting': 'reporting',
+  'manufacturing': 'manufacturing',
+  'digital-ceo': 'digital-ceo',
+  'ai-capabilities': 'ai-capabilities'
+};
 
 export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
   const [selectedModuleId, setSelectedModuleId] = useState('financial');
@@ -119,78 +132,6 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
               <span>Try Free Demo Today</span>
               <ExternalLink size={15} />
             </a>
-          </div>
-
-          {/* Clean Multi-Entity Console Visual Card */}
-          <div style={{
-            background: '#ffffff',
-            border: '1px solid #e2e8f0',
-            borderRadius: '16px',
-            overflow: 'hidden',
-            boxShadow: '0 12px 36px rgba(0,0,0,0.06)',
-            maxWidth: '960px',
-            margin: '36px auto 0'
-          }}>
-            <div style={{
-              background: '#1a3a54',
-              padding: '14px 20px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: '10px',
-              color: '#ffffff'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981', display: 'inline-block' }} />
-                <span style={{ fontSize: '13.5px', fontWeight: 700, letterSpacing: '0.04em' }}>
-                  AASAAN GLOBAL MULTI-ENTITY SPHERICAL LEDGER
-                </span>
-              </div>
-              <span style={{ fontSize: '12px', color: '#93c5fd' }}>
-                Global Sync: 3 Subsidiaries Active
-              </span>
-            </div>
-
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-              gap: '16px',
-              padding: '24px'
-            }}>
-              <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '18px', textAlign: 'left' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--colorAccent)', fontSize: '12.5px', fontWeight: 600 }}>
-                  <Building2 size={16} /> HQ — New Delhi (INR)
-                </div>
-                <div style={{ fontSize: '20px', fontWeight: 800, marginTop: '8px', color: '#212121' }}>₹48,29,400</div>
-                <div style={{ fontSize: '12px', color: '#64748b', marginTop: '4px' }}>Consolidated Daily Collections</div>
-                <div style={{ fontSize: '11px', color: '#10b981', marginTop: '10px', fontWeight: 600 }}>
-                  ● GSTR-1 &amp; E-Way Portal Connected
-                </div>
-              </div>
-
-              <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '18px', textAlign: 'left' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#334155', fontSize: '12.5px', fontWeight: 600 }}>
-                  <Layers size={16} /> Plant — Bhiwandi (Hub)
-                </div>
-                <div style={{ fontSize: '20px', fontWeight: 800, marginTop: '8px', color: '#212121' }}>94.2% Capacity</div>
-                <div style={{ fontSize: '12px', color: '#64748b', marginTop: '4px' }}>Active Assembly Lines &amp; BOM</div>
-                <div style={{ fontSize: '11px', color: 'var(--colorAccent)', marginTop: '10px', fontWeight: 600 }}>
-                  ● Work Order #WO-204 in process
-                </div>
-              </div>
-
-              <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '18px', textAlign: 'left' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#10b981', fontSize: '12.5px', fontWeight: 600 }}>
-                  <Globe size={16} /> Dubai Polymers LLC (USD)
-                </div>
-                <div style={{ fontSize: '20px', fontWeight: 800, marginTop: '8px', color: '#212121' }}>$1,42,850 USD</div>
-                <div style={{ fontSize: '12px', color: '#64748b', marginTop: '4px' }}>Cross-Border Sales Orders</div>
-                <div style={{ fontSize: '11px', color: '#0284c7', marginTop: '10px', fontWeight: 600 }}>
-                  ● Auto-Forex Hedging Live
-                </div>
-              </div>
-            </div>
           </div>
 
         </div>
@@ -522,11 +463,32 @@ export default function ErpGlobalPage({ onOpenDemo, onNavigate }) {
                   </div>
                 </div>
 
-                <div style={{ marginTop: '28px', paddingTop: '18px', borderTop: '1px solid #e2e8f0', display: 'flex', justifyContent: 'flex-end' }}>
-                  <button onClick={onOpenDemo} className="accent_button" style={{ padding: '10px 22px', fontSize: '14px' }}>
+                <div style={{ marginTop: '28px', paddingTop: '18px', borderTop: '1px solid #e2e8f0', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+                  <a
+                    href={getRoutePath(`blog/${moduleSlugMap[activeModule.id] || activeModule.id}`)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const targetSlug = moduleSlugMap[activeModule.id] || activeModule.id;
+                      if (onNavigate) {
+                        onNavigate(`blog/${targetSlug}`);
+                      } else {
+                        window.location.href = getRoutePath(`blog/${targetSlug}`);
+                      }
+                    }}
+                    className="accent_button"
+                    style={{
+                      padding: '11px 24px',
+                      fontSize: '14.5px',
+                      textDecoration: 'none',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      cursor: 'pointer'
+                    }}
+                  >
                     <span>Explore {activeModule.title} Live</span>
-                    <ArrowRight size={14} style={{ marginLeft: '6px' }} />
-                  </button>
+                    <ArrowRight size={15} />
+                  </a>
                 </div>
               </div>
             </div>

@@ -359,6 +359,82 @@ Waste management, material recycling, and scrap processing facilities operate un
    - Automated billing for container rental, scheduled haulage transport, and tipping gate fees.`
   },
   {
+    slug: 'digital-ceo',
+    title: 'Digital CEO',
+    tag: 'Executive Command Center',
+    industry: 'Digital CEO',
+    img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80',
+    readTime: '6 min read',
+    author: 'Aasaan Executive Intelligence Group',
+    date: 'October 2026',
+    excerpt: 'An AI-powered central command cockpit for founders, CEOs, and C-suite leaders. Synthesizes multi-plant operations, cash flow projections, margin leakages, and strategic KPI variances.',
+    content: `## Digital CEO — Executive Command Center
+
+An AI-driven executive cockpit engineered for founders, CEOs, and C-suite leadership.
+
+Running a multi-entity, multi-location enterprise requires immediate visibility without sifting through hundreds of departmental spreadsheets. **Aasaan Digital CEO** unifies plant operations, daily treasury runway, margin leakages, and strategic KPI variances into a real-time decision intelligence cockpit.
+
+### Key Capabilities
+
+1. **Multi-Entity Executive Flash Reports**:
+   - Synthesizes real-time performance indicators across factories, branch warehouses, and international subsidiaries.
+   - Live revenue burn, operating gross margin, and working capital ratios refreshed continuously without manual compilation.
+
+2. **Automated Anomaly & Margin Leak Alerts**:
+   - Machine learning watches purchase order variances, unauthorized price discounts, and abnormal manufacturing scrap spikes.
+   - Proactive mobile and WhatsApp alerts before small operational variances impact monthly profitability.
+
+3. **Predictive Cash Runway & Burn Analytics**:
+   - Projects 30, 60, and 90-day cash positions based on confirmed customer receivables, historical debtor delay patterns, and scheduled supplier payments.
+   - Simulates capital expenditure scenarios and tax liabilities before major investment decisions.
+
+4. **Conversational KPI & Natural Language Querying**:
+   - Query your ERP database using simple natural language: *"What was our gross margin in Bhiwandi plant last week?"* or *"Show top 5 overdue debtors over ₹10 Lakhs"*.
+   - Generates instant interactive charts and data slices on your mobile or desktop screen.
+
+5. **Strategic Actionable Scorecards**:
+   - Cascades corporate goals and monthly sales quotas down to business unit leaders.
+   - Tracks actual milestone fulfillment with automated root-cause variance attribution.`
+  },
+  {
+    slug: 'ai-capabilities',
+    title: 'AI Capabilities',
+    tag: 'Predictive & Generative Intelligence',
+    industry: 'AI Capabilities',
+    img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80',
+    readTime: '6 min read',
+    author: 'Aasaan Applied AI Engineering Lab',
+    date: 'October 2026',
+    excerpt: 'Deep enterprise machine learning embedded natively across all workflows. Powers predictive inventory replenishment, automated invoice OCR data extraction, and intelligent agent automation.',
+    content: `## AI Capabilities — Predictive & Generative Intelligence
+
+Deep enterprise machine learning embedded natively across all business workflows.
+
+Traditional ERPs record transactions after they happen. **Aasaan AI-Enabled ERP** anticipates operational roadblocks before they occur—automating document data entry, predicting stockouts, and scoring customer payment risks in real time.
+
+### Key Capabilities
+
+1. **Intelligent Document OCR & Smart Voucher Ingestion**:
+   - Upload vendor PDF invoices, purchase receipts, or scanned bills directly into the system.
+   - Advanced multi-lingual OCR extracts vendor GSTIN, invoice date, line-item descriptions, HSN codes, and tax totals with 99.8% field accuracy.
+   - Auto-creates draft purchase vouchers with side-by-side visual audit verification.
+
+2. **Predictive Demand & Dynamic Safety Stock Replenishment**:
+   - Neural forecasting models evaluate historical consumption, seasonal spikes, supplier lead times, and open sales orders.
+   - Dynamically adjusts minimum and maximum buffer stock levels, triggering automated Purchase Requisitions before stockouts occur.
+
+3. **Customer Credit & Payment Delay Risk Scoring**:
+   - Machine learning algorithms analyze historical customer payment intervals, order volume trends, and market credit records.
+   - Assigns dynamic credit ratings and flags accounts approaching high default risks before dispatching fresh inventory.
+
+4. **Agentic AI Workflow Automation**:
+   - Autonomous background agents perform routine operational checks: auto-matching vendor bills, generating daily dispatch priority lists, and reconciling bank transactions.
+   - Escalates only ambiguous exceptions to human managers with recommended resolution actions.
+
+5. **Smart Pricing & Margin Optimization**:
+   - Analyzes real-time raw material cost fluctuations and recommends optimal customer quotation price points to preserve target profitability.`
+  },
+  {
     slug: 'manufacturing-engineering',
     title: 'Manufacturing & Engineering ERP: Mastering Multi-Level BOM & Shop Floor Routing',
     tag: 'BOM & Routing',
@@ -1324,6 +1400,12 @@ export async function getBlogBySlug(slug) {
   const normSlug = (slug || '').toLowerCase().trim();
   const blogs = await getBlogs();
   let foundBlog = blogs.find(b => b.slug === normSlug || b.slug.toLowerCase() === normSlug);
+  if (!foundBlog && (normSlug === 'financial' || normSlug === 'financial-management')) {
+    foundBlog = blogs.find(b => b.slug === 'financial-management' || b.slug === 'financial');
+  }
+  if (!foundBlog && (normSlug === 'stock' || normSlug === 'stock-control')) {
+    foundBlog = blogs.find(b => b.slug === 'stock-control' || b.slug === 'stock');
+  }
   if (!foundBlog && (normSlug === 'manufacturing-engineering' || normSlug === 'manufacturing')) {
     foundBlog = blogs.find(b => b.slug === 'manufacturing' || b.slug === 'manufacturing-engineering');
   }
