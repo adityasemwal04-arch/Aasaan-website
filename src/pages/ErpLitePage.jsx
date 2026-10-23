@@ -136,77 +136,11 @@ export default function ErpLitePage({ onOpenDemo, onNavigate }) {
               onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--colorAccent)'; e.currentTarget.style.color = 'var(--colorAccent)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#cbd5e1'; e.currentTarget.style.color = '#212121'; }}
             >
-              <span>Register at erplite.aasaan.in</span>
+              <span>Try Demo for Free</span>
               <ExternalLink size={15} />
             </a>
           </div>
 
-          {/* Clean Dashboard Preview Card */}
-          <div style={{
-            background: '#ffffff',
-            border: '1px solid #e2e8f0',
-            borderRadius: '16px',
-            overflow: 'hidden',
-            boxShadow: '0 12px 36px rgba(0,0,0,0.06)',
-            maxWidth: '920px',
-            margin: '36px auto 0'
-          }}>
-            <div style={{
-              background: '#1a3a54',
-              padding: '14px 20px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: '10px',
-              color: '#ffffff'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981', display: 'inline-block' }} />
-                <span style={{ fontWeight: 700, fontSize: '14px', letterSpacing: '0.02em' }}>
-                  Aasaan ERP Lite — Clean, Distraction-Free Daily View
-                </span>
-              </div>
-              <span style={{
-                background: 'var(--colorAccent)',
-                color: '#ffffff',
-                fontSize: '11px',
-                fontWeight: 700,
-                padding: '3px 10px',
-                borderRadius: '4px'
-              }}>
-                Zero Learning Curve
-              </span>
-            </div>
-
-            <div style={{ padding: '24px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '16px' }}>
-                <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '16px', textAlign: 'left' }}>
-                  <div style={{ fontSize: '12px', color: '#64748b', fontWeight: 600 }}>Active Leads Today</div>
-                  <div style={{ fontSize: '22px', fontWeight: 800, color: 'var(--colorAccent)', marginTop: '4px' }}>28 Leads</div>
-                  <div style={{ fontSize: '11px', color: '#10b981', marginTop: '4px' }}>+6 from WhatsApp API</div>
-                </div>
-
-                <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '16px', textAlign: 'left' }}>
-                  <div style={{ fontSize: '12px', color: '#64748b', fontWeight: 600 }}>Quotes Out (Pending)</div>
-                  <div style={{ fontSize: '22px', fontWeight: 800, color: '#334155', marginTop: '4px' }}>₹6,42,000</div>
-                  <div style={{ fontSize: '11px', color: '#64748b', marginTop: '4px' }}>8 quotes awaiting approval</div>
-                </div>
-
-                <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '16px', textAlign: 'left' }}>
-                  <div style={{ fontSize: '12px', color: '#64748b', fontWeight: 600 }}>Today's Invoiced Revenue</div>
-                  <div style={{ fontSize: '22px', fontWeight: 800, color: 'var(--colorAccent)', marginTop: '4px' }}>₹1,84,500</div>
-                  <div style={{ fontSize: '11px', color: '#10b981', marginTop: '4px' }}>100% GSTR-1 matched</div>
-                </div>
-
-                <div style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '16px', textAlign: 'left' }}>
-                  <div style={{ fontSize: '12px', color: '#64748b', fontWeight: 600 }}>Low Stock Alert</div>
-                  <div style={{ fontSize: '22px', fontWeight: 800, color: '#dc2626', marginTop: '4px' }}>2 Items</div>
-                  <div style={{ fontSize: '11px', color: '#dc2626', marginTop: '4px' }}>Auto-PO requisition ready</div>
-                </div>
-              </div>
-            </div>
-          </div>
 
         </div>
       </section>
@@ -689,7 +623,7 @@ export default function ErpLitePage({ onOpenDemo, onNavigate }) {
               onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.2)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; }}
             >
-              <span>Register at erplite.aasaan.in</span>
+              <span>Try Demo for Free</span>
               <ExternalLink size={15} />
             </a>
           </div>

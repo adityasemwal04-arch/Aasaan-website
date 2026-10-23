@@ -366,27 +366,7 @@ export default function AboutUsPage({ onOpenDemo }) {
                 </p>
               </div>
 
-              <button
-                onClick={onOpenDemo}
-                style={{
-                  background: 'var(--primary-blue)',
-                  color: '#FFFFFF',
-                  border: 'none',
-                  padding: '12px 28px',
-                  fontSize: '14.5px',
-                  fontWeight: 700,
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  transition: 'all 0.2s ease'
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = '#007bb5')}
-                onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--primary-blue)')}
-              >
-                Schedule Architecture Walkthrough <ArrowRight size={16} />
-              </button>
+
             </div>
 
             <div style={{ flex: '1 1 480px', display: 'flex', justifyContent: 'center' }}>
@@ -1035,7 +1015,7 @@ export default function AboutUsPage({ onOpenDemo }) {
             maxWidth: '700px',
             margin: '0 auto 36px'
           }}>
-            Join over 5,000+ high-growth businesses running on Aasaan. Schedule a 1-on-1 guided architecture walkthrough with our solutions team.
+            Join over 5,000+ high-growth businesses running on Aasaan. Schedule a 1-on-1 guided walkthrough with our solutions team.
           </p>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '16px', alignItems: 'center' }}>

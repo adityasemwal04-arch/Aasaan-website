@@ -32,6 +32,261 @@ import { getRoutePath } from '../utils/navigation';
 import heroImg from '../assets/aasaan_erp_header_desktop.png';
 import aasaanLogoSrc from '../assets/aasaan-logo.png';
 
+/* ============================================================
+   GLOBAL PRESENCE MAP — Inline Component
+   ============================================================ */
+function GlobalPresenceMap({ onOpenDemo }) {
+  const [activeHub, setActiveHub] = React.useState('india');
+  const [filter, setFilter] = React.useState('all');
+
+  const hubs = {
+    india: {
+      label: 'India',
+      sublabel: 'Global HQ & R&D Hub',
+      flag: '🇮🇳',
+      cities: 'Delhi NCR · Mumbai · Bengaluru',
+      deployments: '4,000+ Deployments',
+      highlights: ['Discrete Manufacturing & High-Tech', 'GST, E-Invoicing & TDS Automation', 'Agentic AI & R&D Centre', 'Multi-Entity Consolidation'],
+      cx: '71%',
+      cy: '42%',
+      color: '#1e95d3',
+    },
+    middleeast: {
+      label: 'Middle East',
+      sublabel: 'UAE & GCC Hub',
+      flag: '🇦🇪',
+      cities: 'Dubai · Riyadh · Abu Dhabi',
+      deployments: '400+ Deployments',
+      highlights: ['GCC VAT & E-Invoicing Compliance', 'Multi-Currency Consolidation', 'AWM Waste Management Solutions', 'Aasaan Global ERP'],
+      cx: '60%',
+      cy: '40%',
+      color: '#f59e0b',
+    },
+    america: {
+      label: 'America',
+      sublabel: 'North America',
+      flag: '🇺🇸',
+      cities: 'New York · California · Texas',
+      deployments: '200+ Deployments',
+      highlights: ['Logistics & 3PL Warehousing', 'Multi-Entity Cross-Border ERP', 'Omnichannel Distribution', 'Cloud-Native ERP'],
+      cx: '22%',
+      cy: '36%',
+      color: '#10b981',
+    },
+    southafrica: {
+      label: 'South Africa',
+      sublabel: 'Sub-Saharan Africa',
+      flag: '🇿🇦',
+      cities: 'Johannesburg · Cape Town',
+      deployments: '150+ Deployments',
+      highlights: ['Fleet & Transport Management', 'WasteCarrier & AWM Solutions', 'Industrial Distribution ERP', 'Multi-Depot Stock Control'],
+      cx: '55%',
+      cy: '68%',
+      color: '#8b5cf6',
+    },
+    australia: {
+      label: 'Australia',
+      sublabel: 'APAC Region',
+      flag: '🇦🇺',
+      cities: 'Sydney · Melbourne · Brisbane',
+      deployments: '180+ Deployments',
+      highlights: ['Omnichannel Retail Chains', 'Mining & Equipment Maintenance', 'Service Management ERP', 'AWS Cloud-Native Deployment'],
+      cx: '84%',
+      cy: '64%',
+      color: '#ef4444',
+    },
+  };
+
+  const filterOptions = [
+    { key: 'all', label: 'All Hubs' },
+    { key: 'india', label: '🇮🇳 India (HQ)' },
+    { key: 'middleeast', label: '🇦🇪 Middle East' },
+    { key: 'america', label: '🇺🇸 America' },
+    { key: 'southafrica', label: '🇿🇦 South Africa' },
+    { key: 'australia', label: '🇦🇺 Australia' },
+  ];
+
+  const visibleHubs = filter === 'all' ? Object.keys(hubs) : [filter];
+  const hub = hubs[activeHub];
+
+  const svgArcs = [
+    { from: hubs.india, to: hubs.america },
+    { from: hubs.india, to: hubs.middleeast },
+    { from: hubs.india, to: hubs.southafrica },
+    { from: hubs.india, to: hubs.australia },
+  ];
+
+  return (
+    <section style={{ background: '#050d1a', padding: '72px 24px', position: 'relative', overflow: 'hidden' }}>
+      <style>{`
+        @keyframes gpmPulse {
+          0% { r: 7; opacity: 1; }
+          70% { r: 18; opacity: 0; }
+          100% { r: 7; opacity: 0; }
+        }
+        @keyframes gpmDash {
+          to { stroke-dashoffset: -40; }
+        }
+        @keyframes gpmGlow {
+          0%, 100% { box-shadow: 0 0 8px 2px rgba(30,149,211,0.5); }
+          50% { box-shadow: 0 0 20px 6px rgba(30,149,211,0.9); }
+        }
+        .gpm-hub-btn:hover { opacity: 0.9; transform: scale(1.06); }
+        .gpm-filter-pill { cursor: pointer; transition: all 0.2s; border: 1.5px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.7); padding: 6px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 600; }
+        .gpm-filter-pill:hover { border-color: #1e95d3; color: #fff; }
+        .gpm-filter-pill.active { background: #1e95d3; border-color: #1e95d3; color: #fff; }
+      `}</style>
+
+      {/* Background grid */}
+      <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(30,149,211,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(30,149,211,0.04) 1px, transparent 1px)', backgroundSize: '48px 48px', pointerEvents: 'none' }} />
+
+      {/* Header */}
+      <div style={{ textAlign: 'center', marginBottom: '40px', position: 'relative', zIndex: 2 }}>
+        <span style={{ background: 'rgba(30,149,211,0.15)', color: '#1e95d3', fontSize: '12px', fontWeight: 700, padding: '5px 16px', borderRadius: '20px', letterSpacing: '0.1em', textTransform: 'uppercase', border: '1px solid rgba(30,149,211,0.3)' }}>
+          🌍 Global Presence
+        </span>
+        <h2 style={{ color: '#ffffff', fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 800, margin: '16px 0 8px', lineHeight: 1.25 }}>
+          Aasaan ERP — <span style={{ color: '#1e95d3' }}>Deployed Worldwide</span>
+        </h2>
+        <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '15px', maxWidth: '560px', margin: '0 auto' }}>
+          From India's manufacturing heartland to Australia's retail chains — one platform, five continents.
+        </p>
+      </div>
+
+      {/* Filter pills */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'center', marginBottom: '32px', position: 'relative', zIndex: 2 }}>
+        {filterOptions.map(f => (
+          <button key={f.key} className={`gpm-filter-pill${filter === f.key ? ' active' : ''}`} onClick={() => { setFilter(f.key); if (f.key !== 'all') setActiveHub(f.key); }}>
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Map + Info Card */}
+      <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', gap: '24px', alignItems: 'flex-start', flexWrap: 'wrap', position: 'relative', zIndex: 2 }}>
+
+        {/* SVG Map */}
+        <div style={{ flex: '1 1 560px', position: 'relative', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(30,149,211,0.2)', background: 'rgba(5,20,40,0.8)' }}>
+          <svg viewBox="0 0 1000 560" style={{ width: '100%', display: 'block' }}>
+            {/* Grid lines */}
+            {[0.2,0.4,0.6,0.8].map(t => (
+              <React.Fragment key={t}>
+                <line x1={t*1000} y1="0" x2={t*1000} y2="560" stroke="rgba(30,149,211,0.06)" strokeWidth="1"/>
+                <line x1="0" y1={t*560} x2="1000" y2={t*560} stroke="rgba(30,149,211,0.06)" strokeWidth="1"/>
+              </React.Fragment>
+            ))}
+
+            {/* Continent outlines — simplified filled shapes */}
+            {/* North America */}
+            <path d="M80,80 L240,70 L260,130 L280,180 L250,240 L200,280 L160,260 L120,200 L90,160 Z" fill="rgba(30,149,211,0.08)" stroke="rgba(30,149,211,0.2)" strokeWidth="1"/>
+            {/* South America */}
+            <path d="M170,290 L230,280 L250,340 L240,420 L200,460 L165,420 L155,360 Z" fill="rgba(30,149,211,0.06)" stroke="rgba(30,149,211,0.15)" strokeWidth="1"/>
+            {/* Europe */}
+            <path d="M440,60 L530,55 L550,100 L520,130 L470,125 L445,100 Z" fill="rgba(30,149,211,0.07)" stroke="rgba(30,149,211,0.18)" strokeWidth="1"/>
+            {/* Africa */}
+            <path d="M460,140 L550,130 L580,200 L570,300 L530,380 L490,370 L455,290 L445,200 Z" fill="rgba(30,149,211,0.07)" stroke="rgba(30,149,211,0.18)" strokeWidth="1"/>
+            {/* Middle East */}
+            <path d="M555,120 L620,115 L640,160 L610,190 L565,180 Z" fill="rgba(30,149,211,0.07)" stroke="rgba(30,149,211,0.18)" strokeWidth="1"/>
+            {/* Asia / India */}
+            <path d="M620,80 L820,70 L850,150 L840,220 L780,260 L720,240 L680,200 L650,160 L625,120 Z" fill="rgba(30,149,211,0.08)" stroke="rgba(30,149,211,0.2)" strokeWidth="1"/>
+            {/* Australia */}
+            <path d="M760,340 L880,330 L910,390 L890,450 L830,460 L770,440 L750,390 Z" fill="rgba(30,149,211,0.08)" stroke="rgba(30,149,211,0.2)" strokeWidth="1"/>
+
+            {/* Animated arcs from India HQ to each hub */}
+            {svgArcs.map((arc, i) => {
+              const x1 = parseFloat(arc.from.cx) * 10;
+              const y1 = parseFloat(arc.from.cy) * 5.6;
+              const x2 = parseFloat(arc.to.cx) * 10;
+              const y2 = parseFloat(arc.to.cy) * 5.6;
+              const mx = (x1 + x2) / 2;
+              const my = Math.min(y1, y2) - 80;
+              return (
+                <path
+                  key={i}
+                  d={`M${x1},${y1} Q${mx},${my} ${x2},${y2}`}
+                  fill="none"
+                  stroke="rgba(30,149,211,0.4)"
+                  strokeWidth="1.5"
+                  strokeDasharray="8 6"
+                  style={{ animation: `gpmDash ${2 + i * 0.4}s linear infinite` }}
+                />
+              );
+            })}
+
+            {/* Hub dots */}
+            {Object.entries(hubs).map(([key, h]) => {
+              if (!visibleHubs.includes(key)) return null;
+              const cx = parseFloat(h.cx) * 10;
+              const cy = parseFloat(h.cy) * 5.6;
+              const isActive = activeHub === key;
+              return (
+                <g key={key} style={{ cursor: 'pointer' }} onClick={() => setActiveHub(key)}>
+                  {/* Pulse ring */}
+                  <circle cx={cx} cy={cy} r="7" fill="none" stroke={h.color} strokeWidth="2" style={{ animation: 'gpmPulse 2s ease-out infinite' }} />
+                  {/* Core dot */}
+                  <circle cx={cx} cy={cy} r={isActive ? 9 : 6} fill={h.color} stroke="#fff" strokeWidth={isActive ? 2.5 : 1.5} style={{ transition: 'r 0.3s' }} />
+                  {/* Label */}
+                  <text x={cx} y={cy - 14} textAnchor="middle" fill="#ffffff" fontSize="11" fontWeight="700" style={{ pointerEvents: 'none' }}>
+                    {h.flag} {h.label}
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
+        </div>
+
+        {/* Info Card */}
+        <div style={{ flex: '0 0 280px', background: 'rgba(255,255,255,0.04)', border: `1px solid ${hub.color}40`, borderRadius: '16px', padding: '24px', backdropFilter: 'blur(10px)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+            <span style={{ fontSize: '32px' }}>{hub.flag}</span>
+            <div>
+              <div style={{ color: '#fff', fontWeight: 800, fontSize: '18px' }}>{hub.label}</div>
+              <div style={{ color: hub.color, fontSize: '12px', fontWeight: 600 }}>{hub.sublabel}</div>
+            </div>
+          </div>
+          <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '12px', marginBottom: '4px' }}>📍 {hub.cities}</div>
+          <div style={{ color: hub.color, fontWeight: 700, fontSize: '15px', margin: '10px 0 14px' }}>🚀 {hub.deployments}</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {hub.highlights.map((h, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'rgba(255,255,255,0.8)', fontSize: '13px' }}>
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: hub.color, flexShrink: 0 }} />
+                {h}
+              </div>
+            ))}
+          </div>
+          <div style={{ marginTop: '20px', padding: '10px 14px', background: 'rgba(30,149,211,0.1)', borderRadius: '8px', border: '1px solid rgba(30,149,211,0.2)', fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>
+            ⚡ {'<'}25ms Cloud Edge · 99.98% Uptime SLA
+          </div>
+          <button
+            onClick={onOpenDemo}
+            style={{ marginTop: '16px', width: '100%', background: hub.color, color: '#fff', border: 'none', borderRadius: '8px', padding: '11px', fontWeight: 700, fontSize: '13px', cursor: 'pointer', transition: 'opacity 0.2s' }}
+            onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
+            onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+          >
+            Schedule {hub.label} Demo →
+          </button>
+        </div>
+      </div>
+
+      {/* Bottom metrics strip */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center', marginTop: '40px', position: 'relative', zIndex: 2 }}>
+        {[
+          { icon: '🌍', value: '5', label: 'Strategic Global Hubs' },
+          { icon: '⚡', value: '99.98%', label: 'High Availability Uptime' },
+          { icon: '🏢', value: '5,000+', label: 'Live Enterprise Deployments' },
+          { icon: '⏱️', value: '<45ms', label: 'Global Cloud Edge Latency' },
+        ].map((m, i) => (
+          <div key={i} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(30,149,211,0.2)', borderRadius: '12px', padding: '16px 24px', textAlign: 'center', minWidth: '160px' }}>
+            <div style={{ fontSize: '22px', marginBottom: '4px' }}>{m.icon}</div>
+            <div style={{ color: '#1e95d3', fontWeight: 800, fontSize: '20px' }}>{m.value}</div>
+            <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '12px', marginTop: '2px' }}>{m.label}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
   const [whyTab, setWhyTab] = useState(0);
   const [clientTab, setClientTab] = useState(0);
@@ -1692,6 +1947,11 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
 
         </div>
       </div>
+
+      {/* ============================================================ */}
+      {/* GLOBAL PRESENCE MAP                                          */}
+      {/* ============================================================ */}
+      <GlobalPresenceMap onOpenDemo={onOpenDemo} />
 
       {/* ============================================================ */}
       {/* CTA BANNER                                                   */}

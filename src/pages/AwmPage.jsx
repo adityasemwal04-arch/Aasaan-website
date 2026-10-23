@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { awmSectors, awmModules as defaultModules, awmClients as defaultClients, awmWeighbridgeSimulation } from '../data/awmData';
+import { awmSectors, awmModules as defaultModules, awmClients as defaultClients } from '../data/awmData';
 import { getAwmModules, getAwmClients } from '../services/dataService';
-import { Recycle, Scale, ArrowRight, CheckCircle2, ShieldCheck, Mail } from 'lucide-react';
+import { Recycle, ArrowRight, CheckCircle2, ShieldCheck, Mail } from 'lucide-react';
 import { getRoutePath } from '../utils/navigation';
 
 export default function AwmPage({ onOpenDemo, onNavigate }) {
@@ -126,90 +126,6 @@ export default function AwmPage({ onOpenDemo, onNavigate }) {
             </a>
           </div>
 
-          {/* Interactive Weighbridge Hardware Simulation Card */}
-          <div style={{
-            background: '#ffffff',
-            border: '1px solid #e2e8f0',
-            borderRadius: '16px',
-            overflow: 'hidden',
-            boxShadow: '0 12px 36px rgba(0,0,0,0.06)',
-            maxWidth: '920px',
-            margin: '36px auto 0'
-          }}>
-            <div style={{
-              background: '#1a3a54',
-              padding: '14px 20px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: '10px',
-              color: '#ffffff'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Scale size={18} color="#75d0f7" />
-                <span style={{ fontSize: '13px', fontWeight: 700, letterSpacing: '0.04em' }}>
-                  AWM WEIGHBRIDGE HARDWARE BRIDGE (INDICATOR RS232 / TCP-IP)
-                </span>
-              </div>
-              <span style={{ fontSize: '11.5px', color: '#10b981', background: 'rgba(16, 185, 129, 0.15)', padding: '3px 10px', borderRadius: '4px', fontWeight: 600 }}>
-                ● Scale Connected
-              </span>
-            </div>
-
-            <div style={{ padding: '24px' }}>
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-                gap: '16px',
-                marginBottom: '18px'
-              }}>
-                <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '10px', border: '1px solid #e2e8f0', textAlign: 'left' }}>
-                  <div style={{ fontSize: '12px', color: '#64748b' }}>Ticket No. &amp; Date</div>
-                  <div style={{ fontSize: '16px', fontWeight: 700, color: '#212121', marginTop: '4px' }}>
-                    {awmWeighbridgeSimulation.ticketNo}
-                  </div>
-                  <div style={{ fontSize: '11px', color: 'var(--colorAccent)', marginTop: '2px' }}>{awmWeighbridgeSimulation.date}</div>
-                </div>
-
-                <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '10px', border: '1px solid #e2e8f0', textAlign: 'left' }}>
-                  <div style={{ fontSize: '12px', color: '#64748b' }}>Vehicle &amp; Transporter</div>
-                  <div style={{ fontSize: '15px', fontWeight: 700, color: '#212121', marginTop: '4px' }}>
-                    {awmWeighbridgeSimulation.vehicleNo}
-                  </div>
-                  <div style={{ fontSize: '11.5px', color: '#475569', marginTop: '2px' }}>{awmWeighbridgeSimulation.transporter}</div>
-                </div>
-
-                <div style={{ background: '#f0f9ff', padding: '16px', borderRadius: '10px', border: '1.5px solid var(--colorAccent)', textAlign: 'left' }}>
-                  <div style={{ fontSize: '12px', color: 'var(--colorAccent)', fontWeight: 600 }}>Net Material Weight</div>
-                  <div style={{ fontSize: '20px', fontWeight: 800, color: 'var(--colorAccent)', marginTop: '4px' }}>
-                    {awmWeighbridgeSimulation.netWeight}
-                  </div>
-                  <div style={{ fontSize: '11px', color: '#64748b', marginTop: '2px' }}>Gross: 24,850 kg | Tare: 10,050 kg</div>
-                </div>
-              </div>
-
-              <div style={{
-                background: '#f8fafc',
-                borderRadius: '8px',
-                padding: '12px 16px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                gap: '12px',
-                fontSize: '13px'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#334155' }}>
-                  <ShieldCheck size={16} color="var(--colorAccent)" />
-                  <span>Manifest Form 6: <strong style={{ color: '#212121' }}>{awmWeighbridgeSimulation.manifestId}</strong> (CPCB Compliant)</span>
-                </div>
-                <span style={{ color: 'var(--colorAccent)', fontSize: '12px', fontWeight: 600 }}>
-                  Destination: {awmWeighbridgeSimulation.disposalSite}
-                </span>
-              </div>
-            </div>
-          </div>
 
         </div>
       </section>
