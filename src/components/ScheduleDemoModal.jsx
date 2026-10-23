@@ -699,10 +699,8 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
                     onFocus={(e) => (e.target.style.borderColor = '#1e95d3')}
                     onBlur={(e) => (e.target.style.borderColor = '#cbd5e1')}
                   >
-                    <option value="Aasaan ERP Enterprise">Aasaan ERP Enterprise (Global ERP)</option>
-                    <option value="Aasaan ERP Lite">Aasaan ERP Lite (SME 7-Day)</option>
-                    <option value="AWM Waste Management">AWM Waste Management</option>
-                    <option value="Aasaan Mart">Aasaan Mart (Business Marketplace)</option>
+                    <option value="Aasaan ERP Enterprise">Aasaan ERP Enterprise</option>
+                    <option value="Aasaan ERP Lite">Aasaan ERP Lite</option>
                   </select>
                 </div>
 
