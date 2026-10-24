@@ -31,9 +31,76 @@ import { getAssetUrl, handleImageError, getToolLogoUrl } from '../utils/assetHel
 import { getRoutePath } from '../utils/navigation';
 import heroImg from '../assets/aasaan_erp_header_desktop.png';
 import aasaanLogoSrc from '../assets/aasaan-logo.png';
+import WorldVectorMap from '../components/WorldVectorMap';
 
 /* ============================================================
-   GLOBAL PRESENCE MAP — Inline Component
+   CRISP SVG FLAG BADGE HELPER
+   Renders razor-sharp flags on every OS (bypasses Windows emoji font issues)
+   ============================================================ */
+function FlagBadge({ code, size = 20 }) {
+  const h = Math.round(size * 0.68);
+  if (code === 'in' || code === 'india') {
+    return (
+      <svg width={size} height={h} viewBox="0 0 24 16" style={{ borderRadius: '3px', flexShrink: 0, boxShadow: '0 1px 4px rgba(0,0,0,0.4)', verticalAlign: 'middle' }}>
+        <rect width="24" height="5.33" fill="#FF9933" />
+        <rect y="5.33" width="24" height="5.33" fill="#FFFFFF" />
+        <rect y="10.66" width="24" height="5.33" fill="#138808" />
+        <circle cx="12" cy="8" r="2.2" fill="none" stroke="#000080" strokeWidth="0.7" />
+      </svg>
+    );
+  }
+  if (code === 'ae' || code === 'middleeast') {
+    return (
+      <svg width={size} height={h} viewBox="0 0 24 16" style={{ borderRadius: '3px', flexShrink: 0, boxShadow: '0 1px 4px rgba(0,0,0,0.4)', verticalAlign: 'middle' }}>
+        <rect width="24" height="5.33" fill="#00732F" />
+        <rect y="5.33" width="24" height="5.33" fill="#FFFFFF" />
+        <rect y="10.66" width="24" height="5.33" fill="#000000" />
+        <rect width="6" height="16" fill="#FF0000" />
+      </svg>
+    );
+  }
+  if (code === 'us' || code === 'america') {
+    return (
+      <svg width={size} height={h} viewBox="0 0 24 16" style={{ borderRadius: '3px', flexShrink: 0, boxShadow: '0 1px 4px rgba(0,0,0,0.4)', verticalAlign: 'middle' }}>
+        <rect width="24" height="16" fill="#B22234" />
+        <path d="M0,2.46h24M0,4.92h24M0,7.38h24M0,9.84h24M0,12.3h24M0,14.76h24" stroke="#FFF" strokeWidth="1.23" />
+        <rect width="9.6" height="8.6" fill="#3C3B6E" />
+      </svg>
+    );
+  }
+  if (code === 'za' || code === 'southafrica') {
+    return (
+      <svg width={size} height={h} viewBox="0 0 24 16" style={{ borderRadius: '3px', flexShrink: 0, boxShadow: '0 1px 4px rgba(0,0,0,0.4)', verticalAlign: 'middle' }}>
+        <rect width="24" height="8" fill="#E03C31" />
+        <rect y="8" width="24" height="8" fill="#001489" />
+        <polygon points="0,0 12,8 0,16" fill="#000000" />
+        <polygon points="0,0 2,0 14,8 2,16 0,16 11,8" fill="#FFB81C" />
+        <polygon points="2,0 7,0 19,8 7,16 2,16 12,8" fill="#FFFFFF" />
+        <polygon points="4,0 24,0 24,5 14,8 24,11 24,16 4,16 13,8" fill="#007749" />
+      </svg>
+    );
+  }
+  if (code === 'au' || code === 'australia') {
+    return (
+      <svg width={size} height={h} viewBox="0 0 24 16" style={{ borderRadius: '3px', flexShrink: 0, boxShadow: '0 1px 4px rgba(0,0,0,0.4)', verticalAlign: 'middle' }}>
+        <rect width="24" height="16" fill="#00008B" />
+        <rect width="10" height="7" fill="#00247D" />
+        <path d="M0,0 L10,7 M10,0 L0,7" stroke="#FFF" strokeWidth="1.2" />
+        <path d="M0,0 L10,7 M10,0 L0,7" stroke="#CF142B" strokeWidth="0.6" />
+        <path d="M5,0 v7 M0,3.5 h10" stroke="#FFF" strokeWidth="2" />
+        <path d="M5,0 v7 M0,3.5 h10" stroke="#CF142B" strokeWidth="1.2" />
+        <circle cx="17" cy="11" r="1.2" fill="#FFF" />
+        <circle cx="20" cy="5" r="0.8" fill="#FFF" />
+        <circle cx="15" cy="4" r="0.8" fill="#FFF" />
+        <circle cx="19" cy="8" r="0.8" fill="#FFF" />
+      </svg>
+    );
+  }
+  return <span style={{ fontSize: '14px' }}>🌐</span>;
+}
+
+/* ============================================================
+   GLOBAL PRESENCE MAP — High-Tech Vector Component
    ============================================================ */
 function GlobalPresenceMap({ onOpenDemo }) {
   const [activeHub, setActiveHub] = React.useState('india');
@@ -41,251 +108,548 @@ function GlobalPresenceMap({ onOpenDemo }) {
 
   const hubs = {
     india: {
+      code: 'in',
       label: 'India',
-      sublabel: 'Global HQ & R&D Hub',
-      flag: '🇮🇳',
+      badge: 'Global HQ & Core R&D',
       cities: 'Delhi NCR · Mumbai · Bengaluru',
-      deployments: '4,000+ Deployments',
-      highlights: ['Discrete Manufacturing & High-Tech', 'GST, E-Invoicing & TDS Automation', 'Agentic AI & R&D Centre', 'Multi-Entity Consolidation'],
-      cx: '71%',
-      cy: '42%',
+      deployments: '4,000+ Enterprises',
+      uptime: '99.99%',
+      latency: '< 15ms',
       color: '#1e95d3',
+      bgGlow: 'rgba(30,149,211,0.12)',
+      highlights: [
+        'Discrete & Process Manufacturing ERP',
+        'GST, E-Invoicing & E-Way Bill Auto-Sync',
+        'Agentic AI Auto-Reconciliation Engine',
+        'Real-time Multi-Depot Stock Control'
+      ],
+      compliance: ['GST E-Invoicing', 'E-Way Bill API', 'TDS 194Q', 'Schedule III Financials']
     },
     middleeast: {
+      code: 'ae',
       label: 'Middle East',
-      sublabel: 'UAE & GCC Hub',
-      flag: '🇦🇪',
+      badge: 'UAE & GCC Regional Hub',
       cities: 'Dubai · Riyadh · Abu Dhabi',
-      deployments: '400+ Deployments',
-      highlights: ['GCC VAT & E-Invoicing Compliance', 'Multi-Currency Consolidation', 'AWM Waste Management Solutions', 'Aasaan Global ERP'],
-      cx: '60%',
-      cy: '40%',
+      deployments: '400+ Enterprises',
+      uptime: '99.98%',
+      latency: '< 22ms',
       color: '#f59e0b',
+      bgGlow: 'rgba(245,158,11,0.12)',
+      highlights: [
+        'GCC VAT & ZATCA Phase 2 E-Invoicing',
+        'Multi-Currency Group Consolidation',
+        'AWM Environmental & Waste Cloud',
+        'Cross-Border Trading & Freezone Ops'
+      ],
+      compliance: ['ZATCA Phase 2', 'FTA VAT Ready', 'Multi-Currency', 'Freezone Customs']
     },
     america: {
-      label: 'America',
-      sublabel: 'North America',
-      flag: '🇺🇸',
+      code: 'us',
+      label: 'North America',
+      badge: 'Logistics & Distribution Hub',
       cities: 'New York · California · Texas',
-      deployments: '200+ Deployments',
-      highlights: ['Logistics & 3PL Warehousing', 'Multi-Entity Cross-Border ERP', 'Omnichannel Distribution', 'Cloud-Native ERP'],
-      cx: '22%',
-      cy: '36%',
+      deployments: '200+ Enterprises',
+      uptime: '99.98%',
+      latency: '< 28ms',
       color: '#10b981',
+      bgGlow: 'rgba(16,185,129,0.12)',
+      highlights: [
+        'Multi-Entity Cross-Border Accounting',
+        '3PL Warehousing & Freight Tracking',
+        'Automated Supply Chain Reordering',
+        'AWS Cloud-Native High Availability'
+      ],
+      compliance: ['US GAAP', 'SOC2 Type II', '3PL EDI Mesh', 'Multi-Warehouse']
     },
     southafrica: {
+      code: 'za',
       label: 'South Africa',
-      sublabel: 'Sub-Saharan Africa',
-      flag: '🇿🇦',
-      cities: 'Johannesburg · Cape Town',
-      deployments: '150+ Deployments',
-      highlights: ['Fleet & Transport Management', 'WasteCarrier & AWM Solutions', 'Industrial Distribution ERP', 'Multi-Depot Stock Control'],
-      cx: '55%',
-      cy: '68%',
+      badge: 'Sub-Saharan Industrial Hub',
+      cities: 'Johannesburg · Cape Town · Durban',
+      deployments: '150+ Enterprises',
+      uptime: '99.97%',
+      latency: '< 35ms',
       color: '#8b5cf6',
+      bgGlow: 'rgba(139,92,246,0.12)',
+      highlights: [
+        'Fleet & Heavy Equipment Telematics',
+        'WasteCarrier & Industrial Recycling',
+        'Regional Depot Distribution ERP',
+        'Field Service Job Dispatching'
+      ],
+      compliance: ['SARS VAT Ready', 'Hazmat Manifest', 'Fleet GPS Bridge', 'ISO 14001 Audit']
     },
     australia: {
+      code: 'au',
       label: 'Australia',
-      sublabel: 'APAC Region',
-      flag: '🇦🇺',
+      badge: 'APAC Omnichannel Hub',
       cities: 'Sydney · Melbourne · Brisbane',
-      deployments: '180+ Deployments',
-      highlights: ['Omnichannel Retail Chains', 'Mining & Equipment Maintenance', 'Service Management ERP', 'AWS Cloud-Native Deployment'],
-      cx: '84%',
-      cy: '64%',
-      color: '#ef4444',
-    },
+      deployments: '180+ Enterprises',
+      uptime: '99.98%',
+      latency: '< 32ms',
+      color: '#f43f5e',
+      bgGlow: 'rgba(244,63,94,0.12)',
+      highlights: [
+        'Omnichannel Retail POS & Multi-Store',
+        'Mining & Heavy Machinery Maintenance',
+        'Cloud-Native Multi-Tenant Architecture',
+        'Automated Supplier Drop-shipping'
+      ],
+      compliance: ['ATO Single Touch', 'GST Compliance', 'EFT Barcodes', 'AWS AP-Southeast']
+    }
   };
 
   const filterOptions = [
-    { key: 'all', label: 'All Hubs' },
-    { key: 'india', label: '🇮🇳 India (HQ)' },
-    { key: 'middleeast', label: '🇦🇪 Middle East' },
-    { key: 'america', label: '🇺🇸 America' },
-    { key: 'southafrica', label: '🇿🇦 South Africa' },
-    { key: 'australia', label: '🇦🇺 Australia' },
+    { key: 'all', label: 'All Hubs', code: null },
+    { key: 'india', label: 'India (HQ)', code: 'in' },
+    { key: 'middleeast', label: 'Middle East', code: 'ae' },
+    { key: 'america', label: 'North America', code: 'us' },
+    { key: 'southafrica', label: 'South Africa', code: 'za' },
+    { key: 'australia', label: 'Australia', code: 'au' }
   ];
 
-  const visibleHubs = filter === 'all' ? Object.keys(hubs) : [filter];
-  const hub = hubs[activeHub];
-
-  const svgArcs = [
-    { from: hubs.india, to: hubs.america },
-    { from: hubs.india, to: hubs.middleeast },
-    { from: hubs.india, to: hubs.southafrica },
-    { from: hubs.india, to: hubs.australia },
-  ];
+  const currentHub = hubs[activeHub] || hubs.india;
 
   return (
-    <section style={{ background: '#050d1a', padding: '72px 24px', position: 'relative', overflow: 'hidden' }}>
+    <section style={{
+      background: 'linear-gradient(180deg, #040914 0%, #071324 50%, #030812 100%)',
+      padding: '88px 20px',
+      position: 'relative',
+      overflow: 'hidden',
+      borderTop: '1px solid rgba(56, 189, 248, 0.15)',
+      borderBottom: '1px solid rgba(56, 189, 248, 0.15)'
+    }}>
       <style>{`
-        @keyframes gpmPulse {
-          0% { r: 7; opacity: 1; }
-          70% { r: 18; opacity: 0; }
-          100% { r: 7; opacity: 0; }
+        .gpm-pill-btn {
+          cursor: pointer;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: rgba(13, 26, 45, 0.7);
+          color: rgba(255, 255, 255, 0.75);
+          padding: 8px 16px;
+          border-radius: 999px;
+          font-size: 13px;
+          font-weight: 600;
+          display: inline-flex;
+          alignItems: center;
+          gap: 8px;
+          backdrop-filter: blur(8px);
         }
-        @keyframes gpmDash {
-          to { stroke-dashoffset: -40; }
+        .gpm-pill-btn:hover {
+          border-color: #38bdf8;
+          color: #ffffff;
+          transform: translateY(-1px);
+          background: rgba(30, 149, 211, 0.15);
         }
-        @keyframes gpmGlow {
-          0%, 100% { box-shadow: 0 0 8px 2px rgba(30,149,211,0.5); }
-          50% { box-shadow: 0 0 20px 6px rgba(30,149,211,0.9); }
+        .gpm-pill-btn.active {
+          background: #1e95d3;
+          border-color: #38bdf8;
+          color: #ffffff;
+          box-shadow: 0 0 16px rgba(30, 149, 211, 0.45);
         }
-        .gpm-hub-btn:hover { opacity: 0.9; transform: scale(1.06); }
-        .gpm-filter-pill { cursor: pointer; transition: all 0.2s; border: 1.5px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.7); padding: 6px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 600; }
-        .gpm-filter-pill:hover { border-color: #1e95d3; color: #fff; }
-        .gpm-filter-pill.active { background: #1e95d3; border-color: #1e95d3; color: #fff; }
+        .gpm-map-container {
+          background: radial-gradient(circle at 62% 42%, #0f223d 0%, #071221 65%, #040a14 100%);
+          border: 1px solid rgba(56, 189, 248, 0.22);
+          border-radius: 20px;
+          box-shadow: 0 24px 64px -12px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          overflow: hidden;
+          position: relative;
+        }
+        .gpm-card-glow {
+          transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
       `}</style>
 
-      {/* Background grid */}
-      <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(30,149,211,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(30,149,211,0.04) 1px, transparent 1px)', backgroundSize: '48px 48px', pointerEvents: 'none' }} />
+      {/* Atmospheric ambient lighting */}
+      <div style={{
+        position: 'absolute',
+        top: '10%',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '800px',
+        height: '400px',
+        background: 'radial-gradient(ellipse, rgba(30,149,211,0.12) 0%, transparent 70%)',
+        pointerEvents: 'none',
+        filter: 'blur(60px)'
+      }} />
 
-      {/* Header */}
-      <div style={{ textAlign: 'center', marginBottom: '40px', position: 'relative', zIndex: 2 }}>
-        <span style={{ background: 'rgba(30,149,211,0.15)', color: '#1e95d3', fontSize: '12px', fontWeight: 700, padding: '5px 16px', borderRadius: '20px', letterSpacing: '0.1em', textTransform: 'uppercase', border: '1px solid rgba(30,149,211,0.3)' }}>
-          🌍 Global Presence
-        </span>
-        <h2 style={{ color: '#ffffff', fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 800, margin: '16px 0 8px', lineHeight: 1.25 }}>
-          Aasaan ERP — <span style={{ color: '#1e95d3' }}>Deployed Worldwide</span>
+      {/* Section Header */}
+      <div style={{ textAlign: 'center', marginBottom: '44px', position: 'relative', zIndex: 2 }}>
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '8px',
+          background: 'rgba(30, 149, 211, 0.12)',
+          border: '1px solid rgba(56, 189, 248, 0.3)',
+          padding: '6px 18px',
+          borderRadius: '999px',
+          marginBottom: '18px'
+        }}>
+          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981', display: 'inline-block', boxShadow: '0 0 8px #10b981' }} />
+          <span style={{ color: '#38bdf8', fontSize: '12px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+            Active Global Cloud Mesh
+          </span>
+        </div>
+
+        <h2 style={{
+          color: '#ffffff',
+          fontSize: 'clamp(28px, 4.5vw, 42px)',
+          fontWeight: 800,
+          margin: '0 0 14px',
+          lineHeight: 1.2,
+          letterSpacing: '-0.02em'
+        }}>
+          Worldwide Presence. <span style={{
+            background: 'linear-gradient(135deg, #38bdf8 0%, #1e95d3 60%, #60a5fa 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent'
+          }}>Localised Compliance.</span>
         </h2>
-        <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '15px', maxWidth: '560px', margin: '0 auto' }}>
-          From India's manufacturing heartland to Australia's retail chains — one platform, five continents.
+
+        <p style={{
+          color: 'rgba(255, 255, 255, 0.65)',
+          fontSize: '16px',
+          maxWidth: '680px',
+          margin: '0 auto',
+          lineHeight: 1.6
+        }}>
+          Powering discrete manufacturers, waste management networks, and multi-depot trading conglomerates across 5 continents with sub-25ms synchronized cloud latency.
         </p>
       </div>
 
-      {/* Filter pills */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'center', marginBottom: '32px', position: 'relative', zIndex: 2 }}>
-        {filterOptions.map(f => (
-          <button key={f.key} className={`gpm-filter-pill${filter === f.key ? ' active' : ''}`} onClick={() => { setFilter(f.key); if (f.key !== 'all') setActiveHub(f.key); }}>
-            {f.label}
+      {/* Filter / Hub Selector Pills */}
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '10px',
+        justifyContent: 'center',
+        marginBottom: '36px',
+        position: 'relative',
+        zIndex: 2
+      }}>
+        {filterOptions.map((f) => (
+          <button
+            key={f.key}
+            className={`gpm-pill-btn${activeHub === f.key || (filter === f.key && f.key === 'all') ? ' active' : ''}`}
+            onClick={() => {
+              setFilter(f.key);
+              if (f.key !== 'all') {
+                setActiveHub(f.key);
+              }
+            }}
+          >
+            {f.code ? <FlagBadge code={f.code} size={18} /> : <span>🌐</span>}
+            <span>{f.label}</span>
           </button>
         ))}
       </div>
 
-      {/* Map + Info Card */}
-      <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', gap: '24px', alignItems: 'flex-start', flexWrap: 'wrap', position: 'relative', zIndex: 2 }}>
+      {/* Main Map + Executive Card Grid */}
+      <div style={{
+        maxWidth: '1240px',
+        margin: '0 auto',
+        display: 'grid',
+        gridTemplateColumns: 'minmax(0, 1.75fr) minmax(320px, 1fr)',
+        gap: '24px',
+        alignItems: 'stretch',
+        position: 'relative',
+        zIndex: 2
+      }}>
 
-        {/* SVG Map */}
-        <div style={{ flex: '1 1 560px', position: 'relative', borderRadius: '16px', overflow: 'hidden', border: '1px solid rgba(30,149,211,0.2)', background: 'rgba(5,20,40,0.8)' }}>
-          <svg viewBox="0 0 1000 560" style={{ width: '100%', display: 'block' }}>
-            {/* Grid lines */}
-            {[0.2,0.4,0.6,0.8].map(t => (
-              <React.Fragment key={t}>
-                <line x1={t*1000} y1="0" x2={t*1000} y2="560" stroke="rgba(30,149,211,0.06)" strokeWidth="1"/>
-                <line x1="0" y1={t*560} x2="1000" y2={t*560} stroke="rgba(30,149,211,0.06)" strokeWidth="1"/>
-              </React.Fragment>
-            ))}
+        {/* Real High-Fidelity Vector World Map */}
+        <div className="gpm-map-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '440px' }}>
+          
+          {/* Top Mesh Status Header Bar */}
+          <div style={{
+            padding: '14px 20px',
+            borderBottom: '1px solid rgba(56, 189, 248, 0.12)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            background: 'rgba(7, 18, 33, 0.6)',
+            flexWrap: 'wrap',
+            gap: '8px'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#10b981', display: 'inline-block' }} />
+              <span style={{ color: 'rgba(255, 255, 255, 0.85)', fontSize: '12.5px', fontWeight: 600 }}>
+                Enterprise Edge Topology · <strong>5 Core Sovereign Regions</strong>
+              </span>
+            </div>
 
-            {/* Continent outlines — simplified filled shapes */}
-            {/* North America */}
-            <path d="M80,80 L240,70 L260,130 L280,180 L250,240 L200,280 L160,260 L120,200 L90,160 Z" fill="rgba(30,149,211,0.08)" stroke="rgba(30,149,211,0.2)" strokeWidth="1"/>
-            {/* South America */}
-            <path d="M170,290 L230,280 L250,340 L240,420 L200,460 L165,420 L155,360 Z" fill="rgba(30,149,211,0.06)" stroke="rgba(30,149,211,0.15)" strokeWidth="1"/>
-            {/* Europe */}
-            <path d="M440,60 L530,55 L550,100 L520,130 L470,125 L445,100 Z" fill="rgba(30,149,211,0.07)" stroke="rgba(30,149,211,0.18)" strokeWidth="1"/>
-            {/* Africa */}
-            <path d="M460,140 L550,130 L580,200 L570,300 L530,380 L490,370 L455,290 L445,200 Z" fill="rgba(30,149,211,0.07)" stroke="rgba(30,149,211,0.18)" strokeWidth="1"/>
-            {/* Middle East */}
-            <path d="M555,120 L620,115 L640,160 L610,190 L565,180 Z" fill="rgba(30,149,211,0.07)" stroke="rgba(30,149,211,0.18)" strokeWidth="1"/>
-            {/* Asia / India */}
-            <path d="M620,80 L820,70 L850,150 L840,220 L780,260 L720,240 L680,200 L650,160 L625,120 Z" fill="rgba(30,149,211,0.08)" stroke="rgba(30,149,211,0.2)" strokeWidth="1"/>
-            {/* Australia */}
-            <path d="M760,340 L880,330 L910,390 L890,450 L830,460 L770,440 L750,390 Z" fill="rgba(30,149,211,0.08)" stroke="rgba(30,149,211,0.2)" strokeWidth="1"/>
-
-            {/* Animated arcs from India HQ to each hub */}
-            {svgArcs.map((arc, i) => {
-              const x1 = parseFloat(arc.from.cx) * 10;
-              const y1 = parseFloat(arc.from.cy) * 5.6;
-              const x2 = parseFloat(arc.to.cx) * 10;
-              const y2 = parseFloat(arc.to.cy) * 5.6;
-              const mx = (x1 + x2) / 2;
-              const my = Math.min(y1, y2) - 80;
-              return (
-                <path
-                  key={i}
-                  d={`M${x1},${y1} Q${mx},${my} ${x2},${y2}`}
-                  fill="none"
-                  stroke="rgba(30,149,211,0.4)"
-                  strokeWidth="1.5"
-                  strokeDasharray="8 6"
-                  style={{ animation: `gpmDash ${2 + i * 0.4}s linear infinite` }}
-                />
-              );
-            })}
-
-            {/* Hub dots */}
-            {Object.entries(hubs).map(([key, h]) => {
-              if (!visibleHubs.includes(key)) return null;
-              const cx = parseFloat(h.cx) * 10;
-              const cy = parseFloat(h.cy) * 5.6;
-              const isActive = activeHub === key;
-              return (
-                <g key={key} style={{ cursor: 'pointer' }} onClick={() => setActiveHub(key)}>
-                  {/* Pulse ring */}
-                  <circle cx={cx} cy={cy} r="7" fill="none" stroke={h.color} strokeWidth="2" style={{ animation: 'gpmPulse 2s ease-out infinite' }} />
-                  {/* Core dot */}
-                  <circle cx={cx} cy={cy} r={isActive ? 9 : 6} fill={h.color} stroke="#fff" strokeWidth={isActive ? 2.5 : 1.5} style={{ transition: 'r 0.3s' }} />
-                  {/* Label */}
-                  <text x={cx} y={cy - 14} textAnchor="middle" fill="#ffffff" fontSize="11" fontWeight="700" style={{ pointerEvents: 'none' }}>
-                    {h.flag} {h.label}
-                  </text>
-                </g>
-              );
-            })}
-          </svg>
-        </div>
-
-        {/* Info Card */}
-        <div style={{ flex: '0 0 280px', background: 'rgba(255,255,255,0.04)', border: `1px solid ${hub.color}40`, borderRadius: '16px', padding: '24px', backdropFilter: 'blur(10px)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-            <span style={{ fontSize: '32px' }}>{hub.flag}</span>
-            <div>
-              <div style={{ color: '#fff', fontWeight: 800, fontSize: '18px' }}>{hub.label}</div>
-              <div style={{ color: hub.color, fontSize: '12px', fontWeight: 600 }}>{hub.sublabel}</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', fontSize: '12px', color: 'rgba(255, 255, 255, 0.5)' }}>
+              <span>AWS Cloud-Native</span>
+              <span>·</span>
+              <span style={{ color: '#38bdf8', fontWeight: 600 }}>Zero Data Residency Leak</span>
             </div>
           </div>
-          <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '12px', marginBottom: '4px' }}>📍 {hub.cities}</div>
-          <div style={{ color: hub.color, fontWeight: 700, fontSize: '15px', margin: '10px 0 14px' }}>🚀 {hub.deployments}</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {hub.highlights.map((h, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'rgba(255,255,255,0.8)', fontSize: '13px' }}>
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: hub.color, flexShrink: 0 }} />
-                {h}
+
+          {/* Interactive World Map SVG */}
+          <div style={{ padding: '16px 20px', flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <WorldVectorMap
+              activeHub={activeHub}
+              filter={filter}
+              onSelectHub={(hubKey) => {
+                setActiveHub(hubKey);
+                setFilter(hubKey);
+              }}
+            />
+          </div>
+
+          {/* Bottom Interactive Legend / Status Bar */}
+          <div style={{
+            padding: '12px 20px',
+            borderTop: '1px solid rgba(56, 189, 248, 0.1)',
+            background: 'rgba(5, 12, 22, 0.8)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '12px',
+            fontSize: '12px'
+          }}>
+            <div style={{ color: 'rgba(255, 255, 255, 0.55)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span>💡</span>
+              <span>Click on any regional beacon or pill above to inspect deployments and compliance.</span>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#38bdf8' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#1e95d3' }} /> India (Global HQ)
+              </span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#f59e0b' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#f59e0b' }} /> GCC Hub
+              </span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#10b981' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981' }} /> North America
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Executive Regional Detail Card */}
+        <div
+          className="gpm-card-glow"
+          style={{
+            background: 'rgba(10, 22, 38, 0.85)',
+            border: `1.5px solid ${currentHub.color}45`,
+            borderRadius: '20px',
+            padding: '28px',
+            backdropFilter: 'blur(16px)',
+            boxShadow: `0 20px 48px -10px rgba(0,0,0,0.7), 0 0 24px ${currentHub.bgGlow}`,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between'
+          }}
+        >
+          <div>
+            {/* Region Top Badge & Flag */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <FlagBadge code={currentHub.code} size={30} />
+                <div>
+                  <h3 style={{ color: '#ffffff', margin: 0, fontSize: '22px', fontWeight: 800, letterSpacing: '-0.01em' }}>
+                    {currentHub.label}
+                  </h3>
+                  <div style={{ color: currentHub.color, fontSize: '12.5px', fontWeight: 600, marginTop: '2px' }}>
+                    {currentHub.badge}
+                  </div>
+                </div>
               </div>
-            ))}
+
+              <div style={{
+                background: 'rgba(16, 185, 129, 0.15)',
+                border: '1px solid rgba(16, 185, 129, 0.3)',
+                padding: '4px 10px',
+                borderRadius: '999px',
+                fontSize: '11px',
+                color: '#10b981',
+                fontWeight: 700,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px'
+              }}>
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981' }} />
+                Online
+              </div>
+            </div>
+
+            {/* City Hubs */}
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.03)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: '10px',
+              padding: '10px 14px',
+              fontSize: '12.5px',
+              color: 'rgba(255, 255, 255, 0.7)',
+              marginBottom: '18px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}>
+              <span>📍</span>
+              <span><strong>Primary Hubs:</strong> {currentHub.cities}</span>
+            </div>
+
+            {/* Mini Metrics Row */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '20px' }}>
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '10px',
+                padding: '12px 14px'
+              }}>
+                <div style={{ fontSize: '11px', color: 'rgba(255, 255, 255, 0.5)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Deployments</div>
+                <div style={{ color: currentHub.color, fontSize: '19px', fontWeight: 800, marginTop: '4px' }}>
+                  {currentHub.deployments}
+                </div>
+              </div>
+
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '10px',
+                padding: '12px 14px'
+              }}>
+                <div style={{ fontSize: '11px', color: 'rgba(255, 255, 255, 0.5)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Edge Latency</div>
+                <div style={{ color: '#ffffff', fontSize: '19px', fontWeight: 800, marginTop: '4px' }}>
+                  {currentHub.latency}
+                </div>
+              </div>
+            </div>
+
+            {/* Core Capabilities */}
+            <div style={{ marginBottom: '20px' }}>
+              <div style={{ fontSize: '12px', fontWeight: 700, color: 'rgba(255, 255, 255, 0.45)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px' }}>
+                Key Operational Strengths
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '9px' }}>
+                {currentHub.highlights.map((item, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '13px', color: 'rgba(255, 255, 255, 0.85)', lineHeight: 1.4 }}>
+                    <CheckCircle2 size={15} color={currentHub.color} style={{ flexShrink: 0, marginTop: '2px' }} />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Compliance Pills */}
+            <div style={{ marginBottom: '24px' }}>
+              <div style={{ fontSize: '12px', fontWeight: 700, color: 'rgba(255, 255, 255, 0.45)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '8px' }}>
+                Sovereign Compliance
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                {currentHub.compliance.map((c, i) => (
+                  <span
+                    key={i}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      color: 'rgba(255, 255, 255, 0.8)',
+                      padding: '4px 10px',
+                      borderRadius: '6px',
+                      fontSize: '11.5px',
+                      fontWeight: 600
+                    }}
+                  >
+                    {c}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
-          <div style={{ marginTop: '20px', padding: '10px 14px', background: 'rgba(30,149,211,0.1)', borderRadius: '8px', border: '1px solid rgba(30,149,211,0.2)', fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>
-            ⚡ {'<'}25ms Cloud Edge · 99.98% Uptime SLA
-          </div>
+
+          {/* Action CTA Button */}
           <button
             onClick={onOpenDemo}
-            style={{ marginTop: '16px', width: '100%', background: hub.color, color: '#fff', border: 'none', borderRadius: '8px', padding: '11px', fontWeight: 700, fontSize: '13px', cursor: 'pointer', transition: 'opacity 0.2s' }}
-            onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
-            onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+            style={{
+              width: '100%',
+              background: currentHub.color,
+              color: '#ffffff',
+              border: 'none',
+              borderRadius: '10px',
+              padding: '13px 18px',
+              fontWeight: 800,
+              fontSize: '14px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              boxShadow: `0 8px 24px -4px ${currentHub.color}66`,
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.filter = 'brightness(1.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.filter = 'brightness(1)';
+            }}
           >
-            Schedule {hub.label} Demo →
+            <span>Schedule {currentHub.label} Walkthrough</span>
+            <ArrowRight size={16} />
           </button>
         </div>
+
       </div>
 
-      {/* Bottom metrics strip */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center', marginTop: '40px', position: 'relative', zIndex: 2 }}>
+      {/* High-Trust Metrics Strip */}
+      <div style={{
+        maxWidth: '1240px',
+        margin: '40px auto 0',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+        gap: '16px',
+        position: 'relative',
+        zIndex: 2
+      }}>
         {[
-          { icon: '🌍', value: '5', label: 'Strategic Global Hubs' },
-          { icon: '⚡', value: '99.98%', label: 'High Availability Uptime' },
-          { icon: '🏢', value: '5,000+', label: 'Live Enterprise Deployments' },
-          { icon: '⏱️', value: '<45ms', label: 'Global Cloud Edge Latency' },
-        ].map((m, i) => (
-          <div key={i} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(30,149,211,0.2)', borderRadius: '12px', padding: '16px 24px', textAlign: 'center', minWidth: '160px' }}>
-            <div style={{ fontSize: '22px', marginBottom: '4px' }}>{m.icon}</div>
-            <div style={{ color: '#1e95d3', fontWeight: 800, fontSize: '20px' }}>{m.value}</div>
-            <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '12px', marginTop: '2px' }}>{m.label}</div>
+          { icon: '🌍', stat: '5 Strategic Hubs', sub: 'USA · Australia · Middle East · India · South Africa' },
+          { icon: '⚡', stat: '99.98% High Availability', sub: 'Zero single points of failure across Multi-AZ cloud' },
+          { icon: '🏢', stat: '5,000+ Enterprise Sites', sub: 'From discrete plants to 200+ location retail chains' },
+          { icon: '🛡️', stat: 'Local Sovereign Privacy', sub: 'Zero cross-border residency leak; encrypted at rest' }
+        ].map((item, idx) => (
+          <div
+            key={idx}
+            style={{
+              background: 'rgba(10, 22, 38, 0.65)',
+              border: '1px solid rgba(56, 189, 248, 0.14)',
+              borderRadius: '14px',
+              padding: '18px 20px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '14px',
+              backdropFilter: 'blur(8px)'
+            }}
+          >
+            <div style={{
+              fontSize: '26px',
+              width: '46px',
+              height: '46px',
+              borderRadius: '10px',
+              background: 'rgba(30, 149, 211, 0.1)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0
+            }}>
+              {item.icon}
+            </div>
+            <div>
+              <div style={{ color: '#ffffff', fontWeight: 800, fontSize: '15px' }}>{item.stat}</div>
+              <div style={{ color: 'rgba(255, 255, 255, 0.55)', fontSize: '12px', marginTop: '3px', lineHeight: 1.35 }}>
+                {item.sub}
+              </div>
+            </div>
           </div>
         ))}
       </div>
     </section>
   );
 }
+
 
 export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
   const [whyTab, setWhyTab] = useState(0);
