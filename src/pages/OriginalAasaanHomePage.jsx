@@ -1407,38 +1407,7 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                 <span><b>With Aasaan ERP, AI isn't an afterthought —</b> it's embedded across every ledger, warehouse, and work order.</span>
               </div>
 
-              {/* Action Button */}
-              <div>
-                <button
-                  onClick={onOpenDemo}
-                  style={{
-                    background: 'linear-gradient(135deg, #1e95d3 0%, #0d6ea0 100%)',
-                    color: '#ffffff',
-                    border: 'none',
-                    borderRadius: '10px',
-                    padding: '14px 28px',
-                    fontSize: '15px',
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    boxShadow: '0 8px 20px rgba(30,149,211,0.28)',
-                    transition: 'all 0.2s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 12px 28px rgba(30,149,211,0.38)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(30,149,211,0.28)';
-                  }}
-                >
-                  <span>Experience AI ERP</span>
-                  <ArrowRight size={17} />
-                </button>
-              </div>
+              {/* Action Button removed */}
             </div>
           </div>
         </div>
@@ -2355,39 +2324,115 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       {/* ============================================================ */}
       {/* 5. ALL-IN-ONE CLOUD ERP                                      */}
       {/* ============================================================ */}
-      <div className="column_alignment section_wrapper instant_go_live_section" style={{ background: '#FFFFFF' }}>
-        <div className="column_alignment main_content align_self_center" style={{ textAlign: 'center' }}>
-          <h2 className="page_heading" style={{ maxWidth: '750px', alignSelf: 'center', marginBottom: '12px' }}>
-            <b>All-in-One Cloud</b> ERP Software for Seamless Business Growth
-          </h2>
-          <span style={{ maxWidth: '700px', textAlign: 'center', alignSelf: 'center', fontSize: '15px', color: '#5f5f5f', lineHeight: 1.6, marginBottom: '24px' }}>
-            Unlock best-in-class, industry-specific solutions designed to adapt and scale with your business—customizable, powerful, and built for success.
-          </span>
+      <div className="column_alignment section_wrapper instant_go_live_section" style={{ background: '#f8faff', padding: '88px 20px' }}>
+        <div className="column_alignment main_content align_self_center" style={{ textAlign: 'center', maxWidth: '1100px' }}>
 
-          <div className="row_column_alignment two" style={{ margin: '16px 0', gap: '24px', justifyContent: 'center' }}>
-            <div className="column_alignment" style={{ flex: 1, alignItems: 'center' }}>
+          {/* Section badge */}
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', background: 'rgba(30,149,211,0.1)', border: '1px solid rgba(30,149,211,0.25)', padding: '6px 16px', borderRadius: '999px', marginBottom: '18px' }}>
+            <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#1e95d3', display: 'inline-block' }} />
+            <span style={{ color: '#0d6ea0', fontSize: '12px', fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase' }}>End-to-End Cloud Platform</span>
+          </div>
+
+          <h2 style={{ fontSize: 'clamp(26px, 4vw, 40px)', fontWeight: 800, color: '#0f172a', margin: '0 0 16px', lineHeight: 1.2, letterSpacing: '-0.02em', maxWidth: '820px', alignSelf: 'center' }}>
+            One Platform. Every Department. <span style={{ color: '#1e95d3' }}>Zero Silos.</span>
+          </h2>
+
+          <p style={{ fontSize: '17px', color: '#475569', lineHeight: 1.7, maxWidth: '700px', margin: '0 auto 48px', alignSelf: 'center' }}>
+            From day one of implementation to instant go-live — Aasaan ERP unifies your finance, inventory, manufacturing, and sales into a single, always-in-sync cloud workspace. No spreadsheets. No data gaps. No rework.
+          </p>
+
+          {/* Feature highlights row */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', justifyContent: 'center', marginBottom: '48px' }}>
+            {[
+              { icon: '⚡', label: 'Go-Live in Days, Not Months' },
+              { icon: '🔄', label: 'Real-Time Cross-Module Sync' },
+              { icon: '🏭', label: 'Built for Indian Manufacturing' },
+              { icon: '🛡️', label: 'GST & E-Invoicing Native' },
+              { icon: '☁️', label: 'AWS Multi-AZ High Availability' },
+              { icon: '📊', label: 'Live CEO Dashboard & Reports' }
+            ].map((f, i) => (
+              <div key={i} style={{
+                display: 'inline-flex', alignItems: 'center', gap: '8px',
+                background: '#ffffff', border: '1.5px solid #e2e8f0',
+                padding: '9px 18px', borderRadius: '999px',
+                fontSize: '13.5px', fontWeight: 600, color: '#334155',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
+              }}>
+                <span style={{ fontSize: '16px' }}>{f.icon}</span>
+                {f.label}
+              </div>
+            ))}
+          </div>
+
+          {/* Image cards with overlays */}
+          <div className="row_column_alignment two" style={{ margin: '0 0 48px', gap: '24px', justifyContent: 'center' }}>
+            <div style={{ flex: 1, position: 'relative', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 12px 32px rgba(0,0,0,0.12)' }}>
               <img
                 src={getAssetUrl('images/implementation_img.jpg')}
                 onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/implementation_img.jpg')}
-                alt="Implementation and Architecture"
-                style={{ width: '95%', maxWidth: '540px', boxShadow: '0 4px 16px rgba(0,0,0,0.1)', borderRadius: '8px' }}
+                alt="Implementation and Planning"
+                style={{ width: '100%', display: 'block', objectFit: 'cover', minHeight: '260px' }}
               />
+              <div style={{
+                position: 'absolute', bottom: 0, left: 0, right: 0,
+                background: 'linear-gradient(to top, rgba(10,20,40,0.85) 0%, transparent 100%)',
+                padding: '28px 20px 20px'
+              }}>
+                <div style={{ color: '#ffffff', fontWeight: 800, fontSize: '18px', marginBottom: '4px' }}>Implementation & Planning</div>
+                <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: '13px' }}>Guided setup, data migration, and go-live support — all in one structured rollout.</div>
+              </div>
             </div>
-            <div className="column_alignment" style={{ flex: 1, alignItems: 'center' }}>
+
+            <div style={{ flex: 1, position: 'relative', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 12px 32px rgba(0,0,0,0.12)' }}>
               <img
                 src={getAssetUrl('images/instant_go_live_img.jpg')}
                 onError={(e) => handleImageError(e, 'https://www.aasaanerp.com/static/main/images/instant_go_live_img.jpg')}
                 alt="Instant Go Live"
-                style={{ width: '95%', maxWidth: '540px', boxShadow: '0 4px 16px rgba(0,0,0,0.1)', borderRadius: '8px' }}
+                style={{ width: '100%', display: 'block', objectFit: 'cover', minHeight: '260px' }}
               />
+              <div style={{
+                position: 'absolute', bottom: 0, left: 0, right: 0,
+                background: 'linear-gradient(to top, rgba(10,20,40,0.85) 0%, transparent 100%)',
+                padding: '28px 20px 20px'
+              }}>
+                <div style={{ color: '#ffffff', fontWeight: 800, fontSize: '18px', marginBottom: '4px' }}>Instant Go-Live</div>
+                <div style={{ color: 'rgba(255,255,255,0.75)', fontSize: '13px' }}>Pre-configured modules ready to deploy — your team is up and running from day one.</div>
+              </div>
             </div>
           </div>
 
-          <div style={{ marginTop: '24px' }}>
-            <button onClick={onOpenDemo} className="accent_button align_self_center" style={{ padding: '14px 32px', fontSize: '16px' }}>
-              Schedule Demo
+          {/* CTA */}
+          <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <button
+              onClick={onOpenDemo}
+              style={{
+                background: 'linear-gradient(135deg, #1e95d3, #0d6ea0)',
+                color: '#fff', border: 'none', borderRadius: '10px',
+                padding: '15px 36px', fontSize: '16px', fontWeight: 800,
+                cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '10px',
+                boxShadow: '0 8px 24px rgba(30,149,211,0.35)', transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
+            >
+              Schedule a Free Demo <ArrowRight size={17} />
             </button>
+            <a
+              href="https://wa.me/917428267616?text=Hi%2C%20I%20want%20to%20know%20more%20about%20Aasaan%20ERP"
+              target="_blank" rel="noopener noreferrer"
+              style={{
+                background: '#25D366', color: '#fff', border: 'none', borderRadius: '10px',
+                padding: '15px 28px', fontSize: '15px', fontWeight: 700,
+                textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px',
+                boxShadow: '0 8px 24px rgba(37,211,102,0.3)', transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
+            >
+              <i className="fab fa-whatsapp" style={{ fontSize: '18px' }} /> WhatsApp Us
+            </a>
           </div>
+
         </div>
       </div>
 
