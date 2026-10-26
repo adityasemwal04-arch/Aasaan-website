@@ -1,30 +1,104 @@
 import React, { useState } from 'react';
 import {
-  TrendingUp,
-  Package,
-  FileCheck,
-  Scale,
-  Sparkles,
-  ArrowUpRight,
-  ShieldCheck,
+  Building2,
+  Zap,
+  Recycle,
+  ShoppingBag,
   CheckCircle2,
-  Activity,
-  Layers,
-  ChevronRight,
-  Play
+  ArrowRight,
+  ShieldCheck,
+  Globe2,
+  Sparkles
 } from 'lucide-react';
 
 export default function InteractiveHeroDashboard({ onOpenDemo, onNavigate }) {
-  const [activeTab, setActiveTab] = useState('overview');
-  const [liveCounter, setLiveCounter] = useState(148290);
-  const [invoicesCount, setInvoicesCount] = useState(42);
+  const [selectedProduct, setSelectedProduct] = useState('enterprise');
 
-  const tabs = [
-    { id: 'overview', label: 'Real-Time Ledger', icon: TrendingUp, color: '#38bdf8' },
-    { id: 'inventory', label: 'Stock & Batches', icon: Package, color: '#34d399' },
-    { id: 'einvoice', label: 'E-Invoicing & GST', icon: FileCheck, color: '#fbbf24' },
-    { id: 'weighbridge', label: 'Weighbridge IoT', icon: Scale, color: '#a78bfa' }
-  ];
+  const products = {
+    enterprise: {
+      id: 'enterprise',
+      name: 'Aasaan ERP Enterprise',
+      shortLabel: 'ERP Enterprise',
+      icon: Building2,
+      accentColor: '#38bdf8',
+      badge: 'Multi-Plant & Global',
+      tagline: 'End-to-End Enterprise Resource Planning for Growing Businesses',
+      description: 'Comprehensive solution designed for multi-branch organizations, manufacturing plants, and supply chains requiring automated accounting, inventory control, and multi-currency operations.',
+      highlights: [
+        'Multi-Plant Manufacturing & Multi-Level BOM',
+        'Direct Statutory GST, E-Invoicing & E-Way Bill Integration',
+        'Real-Time Consolidated Financial Statements & P&L',
+        'Granular Role-Based Permissions & Complete Audit Trails'
+      ],
+      pageRoute: 'global',
+      ctaText: 'Explore ERP Enterprise'
+    },
+    lite: {
+      id: 'lite',
+      name: 'Aasaan ERP Lite',
+      shortLabel: 'ERP Lite',
+      icon: Zap,
+      accentColor: '#34d399',
+      badge: 'Fast & Simple',
+      tagline: 'Streamlined Invoicing & Accounting for Lean Teams',
+      description: 'A lightning-fast, clutter-free ERP designed for distributors, traders, and small business owners who want day-to-day billing, customer balances, and tax compliance without enterprise complexity.',
+      highlights: [
+        'Instant 3-Click Quotations & GST Invoicing',
+        'Mobile-Ready Field Sales & WhatsApp Payment Reminders',
+        'Simplified Inventory & Low-Stock Alerts',
+        '7-Day Rapid Deployment with Zero Learning Curve'
+      ],
+      pageRoute: 'lite',
+      ctaText: 'Explore ERP Lite'
+    },
+    awm: {
+      id: 'awm',
+      name: 'AWM Waste Management',
+      shortLabel: 'AWM Recycling',
+      icon: Recycle,
+      accentColor: '#10b981',
+      badge: 'Hardware & IoT Bridge',
+      tagline: 'Industrial Weighbridge Automation & Material Recovery',
+      description: 'Dedicated vertical solution purpose-built for scrapyards, recyclers, and waste management operators. Connects directly to physical scale indicators for tamper-proof weight capture.',
+      highlights: [
+        'Zero-Tamper RS232 / TCP-IP Weighbridge Automation',
+        'Automated Inbound Gross & Outbound Tare Capture',
+        'MRF Scrap Sorting, Mass Balance & Yield Calculation',
+        'Driver Gate Passes & Pollution Board / EPR Tracking'
+      ],
+      pageRoute: 'awm',
+      ctaText: 'Explore AWM Automation'
+    },
+    mart: {
+      id: 'mart',
+      name: 'Aasaan Mart',
+      shortLabel: 'Aasaan Mart',
+      icon: ShoppingBag,
+      accentColor: '#fbbf24',
+      badge: 'B2B Marketplace',
+      tagline: 'Connected B2B Supply & Distribution Network',
+      description: 'Unified business marketplace platform linking verified manufacturers, bulk suppliers, and retailers with synchronized live catalog pricing and order routing.',
+      highlights: [
+        'Direct B2B Buyer & Supplier Connectivity',
+        'Automated Purchase Requisitions & Stock Sync',
+        'Digital Product Catalog with Tiered Price Lists',
+        'Streamlined Logistics & Bulk Order Tracking'
+      ],
+      pageRoute: null,
+      ctaText: 'Schedule Mart Demo'
+    }
+  };
+
+  const current = products[selectedProduct];
+  const CurrentIcon = current.icon;
+
+  const handleAction = () => {
+    if (current.pageRoute && onNavigate) {
+      onNavigate(current.pageRoute);
+    } else if (onOpenDemo) {
+      onOpenDemo(current.name);
+    }
+  };
 
   return (
     <div style={{
@@ -39,7 +113,7 @@ export default function InteractiveHeroDashboard({ onOpenDemo, onNavigate }) {
       color: '#ffffff',
       fontFamily: 'Inter, system-ui, -apple-system, sans-serif'
     }}>
-      {/* Top Chrome / Window Bar */}
+      {/* Top Browser Chrome Bar */}
       <div style={{
         background: 'rgba(15, 23, 42, 0.95)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
@@ -55,250 +129,145 @@ export default function InteractiveHeroDashboard({ onOpenDemo, onNavigate }) {
           <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ef4444', display: 'inline-block' }} />
           <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#f59e0b', display: 'inline-block' }} />
           <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#10b981', display: 'inline-block' }} />
-          <span style={{ marginLeft: '8px', fontSize: '11px', color: '#94a3b8', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Activity size={12} color="#10b981" /> Aasaan Cloud OS v4.2 • Live Preview
-          </span>
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.06)',
+            borderRadius: '6px',
+            padding: '3px 12px',
+            marginLeft: '8px',
+            fontSize: '11px',
+            color: '#93c5fd',
+            fontFamily: 'monospace',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px'
+          }}>
+            <Globe2 size={11} color="#38bdf8" />
+            <span>aasaan.in/products</span>
+          </div>
         </div>
 
-        {/* Live sync pulse */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '5px',
-            background: 'rgba(16, 185, 129, 0.15)',
-            border: '1px solid rgba(16, 185, 129, 0.35)',
-            color: '#34d399',
-            padding: '2px 8px',
-            borderRadius: '99px',
-            fontSize: '10.5px',
-            fontWeight: 700,
-            letterSpacing: '0.04em'
-          }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#34d399', boxShadow: '0 0 6px #34d399' }} />
-            SYNCED
-          </span>
-        </div>
+        {/* Cloud Badge */}
+        <span style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '5px',
+          background: 'rgba(56, 189, 248, 0.12)',
+          border: '1px solid rgba(56, 189, 248, 0.25)',
+          color: '#38bdf8',
+          padding: '2px 8px',
+          borderRadius: '99px',
+          fontSize: '10.5px',
+          fontWeight: 700
+        }}>
+          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#38bdf8' }} />
+          OFFICIAL SUITE
+        </span>
       </div>
 
-      {/* Interactive Tabs Header */}
+      {/* Interactive Product Tabs */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
         background: 'rgba(15, 23, 42, 0.6)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-        padding: '4px'
+        padding: '6px'
       }}>
-        {tabs.map((tab) => {
-          const Icon = tab.icon;
-          const isActive = activeTab === tab.id;
+        {Object.values(products).map((p) => {
+          const Icon = p.icon;
+          const isSelected = selectedProduct === p.id;
           return (
             <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
+              key={p.id}
+              onClick={() => setSelectedProduct(p.id)}
               style={{
-                background: isActive ? 'rgba(56, 189, 248, 0.15)' : 'transparent',
-                border: isActive ? '1px solid rgba(56, 189, 248, 0.3)' : '1px solid transparent',
+                background: isSelected ? 'rgba(56, 189, 248, 0.16)' : 'transparent',
+                border: isSelected ? '1px solid rgba(56, 189, 248, 0.35)' : '1px solid transparent',
                 borderRadius: '8px',
-                padding: '8px 6px',
-                color: isActive ? '#ffffff' : '#94a3b8',
-                fontSize: '11px',
-                fontWeight: isActive ? 700 : 500,
+                padding: '10px 4px',
+                color: isSelected ? '#ffffff' : '#94a3b8',
+                fontSize: '11.5px',
+                fontWeight: isSelected ? 700 : 500,
                 cursor: 'pointer',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                gap: '4px',
-                transition: 'all 0.2s ease',
+                gap: '5px',
+                transition: 'all 0.15s ease',
                 outline: 'none'
               }}
               onMouseEnter={(e) => {
-                if (!isActive) e.currentTarget.style.color = '#e2e8f0';
+                if (!isSelected) e.currentTarget.style.color = '#f1f5f9';
               }}
               onMouseLeave={(e) => {
-                if (!isActive) e.currentTarget.style.color = '#94a3b8';
+                if (!isSelected) e.currentTarget.style.color = '#94a3b8';
               }}
             >
-              <Icon size={14} color={isActive ? tab.color : '#94a3b8'} />
+              <Icon size={16} color={isSelected ? p.accentColor : '#64748b'} />
               <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%' }}>
-                {tab.label}
+                {p.shortLabel}
               </span>
             </button>
           );
         })}
       </div>
 
-      {/* Dynamic Interactive Body */}
-      <div style={{ padding: '20px 22px', minHeight: '290px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-        
-        {/* TAB 1: REAL-TIME LEDGER */}
-        {activeTab === 'overview' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '10px' }}>
-              <div>
-                <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#94a3b8', fontWeight: 700 }}>
-                  Today's Gross Billing
-                </div>
-                <div style={{ fontSize: '28px', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em', marginTop: '2px' }}>
-                  ₹{(liveCounter).toLocaleString('en-IN')}.00
-                </div>
+      {/* Dynamic Product Detail Card */}
+      <div style={{ padding: '22px 24px', minHeight: '300px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <div>
+          {/* Header */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{
+                background: `${current.accentColor}20`,
+                border: `1px solid ${current.accentColor}40`,
+                borderRadius: '10px',
+                padding: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <CurrentIcon size={20} color={current.accentColor} />
               </div>
-              <div style={{ display: 'flex', gap: '8px' }}>
-                <span style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <TrendingUp size={12} /> +18.4% MoM
+              <div>
+                <h3 style={{ fontSize: '18px', fontWeight: 800, margin: 0, color: '#ffffff' }}>
+                  {current.name}
+                </h3>
+                <span style={{ fontSize: '11.5px', color: current.accentColor, fontWeight: 600 }}>
+                  {current.badge}
                 </span>
               </div>
             </div>
-
-            {/* Quick mini ledger entries */}
-            <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.06)', borderRadius: '10px', padding: '12px' }}>
-              <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginBottom: '8px', display: 'flex', justifyContent: 'space-between' }}>
-                <span>Latest Production Postings</span>
-                <span>Audit Status</span>
-              </div>
-              {[
-                { ref: 'INV-2026-884', party: 'Tata Motors Pune Plant', amt: '₹42,850', tag: 'E-Way Verified', ok: true },
-                { ref: 'GRN-4019-B', party: 'JSW Steel Scrap Intake', amt: '₹78,400', tag: 'QC Approved', ok: true },
-                { ref: 'WO-5510-DIS', party: 'Auto Components Export', amt: '₹27,040', tag: 'Dispatched', ok: true }
-              ].map((item, idx) => (
-                <div key={idx} style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '7px 0',
-                  borderBottom: idx < 2 ? '1px solid rgba(255,255,255,0.05)' : 'none',
-                  fontSize: '12px'
-                }}>
-                  <div>
-                    <div style={{ fontWeight: 700, color: '#e2e8f0' }}>{item.party}</div>
-                    <div style={{ fontSize: '10px', color: '#64748b' }}>{item.ref}</div>
-                  </div>
-                  <div style={{ textAlign: 'right' }}>
-                    <div style={{ fontWeight: 700, color: '#38bdf8' }}>{item.amt}</div>
-                    <div style={{ fontSize: '10px', color: '#34d399', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '3px' }}>
-                      <CheckCircle2 size={10} /> {item.tag}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
-        )}
 
-        {/* TAB 2: INVENTORY & STOCK */}
-        {activeTab === 'inventory' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#94a3b8', fontWeight: 700 }}>
-                  Central Warehouse Valuation
-                </div>
-                <div style={{ fontSize: '26px', fontWeight: 800, color: '#ffffff' }}>
-                  ₹1,84,30,000 <span style={{ fontSize: '13px', color: '#94a3b8', fontWeight: 500 }}>(FIFO Basis)</span>
-                </div>
+          <p style={{ fontSize: '13px', color: '#cbd5e1', lineHeight: 1.6, margin: '8px 0 14px' }}>
+            {current.description}
+          </p>
+
+          {/* Core Feature Bullet Points */}
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.03)',
+            border: '1px solid rgba(255, 255, 255, 0.07)',
+            borderRadius: '10px',
+            padding: '12px 14px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px'
+          }}>
+            <div style={{ fontSize: '10.5px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Core Capabilities
+            </div>
+            {current.highlights.map((h, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '12px', color: '#e2e8f0' }}>
+                <CheckCircle2 size={14} color={current.accentColor} style={{ flexShrink: 0, marginTop: '2px' }} />
+                <span>{h}</span>
               </div>
-              <span style={{ background: 'rgba(52, 211, 153, 0.15)', color: '#34d399', padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 700 }}>
-                100% Reconciled
-              </span>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
-              {[
-                { title: 'Active SKUs', val: '4,820', note: 'Multi-Bin Mapped' },
-                { title: 'Reorder Alerts', val: '0', note: 'Optimal Safety' },
-                { title: 'Batch Trace', val: '< 2s', note: 'QR Barcoded' }
-              ].map((m, i) => (
-                <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '10px 8px', textAlign: 'center' }}>
-                  <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase' }}>{m.title}</div>
-                  <div style={{ fontSize: '16px', fontWeight: 800, color: '#34d399', margin: '3px 0' }}>{m.val}</div>
-                  <div style={{ fontSize: '9.5px', color: '#64748b' }}>{m.note}</div>
-                </div>
-              ))}
-            </div>
-
-            <div style={{ background: 'rgba(56, 189, 248, 0.08)', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: '8px', padding: '8px 12px', fontSize: '11px', color: '#bae6fd', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <ShieldCheck size={16} color="#38bdf8" />
-              <span>Auto-locks dispatches if inventory hits minimum safety limit.</span>
-            </div>
+            ))}
           </div>
-        )}
+        </div>
 
-        {/* TAB 3: E-INVOICING & GST */}
-        {activeTab === 'einvoice' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#94a3b8', fontWeight: 700 }}>
-                  Govt. Portal Sync Status
-                </div>
-                <div style={{ fontSize: '24px', fontWeight: 800, color: '#ffffff', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  IRP Direct API Linked <CheckCircle2 size={18} color="#10b981" />
-                </div>
-              </div>
-              <span style={{ background: 'rgba(251, 191, 36, 0.15)', color: '#fbbf24', padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 700 }}>
-                NIC Auto-Signing
-              </span>
-            </div>
-
-            <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '10px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {[
-                { label: 'IRN & QR Code Gen Time', value: '450ms', ok: true },
-                { label: 'Automated E-Way Bill Dispatch', value: 'Instant via GSTN', ok: true },
-                { label: 'GSTR-1 / 3B Reconciliation', value: '0% Mismatch Gap', ok: true }
-              ].map((row, i) => (
-                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', padding: '4px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                  <span style={{ color: '#cbd5e1' }}>{row.label}</span>
-                  <span style={{ fontWeight: 700, color: '#fbbf24' }}>{row.value}</span>
-                </div>
-              ))}
-            </div>
-
-            <div style={{ textAlign: 'center', fontSize: '11px', color: '#94a3b8' }}>
-              Generates compliant statutory invoices with embedded Class 3 DSC tokens.
-            </div>
-          </div>
-        )}
-
-        {/* TAB 4: WEIGHBRIDGE IOT */}
-        {activeTab === 'weighbridge' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <div style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', color: '#94a3b8', fontWeight: 700 }}>
-                  Yard Terminal #01 (RS232 / TCP-IP)
-                </div>
-                <div style={{ fontSize: '26px', fontWeight: 800, color: '#a78bfa' }}>
-                  32,480 KG <span style={{ fontSize: '13px', color: '#94a3b8' }}>(Gross Stabilized)</span>
-                </div>
-              </div>
-              <span style={{ background: 'rgba(167, 139, 250, 0.15)', color: '#c4b5fd', padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 700 }}>
-                Indicator Active
-              </span>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-              <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '10px' }}>
-                <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase' }}>Vehicle Tag</div>
-                <div style={{ fontSize: '14px', fontWeight: 800, color: '#ffffff', marginTop: '2px' }}>MH-12-QE-9481</div>
-                <div style={{ fontSize: '10px', color: '#10b981', marginTop: '2px' }}>RFID Yard Gate Cleared</div>
-              </div>
-              <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '10px' }}>
-                <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase' }}>CCTV Snapshot</div>
-                <div style={{ fontSize: '14px', fontWeight: 800, color: '#38bdf8', marginTop: '2px' }}>Plate Auto-Matched</div>
-                <div style={{ fontSize: '10px', color: '#94a3b8', marginTop: '2px' }}>Confidence: 99.4%</div>
-              </div>
-            </div>
-
-            <div style={{ background: 'rgba(167, 139, 250, 0.1)', border: '1px solid rgba(167, 139, 250, 0.3)', borderRadius: '8px', padding: '8px 12px', fontSize: '11px', color: '#e9d5ff', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Scale size={16} color="#c4b5fd" />
-              <span>Zero manual entry tampering: indicator gross & net are cloud-locked.</span>
-            </div>
-          </div>
-        )}
-
-        {/* Action Bar Footer */}
+        {/* Footer Navigation CTA */}
         <div style={{
-          marginTop: '16px',
+          marginTop: '18px',
           paddingTop: '14px',
           borderTop: '1px solid rgba(255, 255, 255, 0.08)',
           display: 'flex',
@@ -308,33 +277,51 @@ export default function InteractiveHeroDashboard({ onOpenDemo, onNavigate }) {
           gap: '10px'
         }}>
           <div style={{ fontSize: '11.5px', color: '#94a3b8', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Sparkles size={13} color="#38bdf8" />
-            <span>Interactive Simulator • Click tabs to test</span>
+            <Sparkles size={13} color={current.accentColor} />
+            <span>Click any product above to explore</span>
           </div>
 
-          <button
-            onClick={() => onOpenDemo ? onOpenDemo() : null}
-            style={{
-              background: 'linear-gradient(135deg, #1e95d3 0%, #0d6ea0 100%)',
-              color: '#ffffff',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '8px 16px',
-              fontSize: '12.5px',
-              fontWeight: 700,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              boxShadow: '0 4px 14px rgba(30, 149, 211, 0.4)',
-              transition: 'transform 0.15s ease'
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.03)')}
-            onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-          >
-            <span>Try Live Simulator</span>
-            <ArrowUpRight size={14} />
-          </button>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
+              onClick={() => onOpenDemo ? onOpenDemo(current.name) : null}
+              style={{
+                background: 'rgba(255, 255, 255, 0.08)',
+                color: '#ffffff',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                borderRadius: '8px',
+                padding: '8px 14px',
+                fontSize: '12px',
+                fontWeight: 600,
+                cursor: 'pointer'
+              }}
+            >
+              Request Demo
+            </button>
+
+            <button
+              onClick={handleAction}
+              style={{
+                background: `linear-gradient(135deg, ${current.accentColor}dd 0%, #0284c7 100%)`,
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '8px',
+                padding: '8px 16px',
+                fontSize: '12px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                boxShadow: '0 4px 14px rgba(2, 132, 199, 0.4)',
+                transition: 'transform 0.15s ease'
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.03)')}
+              onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+            >
+              <span>{current.ctaText}</span>
+              <ArrowRight size={14} />
+            </button>
+          </div>
         </div>
 
       </div>
