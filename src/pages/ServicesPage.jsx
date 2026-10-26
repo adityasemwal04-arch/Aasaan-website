@@ -21,8 +21,9 @@ import {
   Award
 } from 'lucide-react';
 import { getAssetUrl, handleImageError } from '../utils/assetHelper';
+import { getRoutePath } from '../utils/navigation';
 
-export default function ServicesPage({ onOpenDemo }) {
+export default function ServicesPage({ onOpenDemo, onNavigate }) {
   const [activeFaq, setActiveFaq] = useState(null);
   const [activeSlaTab, setActiveSlaTab] = useState('enterprise');
 
@@ -415,8 +416,16 @@ export default function ServicesPage({ onOpenDemo }) {
               ))}
             </div>
 
-            <button
-              onClick={onOpenDemo}
+            <a
+              href={getRoutePath('blog/implementation-scope')}
+              onClick={(e) => {
+                e.preventDefault();
+                if (onNavigate) {
+                  onNavigate('blog/implementation-scope');
+                } else {
+                  window.location.href = getRoutePath('blog/implementation-scope');
+                }
+              }}
               style={{
                 background: 'var(--primary-blue)',
                 color: '#FFFFFF',
@@ -429,13 +438,14 @@ export default function ServicesPage({ onOpenDemo }) {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
+                textDecoration: 'none',
                 transition: 'all 0.2s ease'
               }}
               onMouseEnter={(e) => e.currentTarget.style.background = '#007bb5'}
               onMouseLeave={(e) => e.currentTarget.style.background = 'var(--primary-blue)'}
             >
               Request Implementation Scope <ArrowRight size={16} />
-            </button>
+            </a>
           </div>
         </div>
       </section>
@@ -493,8 +503,16 @@ export default function ServicesPage({ onOpenDemo }) {
               ))}
             </div>
 
-            <button
-              onClick={onOpenDemo}
+            <a
+              href={getRoutePath('blog/go-live-readiness-checklist')}
+              onClick={(e) => {
+                e.preventDefault();
+                if (onNavigate) {
+                  onNavigate('blog/go-live-readiness-checklist');
+                } else {
+                  window.location.href = getRoutePath('blog/go-live-readiness-checklist');
+                }
+              }}
               style={{
                 background: '#0F172A',
                 color: '#FFFFFF',
@@ -507,13 +525,14 @@ export default function ServicesPage({ onOpenDemo }) {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
+                textDecoration: 'none',
                 transition: 'all 0.2s ease'
               }}
               onMouseEnter={(e) => e.currentTarget.style.background = '#1E293B'}
               onMouseLeave={(e) => e.currentTarget.style.background = '#0F172A'}
             >
               See Go-Live Readiness Checklist <ArrowRight size={16} />
-            </button>
+            </a>
           </div>
 
           <div style={{ flex: '1 1 480px', display: 'flex', justifyContent: 'center' }}>
@@ -638,8 +657,16 @@ export default function ServicesPage({ onOpenDemo }) {
               ))}
             </div>
 
-            <button
-              onClick={onOpenDemo}
+            <a
+              href={getRoutePath('blog/sla-agreement-tiers')}
+              onClick={(e) => {
+                e.preventDefault();
+                if (onNavigate) {
+                  onNavigate('blog/sla-agreement-tiers');
+                } else {
+                  window.location.href = getRoutePath('blog/sla-agreement-tiers');
+                }
+              }}
               style={{
                 background: 'var(--primary-blue)',
                 color: '#FFFFFF',
@@ -652,13 +679,14 @@ export default function ServicesPage({ onOpenDemo }) {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
+                textDecoration: 'none',
                 transition: 'all 0.2s ease'
               }}
               onMouseEnter={(e) => e.currentTarget.style.background = '#007bb5'}
               onMouseLeave={(e) => e.currentTarget.style.background = 'var(--primary-blue)'}
             >
               Explore SLA Agreement Tiers <ArrowRight size={16} />
-            </button>
+            </a>
           </div>
         </div>
       </section>
@@ -716,8 +744,16 @@ export default function ServicesPage({ onOpenDemo }) {
               ))}
             </div>
 
-            <button
-              onClick={onOpenDemo}
+            <a
+              href={getRoutePath('blog/custom-module-requirements')}
+              onClick={(e) => {
+                e.preventDefault();
+                if (onNavigate) {
+                  onNavigate('blog/custom-module-requirements');
+                } else {
+                  window.location.href = getRoutePath('blog/custom-module-requirements');
+                }
+              }}
               style={{
                 background: '#7C3AED',
                 color: '#FFFFFF',
@@ -730,13 +766,14 @@ export default function ServicesPage({ onOpenDemo }) {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '6px',
+                textDecoration: 'none',
                 transition: 'all 0.2s ease'
               }}
               onMouseEnter={(e) => e.currentTarget.style.background = '#6D28D9'}
               onMouseLeave={(e) => e.currentTarget.style.background = '#7C3AED'}
             >
               Discuss Custom Module Requirements <ArrowRight size={16} />
-            </button>
+            </a>
           </div>
 
           <div style={{ flex: '1 1 480px', display: 'flex', justifyContent: 'center' }}>

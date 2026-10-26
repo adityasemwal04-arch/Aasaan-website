@@ -158,6 +158,26 @@ const seoPages = [
     desc: 'Flagship AWM solution for municipal, industrial, biomedical, and e-waste operators with live weighbridge gross/tare capture.'
   },
   {
+    route: 'blog/implementation-scope',
+    title: 'ERP Implementation Scope & Deployment Methodology | Aasaan ERP',
+    desc: 'Discover Aasaan ERP’s 5-phase enterprise implementation methodology: business blueprinting, legacy data migration, pilot simulations, cutover, and 30-day hypercare.'
+  },
+  {
+    route: 'blog/go-live-readiness-checklist',
+    title: 'ERP Go-Live Readiness Checklist: 7-Day Cutover Protocol | Aasaan ERP',
+    desc: 'Comprehensive pre-flight checklist for ERP go-live. Verify master data integrity, opening balances, GST API credentials, and weighbridge calibration.'
+  },
+  {
+    route: 'blog/sla-agreement-tiers',
+    title: 'Enterprise Support & SLA Agreement Tiers: 99.98% Cloud Availability | Aasaan ERP',
+    desc: 'Explore Aasaan ERP’s enterprise Service Level Agreements: 15-minute critical incident resolution, designated TAM, and 99.98% cloud uptime commitments.'
+  },
+  {
+    route: 'blog/custom-module-requirements',
+    title: 'Bespoke Customization, REST APIs & IoT Telemetry Architecture | Aasaan ERP',
+    desc: 'Custom data models, workflow approval engines, IoT weighbridge RS232 telemetry, and OpenAPI integration suite built for Indian manufacturing.'
+  },
+  {
     route: 'services',
     title: 'ERP Services - Implementation, Cloud, AI & Support | Aasaan ERP',
     desc: 'Full lifecycle ERP services: implementation, custom development, cloud infrastructure, AI consulting, training, and 24/7 managed support. Enterprise go-live in 7 days.'
