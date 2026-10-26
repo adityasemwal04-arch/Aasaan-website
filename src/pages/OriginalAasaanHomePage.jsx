@@ -558,39 +558,6 @@ function GlobalPresenceMap({ onOpenDemo }) {
               </div>
             </div>
           </div>
-
-          {/* Action CTA Button */}
-          <button
-            onClick={onOpenDemo}
-            style={{
-              width: '100%',
-              background: currentHub.color,
-              color: '#ffffff',
-              border: 'none',
-              borderRadius: '10px',
-              padding: '13px 18px',
-              fontWeight: 800,
-              fontSize: '14px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              boxShadow: `0 8px 24px -4px ${currentHub.color}66`,
-              transition: 'all 0.2s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.filter = 'brightness(1.1)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.filter = 'brightness(1)';
-            }}
-          >
-            <span>Schedule {currentHub.label} Walkthrough</span>
-            <ArrowRight size={16} />
-          </button>
         </div>
 
       </div>
