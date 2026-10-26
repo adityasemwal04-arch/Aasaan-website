@@ -38,7 +38,8 @@ public class SettingsController {
         if (notificationSettings.isEmpty() || !notificationSettings.containsKey("recipientEmail") 
             || "work007life22@gmail.com".equals(notificationSettings.get("recipientEmail"))
             || "sales@aasaanerp.com".equals(notificationSettings.get("recipientEmail"))) {
-            notificationSettings.put("recipientEmail", "aditya@aasaan.in");
+            notificationSettings.put("recipientEmail", "aditya@aasaan.in, contactus@aasaanservices.in, neha@aasaan.in");
+            notificationSettings.put("recipientEmails", java.util.Arrays.asList("aditya@aasaan.in", "contactus@aasaanservices.in", "neha@aasaan.in"));
             notificationSettings.put("enabled", true);
             notificationSettings.put("updatedAt", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
             saveSettings();
@@ -76,6 +77,9 @@ public class SettingsController {
     public synchronized ResponseEntity<Map<String, Object>> updateNotificationSettings(@RequestBody Map<String, Object> payload) {
         if (payload.containsKey("recipientEmail")) {
             notificationSettings.put("recipientEmail", payload.get("recipientEmail"));
+        }
+        if (payload.containsKey("recipientEmails")) {
+            notificationSettings.put("recipientEmails", payload.get("recipientEmails"));
         }
         if (payload.containsKey("enabled")) {
             notificationSettings.put("enabled", payload.get("enabled"));

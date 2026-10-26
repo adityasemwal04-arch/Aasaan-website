@@ -130,6 +130,12 @@ export default function AdminDashboardPage({ onNavigate }) {
 
   // Lead Email Notification Settings
   // notificationEmails is an array of email strings
+  const DEFAULT_NOTIFICATION_EMAILS = [
+    'aditya@aasaan.in',
+    'contactus@aasaanservices.in',
+    'neha@aasaan.in'
+  ];
+
   const [notificationEmails, setNotificationEmails] = useState(() => {
     try {
       const saved = localStorage.getItem('aasaan_notification_settings');
@@ -140,12 +146,16 @@ export default function AdminDashboardPage({ onNavigate }) {
         const emailsArr = Array.isArray(emailsRaw)
           ? emailsRaw
           : emailsRaw.split(',').map((e) => e.trim()).filter(Boolean);
-        const blacklist = ['work007life22@gmail.com', 'sales@aasaanerp.com', 'contactus@aasaanservices.in'];
-        const filtered = emailsArr.filter((e) => !blacklist.includes(e));
-        if (filtered.length > 0) return filtered;
+        const filtered = emailsArr.filter((e) => e !== 'work007life22@gmail.com');
+        if (filtered.length > 0) {
+          const merged = [...filtered];
+          if (!merged.includes('contactus@aasaanservices.in')) merged.push('contactus@aasaanservices.in');
+          if (!merged.includes('neha@aasaan.in')) merged.push('neha@aasaan.in');
+          return merged;
+        }
       }
     } catch (e) {}
-    return ['aditya@aasaan.in'];
+    return DEFAULT_NOTIFICATION_EMAILS;
   });
   // Input field for typing a new email to add
   const [notifEmailInput, setNotifEmailInput] = useState('');
@@ -203,14 +213,20 @@ export default function AdminDashboardPage({ onNavigate }) {
 
     getNotificationSettings().then((notif) => {
       if (notif) {
-        const blacklist = ['work007life22@gmail.com', 'sales@aasaanerp.com', 'contactus@aasaanservices.in'];
         // Support new recipientEmails array or legacy recipientEmail string
         const emailsRaw = notif.recipientEmails || notif.recipientEmail || '';
         const emailsArr = Array.isArray(emailsRaw)
           ? emailsRaw
           : emailsRaw.split(',').map((e) => e.trim()).filter(Boolean);
-        const filtered = emailsArr.filter((e) => !blacklist.includes(e));
-        setNotificationEmails(filtered.length > 0 ? filtered : ['aditya@aasaan.in']);
+        const filtered = emailsArr.filter((e) => e !== 'work007life22@gmail.com');
+        if (filtered.length > 0) {
+          const merged = [...filtered];
+          if (!merged.includes('contactus@aasaanservices.in')) merged.push('contactus@aasaanservices.in');
+          if (!merged.includes('neha@aasaan.in')) merged.push('neha@aasaan.in');
+          setNotificationEmails(merged);
+        } else {
+          setNotificationEmails(DEFAULT_NOTIFICATION_EMAILS);
+        }
         if (typeof notif.enabled === 'boolean') setNotificationsEnabled(notif.enabled);
       }
     });

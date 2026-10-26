@@ -29,8 +29,6 @@ export default function App() {
   const handleOpenDemo = (solution = null) => {
     if (solution) {
       setDemoInitialSolution(solution);
-    } else if (currentPage === 'partners') {
-      setDemoInitialSolution('Partners');
     } else if (currentPage === 'lite') {
       setDemoInitialSolution('Aasaan ERP Lite');
     } else if (currentPage === 'awm') {

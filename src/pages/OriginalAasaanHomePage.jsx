@@ -97,6 +97,29 @@ function FlagBadge({ code, size = 20 }) {
       </svg>
     );
   }
+  if (code === 'eu' || code === 'europe' || code === 'gb') {
+    return (
+      <svg width={size} height={h} viewBox="0 0 24 16" style={{ borderRadius: '3px', flexShrink: 0, boxShadow: '0 1px 4px rgba(0,0,0,0.4)', verticalAlign: 'middle' }}>
+        <rect width="24" height="16" fill="#003399" />
+        {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg, i) => {
+          const rad = (deg * Math.PI) / 180;
+          const cx = 12 + 5 * Math.sin(rad);
+          const cy = 8 - 5 * Math.cos(rad);
+          return <circle key={i} cx={cx} cy={cy} r="0.75" fill="#FFCC00" />;
+        })}
+      </svg>
+    );
+  }
+  if (code === 'br' || code === 'southamerica' || code === 'latam' || code === 'ar') {
+    return (
+      <svg width={size} height={h} viewBox="0 0 24 16" style={{ borderRadius: '3px', flexShrink: 0, boxShadow: '0 1px 4px rgba(0,0,0,0.4)', verticalAlign: 'middle' }}>
+        <rect width="24" height="16" fill="#009739" />
+        <polygon points="12,2 22,8 12,14 2,8" fill="#FEDD00" />
+        <circle cx="12" cy="8" r="3.2" fill="#002776" />
+        <path d="M9.2,7.5 Q12,9 14.8,7.5" stroke="#FFFFFF" strokeWidth="0.6" fill="none" />
+      </svg>
+    );
+  }
   return <span style={{ fontSize: '14px' }}>🌐</span>;
 }
 
@@ -144,6 +167,24 @@ function GlobalPresenceMap({ onOpenDemo }) {
       ],
       compliance: ['ZATCA Phase 2', 'FTA VAT Ready', 'Multi-Currency', 'Freezone Customs']
     },
+    europe: {
+      code: 'eu',
+      label: 'Europe',
+      badge: 'EU & UK Sovereign Cloud',
+      cities: 'London · Frankfurt · Amsterdam',
+      deployments: '250+ Enterprises',
+      uptime: '99.98%',
+      latency: '< 20ms',
+      color: '#06b6d4',
+      bgGlow: 'rgba(6,182,212,0.12)',
+      highlights: [
+        'EU Cross-Border VAT & Peppol E-Invoicing',
+        'GDPR-Compliant Sovereign Data Residency',
+        'Multi-Currency Group Consolidation & IFRS',
+        'WEEE & Environmental Circularity Tracking'
+      ],
+      compliance: ['GDPR Ready', 'Peppol E-Invoicing', 'EU VAT MOSS', 'WEEE / ISO 14001']
+    },
     america: {
       code: 'us',
       label: 'North America',
@@ -161,6 +202,24 @@ function GlobalPresenceMap({ onOpenDemo }) {
         'AWS Cloud-Native High Availability'
       ],
       compliance: ['US GAAP', 'SOC2 Type II', '3PL EDI Mesh', 'Multi-Warehouse']
+    },
+    southamerica: {
+      code: 'br',
+      label: 'South America',
+      badge: 'Latin America Hub',
+      cities: 'São Paulo · Buenos Aires · Santiago',
+      deployments: '120+ Enterprises',
+      uptime: '99.97%',
+      latency: '< 34ms',
+      color: '#ec4899',
+      bgGlow: 'rgba(236,72,153,0.12)',
+      highlights: [
+        'Mercosur Cross-Border Trade & Customs',
+        'Industrial Scrap & Metals Recycling (AWM)',
+        'Nota Fiscal (NF-e) Electronic Invoicing',
+        'Multi-Depot Agribusiness & Mining Logistics'
+      ],
+      compliance: ['Mercosur Trade', 'NF-e Ready', 'Environmental Audit', 'Multi-Currency Forex']
     },
     southafrica: {
       code: 'za',
@@ -204,7 +263,9 @@ function GlobalPresenceMap({ onOpenDemo }) {
     { key: 'all', label: 'All Hubs', code: null },
     { key: 'india', label: 'India (HQ)', code: 'in' },
     { key: 'middleeast', label: 'Middle East', code: 'ae' },
+    { key: 'europe', label: 'Europe', code: 'eu' },
     { key: 'america', label: 'North America', code: 'us' },
+    { key: 'southamerica', label: 'South America', code: 'br' },
     { key: 'southafrica', label: 'South Africa', code: 'za' },
     { key: 'australia', label: 'Australia', code: 'au' }
   ];
@@ -374,7 +435,7 @@ function GlobalPresenceMap({ onOpenDemo }) {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#10b981', display: 'inline-block' }} />
               <span style={{ color: 'rgba(255, 255, 255, 0.85)', fontSize: '12.5px', fontWeight: 600 }}>
-                Enterprise Edge Topology · <strong>5 Core Sovereign Regions</strong>
+                Enterprise Edge Topology · <strong>7 Core Sovereign Regions</strong>
               </span>
             </div>
 
@@ -414,15 +475,21 @@ function GlobalPresenceMap({ onOpenDemo }) {
               <span>Click on any regional beacon or pill above to inspect deployments and compliance.</span>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#38bdf8' }}>
                 <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#1e95d3' }} /> India (Global HQ)
               </span>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#f59e0b' }}>
                 <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#f59e0b' }} /> GCC Hub
               </span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#06b6d4' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#06b6d4' }} /> Europe
+              </span>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#10b981' }}>
                 <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981' }} /> North America
+              </span>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: '#ec4899' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ec4899' }} /> South America
               </span>
             </div>
           </div>
@@ -574,7 +641,7 @@ function GlobalPresenceMap({ onOpenDemo }) {
         zIndex: 2
       }}>
         {[
-          { icon: '🌍', stat: '5 Strategic Hubs', sub: 'USA · Australia · Middle East · India · South Africa' },
+          { icon: '🌍', stat: '7 Strategic Hubs', sub: 'USA · Europe · South America · Australia · Middle East · India · South Africa' },
           { icon: '⚡', stat: '99.98% High Availability', sub: 'Zero single points of failure across Multi-AZ cloud' },
           { icon: '🏢', stat: '5,000+ Enterprise Sites', sub: 'From discrete plants to 200+ location retail chains' },
           { icon: '🛡️', stat: 'Local Sovereign Privacy', sub: 'Zero cross-border residency leak; encrypted at rest' }

@@ -2153,8 +2153,15 @@ export const deleteAwmClient = (id) => deleteSectionItem('awm-clients', 'aasaan_
 // -------------------------------------------------------------
 // LEAD EMAIL NOTIFICATIONS & SETTINGS
 // -------------------------------------------------------------
+const DEFAULT_NOTIFICATION_EMAILS = [
+  'aditya@aasaan.in',
+  'contactus@aasaanservices.in',
+  'neha@aasaan.in'
+];
+
 const DEFAULT_NOTIFICATION_SETTINGS = {
-  recipientEmail: 'aditya@aasaan.in',
+  recipientEmail: DEFAULT_NOTIFICATION_EMAILS.join(', '),
+  recipientEmails: DEFAULT_NOTIFICATION_EMAILS,
   enabled: true,
   companyAlertEmail: 'contactus@aasaanservices.in'
 };
@@ -2166,17 +2173,6 @@ export async function getNotificationSettings() {
     const raw = localStorage.getItem('aasaan_notification_settings');
     if (raw) {
       localSettings = JSON.parse(raw);
-      // Automatically migrate any legacy fallback emails to aditya@aasaan.in
-      if (
-        localSettings &&
-        (!localSettings.recipientEmail ||
-          localSettings.recipientEmail === 'work007life22@gmail.com' ||
-          localSettings.recipientEmail === 'sales@aasaanerp.com' ||
-          localSettings.recipientEmail === 'contactus@aasaanservices.in')
-      ) {
-        localSettings.recipientEmail = 'aditya@aasaan.in';
-        localStorage.setItem('aasaan_notification_settings', JSON.stringify(localSettings));
-      }
     }
   } catch (e) {}
 
@@ -2188,15 +2184,11 @@ export async function getNotificationSettings() {
     clearTimeout(timeoutId);
     if (res.ok) {
       const data = await res.json();
-      if (
-        data &&
-        data.recipientEmail &&
-        data.recipientEmail !== 'work007life22@gmail.com' &&
-        data.recipientEmail !== 'sales@aasaanerp.com' &&
-        data.recipientEmail !== 'contactus@aasaanservices.in'
-      ) {
-        localStorage.setItem('aasaan_notification_settings', JSON.stringify(data));
-        return data;
+      if (data && (data.recipientEmails || data.recipientEmail)) {
+        // If local has custom settings saved by admin, preserve them
+        const merged = { ...DEFAULT_NOTIFICATION_SETTINGS, ...data, ...(localSettings || {}) };
+        localStorage.setItem('aasaan_notification_settings', JSON.stringify(merged));
+        return merged;
       }
     }
   } catch (e) {
@@ -2250,13 +2242,13 @@ export async function sendLeadEmailNotification(leadData, recipientEmailOverride
         ? recipientEmailOverride
         : String(recipientEmailOverride).split(',').map((e) => e.trim()).filter(Boolean);
     } else {
-      const emailsRaw = settings.recipientEmails || settings.recipientEmail || 'aditya@aasaan.in';
+      const emailsRaw = settings.recipientEmails || settings.recipientEmail || DEFAULT_NOTIFICATION_EMAILS;
       targetEmails = Array.isArray(emailsRaw)
         ? emailsRaw
         : String(emailsRaw).split(',').map((e) => e.trim()).filter(Boolean);
     }
 
-    if (targetEmails.length === 0) targetEmails = ['aditya@aasaan.in'];
+    if (targetEmails.length === 0) targetEmails = DEFAULT_NOTIFICATION_EMAILS;
 
     const timestamp = leadData.timestamp || new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 
