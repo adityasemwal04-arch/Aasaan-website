@@ -1422,7 +1422,12 @@ export async function getLeads() {
   for (const item of combined) {
     if (!item) continue;
     const emailKey = (item.email || '').trim().toLowerCase();
-    const phoneKey = (item.phone || '').trim();
+    let phoneVal = (item.phone || item.mobile || item.rawPhone || '').toString().trim();
+    if (phoneVal.includes('#ERROR') || phoneVal.includes('#REF') || phoneVal.includes('#VALUE')) {
+      phoneVal = item.rawPhone || item.mobile || '';
+    }
+    item.phone = phoneVal;
+    const phoneKey = phoneVal;
     const key = (emailKey || phoneKey) ? `${emailKey}|${phoneKey}` : `id-${item.id}`;
 
     if (!seenKeys.has(key)) {

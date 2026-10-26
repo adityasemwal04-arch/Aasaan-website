@@ -9,7 +9,7 @@ import {
   INDIAN_STATES_STD
 } from '../utils/validationHelper';
 
-export default function ScheduleDemoModal({ isOpen, onClose }) {
+export default function ScheduleDemoModal({ isOpen, onClose, initialSolution }) {
   const [formData, setFormData] = useState({
     name: '',
     company: '',
@@ -17,9 +17,15 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
     phone: '',
     country: 'India',
     state: 'Delhi NCR',
-    solution: 'Aasaan ERP Enterprise',
+    solution: initialSolution || 'Aasaan ERP Enterprise',
     message: ''
   });
+
+  useEffect(() => {
+    if (initialSolution) {
+      setFormData(prev => ({ ...prev, solution: initialSolution }));
+    }
+  }, [initialSolution, isOpen]);
 
   const [countryCode, setCountryCode] = useState('+91');
   const [phoneType, setPhoneType] = useState('mobile'); // 'mobile' | 'landline'
@@ -703,6 +709,7 @@ export default function ScheduleDemoModal({ isOpen, onClose }) {
                     <option value="Aasaan ERP Lite">Aasaan ERP Lite</option>
                     <option value="AWM Waste Management">AWM Waste Management</option>
                     <option value="Aasaan Mart">Aasaan Mart (Business Marketplace)</option>
+                    <option value="Partners">Partners</option>
                   </select>
                 </div>
 

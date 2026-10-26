@@ -1111,9 +1111,15 @@ export default function AdminDashboardPage({ onNavigate }) {
                               {lead.phone && (
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#475569', fontSize: '12.5px', marginTop: '3px' }}>
                                   <Phone size={12} />
-                                  <a href={`tel:${lead.phone}`} style={{ color: 'inherit', textDecoration: 'none' }}>
-                                    {lead.phone}
-                                  </a>
+                                  {lead.phone.includes('#ERROR') || lead.phone.includes('#REF') || lead.phone.includes('#VALUE') ? (
+                                    <span style={{ color: '#94a3b8', fontStyle: 'italic' }}>
+                                      {lead.rawPhone || lead.mobile || 'Phone sync pending'}
+                                    </span>
+                                  ) : (
+                                    <a href={`tel:${lead.phone}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                                      {lead.phone}
+                                    </a>
+                                  )}
                                 </div>
                               )}
                             </td>

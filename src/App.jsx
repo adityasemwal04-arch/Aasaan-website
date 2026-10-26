@@ -23,7 +23,23 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [currentBlogSlug, setCurrentBlogSlug] = useState('manufacturing-engineering');
   const [isDemoOpen, setIsDemoOpen] = useState(false);
+  const [demoInitialSolution, setDemoInitialSolution] = useState('Aasaan ERP Enterprise');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const handleOpenDemo = (solution = null) => {
+    if (solution) {
+      setDemoInitialSolution(solution);
+    } else if (currentPage === 'partners') {
+      setDemoInitialSolution('Partners');
+    } else if (currentPage === 'lite') {
+      setDemoInitialSolution('Aasaan ERP Lite');
+    } else if (currentPage === 'awm') {
+      setDemoInitialSolution('AWM Waste Management');
+    } else {
+      setDemoInitialSolution('Aasaan ERP Enterprise');
+    }
+    setIsDemoOpen(true);
+  };
 
   // Sync state with HTML5 History / URL
   useEffect(() => {
@@ -120,7 +136,7 @@ export default function App() {
         <Navbar
           currentPage={currentPage}
           onNavigate={handleNavigate}
-          onOpenDemo={() => setIsDemoOpen(true)}
+          onOpenDemo={handleOpenDemo}
           onOpenSearch={() => setIsSearchOpen(true)}
         />
       )}
@@ -128,43 +144,43 @@ export default function App() {
       <main id="top">
         {currentPage === 'home' && (
           <HomePage
-            onOpenDemo={() => setIsDemoOpen(true)}
+            onOpenDemo={handleOpenDemo}
             onNavigate={handleNavigate}
           />
         )}
         {currentPage === 'global' && (
           <ErpGlobalPage
-            onOpenDemo={() => setIsDemoOpen(true)}
+            onOpenDemo={handleOpenDemo}
             onNavigate={handleNavigate}
           />
         )}
         {currentPage === 'lite' && (
           <ErpLitePage
-            onOpenDemo={() => setIsDemoOpen(true)}
+            onOpenDemo={handleOpenDemo}
             onNavigate={handleNavigate}
           />
         )}
         {currentPage === 'awm' && (
           <AwmPage
-            onOpenDemo={() => setIsDemoOpen(true)}
+            onOpenDemo={handleOpenDemo}
             onNavigate={handleNavigate}
           />
         )}
         {currentPage === 'partners' && (
           <PartnersPage
-            onOpenDemo={() => setIsDemoOpen(true)}
+            onOpenDemo={handleOpenDemo}
             onNavigate={handleNavigate}
           />
         )}
         {currentPage === 'services' && (
           <ServicesPage
-            onOpenDemo={() => setIsDemoOpen(true)}
+            onOpenDemo={handleOpenDemo}
             onNavigate={handleNavigate}
           />
         )}
         {currentPage === 'about' && (
           <AboutUsPage
-            onOpenDemo={() => setIsDemoOpen(true)}
+            onOpenDemo={handleOpenDemo}
             onNavigate={handleNavigate}
           />
         )}
@@ -182,7 +198,7 @@ export default function App() {
           <BlogDetailPage
             slug={currentBlogSlug}
             onNavigate={handleNavigate}
-            onOpenDemo={() => setIsDemoOpen(true)}
+            onOpenDemo={handleOpenDemo}
           />
         )}
       </main>
@@ -191,7 +207,7 @@ export default function App() {
       {currentPage !== 'admin' && (
         <Footer
           onNavigate={handleNavigate}
-          onOpenDemo={() => setIsDemoOpen(true)}
+          onOpenDemo={handleOpenDemo}
         />
       )}
 
@@ -200,13 +216,14 @@ export default function App() {
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
         onNavigate={handleNavigate}
-        onOpenDemo={() => setIsDemoOpen(true)}
+        onOpenDemo={handleOpenDemo}
       />
 
       {/* Interactive Schedule Demo Modal */}
       <ScheduleDemoModal
         isOpen={isDemoOpen}
         onClose={() => setIsDemoOpen(false)}
+        initialSolution={demoInitialSolution}
       />
     </div>
   );

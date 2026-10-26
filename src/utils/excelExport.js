@@ -62,8 +62,12 @@ export function saveQueryToStorage(leadData) {
  */
 export async function syncLeadToBackend(leadData) {
   const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+  const rawDigits = (leadData.phone || '').replace(/\D/g, '') || leadData.rawPhone || '';
+  const safePhone = leadData.phone ? ('\'' + leadData.phone) : rawDigits;
   const payload = {
     ...leadData,
+    phone: safePhone,
+    mobile: rawDigits,
     timestamp,
     status: 'New Demo Lead'
   };
