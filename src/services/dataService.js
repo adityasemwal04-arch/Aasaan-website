@@ -986,12 +986,11 @@ On go-live day, our designated solutions engineers provide side-by-side floor su
 
 ### Guaranteed Implementation Deliverables
 
-| Deliverable | Description | Sign-Off Criteria |
-| **Business Blueprint Document (BBD)** | Complete documentation of all mapped enterprise workflows. | CFO & Operations Head Approval |
-| **Migrated Master & Opening Records** | Cleansed ledgers, inventory, and pending orders loaded. | 100% Reconciliation with Trial Balance |
-| **Statutory API Integration** | Real-time government portal sync for E-Invoicing and E-Way bills. | Successful Live Test Invoicing |
-| **Hardware Bridge Connectivity** | RS232/TCP-IP driver synchronization with physical scales. | Zero-Lag Gross/Tare Capture |
-| **Role-Based Security Matrix** | Granular user permissions, dual-approval rules, and audit logs. | Compliance Audit Sign-Off |
+- **Business Blueprint Document (BBD)**: Complete documentation of all mapped enterprise workflows. Sign-off criteria: CFO & Operations Head Approval.
+- **Migrated Master & Opening Records**: Cleansed ledgers, inventory, and pending orders loaded. Sign-off criteria: 100% Reconciliation with Trial Balance.
+- **Statutory API Integration**: Real-time government portal sync for E-Invoicing and E-Way bills. Sign-off criteria: Successful Live Test Invoicing.
+- **Hardware Bridge Connectivity**: RS232/TCP-IP driver synchronization with physical scales. Sign-off criteria: Zero-Lag Gross/Tare Capture.
+- **Role-Based Security Matrix**: Granular user permissions, dual-approval rules, and audit logs. Sign-off criteria: Compliance Audit Sign-Off.
 
 ### Request Your Implementation Scope
 Ready to modernize your operations? Schedule a 1-on-1 implementation scoping session with our solutions engineering team.`
@@ -1064,14 +1063,13 @@ When your factory dispatches trucks, logs weighbridge tickets, and generates sta
 
 ### Service Level Agreement (SLA) Tier Comparison
 
-| Feature / Metric | Standard Support | Business-Critical Support | Enterprise Platinum SLA |
-| **Target Cloud Uptime** | 99.90% | 99.95% | **99.98% High Availability** |
-| **Critical (P1) Incident Response** | < 1 Hour | < 30 Minutes | **< 15 Minutes Guaranteed** |
-| **Support Hours** | 9 AM – 7 PM (Mon–Sat) | 8 AM – 10 PM (Mon–Sat) | **24/7/365 Round-the-Clock** |
-| **Support Channels** | Email & Web Ticket Desk | Ticket, Phone & Remote Desk | **Dedicated WhatsApp Group & Direct TAM** |
-| **Designated Account Manager** | Shared Team | Senior Support Lead | **Designated Technical Account Manager (TAM)** |
-| **Quarterly Database Tuning** | Annual | Bi-Annual | **Monthly Optimization & Index Audit** |
-| **Statutory Tax Mandate Updates** | Standard Release | Priority Deployment | **Day-0 Government Regulatory Patching** |
+- **Target Cloud Uptime**: 99.90% (Standard), 99.95% (Business-Critical), **99.98% High Availability** (Enterprise Platinum).
+- **Critical (P1) Incident Response**: Under 1 Hour (Standard), Under 30 Minutes (Business-Critical), **Under 15 Minutes Guaranteed** (Enterprise Platinum).
+- **Support Hours**: 9 AM – 7 PM Mon–Sat (Standard), 8 AM – 10 PM Mon–Sat (Business-Critical), **24/7/365 Round-the-Clock** (Enterprise Platinum).
+- **Support Channels**: Email & Web Ticket Desk (Standard), Ticket, Phone & Remote Desk (Business-Critical), **Dedicated WhatsApp Group & Direct TAM** (Enterprise Platinum).
+- **Designated Account Manager**: Shared Support Team (Standard), Senior Support Lead (Business-Critical), **Designated Technical Account Manager / TAM** (Enterprise Platinum).
+- **Quarterly Database Tuning**: Annual (Standard), Bi-Annual (Business-Critical), **Monthly Optimization & Index Audit** (Enterprise Platinum).
+- **Statutory Tax Mandate Updates**: Standard Release (Standard), Priority Deployment (Business-Critical), **Day-0 Government Regulatory Patching** (Enterprise Platinum).
 
 ### Incident Severity & Escalation Matrix
 
@@ -1146,11 +1144,10 @@ Aasaan ERP exposes a complete, secured OpenAPI (Swagger) interface for real-time
 
 ### Custom Development Process
 
-| Step | Objective | Timeline |
-| **1. Requirements Specification** | Document custom business logic, inputs, outputs, and edge cases. | Days 1–3 |
-| **2. Sandbox Staging** | Develop and deploy feature in an isolated client test environment. | Days 4–10 |
-| **3. User Acceptance Testing (UAT)** | Client team verifies calculation accuracy and workflow compliance. | Days 11–14 |
-| **4. Production Deployment** | Zero-downtime hot-deploy to live enterprise cloud instance. | Day 15 |
+- **Step 1: Requirements Specification**: Document custom business logic, inputs, outputs, and edge cases (Timeline: Days 1–3).
+- **Step 2: Sandbox Staging**: Develop and deploy feature in an isolated client test environment (Timeline: Days 4–10).
+- **Step 3: User Acceptance Testing (UAT)**: Client team verifies calculation accuracy and workflow compliance (Timeline: Days 11–14).
+- **Step 4: Production Deployment**: Zero-downtime hot-deploy to live enterprise cloud instance (Timeline: Day 15).
 
 ### Discuss Your Custom Requirements
 Have a complex manufacturing process or unique integration requirement? Consult directly with our Senior Solutions Architects.`
