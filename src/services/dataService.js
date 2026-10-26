@@ -949,58 +949,49 @@ Waste management companies and Material Recovery Facilities (MRF) handle complex
 
 A successful ERP transition requires structured blueprinting, rigorous data migration, and zero disruption to daily dispatch operations. At Aasaan ERP, our in-house implementation methodology is designed to replace fragmented legacy tools with a unified cloud ledger in as little as 7 to 30 business days.
 
----
-
 ### The 5-Phase Implementation Lifecycle
 
-\`\`\`
-[1. Discovery & Blueprint] ➔ [2. Master Data Migration] ➔ [3. Pilot & Simulation] ➔ [4. Role SOP Training] ➔ [5. Go-Live & Hypercare]
-\`\`\`
+**[1. Discovery & Blueprint] ➔ [2. Master Data Migration] ➔ [3. Pilot & Simulation] ➔ [4. Role SOP Training] ➔ [5. Go-Live & Hypercare]**
 
-#### Phase 1: Business Process Blueprinting & Gap Analysis
+### Phase 1: Business Process Blueprinting & Gap Analysis
 Before touching a single line of data, our Senior Implementation Consultants map your operational workflows:
 - **Chart of Accounts (COA) Structure**: Aligning sub-ledgers, cost centers, and branch accounting with statutory Indian Schedule III requirements.
 - **Manufacturing Routing & BOM Trees**: Defining multi-level Bills of Materials, operation sequences, machine run rates, and scrap allowance percentages.
 - **Statutory GST & E-Invoicing Parameters**: Setting up HSN/SAC codes, GST tax slabs, e-Way bill thresholds, and direct GSTN API credentials.
 - **Hardware Topology**: Documenting weighbridge RS232 indicator ports, CCTV IP camera URLs, thermal barcode label printers, and barcode scanners.
 
-#### Phase 2: Master Data Extraction, Scrubbing & Migration
+### Phase 2: Master Data Extraction, Scrubbing & Migration
 Legacy data from Tally, Busy, SAP, Marg, or custom Excel workbooks is cleansed and migrated using automated ETL scripts:
 - **Customer & Vendor Masters**: Verification of GSTIN, PAN, MSME registration categories, billing/shipping addresses, and credit limits.
 - **Item Masters**: Unit of Measure (UOM) conversions, opening valuation rates, primary/secondary bin allocations, and reorder triggers.
 - **Opening Balances**: Trial balance migration, outstanding receivables (aging-wise), payables, and reconciled physical inventory.
 
-#### Phase 3: Pilot Configuration & Factory-Floor Simulation
+### Phase 3: Pilot Configuration & Factory-Floor Simulation
 We spin up a dedicated sandbox environment mirroring your production setup:
 - Complete Procure-to-Pay (P2P) dry runs: Purchase Order ➔ Gate Entry ➔ GRN ➔ QC Inspection ➔ Purchase Invoice ➔ 3-Way Reconciliation.
 - Complete Order-to-Cash (O2C) dry runs: Quotation ➔ Sales Order ➔ Dispatch ➔ Automated E-Invoice & E-Way Bill Generation.
 - Discrete shop floor execution: Work Order ➔ Job Card Issuance ➔ Raw Material Issue ➔ Finished Goods Entry ➔ Production Variance Posting.
 
-#### Phase 4: Hands-On User Training & Standard Operating Procedures (SOPs)
+### Phase 4: Hands-On User Training & Standard Operating Procedures (SOPs)
 Training is tailored to specific operational roles rather than generic classroom theory:
 - **Finance & Accounts Team**: Day-to-day voucher posting, bank statement auto-reconciliation, TDS calculations, and GSTR-1/GSTR-3B filings.
 - **Storekeepers & Dispatch Clerks**: Barcode scanning, FIFO batch picking, dispatch gate passes, and weighbridge terminal operation.
 - **Executive Leadership**: Real-time Digital CEO dashboard, plant-wise OEE reports, cash flow projections, and margin leakage alerts.
 
-#### Phase 5: Production Cutover & 30-Day Hypercare Support
+### Phase 5: Production Cutover & 30-Day Hypercare Support
 On go-live day, our designated solutions engineers provide side-by-side floor support:
 - Day 1 cutover verification of opening inventory and live transaction routing.
 - First month-end closing support to ensure P&L, balance sheet, and GST return matching.
 - Immediate engineer escalation hotline on Enterprise WhatsApp desk.
 
----
-
 ### Guaranteed Implementation Deliverables
 
 | Deliverable | Description | Sign-Off Criteria |
-| :--- | :--- | :--- |
 | **Business Blueprint Document (BBD)** | Complete documentation of all mapped enterprise workflows. | CFO & Operations Head Approval |
 | **Migrated Master & Opening Records** | Cleansed ledgers, inventory, and pending orders loaded. | 100% Reconciliation with Trial Balance |
 | **Statutory API Integration** | Real-time government portal sync for E-Invoicing and E-Way bills. | Successful Live Test Invoicing |
 | **Hardware Bridge Connectivity** | RS232/TCP-IP driver synchronization with physical scales. | Zero-Lag Gross/Tare Capture |
 | **Role-Based Security Matrix** | Granular user permissions, dual-approval rules, and audit logs. | Compliance Audit Sign-Off |
-
----
 
 ### Request Your Implementation Scope
 Ready to modernize your operations? Schedule a 1-on-1 implementation scoping session with our solutions engineering team.`
@@ -1019,20 +1010,14 @@ Ready to modernize your operations? Schedule a 1-on-1 implementation scoping ses
 
 Cutting over to a new cloud ERP platform should be an orderly, predictable event. Our Go-Live Readiness Checklist serves as the final pre-flight verification gate before switching production traffic to Aasaan ERP.
 
----
-
 ### Section 1: Financial & Statutory Ledger Reconciliation
 
-\`\`\`
-[Opening Trial Balance] ➔ [Customer/Vendor Aging] ➔ [Bank Reconciliation] ➔ [GST Input Credit Check]
-\`\`\`
+**[Opening Trial Balance] ➔ [Customer/Vendor Aging] ➔ [Bank Reconciliation] ➔ [GST Input Credit Check]**
 
 - [ ] **Opening Trial Balance Signed Off**: Final audited trial balance from legacy system (Tally/Busy/Excel) reconciled down to zero decimal variance.
 - [ ] **Customer & Vendor Aging Statements**: Bill-by-bill pending receivables and payables imported with correct payment terms, credit limits, and contact details.
 - [ ] **Bank Reconciliation Statements (BRS)**: Unpresented cheques and uncleared deposits reconciled up to the cutover date.
 - [ ] **Statutory Tax Balances**: Input Tax Credit (ITC) ledger balances, TDS payables, and TCS buckets matched with government portal ledgers.
-
----
 
 ### Section 2: Inventory, Warehouse & BOM Cutover
 
@@ -1041,8 +1026,6 @@ Cutting over to a new cloud ERP platform should be an orderly, predictable event
 - [ ] **Multi-Depot Locations Configured**: Warehouse racks, bins, quarantine zones, and branch depots mapped with primary location identifiers.
 - [ ] **Multi-Level BOM Verification**: Bills of Materials exploded and verified against current production recipes and scrap tolerances.
 
----
-
 ### Section 3: Hardware, IoT & Weighbridge Calibration
 
 - [ ] **Weighbridge Indicator RS232 / TCP-IP Link**: Zero-error baud rate handshake verified with physical indicator (Avery, Essae, Cardinal, or custom terminal).
@@ -1050,23 +1033,17 @@ Cutting over to a new cloud ERP platform should be an orderly, predictable event
 - [ ] **Barcode & Thermal Label Printers**: Zebra/TSC printer DPI settings, barcode alignment, and dispatch sticker formats verified.
 - [ ] **Backup Internet & Failover Network**: Redundant 4G/5G failover hotspot or secondary broadband tested for continuous cloud synchronization.
 
----
-
 ### Section 4: Government Statutory API Sync
 
 - [ ] **NIC / IRP E-Invoicing API Active**: Valid client credentials, auth tokens, and automated IRN/QR code generation tested in production environment.
 - [ ] **E-Way Bill Generation API Linked**: Distance calculation, vehicle number update, and consolidated e-Way bill generation verified.
 - [ ] **Digital Signature Certificate (DSC)**: Class 3 DSC tokens installed and configured for automated invoice signing.
 
----
-
 ### Section 5: Access Control & Operations Handover
 
 - [ ] **Role-Based Access Permissions**: Operators restricted to respective modules (Billing, Store, Accounts, Purchase, Floor).
 - [ ] **Approval Workflows Live**: PO approval limits, credit limit overrides, and discount authorization matrices active.
 - [ ] **Emergency Rollback & Contingency Plan**: Standby data snapshot secured with 30-minute hypercare escalation phone bridge.
-
----
 
 ### Post-Go-Live Support Matrix
 Upon completing this checklist, your dedicated Solutions Engineer remains on standby for live floor monitoring, ensuring smooth transaction cutover from hour one.`
@@ -1085,12 +1062,9 @@ Upon completing this checklist, your dedicated Solutions Engineer remains on sta
 
 When your factory dispatches trucks, logs weighbridge tickets, and generates statutory GST e-invoices around the clock, you cannot afford automated chat bots or offshore ticket queues. Aasaan ERP provides tier-one, engineer-led support backed by binding uptime and incident resolution SLAs.
 
----
-
 ### Service Level Agreement (SLA) Tier Comparison
 
 | Feature / Metric | Standard Support | Business-Critical Support | Enterprise Platinum SLA |
-| :--- | :--- | :--- | :--- |
 | **Target Cloud Uptime** | 99.90% | 99.95% | **99.98% High Availability** |
 | **Critical (P1) Incident Response** | < 1 Hour | < 30 Minutes | **< 15 Minutes Guaranteed** |
 | **Support Hours** | 9 AM – 7 PM (Mon–Sat) | 8 AM – 10 PM (Mon–Sat) | **24/7/365 Round-the-Clock** |
@@ -1099,34 +1073,28 @@ When your factory dispatches trucks, logs weighbridge tickets, and generates sta
 | **Quarterly Database Tuning** | Annual | Bi-Annual | **Monthly Optimization & Index Audit** |
 | **Statutory Tax Mandate Updates** | Standard Release | Priority Deployment | **Day-0 Government Regulatory Patching** |
 
----
-
 ### Incident Severity & Escalation Matrix
 
-\`\`\`
-[Incident Logged] ➔ [P1: 15-Min Bridge Call] ➔ [Lead Architect Diagnosis] ➔ [Hotfix Deployment] ➔ [RCA Report]
-\`\`\`
+**[Incident Logged] ➔ [P1: 15-Min Bridge Call] ➔ [Lead Architect Diagnosis] ➔ [Hotfix Deployment] ➔ [RCA Report]**
 
-#### Priority 1 (P1) — Critical Outage / Factory Blocker
+### Priority 1 (P1) — Critical Outage / Factory Blocker
 - **Definition**: Complete stoppage of core billing, inability to dispatch invoices, or weighbridge scale hardware bridge failure during active shift.
 - **Initial Response**: **< 15 Minutes**. Immediate Google Meet / Zoom bridge opened with a senior backend systems engineer.
 - **Resolution Target**: Continuous work until service restored or immediate operational workaround deployed.
 - **Post-Incident**: Comprehensive Root Cause Analysis (RCA) delivered within 48 business hours.
 
-#### Priority 2 (P2) — High Priority Operational Degradation
+### Priority 2 (P2) — High Priority Operational Degradation
 - **Definition**: Core functions operating with severe performance lag or batch job slowdowns with an available manual workaround.
 - **Initial Response**: **< 1 Hour**. Designated engineer assigned to analyze server query metrics.
 - **Resolution Target**: Within 4 business hours.
 
-#### Priority 3 (P3) — Normal / Configuration Inquiry
+### Priority 3 (P3) — Normal / Configuration Inquiry
 - **Definition**: Minor report discrepancy, user access permissions update, or new custom voucher print format styling.
 - **Initial Response**: **< 4 Hours**. Handled via email or WhatsApp support desk.
 
-#### Priority 4 (P4) — Feature Request / Enhancement
+### Priority 4 (P4) — Feature Request / Enhancement
 - **Definition**: Custom workflow modification or feature enhancement for upcoming operational quarters.
 - **Initial Response**: **< 24 Hours**. Added to client development roadmap backlog.
-
----
 
 ### Core SLA Commitments & Security Architecture
 
@@ -1148,49 +1116,41 @@ When your factory dispatches trucks, logs weighbridge tickets, and generates sta
 
 Standard ERP packages force businesses to conform their operations to rigid, one-size-fits-all software templates. Aasaan ERP was engineered with an extensible, modular architecture that adapts around your exact manufacturing processes, third-party logistics, and hardware infrastructure.
 
----
-
 ### Customization Capabilities Overview
 
-\`\`\`
-[Aasaan Core Engine] ──┬── [Custom Business Logic & Validation Rules]
-                      ├── [IoT Hardware Bridges (RS232 / TCP-IP / Modbus)]
-                      ├── [Bi-directional RESTful OpenAPI Webhooks]
-                      └── [Third-Party Connectors (Shopify, Tally, Banks)]
-\`\`\`
+**[Aasaan Core Engine]** connects to:
+- Custom Business Logic & Validation Rules
+- IoT Hardware Bridges (RS232 / TCP-IP / Modbus)
+- Bi-directional RESTful OpenAPI Webhooks
+- Third-Party Connectors (Shopify, Tally, Banks)
 
-#### 1. Tailored Data Models & Custom Modules
+### 1. Tailored Data Models & Custom Modules
 Need a specialized Quality Control module for chemical titration parameters, an automated batch rebate matrix for retail distributors, or a municipal waste manifest logbook?
 - **Custom Tables & Field Schemas**: Add custom fields (numeric, formula, barcode, dropdown, timestamp) to any transaction without database locking.
 - **Configurable Workflow Engines**: Multi-tier dynamic approval hierarchies triggered by voucher amount, department, credit limit, or margin thresholds.
 - **Automated Business Rules**: Custom validation scripts that automatically block dispatches if customer credit balance is breached or test certificates are missing.
 
-#### 2. IoT Hardware & Weighbridge Telemetry Integration
+### 2. IoT Hardware & Weighbridge Telemetry Integration
 Our direct hardware drivers interface physical plant equipment with the cloud ledger:
 - **RS232 / TCP-IP Scale Indicators**: Continuous serial listening capturing gross, tare, and net weights with zero human intervention.
 - **CCTV & License Plate Recognition**: Automated camera snapshot capture attached directly to the electronic weighment slip.
 - **RFID Vehicle Tags & Boom Barriers**: Automatic gate pass opening for pre-authorized raw material transport vehicles.
 - **Barcode & Thermal Label Printing**: Direct ZPL/EPL driver integration for high-speed carton, pallet, and bin labeling.
 
-#### 3. Enterprise RESTful API Suite
+### 3. Enterprise RESTful API Suite
 Aasaan ERP exposes a complete, secured OpenAPI (Swagger) interface for real-time data exchange:
 - **ERP Integration Webhooks**: Receive automated HTTP POST alerts upon invoice approval, inventory breach, or payment clearance.
 - **E-Commerce Connectors**: Bi-directional inventory and order synchronization with Shopify, WooCommerce, Amazon, and Magento.
 - **Banking & Payment APIs**: Direct payout reconciliation with ICICI, HDFC, and Razorpay virtual accounts.
 - **CRM Sync**: Inbound lead and quotation synchronization with Salesforce, HubSpot, or custom sales tools.
 
----
-
 ### Custom Development Process
 
 | Step | Objective | Timeline |
-| :--- | :--- | :--- |
 | **1. Requirements Specification** | Document custom business logic, inputs, outputs, and edge cases. | Days 1–3 |
 | **2. Sandbox Staging** | Develop and deploy feature in an isolated client test environment. | Days 4–10 |
 | **3. User Acceptance Testing (UAT)** | Client team verifies calculation accuracy and workflow compliance. | Days 11–14 |
 | **4. Production Deployment** | Zero-downtime hot-deploy to live enterprise cloud instance. | Day 15 |
-
----
 
 ### Discuss Your Custom Requirements
 Have a complex manufacturing process or unique integration requirement? Consult directly with our Senior Solutions Architects.`
