@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, CheckCircle, Sparkles, Send, Check, AlertCircle, Phone, Mail, Building, Globe, MapPin } from 'lucide-react';
 import { saveQueryToStorage, syncLeadToBackend } from '../utils/excelExport';
 import { saveLead, sendLeadToOfficialAasaanApi, sendLeadEmailNotification } from '../services/dataService';
