@@ -9,8 +9,10 @@ export function getBasePath() {
 export function getRoutePath(pageId) {
   const base = getBasePath();
   if (!pageId || pageId === 'home') return base ? `${base}/` : '/';
+  if (pageId === 'blogs' || pageId === 'blog') return `${base}/blogs/`;
   if (pageId.startsWith('blog/')) {
     const slug = pageId.replace('blog/', '');
+    if (!slug || slug === 'index' || slug === 'all') return `${base}/blogs/`;
     return `${base}/blog/${slug}/`;
   }
   const cleanId = pageId.replace(/^\/+|\/+$/g, '');
@@ -43,12 +45,17 @@ export function parseRoute() {
 
   if (cleaned.startsWith('blog/')) {
     const rawSlug = (hadHash ? hash.slice(7) : activePath.replace(/^\/?blog\//i, '')).split('?')[0].split('#')[0].replace(/\/?index\.(html?|php)$/i, '').replace(/\/+$/, '').trim();
+    if (!rawSlug || rawSlug === 'index' || rawSlug === 'all') {
+      return { page: 'blogs', hadHash };
+    }
     return {
       page: 'blog',
-      slug: rawSlug || 'manufacturing-engineering',
+      slug: rawSlug,
       hadHash
     };
   }
+
+  if (cleaned === 'blogs' || cleaned === 'blog' || cleaned.endsWith('/blogs') || cleaned.endsWith('/blog')) return { page: 'blogs', hadHash };
 
   if (cleaned === 'login' || cleaned.endsWith('/login')) return { page: 'login', hadHash };
   if (cleaned === 'admin' || cleaned.endsWith('/admin')) return { page: 'admin', hadHash };

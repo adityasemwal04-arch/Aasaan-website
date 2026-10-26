@@ -13,6 +13,7 @@ import PartnersPage from './pages/PartnersPage';
 import LoginPage from './pages/LoginPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import BlogDetailPage from './pages/BlogDetailPage';
+import BlogsDirectoryPage from './pages/BlogsDirectoryPage';
 import ServicesPage from './pages/ServicesPage';
 import AboutUsPage from './pages/AboutUsPage';
 
@@ -190,6 +191,12 @@ export default function App() {
         {currentPage === 'admin' && (
           <AdminDashboardPage
             onNavigate={handleNavigate}
+          />
+        )}
+        {currentPage === 'blogs' && (
+          <BlogsDirectoryPage
+            onNavigate={handleNavigate}
+            onOpenDemo={handleOpenDemo}
           />
         )}
         {currentPage === 'blog' && (

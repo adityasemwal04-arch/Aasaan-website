@@ -52,6 +52,12 @@ export const SEO_DATA = {
     description: 'Learn about Aasaan ERP — founded in 2014 to make enterprise software genuinely simple. Meet our leadership team, discover our values, and explore our decade of innovation.',
     keywords: 'about Aasaan ERP, ERP company India, enterprise software company, ERP team, Aasaan mission',
     canonical: 'https://www.aasaanerp.com/about/'
+  },
+  blogs: {
+    title: 'Industry ERP Knowledge Base & Solution Guides | Aasaan ERP',
+    description: 'Browse in-depth ERP architecture guides, regulatory compliance frameworks, and manufacturing automation blueprints across 30+ enterprise industries.',
+    keywords: 'ERP blog, industry ERP guides, manufacturing ERP, 3PL ERP, waste management ERP, ERP knowledge base',
+    canonical: 'https://www.aasaanerp.com/blogs/'
   }
 };
 

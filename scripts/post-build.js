@@ -46,6 +46,11 @@ const seoPages = [
     title: 'Admin Dashboard - Aasaan ERP Management Console',
     desc: 'Manage demo leads, customer queries, active announcements, and publication of ERP industry blogs.'
   },
+  {
+    route: 'blogs',
+    title: 'Industry ERP Knowledge Base & Solution Guides | Aasaan ERP',
+    desc: 'Browse in-depth ERP architecture guides, regulatory compliance frameworks, and manufacturing automation blueprints across 30+ enterprise industries.'
+  },
   // Industry Blogs / Specialized Modules
   {
     route: 'blog/manufacturing-engineering',

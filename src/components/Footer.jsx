@@ -103,7 +103,7 @@ export default function Footer({ onOpenDemo, onNavigate }) {
               <a href={getRoutePath('home')} onClick={(e) => handlePageLink('home', e)} className="footer_link">Home</a>
               <a href={getRoutePath('services')} onClick={(e) => handlePageLink('services', e)} className="footer_link">Services</a>
               <a href={getRoutePath('about')} onClick={(e) => handlePageLink('about', e)} className="footer_link">About Us</a>
-              <a href={getRoutePath('blog/manufacturing-engineering')} onClick={(e) => handlePageLink('blog/manufacturing-engineering', e)} className="footer_link">Blogs</a>
+              <a href={getRoutePath('blogs')} onClick={(e) => handlePageLink('blogs', e)} className="footer_link">Blogs</a>
               <a href="#contact" onClick={(e) => { e.preventDefault(); onOpenDemo(); }} className="footer_link">Contact Us</a>
               <a href="https://erplite.aasaan.in/academy/apply" target="_blank" rel="noopener noreferrer" className="footer_link">Apply for Certification</a>
               <a href="https://erplite.aasaan.in/academy/verify" target="_blank" rel="noopener noreferrer" className="footer_link">Verify Certification</a>

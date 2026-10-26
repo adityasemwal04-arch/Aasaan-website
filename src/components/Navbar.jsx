@@ -181,8 +181,8 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
             Partners
           </a>
           <a
-            href={getRoutePath('blog/manufacturing-engineering')}
-            onClick={(e) => handleNavClick('blog/manufacturing-engineering', e)}
+            href={getRoutePath('blogs')}
+            onClick={(e) => handleNavClick('blogs', e)}
             style={{ padding: '12px', fontSize: '15px', fontWeight: 600, color: '#212121', textDecoration: 'none' }}
           >
             Blogs
@@ -422,8 +422,8 @@ export default function Navbar({ onOpenDemo, onOpenSearch, currentPage, onNaviga
 
             <a
               className="menu_item"
-              href={getRoutePath('blog/manufacturing-engineering')}
-              onClick={(e) => handleNavClick('blog/manufacturing-engineering', e)}
+              href={getRoutePath('blogs')}
+              onClick={(e) => handleNavClick('blogs', e)}
             >
               <span>Blogs</span>
             </a>

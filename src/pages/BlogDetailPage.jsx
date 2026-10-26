@@ -15,6 +15,7 @@ import {
 import { getBlogBySlug, getBlogs } from '../services/dataService';
 import { updateMetaTags } from '../utils/seoHelper';
 import { getRoutePath } from '../utils/navigation';
+import BlogsDirectorySection from '../components/BlogsDirectorySection';
 
 export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
   const [blog, setBlog] = useState(null);
@@ -212,12 +213,35 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
               Home
             </button>
             <ChevronRight size={13} />
-            <span>Modules & Solutions</span>
+            <button
+              onClick={() => onNavigate ? onNavigate('blogs') : window.location.href = getRoutePath('blogs')}
+              style={{ background: 'none', border: 'none', color: '#1e95d3', fontWeight: 600, cursor: 'pointer', padding: 0 }}
+            >
+              Industry Blogs
+            </button>
             <ChevronRight size={13} />
-            <span style={{ color: '#212121', fontWeight: 600 }}>{blog.title}</span>
+            <span style={{ color: '#212121', fontWeight: 600, maxWidth: '280px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'inline-block' }}>{blog.title}</span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <button
+              onClick={() => onNavigate ? onNavigate('blogs') : window.location.href = getRoutePath('blogs')}
+              style={{
+                background: '#eaf6fd',
+                border: '1px solid rgba(30,149,211,0.3)',
+                color: '#1e95d3',
+                padding: '5px 12px',
+                borderRadius: '6px',
+                fontSize: '12px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px'
+              }}
+            >
+              <Layers size={13} /> All Blogs (30+)
+            </button>
             <button
               onClick={handleShare}
               style={{
@@ -340,63 +364,15 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
           {renderFormattedContent(blog.content)}
         </div>
 
-        {/* Related Industry Articles */}
-        {otherBlogs.length > 0 && (
-          <div style={{ borderTop: '1px solid #edf2f7', paddingTop: '40px', marginTop: '40px' }}>
-            <h3 style={{ fontSize: '20px', fontWeight: 800, marginBottom: '20px', color: '#212121' }}>
-              Explore Other Industry Guides
-            </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
-              {otherBlogs.map(ob => (
-                <a
-                  key={ob.slug}
-                  href={getRoutePath(`blog/${ob.slug}`)}
-                  onClick={(e) => {
-                    if (onNavigate) {
-                      if (e) e.preventDefault();
-                      onNavigate(`blog/${ob.slug}`);
-                    } else {
-                      window.location.href = getRoutePath(`blog/${ob.slug}`);
-                    }
-                  }}
-                  style={{
-                    background: '#f8f9fa',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '12px',
-                    padding: '18px',
-                    textDecoration: 'none',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    transition: 'all 0.2s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = '#1e95d3';
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(30,149,211,0.08)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = '#e2e8f0';
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = 'none';
-                  }}
-                >
-                  <div>
-                    <span style={{ fontSize: '11px', fontWeight: 700, color: '#1e95d3', textTransform: 'uppercase' }}>
-                      {ob.tag}
-                    </span>
-                    <h4 style={{ fontSize: '14.5px', fontWeight: 800, color: '#212121', margin: '6px 0 8px', lineHeight: 1.35 }}>
-                      {ob.title}
-                    </h4>
-                  </div>
-                  <div style={{ fontSize: '12px', color: '#1e95d3', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px', marginTop: '12px' }}>
-                    Read Guide <ArrowRight size={12} />
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* All Industry Blogs Directory with Search & Filters */}
+        <div style={{ borderTop: '2px solid #edf2f7', paddingTop: '48px', marginTop: '48px' }}>
+          <BlogsDirectorySection
+            currentSlug={blog.slug}
+            onNavigate={onNavigate}
+            title="Explore More Industry ERP Guides"
+            subtitle="Search other industries or pick any guide below to inspect workflows."
+          />
+        </div>
       </div>
 
       {/* Floating CTA buttons matching HomePage */}
