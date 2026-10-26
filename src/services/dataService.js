@@ -2242,7 +2242,22 @@ export async function sendLeadEmailNotification(leadData, recipientEmailOverride
       return { success: false, reason: 'Notifications disabled' };
     }
 
-    const targetEmail = recipientEmailOverride || settings.recipientEmail || 'aditya@aasaan.in';
+    // Support multiple recipient emails (new recipientEmails array or comma-separated recipientEmail)
+    let targetEmails;
+    if (recipientEmailOverride) {
+      // Could be a single email or comma-separated string
+      targetEmails = Array.isArray(recipientEmailOverride)
+        ? recipientEmailOverride
+        : String(recipientEmailOverride).split(',').map((e) => e.trim()).filter(Boolean);
+    } else {
+      const emailsRaw = settings.recipientEmails || settings.recipientEmail || 'aditya@aasaan.in';
+      targetEmails = Array.isArray(emailsRaw)
+        ? emailsRaw
+        : String(emailsRaw).split(',').map((e) => e.trim()).filter(Boolean);
+    }
+
+    if (targetEmails.length === 0) targetEmails = ['aditya@aasaan.in'];
+
     const timestamp = leadData.timestamp || new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 
     // Use FormSubmit AJAX service - sends formatted email directly to recipientEmail with zero setup needed
@@ -2262,18 +2277,24 @@ export async function sendLeadEmailNotification(leadData, recipientEmailOverride
       "Source": "Aasaan ERP Official Website Demo Request"
     };
 
-    const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(targetEmail)}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
+    // Send to all recipient emails in parallel
+    const results = await Promise.all(
+      targetEmails.map(async (targetEmail) => {
+        const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(targetEmail)}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+        console.log('Lead notification email dispatched to', targetEmail, result);
+        return { targetEmail, result };
+      })
+    );
 
-    const result = await res.json();
-    console.log('Lead notification email dispatched to', targetEmail, result);
-    return { success: true, targetEmail, result };
+    return { success: true, targetEmails, results };
   } catch (err) {
     console.warn('Email notification dispatch error:', err.message);
     return { success: false, error: err.message };

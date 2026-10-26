@@ -129,24 +129,28 @@ export default function AdminDashboardPage({ onNavigate }) {
   const [cloudUrlMsg, setCloudUrlMsg] = useState('');
 
   // Lead Email Notification Settings
-  const [notificationEmail, setNotificationEmail] = useState(() => {
+  // notificationEmails is an array of email strings
+  const [notificationEmails, setNotificationEmails] = useState(() => {
     try {
       const saved = localStorage.getItem('aasaan_notification_settings');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (
-          parsed &&
-          parsed.recipientEmail &&
-          parsed.recipientEmail !== 'work007life22@gmail.com' &&
-          parsed.recipientEmail !== 'sales@aasaanerp.com' &&
-          parsed.recipientEmail !== 'contactus@aasaanservices.in'
-        ) {
-          return parsed.recipientEmail;
-        }
+        // Support legacy single-email field and new multi-email array
+        const emailsRaw = parsed.recipientEmails || parsed.recipientEmail || '';
+        const emailsArr = Array.isArray(emailsRaw)
+          ? emailsRaw
+          : emailsRaw.split(',').map((e) => e.trim()).filter(Boolean);
+        const blacklist = ['work007life22@gmail.com', 'sales@aasaanerp.com', 'contactus@aasaanservices.in'];
+        const filtered = emailsArr.filter((e) => !blacklist.includes(e));
+        if (filtered.length > 0) return filtered;
       }
     } catch (e) {}
-    return 'aditya@aasaan.in';
+    return ['aditya@aasaan.in'];
   });
+  // Input field for typing a new email to add
+  const [notifEmailInput, setNotifEmailInput] = useState('');
+  // keep notificationEmail as a derived comma-joined string for legacy calls
+  const notificationEmail = notificationEmails.join(', ');
   const [notificationsEnabled, setNotificationsEnabled] = useState(() => {
     try {
       const saved = localStorage.getItem('aasaan_notification_settings');
@@ -199,16 +203,14 @@ export default function AdminDashboardPage({ onNavigate }) {
 
     getNotificationSettings().then((notif) => {
       if (notif) {
-        if (
-          notif.recipientEmail &&
-          notif.recipientEmail !== 'work007life22@gmail.com' &&
-          notif.recipientEmail !== 'sales@aasaanerp.com' &&
-          notif.recipientEmail !== 'contactus@aasaanservices.in'
-        ) {
-          setNotificationEmail(notif.recipientEmail);
-        } else {
-          setNotificationEmail('aditya@aasaan.in');
-        }
+        const blacklist = ['work007life22@gmail.com', 'sales@aasaanerp.com', 'contactus@aasaanservices.in'];
+        // Support new recipientEmails array or legacy recipientEmail string
+        const emailsRaw = notif.recipientEmails || notif.recipientEmail || '';
+        const emailsArr = Array.isArray(emailsRaw)
+          ? emailsRaw
+          : emailsRaw.split(',').map((e) => e.trim()).filter(Boolean);
+        const filtered = emailsArr.filter((e) => !blacklist.includes(e));
+        setNotificationEmails(filtered.length > 0 ? filtered : ['aditya@aasaan.in']);
         if (typeof notif.enabled === 'boolean') setNotificationsEnabled(notif.enabled);
       }
     });
@@ -469,12 +471,14 @@ export default function AdminDashboardPage({ onNavigate }) {
     e.preventDefault();
     setNotificationMsg('');
     try {
-      const cleanEmail = notificationEmail.trim();
+      // Save the entire array; keep legacy recipientEmail as comma-joined for backwards compat
+      const cleanEmails = notificationEmails.map((e) => e.trim()).filter(Boolean);
       const updated = await saveNotificationSettings({
-        recipientEmail: cleanEmail,
+        recipientEmail: cleanEmails.join(', '),   // legacy field
+        recipientEmails: cleanEmails,              // new multi-email field
         enabled: notificationsEnabled
       });
-      setNotificationMsg(`Saved! Demo inquiries will now trigger alerts to ${cleanEmail}`);
+      setNotificationMsg(`Saved! Demo inquiries will now trigger alerts to: ${cleanEmails.join(', ')}`);
       setTimeout(() => setNotificationMsg(''), 6000);
     } catch (err) {
       setNotificationMsg('Error saving notification settings: ' + err.message);
@@ -483,13 +487,18 @@ export default function AdminDashboardPage({ onNavigate }) {
 
   const handleSendTestNotification = async () => {
     setIsTestingNotif(true);
-    setTestNotifMsg('Sending test lead alert to ' + notificationEmail + '...');
+    setTestNotifMsg('Sending test lead alert to: ' + notificationEmail + '...');
     try {
-      const res = await sendTestNotification(notificationEmail.trim());
-      if (res.success) {
-        setTestNotifMsg(`Test email sent successfully to ${notificationEmail}! Please check inbox (and spam folder).`);
+      // Send to all configured emails
+      const results = await Promise.all(
+        notificationEmails.map((email) => sendTestNotification(email.trim()))
+      );
+      const allOk = results.every((r) => r.success);
+      if (allOk) {
+        setTestNotifMsg(`Test email sent successfully to all ${notificationEmails.length} recipient(s)! Please check inboxes (and spam folder).`);
       } else {
-        setTestNotifMsg(`Notice: ${res.reason || res.error || 'Failed to send test email.'}`);
+        const failed = results.filter((r) => !r.success);
+        setTestNotifMsg(`Partial success: ${results.length - failed.length}/${results.length} emails sent. Issues: ${failed.map((r) => r.reason || r.error).join(', ')}`);
       }
     } catch (err) {
       setTestNotifMsg('Error sending test email: ' + err.message);
@@ -2179,17 +2188,62 @@ export default function AdminDashboardPage({ onNavigate }) {
 
               <form onSubmit={handleSaveNotificationSettings} style={{ marginTop: '18px' }}>
                 <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, marginBottom: '6px', color: '#1E293B' }}>
-                  Lead Notification Recipient Email
+                  Lead Notification Recipient Emails
+                  <span style={{ fontWeight: 400, color: '#64748B', marginLeft: '6px' }}>(you can add multiple)</span>
                 </label>
-                <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '14px' }}>
+
+                {/* Email Tags Display */}
+                <div style={{
+                  display: 'flex', flexWrap: 'wrap', gap: '6px',
+                  padding: '8px 10px', borderRadius: '8px',
+                  border: '1px solid var(--border-medium)',
+                  background: '#F8FAFC', marginBottom: '10px', minHeight: '42px'
+                }}>
+                  {notificationEmails.map((email, idx) => (
+                    <span key={idx} style={{
+                      display: 'inline-flex', alignItems: 'center', gap: '4px',
+                      background: 'var(--primary-blue)', color: '#fff',
+                      borderRadius: '20px', padding: '3px 10px', fontSize: '12.5px', fontWeight: 600
+                    }}>
+                      <Mail size={11} />
+                      {email}
+                      <button
+                        type="button"
+                        onClick={() => setNotificationEmails((prev) => prev.filter((_, i) => i !== idx))}
+                        style={{
+                          background: 'rgba(255,255,255,0.25)', border: 'none', borderRadius: '50%',
+                          width: '16px', height: '16px', cursor: 'pointer', color: '#fff',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          fontSize: '11px', fontWeight: 900, padding: 0, marginLeft: '2px'
+                        }}
+                        title="Remove"
+                      >×</button>
+                    </span>
+                  ))}
+                  {notificationEmails.length === 0 && (
+                    <span style={{ color: '#94A3B8', fontSize: '13px', lineHeight: '26px' }}>No recipients added yet</span>
+                  )}
+                </div>
+
+                {/* Add Email Input */}
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '14px' }}>
                   <div style={{ position: 'relative', flex: 1 }}>
                     <Mail size={16} color="#94A3B8" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
                     <input
                       type="email"
-                      required
-                      value={notificationEmail}
-                      onChange={(e) => setNotificationEmail(e.target.value)}
-                      placeholder="e.g. aditya@aasaan.in"
+                      value={notifEmailInput}
+                      onChange={(e) => setNotifEmailInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if ((e.key === 'Enter' || e.key === ',') && notifEmailInput.trim()) {
+                          e.preventDefault();
+                          const email = notifEmailInput.trim().replace(/,$/, '');
+                          if (email && !notificationEmails.includes(email)) {
+                            setNotificationEmails((prev) => [...prev, email]);
+                          }
+                          setNotifEmailInput('');
+                        }
+                      }}
+                      placeholder="Type email and press Enter to add…"
                       style={{
                         width: '100%',
                         padding: '10px 14px 10px 38px',
@@ -2201,6 +2255,21 @@ export default function AdminDashboardPage({ onNavigate }) {
                       }}
                     />
                   </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const email = notifEmailInput.trim();
+                      if (email && !notificationEmails.includes(email)) {
+                        setNotificationEmails((prev) => [...prev, email]);
+                      }
+                      setNotifEmailInput('');
+                    }}
+                    style={{
+                      background: '#E2E8F0', color: '#334155', border: 'none',
+                      padding: '10px 16px', borderRadius: '8px', fontSize: '13px',
+                      fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap'
+                    }}
+                  >+ Add</button>
                   <button
                     type="submit"
                     style={{
@@ -2218,7 +2287,7 @@ export default function AdminDashboardPage({ onNavigate }) {
                       whiteSpace: 'nowrap'
                     }}
                   >
-                    <Save size={15} /> Save Email
+                    <Save size={15} /> Save Emails
                   </button>
                 </div>
 
