@@ -340,56 +340,6 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
           {renderFormattedContent(blog.content)}
         </div>
 
-        {/* CTA Box inside article */}
-        <div style={{
-          margin: '48px 0',
-          background: 'linear-gradient(135deg, #f6fbfe 0%, #eaf6fd 100%)',
-          border: '1px solid rgba(30,149,211,0.25)',
-          borderRadius: '16px',
-          padding: '32px 28px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '20px'
-        }}>
-          <div style={{ maxWidth: '520px' }}>
-            <span style={{ fontSize: '11.5px', fontWeight: 800, color: '#1e95d3', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Live Architecture Consultation
-            </span>
-            <h3 style={{ fontSize: '22px', fontWeight: 800, color: '#212121', margin: '6px 0 8px' }}>
-              Deploy Aasaan ERP for {blog.industry || 'Your Business'}
-            </h3>
-            <p style={{ fontSize: '14px', color: '#5f5f5f', margin: 0, lineHeight: 1.5 }}>
-              Talk with our senior enterprise architects. Get a tailored walk-through featuring real industry workflows, BOMs, and compliance modules.
-            </p>
-          </div>
-
-          <button
-            onClick={() => onOpenDemo ? onOpenDemo() : null}
-            style={{
-              background: 'var(--colorAccent)',
-              color: '#FFFFFF',
-              border: 'none',
-              padding: '13px 26px',
-              borderRadius: '6px',
-              fontSize: '14.5px',
-              fontWeight: 700,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              boxShadow: '0 4px 14px rgba(30, 149, 211, 0.3)',
-              whiteSpace: 'nowrap',
-              transition: 'background 0.2s ease'
-            }}
-            onMouseEnter={e => e.currentTarget.style.background = '#157bb3'}
-            onMouseLeave={e => e.currentTarget.style.background = 'var(--colorAccent)'}
-          >
-            <Sparkles size={16} /> Schedule Industry Demo
-          </button>
-        </div>
-
         {/* Related Industry Articles */}
         {otherBlogs.length > 0 && (
           <div style={{ borderTop: '1px solid #edf2f7', paddingTop: '40px', marginTop: '40px' }}>
