@@ -1059,8 +1059,9 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
                 <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ff5f57', display: 'inline-block' }} />
                 <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ffbd2e', display: 'inline-block' }} />
                 <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#28c840', display: 'inline-block' }} />
-                <div style={{ flex: 1, background: '#2d3748', borderRadius: '4px', padding: '3px 10px', marginLeft: '8px', fontSize: '11px', color: 'rgba(255,255,255,0.5)', fontFamily: 'monospace' }}>
-                  app.aasaanerp.com
+                <div style={{ flex: 1, background: '#2d3748', borderRadius: '4px', padding: '4px 12px', marginLeft: '8px', fontSize: '11px', color: '#93c5fd', fontFamily: 'monospace', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#38bdf8', display: 'inline-block' }} />
+                  <span>erplite.aasaan.in/app</span>
                 </div>
               </div>
               {/* Screenshot */}
@@ -1863,6 +1864,11 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
       </div>
 
       {/* ============================================================ */}
+      {/* GLOBAL PRESENCE MAP                                          */}
+      {/* ============================================================ */}
+      <GlobalPresenceMap onOpenDemo={onOpenDemo} />
+
+      {/* ============================================================ */}
       {/* 3. MODULES OF AASAAN ERP                                     */}
       {/* ============================================================ */}
       <div id="modules" className="column_alignment section_wrapper" style={{ background: '#f8fafc', padding: '80px 20px' }}>
@@ -2247,11 +2253,6 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
 
         </div>
       </div>
-
-      {/* ============================================================ */}
-      {/* GLOBAL PRESENCE MAP                                          */}
-      {/* ============================================================ */}
-      <GlobalPresenceMap onOpenDemo={onOpenDemo} />
 
       {/* ============================================================ */}
       {/* CTA BANNER                                                   */}
