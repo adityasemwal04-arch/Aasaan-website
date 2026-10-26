@@ -15,8 +15,6 @@ import {
 import { getBlogBySlug, getBlogs } from '../services/dataService';
 import { updateMetaTags } from '../utils/seoHelper';
 import { getRoutePath } from '../utils/navigation';
-import BlogsDirectorySection from '../components/BlogsDirectorySection';
-
 export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
   const [blog, setBlog] = useState(null);
   const [allBlogs, setAllBlogs] = useState([]);
@@ -364,15 +362,152 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
           {renderFormattedContent(blog.content)}
         </div>
 
-        {/* All Industry Blogs Directory with Search & Filters */}
-        <div style={{ borderTop: '2px solid #edf2f7', paddingTop: '48px', marginTop: '48px' }}>
-          <BlogsDirectorySection
-            currentSlug={blog.slug}
-            onNavigate={onNavigate}
-            title="Explore More Industry ERP Guides"
-            subtitle="Search other industries or pick any guide below to inspect workflows."
-          />
-        </div>
+        {/* Related Industry Guides — show only 3 curated cards */}
+        {(() => {
+          const relatedBlogs = allBlogs
+            .filter((b) => b.slug !== blog.slug)
+            .slice(0, 3);
+
+          if (relatedBlogs.length === 0) return null;
+
+          return (
+            <div style={{ borderTop: '2px solid #edf2f7', paddingTop: '48px', marginTop: '48px' }}>
+              {/* Section Header */}
+              <div style={{ marginBottom: '28px' }}>
+                <div style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '7px',
+                  background: '#eaf6fd', border: '1px solid rgba(30,149,211,0.25)',
+                  borderRadius: '99px', padding: '4px 14px',
+                  fontSize: '12px', fontWeight: 700, color: '#1e95d3',
+                  letterSpacing: '0.04em', textTransform: 'uppercase', marginBottom: '10px'
+                }}>
+                  <Layers size={13} />
+                  Related Industry Guides
+                </div>
+                <h2 style={{ fontSize: '22px', fontWeight: 800, color: '#212121', margin: '0 0 6px', letterSpacing: '-0.01em' }}>
+                  Explore More ERP Blueprints
+                </h2>
+                <p style={{ fontSize: '14px', color: '#64748B', margin: 0, lineHeight: 1.5 }}>
+                  See how Aasaan ERP powers other industries with purpose-built workflows.
+                </p>
+              </div>
+
+              {/* 3 Related Cards */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+                gap: '20px',
+                marginBottom: '32px'
+              }}>
+                {relatedBlogs.map((rb) => (
+                  <a
+                    key={rb.slug}
+                    href={getRoutePath(`blog/${rb.slug}`)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (onNavigate) onNavigate(`blog/${rb.slug}`);
+                      else window.location.href = getRoutePath(`blog/${rb.slug}`);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    style={{
+                      background: '#FFFFFF',
+                      border: '1px solid #E2E8F0',
+                      borderRadius: '12px',
+                      textDecoration: 'none',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      overflow: 'hidden',
+                      transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
+                      boxShadow: '0 1px 4px rgba(0,0,0,0.04)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = '#1e95d3';
+                      e.currentTarget.style.transform = 'translateY(-3px)';
+                      e.currentTarget.style.boxShadow = '0 8px 20px rgba(30,149,211,0.12)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = '#E2E8F0';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.04)';
+                    }}
+                  >
+                    {/* Thumbnail */}
+                    <div style={{ height: '130px', overflow: 'hidden', background: '#EAF6FD', flexShrink: 0 }}>
+                      <img
+                        src={rb.img || 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80'}
+                        alt={rb.title}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80';
+                        }}
+                      />
+                    </div>
+
+                    {/* Card Body */}
+                    <div style={{ padding: '14px 16px', flex: 1, display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      <span style={{
+                        fontSize: '10.5px', fontWeight: 700, color: '#1e95d3',
+                        background: '#eaf6fd', padding: '2px 8px', borderRadius: '4px',
+                        textTransform: 'uppercase', letterSpacing: '0.04em',
+                        alignSelf: 'flex-start', whiteSpace: 'nowrap',
+                        overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%'
+                      }}>
+                        {rb.tag || 'Specialized ERP'}
+                      </span>
+                      <h4 style={{
+                        fontSize: '14px', fontWeight: 800, color: '#1E293B',
+                        margin: 0, lineHeight: 1.35,
+                        display: '-webkit-box', WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical', overflow: 'hidden'
+                      }}>
+                        {rb.title}
+                      </h4>
+                      <span style={{
+                        fontSize: '12px', color: '#1e95d3', fontWeight: 700,
+                        display: 'inline-flex', alignItems: 'center', gap: '4px',
+                        marginTop: 'auto', paddingTop: '8px'
+                      }}>
+                        Read Guide <ArrowRight size={12} />
+                      </span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+
+              {/* CTA to All Blogs */}
+              <div style={{ textAlign: 'center' }}>
+                <button
+                  onClick={() => {
+                    if (onNavigate) onNavigate('blogs');
+                    else window.location.href = getRoutePath('blogs');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '8px',
+                    padding: '12px 28px', borderRadius: '8px',
+                    background: '#1e95d3', color: '#FFFFFF',
+                    border: 'none', fontWeight: 700, fontSize: '14px',
+                    cursor: 'pointer', transition: 'all 0.2s ease',
+                    boxShadow: '0 4px 14px rgba(30,149,211,0.3)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#1680ba';
+                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(30,149,211,0.45)';
+                    e.currentTarget.style.transform = 'translateY(-1px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = '#1e95d3';
+                    e.currentTarget.style.boxShadow = '0 4px 14px rgba(30,149,211,0.3)';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
+                >
+                  Browse All 30+ Industry Blueprints <ArrowRight size={15} />
+                </button>
+              </div>
+            </div>
+          );
+        })()}
       </div>
 
       {/* Floating CTA buttons matching HomePage */}

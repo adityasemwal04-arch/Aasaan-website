@@ -269,14 +269,15 @@ export default function BlogsDirectorySection({
                 background: '#FFFFFF',
                 border: '1px solid #E2E8F0',
                 borderRadius: '12px',
-                padding: '18px 20px',
+                padding: '0',
                 textDecoration: 'none',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
-                position: 'relative'
+                position: 'relative',
+                overflow: 'hidden'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = '#1e95d3';
@@ -289,7 +290,20 @@ export default function BlogsDirectorySection({
                 e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.03)';
               }}
             >
-              <div>
+              {/* Thumbnail Image */}
+              <div style={{ height: '150px', overflow: 'hidden', background: '#EAF6FD', flexShrink: 0, borderRadius: '12px 12px 0 0' }}>
+                <img
+                  src={b.img || 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80'}
+                  alt={b.title}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80';
+                  }}
+                />
+              </div>
+
+              <div style={{ padding: '16px 18px', display: 'flex', flexDirection: 'column', flex: 1 }}>
                 {/* Header Row: Category Badge + Read Time */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px', gap: '8px' }}>
                   <span style={{
@@ -350,32 +364,32 @@ export default function BlogsDirectorySection({
                 }}>
                   {b.excerpt || 'Explore technical architecture, compliance automation, and operational blueprints for this industry.'}
                 </p>
-              </div>
 
-              {/* Bottom Footer: Author & Read Link */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                paddingTop: '12px',
-                borderTop: '1px solid #F1F5F9',
-                marginTop: '6px'
-              }}>
-                <span style={{ fontSize: '11.5px', color: '#94A3B8', fontWeight: 500 }}>
-                  {b.author ? b.author.split(' ')[0] + ' Solutions' : 'Aasaan Practice'}
-                </span>
-
-                <span style={{
-                  fontSize: '12.5px',
-                  color: '#1e95d3',
-                  fontWeight: 700,
-                  display: 'inline-flex',
+                {/* Bottom Footer: Author & Read Link */}
+                <div style={{
+                  display: 'flex',
                   alignItems: 'center',
-                  gap: '4px'
+                  justifyContent: 'space-between',
+                  paddingTop: '12px',
+                  borderTop: '1px solid #F1F5F9',
+                  marginTop: 'auto'
                 }}>
-                  Read Guide <ArrowRight size={13} />
-                </span>
-              </div>
+                  <span style={{ fontSize: '11.5px', color: '#94A3B8', fontWeight: 500 }}>
+                    {b.author ? b.author.split(' ')[0] + ' Solutions' : 'Aasaan Practice'}
+                  </span>
+
+                  <span style={{
+                    fontSize: '12.5px',
+                    color: '#1e95d3',
+                    fontWeight: 700,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}>
+                    Read Guide <ArrowRight size={13} />
+                  </span>
+                </div>
+              </div>{/* end inner padding div */}
             </a>
           ))}
         </div>
