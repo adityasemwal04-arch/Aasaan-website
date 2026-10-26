@@ -49,12 +49,13 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
     setTimeout(() => setCopied(false), 2500);
   };
 
-  // Simple Markdown to JSX converter for headings, bold, bullet lists
+  // Simple Markdown to JSX converter for headings, bold, bullet lists, and tables
   const renderFormattedContent = (content) => {
     if (!content) return null;
     const lines = content.split('\n');
     const elements = [];
     let listBuffer = [];
+    let tableBuffer = [];
 
     const flushList = (key) => {
       if (listBuffer.length > 0) {
@@ -71,6 +72,39 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
       }
     };
 
+    const flushTable = (key) => {
+      if (tableBuffer.length > 0) {
+        const [headerRow, ...bodyRows] = tableBuffer;
+        elements.push(
+          <div key={`table-${key}`} style={{ overflowX: 'auto', margin: '24px 0 28px', borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '14.5px' }}>
+              <thead>
+                <tr style={{ background: '#f8fafc', borderBottom: '2px solid #e2e8f0' }}>
+                  {headerRow.map((cell, cIdx) => (
+                    <th key={cIdx} style={{ padding: '12px 16px', fontWeight: 700, color: '#1e293b' }}>
+                      {renderInlineFormatting(cell)}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {bodyRows.map((row, rIdx) => (
+                  <tr key={rIdx} style={{ borderBottom: rIdx < bodyRows.length - 1 ? '1px solid #f1f5f9' : 'none', background: rIdx % 2 === 0 ? '#ffffff' : '#fbfcfd' }}>
+                    {row.map((cell, cIdx) => (
+                      <td key={cIdx} style={{ padding: '12px 16px', color: '#475569', lineHeight: 1.6 }}>
+                        {renderInlineFormatting(cell)}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+        tableBuffer = [];
+      }
+    };
+
     const renderInlineFormatting = (text) => {
       const parts = text.split(/(\*\*.*?\*\*)/g);
       return parts.map((part, i) => {
@@ -83,6 +117,19 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
 
     lines.forEach((line, index) => {
       const trimmed = line.trim();
+
+      // Check if line is a table row (starts and ends with |)
+      if (trimmed.startsWith('|') && trimmed.endsWith('|')) {
+        flushList(index);
+        const cells = trimmed
+          .slice(1, -1)
+          .split('|')
+          .map(c => c.trim());
+        tableBuffer.push(cells);
+        return;
+      } else {
+        flushTable(index);
+      }
 
       if (trimmed.startsWith('### ')) {
         flushList(index);
@@ -113,6 +160,7 @@ export default function BlogDetailPage({ slug, onNavigate, onOpenDemo }) {
     });
 
     flushList(lines.length);
+    flushTable(lines.length);
     return elements;
   };
 
