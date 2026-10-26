@@ -51,6 +51,11 @@ const seoPages = [
     title: 'Industry ERP Knowledge Base & Solution Guides | Aasaan ERP',
     desc: 'Browse in-depth ERP architecture guides, regulatory compliance frameworks, and manufacturing automation blueprints across 30+ enterprise industries.'
   },
+  {
+    route: 'blog',
+    title: 'Industry ERP Knowledge Base & Solution Guides | Aasaan ERP',
+    desc: 'Browse in-depth ERP architecture guides, regulatory compliance frameworks, and manufacturing automation blueprints across 30+ enterprise industries.'
+  },
   // Industry Blogs / Specialized Modules
   {
     route: 'blog/manufacturing-engineering',
