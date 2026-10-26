@@ -6,16 +6,46 @@
 export const COUNTRY_CODES = [
   { id: 'IN', code: '+91', name: 'India', flag: '🇮🇳', defaultState: 'Delhi NCR' },
   { id: 'AE', code: '+971', name: 'United Arab Emirates', flag: '🇦🇪' },
-  { id: 'US', code: '+1', name: 'United States / Canada', flag: '🇺🇸' },
+  { id: 'US', code: '+1', name: 'United States', flag: '🇺🇸' },
+  { id: 'CA', code: '+1-CA', name: 'Canada', flag: '🇨🇦', dialCode: '+1' },
   { id: 'GB', code: '+44', name: 'United Kingdom', flag: '🇬🇧' },
+  { id: 'AU', code: '+61', name: 'Australia', flag: '🇦🇺' },
+  { id: 'ZA', code: '+27', name: 'South Africa', flag: '🇿🇦' },
   { id: 'SA', code: '+966', name: 'Saudi Arabia', flag: '🇸🇦' },
-  { id: 'SG', code: '+65', name: 'Singapore', flag: '🇸🇬' },
   { id: 'QA', code: '+974', name: 'Qatar', flag: '🇶🇦' },
   { id: 'OM', code: '+968', name: 'Oman', flag: '🇴🇲' },
   { id: 'KW', code: '+965', name: 'Kuwait', flag: '🇰🇼' },
   { id: 'BH', code: '+973', name: 'Bahrain', flag: '🇧🇭' },
-  { id: 'AU', code: '+61', name: 'Australia', flag: '🇦🇺' },
-  { id: 'DE', code: '+49', name: 'Germany', flag: '🇩🇪' }
+  { id: 'SG', code: '+65', name: 'Singapore', flag: '🇸🇬' },
+  { id: 'MY', code: '+60', name: 'Malaysia', flag: '🇲🇾' },
+  { id: 'ID', code: '+62', name: 'Indonesia', flag: '🇮🇩' },
+  { id: 'TH', code: '+66', name: 'Thailand', flag: '🇹🇭' },
+  { id: 'VN', code: '+84', name: 'Vietnam', flag: '🇻🇳' },
+  { id: 'PH', code: '+63', name: 'Philippines', flag: '🇵🇭' },
+  { id: 'DE', code: '+49', name: 'Germany', flag: '🇩🇪' },
+  { id: 'FR', code: '+33', name: 'France', flag: '🇫🇷' },
+  { id: 'IT', code: '+39', name: 'Italy', flag: '🇮🇹' },
+  { id: 'ES', code: '+34', name: 'Spain', flag: '🇪🇸' },
+  { id: 'NL', code: '+31', name: 'Netherlands', flag: '🇳🇱' },
+  { id: 'CH', code: '+41', name: 'Switzerland', flag: '🇨🇭' },
+  { id: 'SE', code: '+46', name: 'Sweden', flag: '🇸🇪' },
+  { id: 'NO', code: '+47', name: 'Norway', flag: '🇳🇴' },
+  { id: 'IE', code: '+353', name: 'Ireland', flag: '🇮🇪' },
+  { id: 'PL', code: '+48', name: 'Poland', flag: '🇵🇱' },
+  { id: 'NZ', code: '+64', name: 'New Zealand', flag: '🇳🇿' },
+  { id: 'JP', code: '+81', name: 'Japan', flag: '🇯🇵' },
+  { id: 'KR', code: '+82', name: 'South Korea', flag: '🇰🇷' },
+  { id: 'HK', code: '+852', name: 'Hong Kong', flag: '🇭🇰' },
+  { id: 'BD', code: '+880', name: 'Bangladesh', flag: '🇧🇩' },
+  { id: 'NP', code: '+977', name: 'Nepal', flag: '🇳🇵' },
+  { id: 'LK', code: '+94', name: 'Sri Lanka', flag: '🇱🇰' },
+  { id: 'BR', code: '+55', name: 'Brazil', flag: '🇧🇷' },
+  { id: 'MX', code: '+52', name: 'Mexico', flag: '🇲🇽' },
+  { id: 'KE', code: '+254', name: 'Kenya', flag: '🇰🇪' },
+  { id: 'NG', code: '+234', name: 'Nigeria', flag: '🇳🇬' },
+  { id: 'EG', code: '+20', name: 'Egypt', flag: '🇪🇬' },
+  { id: 'TR', code: '+90', name: 'Turkey', flag: '🇹🇷' },
+  { id: 'OTHER', code: '+', name: 'Other International', flag: '🌐' }
 ];
 
 export const INDIAN_STATES_STD = [
@@ -248,7 +278,7 @@ export function validatePhone(phone, countryCode = '+91', phoneType = 'mobile', 
     };
   }
 
-  if (countryCode === '+1') {
+  if (countryCode === '+1' || countryCode === '+1-CA') {
     // US / Canada: 10 digits
     let digits = rawDigits;
     if (digits.length === 11 && digits.startsWith('1')) digits = digits.slice(1);
@@ -256,12 +286,12 @@ export function validatePhone(phone, countryCode = '+91', phoneType = 'mobile', 
     if (digits.length !== 10) {
       return {
         isValid: false,
-        message: `US/Canada numbers must be 10 digits (currently ${digits.length}).`
+        message: `North American numbers must be 10 digits (currently ${digits.length}).`
       };
     }
     return {
       isValid: true,
-      message: 'Valid US/Canada number.',
+      message: 'Valid North American number.',
       cleanDigits: digits,
       formatted: `+1 (${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`
     };

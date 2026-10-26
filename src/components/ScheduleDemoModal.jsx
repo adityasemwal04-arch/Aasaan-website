@@ -576,7 +576,7 @@ export default function ScheduleDemoModal({ isOpen, onClose, initialSolution }) 
                     >
                       {COUNTRY_CODES.map((c) => (
                         <option key={c.id} value={c.code}>
-                          {c.flag} {c.name} ({c.code})
+                          {c.flag} {c.name} {c.code !== '+' ? `(${c.dialCode || c.code})` : ''}
                         </option>
                       ))}
                     </select>
