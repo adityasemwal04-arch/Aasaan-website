@@ -8,10 +8,11 @@ import {
   partnerStats,
   partnerFAQs,
 } from '../data/partnerData';
+import PartnershipModal from '../components/PartnershipModal';
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
-function HeroSection({ onOpenDemo }) {
+function HeroSection({ onOpenPartnerModal }) {
   return (
     <section style={{
       background: 'linear-gradient(180deg, #f6fbfe 0%, #ffffff 100%)',
@@ -65,10 +66,9 @@ function HeroSection({ onOpenDemo }) {
         </p>
 
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
-          <a
-            href="mailto:contactus@aasaanservices.in?subject=Partner Program Inquiry"
+          <button
+            onClick={() => onOpenPartnerModal('Reseller Partner')}
             style={{
-              textDecoration: 'none',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
@@ -78,6 +78,8 @@ function HeroSection({ onOpenDemo }) {
               background: 'var(--colorAccent)',
               color: '#ffffff',
               borderRadius: '6px',
+              border: 'none',
+              cursor: 'pointer',
               boxShadow: '0 4px 14px rgba(30,149,211,0.28)',
               transition: 'all 0.2s ease'
             }}
@@ -86,9 +88,9 @@ function HeroSection({ onOpenDemo }) {
           >
             Apply to Partner Program
             <ArrowRight size={16} />
-          </a>
+          </button>
           <button
-            onClick={onOpenDemo}
+            onClick={() => onOpenPartnerModal('Reseller Partner')}
             style={{
               background: 'transparent',
               border: '2px solid #1e95d3',
@@ -148,7 +150,7 @@ function HeroSection({ onOpenDemo }) {
   );
 }
 
-function TiersSection({ onOpenDemo }) {
+function TiersSection({ onOpenPartnerModal }) {
   return (
     <section id="partner-tiers" style={{ padding: '80px 0', background: '#f8f9fa', scrollMarginTop: '110px' }}>
       <div className="container" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
@@ -245,9 +247,9 @@ function TiersSection({ onOpenDemo }) {
                 </ul>
               </div>
 
-              {/* CTA */}
-              <a
-                href="mailto:contactus@aasaanservices.in?subject=Partner Application"
+              {/* CTA — opens partnership modal with pre-selected tier */}
+              <button
+                onClick={() => onOpenPartnerModal(tier.name)}
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                   background: 'var(--colorAccent)',
@@ -255,7 +257,7 @@ function TiersSection({ onOpenDemo }) {
                   borderRadius: '6px',
                   padding: '12px 20px',
                   fontSize: '14px', fontWeight: 700,
-                  textDecoration: 'none',
+                  border: 'none', cursor: 'pointer',
                   marginTop: '26px',
                   transition: 'background 0.2s ease',
                 }}
@@ -264,7 +266,7 @@ function TiersSection({ onOpenDemo }) {
               >
                 {tier.cta}
                 <ArrowRight size={14} />
-              </a>
+              </button>
             </div>
           ))}
         </div>
@@ -541,7 +543,7 @@ function FAQSection() {
   );
 }
 
-function PartnerCTA({ onOpenDemo }) {
+function PartnerCTA({ onOpenPartnerModal }) {
   return (
     <section style={{
       padding: '80px 0',
@@ -564,14 +566,14 @@ function PartnerCTA({ onOpenDemo }) {
           Join our partner ecosystem today. It's free to apply, complete with partner training, lead sharing, and lucrative recurring margins.
         </p>
         <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <a
-            href="mailto:contactus@aasaanservices.in?subject=Partner Program Application"
+          <button
+            onClick={() => onOpenPartnerModal('Reseller Partner')}
             style={{
               display: 'inline-flex', alignItems: 'center', gap: '8px',
               background: '#FFFFFF', color: '#1e95d3',
               borderRadius: '6px', padding: '13px 28px',
               fontSize: '15px', fontWeight: 800,
-              textDecoration: 'none',
+              border: 'none', cursor: 'pointer',
               boxShadow: '0 4px 14px rgba(0,0,0,0.15)',
               transition: 'all 0.2s ease'
             }}
@@ -580,9 +582,9 @@ function PartnerCTA({ onOpenDemo }) {
           >
             Apply Now — It's Free
             <ArrowRight size={16} />
-          </a>
+          </button>
           <button
-            onClick={onOpenDemo}
+            onClick={() => onOpenPartnerModal('Reseller Partner')}
             style={{
               background: 'rgba(255,255,255,0.12)',
               border: '2px solid rgba(255,255,255,0.7)',
@@ -605,15 +607,23 @@ function PartnerCTA({ onOpenDemo }) {
 // ─── Page Assembly ─────────────────────────────────────────────────────────────
 
 export default function PartnersPage({ onOpenDemo, onNavigate }) {
+  const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
+  const [partnerSolution, setPartnerSolution] = useState('Reseller Partner');
+
+  const handleOpenPartnerModal = (solution = 'Reseller Partner') => {
+    setPartnerSolution(solution);
+    setIsPartnerModalOpen(true);
+  };
+
   return (
     <div style={{ marginTop: '106px', minHeight: '100vh', background: '#FFFFFF' }}>
-      <HeroSection onOpenDemo={onOpenDemo} />
-      <TiersSection onOpenDemo={onOpenDemo} />
+      <HeroSection onOpenPartnerModal={handleOpenPartnerModal} />
+      <TiersSection onOpenPartnerModal={handleOpenPartnerModal} />
       <BenefitsSection />
       <JourneySection />
       <PartnersShowcase />
       <FAQSection />
-      <PartnerCTA onOpenDemo={onOpenDemo} />
+      <PartnerCTA onOpenPartnerModal={handleOpenPartnerModal} />
 
       {/* Floating CTA buttons */}
       <div style={{ position: 'fixed', bottom: '24px', right: '20px', display: 'flex', flexDirection: 'column', gap: '10px', zIndex: 9000, alignItems: 'flex-end' }}>
@@ -640,15 +650,22 @@ export default function PartnersPage({ onOpenDemo, onNavigate }) {
         </a>
 
         <button
-          onClick={onOpenDemo}
-          style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px 10px 12px', borderRadius: '28px', background: 'var(--colorAccent)', border: 'none', boxShadow: '0 4px 16px rgba(30,149,211,0.4)', cursor: 'pointer', transition: 'transform 0.2s ease, box-shadow 0.2s ease', color: '#fff', fontWeight: 600, fontSize: '13.5px' }}
-          onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(30,149,211,0.6)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(30,149,211,0.4)'; }}
+          onClick={() => handleOpenPartnerModal('Reseller Partner')}
+          style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px 10px 12px', borderRadius: '28px', background: '#1D4ED8', border: 'none', boxShadow: '0 4px 16px rgba(29,78,216,0.4)', cursor: 'pointer', transition: 'transform 0.2s ease, box-shadow 0.2s ease', color: '#fff', fontWeight: 600, fontSize: '13.5px' }}
+          onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(29,78,216,0.6)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(29,78,216,0.4)'; }}
         >
-          <i className="fas fa-calendar-check" style={{ fontSize: '18px' }}></i>
-          <span>Book a Demo</span>
+          <i className="fas fa-handshake" style={{ fontSize: '18px' }}></i>
+          <span>Join Partner Program</span>
         </button>
       </div>
+
+      {/* Dedicated Partnership Application Modal */}
+      <PartnershipModal
+        isOpen={isPartnerModalOpen}
+        onClose={() => setIsPartnerModalOpen(false)}
+        initialSolution={partnerSolution}
+      />
     </div>
   );
 }
