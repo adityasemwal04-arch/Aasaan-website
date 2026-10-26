@@ -32,6 +32,7 @@ import { getRoutePath } from '../utils/navigation';
 import heroImg from '../assets/aasaan_erp_header_desktop.png';
 import aasaanLogoSrc from '../assets/aasaan-logo.png';
 import WorldVectorMap from '../components/WorldVectorMap';
+import InteractiveHeroDashboard from '../components/InteractiveHeroDashboard';
 
 /* ============================================================
    CRISP SVG FLAG BADGE HELPER
@@ -1049,28 +1050,9 @@ export default function OriginalAasaanHomePage({ onOpenDemo, onNavigate }) {
             </div>
           </div>
 
-          {/* RIGHT — Product screenshot in browser frame */}
-          <div style={{ flex: '1 1 380px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div style={{ position: 'relative', width: '100%', maxWidth: '560px' }}>
-              {/* Glow */}
-              <div style={{ position: 'absolute', inset: '-20px', background: 'radial-gradient(ellipse at center, rgba(30,149,211,0.35) 0%, transparent 70%)', borderRadius: '24px', zIndex: 0 }} />
-              {/* Browser chrome */}
-              <div style={{ background: '#1e2832', borderRadius: '12px 12px 0 0', padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '6px', position: 'relative', zIndex: 1 }}>
-                <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ff5f57', display: 'inline-block' }} />
-                <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ffbd2e', display: 'inline-block' }} />
-                <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#28c840', display: 'inline-block' }} />
-                <div style={{ flex: 1, background: '#2d3748', borderRadius: '4px', padding: '4px 12px', marginLeft: '8px', fontSize: '11px', color: '#93c5fd', fontFamily: 'monospace', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#38bdf8', display: 'inline-block' }} />
-                  <span>erplite.aasaan.in/app</span>
-                </div>
-              </div>
-              {/* Screenshot */}
-              <img
-                src={heroImg}
-                alt="Aasaan ERP Dashboard"
-                style={{ width: '100%', display: 'block', borderRadius: '0 0 12px 12px', boxShadow: '0 24px 60px rgba(0,0,0,0.5)', position: 'relative', zIndex: 1 }}
-              />
-            </div>
+          {/* RIGHT — Interactive Live ERP Operating Console */}
+          <div style={{ flex: '1 1 420px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <InteractiveHeroDashboard onOpenDemo={onOpenDemo} onNavigate={onNavigate} />
           </div>
         </div>
       </div>
