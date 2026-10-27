@@ -13,6 +13,7 @@
     <groupId>com.aasaan</groupId>
     <artifactId>aasaan-erp-backend</artifactId>
     <version>1.0.0</version>
+    <packaging>war</packaging>
     <name>Aasaan ERP Spring Boot Backend</name>
     <description>Enterprise Spring Boot REST API for Aasaan ERP Queries, Inquiries and Industry Blogs CMS</description>
 
@@ -25,6 +26,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Exclude embedded Tomcat so the WAR runs on external Tomcat server -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Jackson for JSON file persistence -->
