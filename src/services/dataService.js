@@ -6,7 +6,7 @@ import { liteFeatures as DEFAULT_LITE_FEATURES, liteIndustries as DEFAULT_LITE_I
 import { awmModules as DEFAULT_AWM_MODULES, awmClients as DEFAULT_AWM_CLIENTS } from '../data/awmData';
 import { CLOUD_WEBHOOK_URL } from '../utils/excelExport';
 
-let BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://www.aasaanerp.com/api';
+let BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://aasaan-erp-backend.onrender.com/api';
 let serverBackendType = 'Java Spring Boot (Port 8080)';
 
 // Initial pre-seeded industry articles (used as defaults if server or storage is fresh)
