@@ -10,7 +10,13 @@ public class WebCorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOriginPatterns("*")
+                .allowedOriginPatterns(
+                    "https://www.aasaanerp.com",
+                    "https://aasaanerp.com",
+                    "http://localhost:*",
+                    "https://aasaan-erp-backend.onrender.com",
+                    "https://adityasemwal04-arch.github.io"
+                )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "PATCH")
                 .allowedHeaders("*")
                 .allowCredentials(false)
