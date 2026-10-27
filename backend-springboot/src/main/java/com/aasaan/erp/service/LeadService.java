@@ -127,7 +127,58 @@ public class LeadService {
         // Add to top of list
         inMemoryLeads.add(0, lead);
         saveToFile();
+
+        // Dual-redundancy: Also forward lead directly from server to Official Aasaan API
+        // (Guarantees delivery even if user has ad-blockers/firewalls blocking erplite.aasaan.in)
+        forwardToOfficialAasaanApiAsync(lead);
+
         return lead;
+    }
+
+    private void forwardToOfficialAasaanApiAsync(Lead lead) {
+        java.util.concurrent.CompletableFuture.runAsync(() -> {
+            try {
+                String phone = lead.getPhone() != null ? lead.getPhone().trim() : "";
+                String rawDigits = phone.replaceAll("\\D", "");
+                String rawMobile = rawDigits.length() == 10 ? rawDigits : phone;
+                String solution = lead.getSolution() != null && !lead.getSolution().isBlank()
+                        ? lead.getSolution()
+                        : "Aasaan Enterprises";
+                String reqText = (lead.getMessage() != null && !lead.getMessage().isBlank())
+                        ? "[Product: " + solution + "] " + lead.getMessage()
+                        : "Requested demo for " + solution;
+
+                Map<String, Object> payload = new HashMap<>();
+                payload.put("name", lead.getName() != null ? lead.getName() : "");
+                payload.put("prefix", "Mr.");
+                payload.put("mobile", rawMobile);
+                payload.put("phone", phone);
+                payload.put("email", lead.getEmail() != null ? lead.getEmail() : "");
+                payload.put("company", lead.getCompany() != null ? lead.getCompany() : "");
+                payload.put("address", lead.getCountry() != null ? lead.getCountry() : "India");
+                payload.put("pincode", "110026");
+                payload.put("website", "");
+                payload.put("gstin", "");
+                payload.put("requirement", reqText);
+                payload.put("leadStatus", "New");
+                payload.put("industry", solution);
+
+                String json = objectMapper.writeValueAsString(payload);
+
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create("https://erplite.aasaan.in/rest/import_leads_into_aasaan?id=iNmozr7dtS2mWFJfIrjgUQ"))
+                        .header("Content-Type", "application/json")
+                        .header("apikey", "CE114E4501D2F4E2DCEA3E17B546F339")
+                        .POST(HttpRequest.BodyPublishers.ofString(json, StandardCharsets.UTF_8))
+                        .build();
+
+                HttpResponse<String> resp = client.send(request, HttpResponse.BodyHandlers.ofString());
+                System.out.println("✅ Server-side lead dispatched to Aasaan Official API: " + resp.statusCode() + " - " + resp.body());
+            } catch (Exception e) {
+                System.err.println("⚠️ Could not forward lead to Aasaan Official API: " + e.getMessage());
+            }
+        });
     }
 
     public synchronized Optional<Lead> updateLead(Long id, Lead updatedData) {
