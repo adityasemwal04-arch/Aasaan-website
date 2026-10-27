@@ -5,11 +5,12 @@ COPY pom.xml .
 RUN mvn dependency:go-offline -B
 COPY src ./src
 RUN mvn clean package -DskipTests
+RUN cp /app/target/aasaan-erp-backend-1.0.0.war /app/target/app.war 2>/dev/null || cp /app/target/aasaan-erp-backend-1.0.0.jar /app/target/app.war
 
 # Lightweight runtime container
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
-COPY --from=build /app/target/aasaan-erp-backend-1.0.0.jar app.jar
+COPY --from=build /app/target/app.war app.war
 ENV PORT=8080
 EXPOSE 8080
-ENTRYPOINT ["java", "-Dserver.port=${PORT}", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Dserver.port=${PORT}", "-jar", "app.war"]
