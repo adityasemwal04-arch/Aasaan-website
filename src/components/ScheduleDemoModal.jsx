@@ -10,6 +10,10 @@ import {
 } from '../utils/validationHelper';
 
 export default function ScheduleDemoModal({ isOpen, onClose, initialSolution }) {
+  const safeInitialSolution = (typeof initialSolution === 'string' && initialSolution.trim().length > 0)
+    ? initialSolution
+    : 'Aasaan ERP Enterprise';
+
   const [formData, setFormData] = useState({
     name: '',
     company: '',
@@ -17,12 +21,12 @@ export default function ScheduleDemoModal({ isOpen, onClose, initialSolution }) 
     phone: '',
     country: 'India',
     state: 'Delhi NCR',
-    solution: initialSolution || 'Aasaan ERP Enterprise',
+    solution: safeInitialSolution,
     message: ''
   });
 
   useEffect(() => {
-    if (initialSolution) {
+    if (typeof initialSolution === 'string' && initialSolution.trim().length > 0) {
       setFormData(prev => ({ ...prev, solution: initialSolution }));
     }
   }, [initialSolution, isOpen]);
@@ -206,8 +210,13 @@ export default function ScheduleDemoModal({ isOpen, onClose, initialSolution }) 
     isSubmittingRef.current = true;
     setIsSyncing(true);
 
+    const solutionStr = (typeof formData.solution === 'string' && formData.solution.trim().length > 0)
+      ? formData.solution
+      : 'Aasaan ERP Enterprise';
+
     const formattedLead = {
       ...formData,
+      solution: solutionStr,
       phone: phoneRes.formatted || `${countryCode} ${formData.phone}`,
       rawPhone: phoneRes.cleanDigits || formData.phone,
       countryCode,
@@ -392,7 +401,7 @@ export default function ScheduleDemoModal({ isOpen, onClose, initialSolution }) 
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '13px', color: '#334155' }}>
                   <div><strong>Company:</strong> {formData.company || 'N/A'}</div>
-                  <div><strong>Solution:</strong> {formData.solution}</div>
+                  <div><strong>Solution:</strong> {typeof formData.solution === 'string' ? formData.solution : 'Aasaan ERP Enterprise'}</div>
                   <div><strong>Email:</strong> {formData.email}</div>
                   <div><strong>Phone:</strong> {formData.phone}</div>
                   {countryCode === '+91' && <div><strong>State / Region:</strong> {selectedState}</div>}

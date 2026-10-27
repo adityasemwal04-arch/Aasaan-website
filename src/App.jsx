@@ -28,7 +28,8 @@ export default function App() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const handleOpenDemo = (solution = null) => {
-    if (solution) {
+    const isStringSolution = typeof solution === 'string' && solution.trim().length > 0;
+    if (isStringSolution) {
       setDemoInitialSolution(solution);
     } else if (currentPage === 'lite') {
       setDemoInitialSolution('Aasaan ERP Lite');

@@ -17,7 +17,9 @@ const PARTNER_SOLUTIONS = [
 ];
 
 export default function PartnershipModal({ isOpen, onClose, initialSolution }) {
-  const defaultSolution = initialSolution || 'Reseller Partner';
+  const defaultSolution = (typeof initialSolution === 'string' && initialSolution.trim().length > 0)
+    ? initialSolution
+    : 'Reseller Partner';
 
   const [formData, setFormData] = useState({
     name: '',
@@ -32,9 +34,12 @@ export default function PartnershipModal({ isOpen, onClose, initialSolution }) {
 
   useEffect(() => {
     if (isOpen) {
+      const sol = (typeof initialSolution === 'string' && initialSolution.trim().length > 0)
+        ? initialSolution
+        : 'Reseller Partner';
       setFormData((prev) => ({
         ...prev,
-        solution: initialSolution || 'Reseller Partner',
+        solution: sol,
       }));
     }
   }, [initialSolution, isOpen]);
@@ -147,8 +152,13 @@ export default function PartnershipModal({ isOpen, onClose, initialSolution }) {
     isSubmittingRef.current = true;
     setIsSyncing(true);
 
+    const solutionStr = (typeof formData.solution === 'string' && formData.solution.trim().length > 0)
+      ? formData.solution
+      : 'Reseller Partner';
+
     const formattedLead = {
       ...formData,
+      solution: solutionStr,
       phone: phoneRes.formatted || `${countryCode} ${formData.phone}`,
       rawPhone: phoneRes.cleanDigits || formData.phone,
       countryCode,
@@ -277,7 +287,7 @@ export default function PartnershipModal({ isOpen, onClose, initialSolution }) {
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '13px', color: '#334155' }}>
                   <div><strong>Company:</strong> {formData.company || 'N/A'}</div>
-                  <div><strong>Partnership Type:</strong> {formData.solution}</div>
+                  <div><strong>Partnership Type:</strong> {typeof formData.solution === 'string' ? formData.solution : 'Reseller Partner'}</div>
                   <div><strong>Email:</strong> {formData.email}</div>
                   <div><strong>Phone:</strong> {formData.phone}</div>
                   {countryCode === '+91' && <div><strong>State:</strong> {selectedState}</div>}
