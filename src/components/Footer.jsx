@@ -85,7 +85,7 @@ export default function Footer({ onOpenDemo, onNavigate }) {
               {[
                 { href: 'https://www.facebook.com/aasaanerp/', icon: 'fab fa-facebook-f' },
                 { href: 'https://www.instagram.com/aasaanerp/', icon: 'fab fa-instagram' },
-                { href: 'https://www.linkedin.com/company/aasaanerpawm/posts/?feedView=all', icon: 'fab fa-linkedin-in' },
+                { href: 'https://www.linkedin.com/company/aasaanerp/', icon: 'fab fa-linkedin-in' },
                 { href: 'https://twitter.com/aasaanservices', icon: 'fab fa-twitter' },
                 { href: 'https://www.youtube.com/@aasaanerp', icon: 'fab fa-youtube' },
               ].map((s, i) => (
