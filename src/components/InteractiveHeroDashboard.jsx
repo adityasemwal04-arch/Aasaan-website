@@ -85,7 +85,8 @@ export default function InteractiveHeroDashboard({ onOpenDemo, onNavigate }) {
         'Streamlined Logistics & Bulk Order Tracking'
       ],
       pageRoute: null,
-      ctaText: 'Schedule Mart Demo'
+      externalUrl: 'https://erplite.aasaan.in/aasaanmart',
+      ctaText: 'Explore Aasaan Mart'
     }
   };
 
@@ -93,7 +94,9 @@ export default function InteractiveHeroDashboard({ onOpenDemo, onNavigate }) {
   const CurrentIcon = current.icon;
 
   const handleAction = () => {
-    if (current.pageRoute && onNavigate) {
+    if (current.externalUrl) {
+      window.open(current.externalUrl, '_blank', 'noopener,noreferrer');
+    } else if (current.pageRoute && onNavigate) {
       onNavigate(current.pageRoute);
     } else if (onOpenDemo) {
       onOpenDemo(current.name);
