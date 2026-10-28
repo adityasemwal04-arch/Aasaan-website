@@ -7,6 +7,29 @@
  */
 export const CLOUD_WEBHOOK_URL = import.meta.env.VITE_SHEET_WEBHOOK_URL || 'https://script.google.com/macros/s/AKfycbzkJ8DcO5JsyIqGKjIrljot8Eovnbe7_XElT7bYLcXU3XgAUTLjdlEb_38hXNP4Xeo3uQ/exec';
 
+export function getCloudWebhookSettings() {
+  try {
+    const raw = localStorage.getItem('aasaan_sheet_webhook_settings');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      return {
+        enabled: parsed.enabled !== false,
+        url: typeof parsed.url === 'string' ? parsed.url : CLOUD_WEBHOOK_URL
+      };
+    }
+  } catch (e) {}
+  return {
+    enabled: true,
+    url: CLOUD_WEBHOOK_URL
+  };
+}
+
+export function saveCloudWebhookSettings(settings) {
+  try {
+    localStorage.setItem('aasaan_sheet_webhook_settings', JSON.stringify(settings));
+  } catch (e) {}
+}
+
 export const LOCAL_ONEDRIVE_PATHS = [
   'C:\\Users\\adity\\OneDrive\\Aasaan_ERP_Demo_Queries.xlsx',
   'C:\\Users\\adity\\OneDrive\\Desktop\\AasaanERPWebsite\\Aasaan_ERP_Demo_Queries.xlsx'
@@ -97,10 +120,16 @@ export async function syncLeadToBackend(leadData) {
   let syncedLocal = false;
 
   // 1. Send to Cloud Webhook (Accessible globally from any browser / mobile device)
-  if (CLOUD_WEBHOOK_URL && CLOUD_WEBHOOK_URL.trim() !== '') {
+  const webhookConfig = getCloudWebhookSettings();
+  const effectiveWebhookUrl = (webhookConfig && typeof webhookConfig.url === 'string')
+    ? webhookConfig.url.trim()
+    : CLOUD_WEBHOOK_URL;
+  const isWebhookActive = webhookConfig ? webhookConfig.enabled !== false : true;
+
+  if (isWebhookActive && effectiveWebhookUrl && effectiveWebhookUrl !== '') {
     try {
       // mode: 'no-cors' allows sending to Google Apps Script / Power Automate without CORS issues
-      await fetch(CLOUD_WEBHOOK_URL, {
+      await fetch(effectiveWebhookUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain;charset=utf-8'

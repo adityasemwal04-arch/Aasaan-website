@@ -70,6 +70,7 @@ import {
   formatQueryDate
 } from '../services/dataService';
 import { getRoutePath } from '../utils/navigation';
+import { getCloudWebhookSettings, saveCloudWebhookSettings, CLOUD_WEBHOOK_URL } from '../utils/excelExport';
 import AasaanLogo from '../components/AasaanLogo';
 
 export default function AdminDashboardPage({ onNavigate }) {
@@ -185,6 +186,12 @@ export default function AdminDashboardPage({ onNavigate }) {
   const [notificationMsg, setNotificationMsg] = useState('');
   const [isTestingNotif, setIsTestingNotif] = useState(false);
   const [testNotifMsg, setTestNotifMsg] = useState('');
+
+  // Google Sheets Webhook settings
+  const [sheetWebhookUrl, setSheetWebhookUrl] = useState(() => getCloudWebhookSettings().url || CLOUD_WEBHOOK_URL);
+  const [sheetWebhookEnabled, setSheetWebhookEnabled] = useState(() => getCloudWebhookSettings().enabled !== false);
+  const [sheetWebhookMsg, setSheetWebhookMsg] = useState('');
+  const [showCleanScript, setShowCleanScript] = useState(false);
 
   useEffect(() => {
     const auth = getAdminAuth();
@@ -535,6 +542,16 @@ export default function AdminDashboardPage({ onNavigate }) {
       setIsTestingNotif(false);
       setTimeout(() => setTestNotifMsg(''), 7000);
     }
+  };
+
+  const handleSaveSheetWebhookSettings = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    saveCloudWebhookSettings({
+      enabled: sheetWebhookEnabled,
+      url: sheetWebhookUrl.trim()
+    });
+    setSheetWebhookMsg(sheetWebhookEnabled ? 'Google Sheets Webhook saved and active!' : 'Google Sheets Webhook disabled! External Apps Script will not be called.');
+    setTimeout(() => setSheetWebhookMsg(''), 6000);
   };
 
   // Announcement handlers
@@ -2420,6 +2437,165 @@ export default function AdminDashboardPage({ onNavigate }) {
                 <p style={{ margin: '12px 0 0', fontSize: '12px', color: '#64748B', lineHeight: 1.5 }}>
                   💡 <strong>How it works:</strong> In addition to posting directly to Aasaan ERP Lite API, each incoming lead instantly dispatches a full summary email (Lead Name, Company, Mobile, Solution, Requirement, Date/Time) directly to these configured recipient addresses using your configured official sender address. Only admin portal users can view or update these settings.
                 </p>
+              </form>
+            </div>
+
+            {/* Google Sheets & Cloud Webhook Integration */}
+            <div style={{ background: '#FFFFFF', padding: '28px', borderRadius: '16px', border: '1px solid var(--border-medium)', marginBottom: '24px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 800 }}>Google Sheets Cloud Webhook Integration</h3>
+                <span style={{
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  padding: '3px 10px',
+                  borderRadius: '12px',
+                  background: sheetWebhookEnabled ? '#ECFDF5' : '#FEF2F2',
+                  color: sheetWebhookEnabled ? '#059669' : '#DC2626',
+                  border: `1px solid ${sheetWebhookEnabled ? '#A7F3D0' : '#FECACA'}`
+                }}>
+                  {sheetWebhookEnabled ? 'Active' : 'Disabled'}
+                </span>
+              </div>
+              <p style={{ margin: '0 0 16px', fontSize: '13.5px', color: '#64748B', lineHeight: 1.5 }}>
+                Sync incoming website demo inquiries directly into your online Google Sheet in real-time.
+              </p>
+
+              {/* Crucial Note on Personal Gmail Senders */}
+              <div style={{
+                background: '#FEF3C7',
+                border: '1px solid #FCD34D',
+                borderRadius: '8px',
+                padding: '12px 14px',
+                marginBottom: '16px',
+                fontSize: '12.5px',
+                color: '#92400E',
+                lineHeight: 1.5
+              }}>
+                <strong>⚠️ Why notification emails came from adityasemwal04@gmail.com:</strong>
+                <div style={{ marginTop: '4px' }}>
+                  The Google Apps Script deployed in your Google Sheet runs entirely on Google's cloud servers under whichever Google account authorized it (<code>adityasemwal04@gmail.com</code>). Because the old script contained <code>MailApp.sendEmail</code>, Google automatically dispatches emails from that Google account.
+                </div>
+                <div style={{ marginTop: '6px', fontWeight: 600 }}>
+                  To ensure NO emails are ever sent from personal Gmail:
+                  <ul style={{ margin: '4px 0 0 16px', padding: 0 }}>
+                    <li><strong>Option 1 (Instant):</strong> Uncheck the box below to disable Google Sheets webhook sync. (All leads will still be captured in ERP Lite API and this Admin portal, and alerts are sent via official email).</li>
+                    <li><strong>Option 2:</strong> In your Google Sheet, click <strong>Extensions &gt; Apps Script</strong>, replace the script with the <em>Clean Sync Script</em> (provided below), and click <strong>Deploy</strong>. That script ONLY records rows and never sends emails!</li>
+                  </ul>
+                </div>
+              </div>
+
+              {sheetWebhookMsg && (
+                <div style={{
+                  background: sheetWebhookEnabled ? '#ECFDF5' : '#FEF2F2',
+                  color: sheetWebhookEnabled ? '#065F46' : '#991B1B',
+                  border: `1px solid ${sheetWebhookEnabled ? '#A7F3D0' : '#FECACA'}`,
+                  padding: '10px 14px',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  marginBottom: '16px'
+                }}>
+                  {sheetWebhookMsg}
+                </div>
+              )}
+
+              <form onSubmit={handleSaveSheetWebhookSettings}>
+                <div style={{ marginBottom: '14px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '13.5px', fontWeight: 700, color: '#1E293B', marginBottom: '8px' }}>
+                    <input
+                      type="checkbox"
+                      checked={sheetWebhookEnabled}
+                      onChange={(e) => setSheetWebhookEnabled(e.target.checked)}
+                      style={{ width: '16px', height: '16px', cursor: 'pointer', accentColor: 'var(--primary-blue)' }}
+                    />
+                    Enable Google Sheets Webhook Sync
+                  </label>
+                  <input
+                    type="url"
+                    value={sheetWebhookUrl}
+                    onChange={(e) => setSheetWebhookUrl(e.target.value)}
+                    placeholder="https://script.google.com/macros/s/.../exec"
+                    disabled={!sheetWebhookEnabled}
+                    style={{
+                      width: '100%',
+                      padding: '10px 14px',
+                      borderRadius: '8px',
+                      border: '1px solid var(--border-medium)',
+                      fontSize: '13px',
+                      outline: 'none',
+                      boxSizing: 'border-box',
+                      opacity: sheetWebhookEnabled ? 1 : 0.6,
+                      background: sheetWebhookEnabled ? '#FFFFFF' : '#F1F5F9'
+                    }}
+                  />
+                </div>
+
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <button
+                    type="submit"
+                    style={{
+                      background: 'var(--primary-blue)',
+                      color: '#FFFFFF',
+                      border: 'none',
+                      padding: '10px 18px',
+                      borderRadius: '8px',
+                      fontSize: '13px',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px'
+                    }}
+                  >
+                    <Save size={14} /> Save Webhook Settings
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setShowCleanScript((prev) => !prev)}
+                    style={{
+                      background: '#F1F5F9',
+                      color: '#334155',
+                      border: '1px solid #CBD5E1',
+                      padding: '10px 16px',
+                      borderRadius: '8px',
+                      fontSize: '13px',
+                      fontWeight: 600,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {showCleanScript ? 'Hide Clean Apps Script Code' : 'View Clean Apps Script Code (No Emails)'}
+                  </button>
+                </div>
+
+                {showCleanScript && (
+                  <div style={{ marginTop: '14px', background: '#0F172A', color: '#E2E8F0', padding: '14px', borderRadius: '8px', fontSize: '12px', fontFamily: 'monospace', overflowX: 'auto' }}>
+                    <div style={{ color: '#94A3B8', marginBottom: '8px', fontWeight: 600 }}>
+                      // Paste this in Google Sheets (Extensions &gt; Apps Script) to record leads without sending any personal emails:
+                    </div>
+                    <pre style={{ margin: 0, whiteSpace: 'pre-wrap' }}>{`function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = JSON.parse(e.postData.contents);
+    var timestamp = data.timestamp || Utilities.formatDate(new Date(), "Asia/Kolkata", "dd/MM/yyyy, hh:mm:ss a");
+    sheet.appendRow([
+      timestamp,
+      data.name || "N/A",
+      data.company || "N/A",
+      data.email || "N/A",
+      data.phone || data.mobile || "N/A",
+      data.solution || "Aasaan Enterprises",
+      data.country || "India",
+      data.message || "N/A",
+      data.status || "New Demo Lead"
+    ]);
+    return ContentService.createTextOutput(JSON.stringify({ status: "success" })).setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: err.toString() })).setMimeType(ContentService.MimeType.JSON);
+  }
+}`}</pre>
+                  </div>
+                )}
               </form>
             </div>
 
