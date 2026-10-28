@@ -3,6 +3,7 @@ package com.aasaan.erp.service;
 import com.aasaan.erp.model.Lead;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,9 @@ public class LeadService {
 
     @Value("${aasaan.data.dir:./data}")
     private String dataDirPath;
+
+    @Autowired(required = false)
+    private EmailService emailService;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private File leadsFile;
@@ -131,6 +135,11 @@ public class LeadService {
         // Dual-redundancy: Also forward lead directly from server to Official Aasaan API
         // (Guarantees delivery even if user has ad-blockers/firewalls blocking erplite.aasaan.in)
         forwardToOfficialAasaanApiAsync(lead);
+
+        // Dispatch official SMTP notification email directly from care@aasaanservices.in
+        if (emailService != null) {
+            emailService.sendLeadNotificationEmailAsync(lead);
+        }
 
         return lead;
     }

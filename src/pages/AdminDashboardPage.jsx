@@ -162,12 +162,12 @@ export default function AdminDashboardPage({ onNavigate }) {
       const saved = localStorage.getItem('aasaan_notification_settings');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed.senderEmail && typeof parsed.senderEmail === 'string' && parsed.senderEmail.trim()) {
+        if (parsed.senderEmail && typeof parsed.senderEmail === 'string' && parsed.senderEmail.trim() && parsed.senderEmail !== 'contactus@aasaanservices.in') {
           return parsed.senderEmail.trim();
         }
       }
     } catch (e) {}
-    return 'contactus@aasaanservices.in';
+    return 'care@aasaanservices.in';
   });
   // Input field for typing a new email to add
   const [notifEmailInput, setNotifEmailInput] = useState('');
@@ -2251,7 +2251,7 @@ export default function AdminDashboardPage({ onNavigate }) {
                     </span>
                   </div>
                   <p style={{ margin: '0 0 10px', fontSize: '12.5px', color: '#64748B', lineHeight: 1.45 }}>
-                    The official email address shown as the sender and reply-to on all outgoing customer demo lead notification alerts (e.g. <strong>contactus@aasaanservices.in</strong>). You can update this address anytime from here.
+                    The official email address shown as the sender and reply-to on all outgoing customer demo lead alerts (active SMTP sender: <strong>care@aasaanservices.in</strong> via Gmail TLS).
                   </p>
                   <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                     <div style={{ position: 'relative', flex: 1 }}>
@@ -2260,7 +2260,7 @@ export default function AdminDashboardPage({ onNavigate }) {
                         type="email"
                         value={senderEmail}
                         onChange={(e) => setSenderEmail(e.target.value)}
-                        placeholder="e.g. contactus@aasaanservices.in"
+                        placeholder="e.g. care@aasaanservices.in"
                         style={{
                           width: '100%',
                           padding: '10px 14px 10px 38px',

@@ -2164,9 +2164,9 @@ const DEFAULT_NOTIFICATION_EMAILS = [
 const DEFAULT_NOTIFICATION_SETTINGS = {
   recipientEmail: DEFAULT_NOTIFICATION_EMAILS.join(', '),
   recipientEmails: DEFAULT_NOTIFICATION_EMAILS,
-  senderEmail: 'contactus@aasaanservices.in',
+  senderEmail: 'care@aasaanservices.in',
   enabled: true,
-  companyAlertEmail: 'contactus@aasaanservices.in'
+  companyAlertEmail: 'care@aasaanservices.in'
 };
 
 export async function getNotificationSettings() {
@@ -2306,6 +2306,21 @@ export async function sendLeadEmailNotification(leadData, recipientEmailOverride
  * Sends a test lead notification email from admin portal
  */
 export async function sendTestNotification(recipientEmail) {
+  // 1. Try official Spring Boot backend SMTP service directly
+  try {
+    const res = await fetch(`${BACKEND_URL}/settings/notifications/test`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ recipient: recipientEmail })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return { success: true, backend: true, message: data.message };
+    }
+  } catch (e) {
+    console.warn('Backend SMTP test failed, using direct client dispatch:', e.message);
+  }
+
   const sampleLead = {
     name: 'Sample Test Lead (Admin Verification)',
     company: 'Aasaan Tech Demo Org',

@@ -88,8 +88,8 @@ export async function syncLeadToBackend(leadData) {
   const rawDigits = (leadData.phone || '').replace(/\D/g, '') || leadData.rawPhone || '';
   const safePhone = leadData.phone ? ('\'' + leadData.phone) : rawDigits;
 
-  let configuredSender = 'contactus@aasaanservices.in';
-  let configuredRecipients = 'contactus@aasaanservices.in, neha@aasaan.in, aditya@aasaan.in';
+  let configuredSender = 'care@aasaanservices.in';
+  let configuredRecipients = 'care@aasaanservices.in, aditya@aasaan.in, contactus@aasaanservices.in, neha@aasaan.in';
   try {
     const rawNotif = localStorage.getItem('aasaan_notification_settings');
     if (rawNotif) {
