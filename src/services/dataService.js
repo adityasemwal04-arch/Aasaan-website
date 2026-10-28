@@ -2176,6 +2176,10 @@ export async function getNotificationSettings() {
     const raw = localStorage.getItem('aasaan_notification_settings');
     if (raw) {
       localSettings = JSON.parse(raw);
+      if (localSettings && (localSettings.senderEmail === 'contactus@aasaanservices.in' || !localSettings.senderEmail)) {
+        localSettings.senderEmail = 'care@aasaanservices.in';
+        localStorage.setItem('aasaan_notification_settings', JSON.stringify(localSettings));
+      }
     }
   } catch (e) {}
 
@@ -2190,6 +2194,9 @@ export async function getNotificationSettings() {
       if (data && (data.recipientEmails || data.recipientEmail)) {
         // If local has custom settings saved by admin, preserve them
         const merged = { ...DEFAULT_NOTIFICATION_SETTINGS, ...data, ...(localSettings || {}) };
+        if (merged.senderEmail === 'contactus@aasaanservices.in' || !merged.senderEmail) {
+          merged.senderEmail = 'care@aasaanservices.in';
+        }
         localStorage.setItem('aasaan_notification_settings', JSON.stringify(merged));
         return merged;
       }

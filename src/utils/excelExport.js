@@ -5,7 +5,8 @@
  * When someone submits the form from ANYWHERE in the world (mobile, remote laptop, live deployment),
  * the website posts the query to this webhook, appending a new row to your cloud Excel / Google sheet in real-time.
  */
-export const CLOUD_WEBHOOK_URL = import.meta.env.VITE_SHEET_WEBHOOK_URL || 'https://script.google.com/macros/s/AKfycbzkJ8DcO5JsyIqGKjIrljot8Eovnbe7_XElT7bYLcXU3XgAUTLjdlEb_38hXNP4Xeo3uQ/exec';
+// Cloud Spreadsheet Webhook URL (disabled by default so old personal Google Apps Scripts do not trigger)
+export const CLOUD_WEBHOOK_URL = import.meta.env.VITE_SHEET_WEBHOOK_URL || '';
 
 export function getCloudWebhookSettings() {
   try {
@@ -13,14 +14,14 @@ export function getCloudWebhookSettings() {
     if (raw) {
       const parsed = JSON.parse(raw);
       return {
-        enabled: parsed.enabled !== false,
-        url: typeof parsed.url === 'string' ? parsed.url : CLOUD_WEBHOOK_URL
+        enabled: parsed.enabled === true,
+        url: typeof parsed.url === 'string' ? parsed.url.trim() : ''
       };
     }
   } catch (e) {}
   return {
-    enabled: true,
-    url: CLOUD_WEBHOOK_URL
+    enabled: false,
+    url: ''
   };
 }
 

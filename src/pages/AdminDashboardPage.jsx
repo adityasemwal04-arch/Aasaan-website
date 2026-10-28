@@ -187,9 +187,9 @@ export default function AdminDashboardPage({ onNavigate }) {
   const [isTestingNotif, setIsTestingNotif] = useState(false);
   const [testNotifMsg, setTestNotifMsg] = useState('');
 
-  // Google Sheets Webhook settings
-  const [sheetWebhookUrl, setSheetWebhookUrl] = useState(() => getCloudWebhookSettings().url || CLOUD_WEBHOOK_URL);
-  const [sheetWebhookEnabled, setSheetWebhookEnabled] = useState(() => getCloudWebhookSettings().enabled !== false);
+  // Google Sheets Webhook settings (Disabled by default so old personal Apps Script never fires)
+  const [sheetWebhookUrl, setSheetWebhookUrl] = useState(() => getCloudWebhookSettings().url || '');
+  const [sheetWebhookEnabled, setSheetWebhookEnabled] = useState(() => getCloudWebhookSettings().enabled === true);
   const [sheetWebhookMsg, setSheetWebhookMsg] = useState('');
   const [showCleanScript, setShowCleanScript] = useState(false);
 
@@ -244,7 +244,10 @@ export default function AdminDashboardPage({ onNavigate }) {
         }
         if (typeof notif.enabled === 'boolean') setNotificationsEnabled(notif.enabled);
         if (notif.senderEmail && typeof notif.senderEmail === 'string' && notif.senderEmail.trim()) {
-          setSenderEmail(notif.senderEmail.trim());
+          const s = notif.senderEmail.trim();
+          setSenderEmail(s === 'contactus@aasaanservices.in' ? 'care@aasaanservices.in' : s);
+        } else {
+          setSenderEmail('care@aasaanservices.in');
         }
       }
     });
