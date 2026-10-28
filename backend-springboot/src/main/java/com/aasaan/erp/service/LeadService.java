@@ -139,6 +139,7 @@ public class LeadService {
         // Dispatch official SMTP notification email directly from care@aasaanservices.in
         if (emailService != null) {
             emailService.sendLeadNotificationEmailAsync(lead);
+            emailService.sendClientConfirmationEmailAsync(lead);
         }
 
         return lead;

@@ -111,6 +111,90 @@ public class EmailService {
     }
 
     /**
+     * Dispatches automated confirmation / thank-you email directly to the client
+     */
+    public void sendClientConfirmationEmailAsync(Lead lead) {
+        java.util.concurrent.CompletableFuture.runAsync(() -> {
+            try {
+                sendClientConfirmationEmail(lead);
+            } catch (Exception e) {
+                System.err.println("⚠️ [EmailService] Failed to send client confirmation email: " + e.getMessage());
+            }
+        });
+    }
+
+    public boolean sendClientConfirmationEmail(Lead lead) {
+        if (mailSender == null) {
+            return false;
+        }
+
+        String clientEmail = lead.getEmail() != null ? lead.getEmail().trim() : "";
+        if (clientEmail.isBlank() || !clientEmail.contains("@")) {
+            System.out.println("ℹ️ [EmailService] Skipping client confirmation email: invalid or missing email.");
+            return false;
+        }
+
+        String clientName = lead.getName() != null && !lead.getName().isBlank() ? lead.getName() : "Valued Customer";
+        String clientCompany = lead.getCompany() != null && !lead.getCompany().isBlank() ? lead.getCompany() : "your organization";
+        String clientSolution = lead.getSolution() != null && !lead.getSolution().isBlank() ? lead.getSolution() : "Aasaan ERP";
+        String clientPhone = lead.getPhone() != null && !lead.getPhone().isBlank() ? lead.getPhone() : "N/A";
+        String clientMessage = lead.getMessage() != null && !lead.getMessage().isBlank() ? lead.getMessage() : "";
+
+        String subject = "Thank You for Contacting Aasaan ERP - Demo Request Received";
+
+        String htmlBody = "<div style=\"font-family: Arial, Helvetica, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #E2E8F0; border-radius: 12px; overflow: hidden; color: #1E293B;\">"
+                + "<div style=\"background: #0B1329; color: #FFFFFF; padding: 24px 28px; text-align: left;\">"
+                + "<h2 style=\"margin: 0; font-size: 20px; font-weight: 800; color: #FFFFFF;\">Aasaan ERP</h2>"
+                + "<p style=\"margin: 6px 0 0; font-size: 13px; color: #94A3B8;\">Next-Generation Cloud ERP & Enterprise Solutions</p>"
+                + "</div>"
+                + "<div style=\"padding: 28px;\">"
+                + "<p style=\"font-size: 15px; line-height: 1.5; margin-top: 0;\">Hi <strong>" + clientName + "</strong>,</p>"
+                + "<p style=\"font-size: 14.5px; line-height: 1.6; color: #334155;\">"
+                + "Thank you for registering and submitting your query for <strong>" + clientSolution + "</strong>. "
+                + "We have safely received your request, and our solution engineering team will shortly get back to you within <strong>2 business hours</strong>."
+                + "</p>"
+                + "<div style=\"background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 16px; margin: 20px 0;\">"
+                + "<div style=\"font-size: 12px; font-weight: 700; color: #2563EB; text-transform: uppercase; margin-bottom: 8px;\">Your Submission Summary</div>"
+                + "<div style=\"font-size: 13.5px; line-height: 1.6; color: #475569;\">"
+                + "• <strong>Company:</strong> " + clientCompany + "<br>"
+                + "• <strong>Product / Solution:</strong> " + clientSolution + "<br>"
+                + "• <strong>Phone / WhatsApp:</strong> " + clientPhone + "<br>"
+                + (clientMessage.isBlank() ? "" : "• <strong>Requirements:</strong> " + clientMessage + "<br>")
+                + "</div>"
+                + "</div>"
+                + "<p style=\"font-size: 14px; line-height: 1.5; color: #475569;\">"
+                + "If you have any urgent queries, simply reply directly to this email or reach us at <a href=\"mailto:care@aasaanservices.in\" style=\"color: #2563EB; text-decoration: none;\">care@aasaanservices.in</a>."
+                + "</p>"
+                + "<hr style=\"border: none; border-top: 1px solid #E2E8F0; margin: 24px 0;\">"
+                + "<p style=\"font-size: 13px; color: #64748B; margin-bottom: 0;\">"
+                + "Best regards,<br>"
+                + "<strong>Aasaan ERP Solutions Team</strong><br>"
+                + "Aasaan Services Solutions Pvt Ltd<br>"
+                + "<a href=\"https://www.aasaanerp.com\" style=\"color: #2563EB; text-decoration: none;\">www.aasaanerp.com</a>"
+                + "</p>"
+                + "</div>"
+                + "</div>";
+
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setFrom(defaultSenderEmail, "Aasaan ERP Team");
+            helper.setTo(clientEmail);
+            helper.setReplyTo(defaultSenderEmail, "Aasaan ERP Team");
+            helper.setSubject(subject);
+            helper.setText(htmlBody, true);
+
+            mailSender.send(message);
+            System.out.println("✅ [EmailService] Client confirmation email sent to: " + clientEmail + " via " + defaultSenderEmail);
+            return true;
+        } catch (Exception ex) {
+            System.err.println("❌ [EmailService] Error dispatching client confirmation email: " + ex.getMessage());
+            return false;
+        }
+    }
+
+    /**
      * Sends a test alert email to verify SMTP configuration
      */
     public boolean sendTestEmail(String recipient) {
