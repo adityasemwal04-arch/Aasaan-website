@@ -2164,6 +2164,7 @@ const DEFAULT_NOTIFICATION_EMAILS = [
 const DEFAULT_NOTIFICATION_SETTINGS = {
   recipientEmail: DEFAULT_NOTIFICATION_EMAILS.join(', '),
   recipientEmails: DEFAULT_NOTIFICATION_EMAILS,
+  senderEmail: 'contactus@aasaanservices.in',
   enabled: true,
   companyAlertEmail: 'contactus@aasaanservices.in'
 };
@@ -2252,6 +2253,9 @@ export async function sendLeadEmailNotification(leadData, recipientEmailOverride
 
     if (targetEmails.length === 0) targetEmails = DEFAULT_NOTIFICATION_EMAILS;
 
+    const senderEmail = (settings.senderEmail && typeof settings.senderEmail === 'string' && settings.senderEmail.trim())
+      ? settings.senderEmail.trim()
+      : 'contactus@aasaanservices.in';
     const timestamp = leadData.timestamp || new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 
     // Use FormSubmit AJAX service - sends formatted email directly to recipientEmail with zero setup needed
@@ -2259,6 +2263,9 @@ export async function sendLeadEmailNotification(leadData, recipientEmailOverride
       _subject: `New Aasaan ERP Lead: ${leadData.name || 'Anonymous'} (${leadData.company || 'Not Specified'})`,
       _template: 'table',
       _captcha: 'false',
+      _replyto: senderEmail,
+      _from: `Aasaan ERP <${senderEmail}>`,
+      "Notification Sender": senderEmail,
       "Lead Name": leadData.name || 'N/A',
       "Company Name": leadData.company || 'N/A',
       "Work Email": leadData.email || 'N/A',

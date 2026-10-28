@@ -87,8 +87,9 @@ function doPost(e) {
         name: "Aasaan ERP Team"
       });
 
-      // 3. Also notify Admin inbox immediately
-      var adminEmail = "adityasemwal04@gmail.com";
+      // 3. Also notify Admin inbox immediately (Dynamic recipients configured via Admin Dashboard)
+      var adminEmail = data.recipientEmails || data.recipientEmail || "contactus@aasaanservices.in";
+      var senderReplyTo = data.senderEmail || "contactus@aasaanservices.in";
       var adminSubject = "🚨 New Aasaan ERP Demo Request: " + clientName + " (" + clientCompany + ")";
       var adminBody = "New Demo Lead Submitted from Website!\n\n" +
         "• Name: " + clientName + "\n" +
@@ -99,11 +100,12 @@ function doPost(e) {
         "• Country: " + (data.country || "India") + "\n" +
         "• Message: " + (data.message || "N/A") + "\n" +
         "• Timestamp: " + timestamp + "\n\n" +
-        "Access Admin Dashboard: https://adityasemwal04-arch.github.io/Aasaan-website/#/admin";
+        "Access Admin Dashboard: https://www.aasaanerp.com/#/admin";
 
       try {
         MailApp.sendEmail({
           to: adminEmail,
+          replyTo: senderReplyTo,
           subject: adminSubject,
           body: adminBody,
           name: "Aasaan Lead Alert"

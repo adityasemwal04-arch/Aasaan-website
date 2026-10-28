@@ -148,14 +148,25 @@ export default function AdminDashboardPage({ onNavigate }) {
           : emailsRaw.split(',').map((e) => e.trim()).filter(Boolean);
         const filtered = emailsArr.filter((e) => e !== 'work007life22@gmail.com');
         if (filtered.length > 0) {
-          const merged = [...filtered];
-          if (!merged.includes('contactus@aasaanservices.in')) merged.push('contactus@aasaanservices.in');
-          if (!merged.includes('neha@aasaan.in')) merged.push('neha@aasaan.in');
-          return merged;
+          return filtered;
         }
       }
     } catch (e) {}
     return DEFAULT_NOTIFICATION_EMAILS;
+  });
+
+  // Configurable notification sender/reply-to email address (no personal emails hardcoded)
+  const [senderEmail, setSenderEmail] = useState(() => {
+    try {
+      const saved = localStorage.getItem('aasaan_notification_settings');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.senderEmail && typeof parsed.senderEmail === 'string' && parsed.senderEmail.trim()) {
+          return parsed.senderEmail.trim();
+        }
+      }
+    } catch (e) {}
+    return 'contactus@aasaanservices.in';
   });
   // Input field for typing a new email to add
   const [notifEmailInput, setNotifEmailInput] = useState('');
@@ -220,14 +231,14 @@ export default function AdminDashboardPage({ onNavigate }) {
           : emailsRaw.split(',').map((e) => e.trim()).filter(Boolean);
         const filtered = emailsArr.filter((e) => e !== 'work007life22@gmail.com');
         if (filtered.length > 0) {
-          const merged = [...filtered];
-          if (!merged.includes('contactus@aasaanservices.in')) merged.push('contactus@aasaanservices.in');
-          if (!merged.includes('neha@aasaan.in')) merged.push('neha@aasaan.in');
-          setNotificationEmails(merged);
+          setNotificationEmails(filtered);
         } else {
           setNotificationEmails(DEFAULT_NOTIFICATION_EMAILS);
         }
         if (typeof notif.enabled === 'boolean') setNotificationsEnabled(notif.enabled);
+        if (notif.senderEmail && typeof notif.senderEmail === 'string' && notif.senderEmail.trim()) {
+          setSenderEmail(notif.senderEmail.trim());
+        }
       }
     });
 
@@ -484,17 +495,19 @@ export default function AdminDashboardPage({ onNavigate }) {
   };
 
   const handleSaveNotificationSettings = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     setNotificationMsg('');
     try {
       // Save the entire array; keep legacy recipientEmail as comma-joined for backwards compat
       const cleanEmails = notificationEmails.map((e) => e.trim()).filter(Boolean);
+      const cleanSender = (senderEmail || '').trim() || 'contactus@aasaanservices.in';
       const updated = await saveNotificationSettings({
         recipientEmail: cleanEmails.join(', '),   // legacy field
         recipientEmails: cleanEmails,              // new multi-email field
+        senderEmail: cleanSender,                  // configurable sender/reply-to email
         enabled: notificationsEnabled
       });
-      setNotificationMsg(`Saved! Demo inquiries will now trigger alerts to: ${cleanEmails.join(', ')}`);
+      setNotificationMsg(`Saved! Sender set to ${cleanSender}. Alerts will trigger to: ${cleanEmails.join(', ')}`);
       setTimeout(() => setNotificationMsg(''), 6000);
     } catch (err) {
       setNotificationMsg('Error saving notification settings: ' + err.message);
@@ -2203,6 +2216,69 @@ export default function AdminDashboardPage({ onNavigate }) {
               )}
 
               <form onSubmit={handleSaveNotificationSettings} style={{ marginTop: '18px' }}>
+                {/* 1. Official Notification Sender / Reply-To Address */}
+                <div style={{
+                  marginBottom: '20px',
+                  padding: '16px',
+                  background: '#F8FAFC',
+                  borderRadius: '10px',
+                  border: '1px solid var(--border-medium)'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
+                    <label style={{ fontSize: '13px', fontWeight: 700, color: '#1E293B', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <Mail size={15} color="var(--primary-blue)" />
+                      Notification Sender / Reply-To Email Address
+                    </label>
+                    <span style={{ fontSize: '11.5px', color: '#059669', background: '#ECFDF5', padding: '2px 8px', borderRadius: '12px', fontWeight: 600 }}>
+                      Official Sender
+                    </span>
+                  </div>
+                  <p style={{ margin: '0 0 10px', fontSize: '12.5px', color: '#64748B', lineHeight: 1.45 }}>
+                    The official email address shown as the sender and reply-to on all outgoing customer demo lead notification alerts (e.g. <strong>contactus@aasaanservices.in</strong>). You can update this address anytime from here.
+                  </p>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <div style={{ position: 'relative', flex: 1 }}>
+                      <Mail size={16} color="#94A3B8" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
+                      <input
+                        type="email"
+                        value={senderEmail}
+                        onChange={(e) => setSenderEmail(e.target.value)}
+                        placeholder="e.g. contactus@aasaanservices.in"
+                        style={{
+                          width: '100%',
+                          padding: '10px 14px 10px 38px',
+                          borderRadius: '8px',
+                          border: '1px solid var(--border-medium)',
+                          fontSize: '14px',
+                          outline: 'none',
+                          boxSizing: 'border-box',
+                          background: '#FFFFFF'
+                        }}
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleSaveNotificationSettings}
+                      style={{
+                        background: '#0F172A',
+                        color: '#FFFFFF',
+                        border: 'none',
+                        padding: '10px 18px',
+                        borderRadius: '8px',
+                        fontSize: '13px',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      <Save size={14} /> Update Sender
+                    </button>
+                  </div>
+                </div>
+
                 <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, marginBottom: '6px', color: '#1E293B' }}>
                   Lead Notification Recipient Emails
                   <span style={{ fontWeight: 400, color: '#64748B', marginLeft: '6px' }}>(you can add multiple)</span>
@@ -2342,7 +2418,7 @@ export default function AdminDashboardPage({ onNavigate }) {
                 </div>
 
                 <p style={{ margin: '12px 0 0', fontSize: '12px', color: '#64748B', lineHeight: 1.5 }}>
-                  💡 <strong>How it works:</strong> In addition to posting directly to Aasaan ERP Lite API, each incoming lead instantly dispatches a full summary email (Lead Name, Company, Mobile, Solution, Requirement, Date/Time) directly to this address. Only admin portal users can view or update this email recipient.
+                  💡 <strong>How it works:</strong> In addition to posting directly to Aasaan ERP Lite API, each incoming lead instantly dispatches a full summary email (Lead Name, Company, Mobile, Solution, Requirement, Date/Time) directly to these configured recipient addresses using your configured official sender address. Only admin portal users can view or update these settings.
                 </p>
               </form>
             </div>

@@ -64,12 +64,33 @@ export async function syncLeadToBackend(leadData) {
   const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
   const rawDigits = (leadData.phone || '').replace(/\D/g, '') || leadData.rawPhone || '';
   const safePhone = leadData.phone ? ('\'' + leadData.phone) : rawDigits;
+
+  let configuredSender = 'contactus@aasaanservices.in';
+  let configuredRecipients = 'contactus@aasaanservices.in, neha@aasaan.in, aditya@aasaan.in';
+  try {
+    const rawNotif = localStorage.getItem('aasaan_notification_settings');
+    if (rawNotif) {
+      const parsed = JSON.parse(rawNotif);
+      if (parsed.senderEmail && typeof parsed.senderEmail === 'string' && parsed.senderEmail.trim()) {
+        configuredSender = parsed.senderEmail.trim();
+      }
+      if (parsed.recipientEmails && Array.isArray(parsed.recipientEmails) && parsed.recipientEmails.length > 0) {
+        configuredRecipients = parsed.recipientEmails.join(', ');
+      } else if (parsed.recipientEmail && typeof parsed.recipientEmail === 'string') {
+        configuredRecipients = parsed.recipientEmail;
+      }
+    }
+  } catch (e) {}
+
   const payload = {
     ...leadData,
     phone: safePhone,
     mobile: rawDigits,
     timestamp,
-    status: 'New Demo Lead'
+    status: 'New Demo Lead',
+    senderEmail: configuredSender,
+    recipientEmail: configuredRecipients,
+    recipientEmails: configuredRecipients
   };
 
   let syncedCloud = false;

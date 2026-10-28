@@ -40,8 +40,12 @@ public class SettingsController {
             || "sales@aasaanerp.com".equals(notificationSettings.get("recipientEmail"))) {
             notificationSettings.put("recipientEmail", "aditya@aasaan.in, contactus@aasaanservices.in, neha@aasaan.in");
             notificationSettings.put("recipientEmails", java.util.Arrays.asList("aditya@aasaan.in", "contactus@aasaanservices.in", "neha@aasaan.in"));
+            notificationSettings.put("senderEmail", "contactus@aasaanservices.in");
             notificationSettings.put("enabled", true);
             notificationSettings.put("updatedAt", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            saveSettings();
+        } else if (!notificationSettings.containsKey("senderEmail")) {
+            notificationSettings.put("senderEmail", "contactus@aasaanservices.in");
             saveSettings();
         }
     }
@@ -80,6 +84,9 @@ public class SettingsController {
         }
         if (payload.containsKey("recipientEmails")) {
             notificationSettings.put("recipientEmails", payload.get("recipientEmails"));
+        }
+        if (payload.containsKey("senderEmail")) {
+            notificationSettings.put("senderEmail", payload.get("senderEmail"));
         }
         if (payload.containsKey("enabled")) {
             notificationSettings.put("enabled", payload.get("enabled"));
